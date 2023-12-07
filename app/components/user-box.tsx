@@ -8,25 +8,25 @@ import { ErrorBoundary } from "react-error-boundary";
 
 export default async function UserBox() {
 
-async function getUser(email: string) {
-    const response = await fetch(`${process.env.NEXTAUTH_URL}/api/user/userinfo`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({"email":email})
-    })
+// async function getUser(email: string) {
+//     const response = await fetch(`${process.env.NEXTAUTH_URL}/api/user/userinfo`, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify({"email":email})
+//     })
 
-    const profile = await response.json()
+//     const profile = await response.json()
 
-        return profile
-  }
+//         return profile
+//   }
 
-const userInfo = await auth()
+// const userInfo = await auth()
 
-const userEmail = userInfo?.user.email || ''
+// const userEmail = userInfo?.user.email || ''
 
-const userprofile = userEmail !== '' && await getUser(userEmail)
+// const userprofile = userEmail !== '' && await getUser(userEmail)
 
 return (
 
@@ -60,7 +60,7 @@ return (
     <div>
             </div>
 
-      <AdminSideBar role={userprofile?.user?.role} />
+      <AdminSideBar role={'admin'} />
     </div> 
     </div>
   </div>
