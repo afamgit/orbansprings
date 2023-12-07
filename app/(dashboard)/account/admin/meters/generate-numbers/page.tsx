@@ -16,7 +16,7 @@ export default async function Page() {
               <Link className='rounded-full px-3 py-2 bg-gray-800 text-white' href='/account/admin/meters'>Meters</Link>
         </div>
 
-         {/* <AddMeterGenerateForm /> */}
+         <AddMeterGenerateForm />
 
          <div className='w-full w-[1000px] mx-auto bg-white'>
          <table className="w-full table-auto p-3 md:p-5">
