@@ -58,7 +58,7 @@ return (
     <div>
             </div>
 
-      <AdminSideBar role={userprofile?.user.role} />
+      <AdminSideBar role={userprofile?.user?.role} />
     </div> 
     </ErrorBoundary>
     </div>
