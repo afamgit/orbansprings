@@ -26,9 +26,9 @@ export default async function AdminLayout({
 
       <div className='w-full min-h-screen flex justify-start bg-slate-100 items-start'>
         <div className='flex justify-start items-start'>
-          {/* <div className='h-screen sticky top-0 hidden md:h-full flex flex-shrink-0 md:block md:w-[250px] bg-neutral-800 text-white'>
+          <div className='h-screen sticky top-0 hidden md:h-full flex flex-shrink-0 md:block md:w-[250px] bg-neutral-800 text-white'>
             <UserBox />
-          </div>  */}
+          </div> 
           <div className='p-2 md:p-8'>{children}</div>
         </div>
     </div>
