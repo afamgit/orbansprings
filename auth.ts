@@ -22,7 +22,7 @@ export type User = {
       signIn: '/login'
     },
     adapter: PrismaAdapter(prisma),
-    secret: process.env.AUTH_SECRET,
+    secret: "XsEZ90UkSqnhHXhGgCpfLManfxsFK1RxOPwjET1WQqw=",
     session: {
       strategy: "jwt"
     },
