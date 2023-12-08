@@ -4,10 +4,10 @@ import { PowerIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import { signOut, auth } from '@/auth'
 import { ErrorBoundary } from "react-error-boundary";
+import SignOut from '../ui/signout';
 
-export default async function UserBox() {
+export default function UserBox() {
 
-    const userInfo = await auth()
 
 return (
 
@@ -24,11 +24,7 @@ return (
     </div>
 
    <div className="flex flex-col items-start my-2 py-2">
-    <p>{userInfo?.user.name}</p>
-    <button className="flex h-[32px] grow items-center bg-black justify-center gap-2 ml-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-1 md:px-2">
-        <PowerIcon className="ml-2 h-5 w-5 text-slate-700" />
-        <div className="hidden md:block text-slate-600">Sign Out</div>
-      </button>
+      <SignOut />
 
       </div>     
 
