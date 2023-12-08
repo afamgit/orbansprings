@@ -73,12 +73,12 @@ export type User = {
         // console.log('from auth', auth)
         
         const isLoggedIn = !!auth?.user;
-        const isOnDashboard = nextUrl.pathname.startsWith('/account');
+        const isOnDashboard = nextUrl.pathname.startsWith('/account/admin');
         if (isOnDashboard) {
           if (isLoggedIn) return true;
           return false; // Redirect unauthenticated users to login page
         } else if (isLoggedIn) {
-          return Response.redirect(new URL('/account', nextUrl));
+          return Response.redirect(new URL('/account/admin', nextUrl));
         }
         return true;
       },    async redirect({ url, baseUrl }) {
