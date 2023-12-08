@@ -5,10 +5,9 @@ import Link from "next/link"
 import { FaSquareFull } from "react-icons/fa"
 import { usePathname } from "next/navigation"
 
-export function AdminSideBar () {
+export function AdminSideBar ({role}: {role:string}) {
 
 
-    const role = 'admin'
     const pathname = usePathname()
 
      return (

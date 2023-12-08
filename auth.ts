@@ -95,7 +95,7 @@ export type User = {
   } satisfies NextAuthConfig;
 
 
-async function getUser(username: string): Promise<User | undefined | null> {
+export async function getUser(username: string): Promise<User | undefined | null> {
 
 
     try {
@@ -122,6 +122,33 @@ async function getUser(username: string): Promise<User | undefined | null> {
     }
   }
  
+  export async function getUserFromEmail(email: string): Promise<User | undefined | null> {
+
+
+    try {
+      const user = await prisma.users.findFirst({
+        where: {
+            email: email,
+        },
+        select: {
+            id: true,
+            name:true,
+            username: true,
+            email: true,
+            password:true,
+            role: true
+        }
+      });
+
+    //   console.log(user)
+
+    return user;
+    } catch (error) {
+      console.error('Failed to fetch user:', error);
+      throw new Error('Failed to fetch user.');
+    }
+  }
+
   export const { handlers: {GET, POST}, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   providers: [

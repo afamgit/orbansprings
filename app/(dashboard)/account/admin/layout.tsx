@@ -4,7 +4,7 @@ import '@/app/globals.css'
 import {AdminSideBar} from '@/app/components/admin-sidebar'
 import { PowerIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
-import { signOut, auth } from '@/auth'
+import { signOut, auth, getUserFromEmail } from '@/auth'
 import { ErrorBoundary } from "react-error-boundary";
 import UserBox from '@/app/components/user-box';
 import SignOut from '../../../ui/signout';
@@ -23,7 +23,12 @@ export default async function AdminLayout({
   children: React.ReactNode
 }) {
 
-  const userInfo = await (auth())
+  const userInfo = await auth()
+
+  const usremail = userInfo?.user.email || ''
+
+  const profile = await getUserFromEmail(usremail)
+
 
   return (
 
@@ -39,12 +44,14 @@ export default async function AdminLayout({
           Orban Springs
       </div>
       </div>
-      <div>
+      <div className='min-h-screen bg-neutral-800 mb-10'>
         <p>{userInfo?.user.name}</p>
       <SignOut />
+
+      <AdminSideBar role={profile?.role || ''} />
+
               </div>
 
-        <AdminSideBar />
       </div>
       <div className='p-2 md:p-8'>{children}</div>
       </div>
