@@ -69,7 +69,7 @@ export default async function AdminLayout({
       <div>
               </div>
 
-        <AdminSideBar role={userprofile?.user.role} />
+        <AdminSideBar />
       </div>
       <div className='p-2 md:p-8'>{children}</div>
       </div>
