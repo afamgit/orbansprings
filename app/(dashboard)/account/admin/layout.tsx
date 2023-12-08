@@ -15,31 +15,11 @@ export const metadata: Metadata = {
   description: 'Orban Springs website',
 }
 
-async function getUser(email: string) {
-    const response = await fetch(`/api/user/userinfo`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({"email":email})
-    })
-
-    const profile = await response.json()
-
-        return profile
-  }
-
 export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-    const userInfo = await auth()
-
-    const userEmail = userInfo?.user.email || ''
-
-    const userprofile = userEmail !== '' && await getUser(userEmail)
-
   return (
 
     <div className='w-full min-h-screen flex justify-start bg-slate-100 items-start'>
