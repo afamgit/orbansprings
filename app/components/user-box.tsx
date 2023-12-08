@@ -5,28 +5,9 @@ import Image from 'next/image';
 import { signOut, auth } from '@/auth'
 import { ErrorBoundary } from "react-error-boundary";
 
-
 export default async function UserBox() {
 
-// async function getUser(email: string) {
-//     const response = await fetch(`${process.env.NEXTAUTH_URL}/api/user/userinfo`, {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({"email":email})
-//     })
-
-//     const profile = await response.json()
-
-//         return profile
-//   }
-
-// const userInfo = await auth()
-
-// const userEmail = userInfo?.user.email || ''
-
-// const userprofile = userEmail !== '' && await getUser(userEmail)
+    const userInfo = await auth()
 
 return (
 
@@ -41,10 +22,12 @@ return (
       </div>
         Orban Springs
     </div>
-    {/* <ErrorBoundary fallback={<div>Something went wrong</div>}>
+    <ErrorBoundary fallback={<div>Something went wrong</div>}>
 
    <div className="flex flex-col items-start my-2 py-2">
-    {userInfo?.user.name} <form action={async() => {
+    <p>{userInfo?.user.name}</p>
+    <form action={async() => {
+        'use server'
       await signOut()
         }}><button className="flex h-[32px] grow items-center bg-black justify-center gap-2 ml-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-1 md:px-2">
         <PowerIcon className="ml-2 h-5 w-5 text-slate-700" />
@@ -53,14 +36,11 @@ return (
     </form>
 
       </div>     
-      </ErrorBoundary> */}
-
+      </ErrorBoundary>
 
     </div>
     <div>
             </div>
-
-      <AdminSideBar role={'admin'} />
     </div> 
     </div>
   </div>
