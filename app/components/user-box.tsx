@@ -22,7 +22,6 @@ return (
       </div>
         Orban Springs
     </div>
-    <ErrorBoundary fallback={<div>Something went wrong</div>}>
 
    <div className="flex flex-col items-start my-2 py-2">
     <p>{userInfo?.user.name}</p>
@@ -32,7 +31,6 @@ return (
       </button>
 
       </div>     
-      </ErrorBoundary>
 
     </div>
     <div>
