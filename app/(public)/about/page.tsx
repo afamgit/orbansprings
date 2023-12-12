@@ -1,6 +1,11 @@
 import Image from 'next/image'
 import {prisma} from '@/scripts'
 import { BottomAppBannerHorizontal } from '@/app/components/bottom-app-banner-horizontal'
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'About',
+};
 
 export default async function Page() {
   const about = await prisma.contentpages.findMany({

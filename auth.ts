@@ -1,4 +1,5 @@
 import NextAuth from 'next-auth';
+import { authConfig } from './auth.config';
 import type { NextAuthConfig } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -6,6 +7,7 @@ import {PrismaAdapter} from '@auth/prisma-adapter'
 
 import { z } from 'zod';
 import { prisma } from '@/scripts'
+import bcrypt from 'bcrypt'
 
 export type User = {
     id: number;
@@ -17,82 +19,6 @@ export type User = {
   };
 
 
-  export const authConfig = {
-    pages: {
-      signIn: '/login'
-    },
-    adapter: PrismaAdapter(prisma),
-    secret: "XsEZ90UkSqnhHXhGgCpfLManfxsFK1RxOPwjET1WQqw=",
-    session: {
-      strategy: "jwt"
-    },
-    callbacks: {
-      async signIn({ user, account, profile, email, credentials }) {
-  
-        const isAllowedToSignIn = user.role !== ''
-        if (isAllowedToSignIn) {
-          return true
-        } else {
-          // Return false to display a default error message
-          return false
-          // Or you can return a URL to redirect to:
-          // return '/unauthorized'
-        }
-      },
-  
-      async jwt({token, user}) {
-        if(user) {
-  
-          return {
-            ...token,
-           username: user.username,
-            role: user.role,
-          }
-        }
-        return token
-      },
-      async session({ session, token, user }) {
-        // Send properties to the client, like an access_token and user id from a provider.
-        // session.accessToken = token.accessToken
-        // session.user.id = token.id
-        // console.log('from session', session)
-  
-  
-        if(token) {
-  
-          return {
-            ...session,
-            username : token.username,
-            role: token.role,
-          }
-        }
-        return session
-      },
-      authorized({ auth, request: { nextUrl } }) {
-  
-        // console.log('from auth', auth)
-        
-        const isLoggedIn = !!auth?.user;
-        const isOnDashboard = nextUrl.pathname.startsWith('/account/admin');
-        if (isOnDashboard) {
-          if (isLoggedIn) return true;
-          return false; // Redirect unauthenticated users to login page
-        } else if (isLoggedIn) {
-          return Response.redirect(new URL('/account/admin', nextUrl));
-        }
-        return true;
-      },    async redirect({ url, baseUrl }) {
-  
-        // Allows relative callback URLs
-        if (url.startsWith("/")) return `${baseUrl}${url}`
-        // Allows callback URLs on the same origin
-        else if (new URL(url).origin === baseUrl) return url
-        return baseUrl
-      },
-    },
-      providers: [], // Add providers with an empty array for now
-  
-  } satisfies NextAuthConfig;
 
 
 export async function getUser(username: string): Promise<User | undefined | null> {
@@ -173,7 +99,9 @@ export async function getUser(username: string): Promise<User | undefined | null
           const userInfo = await getUser(username);
           if (!userInfo) return null;
 
-          const passwordsMatch = password === userInfo.password;
+          const userPass = userInfo.password.startsWith('$2y$') ? userInfo.password.replace('$2y$', '$2b$') : userInfo.password;
+          // const passwordsMatch = password === userInfo.password;
+          const passwordsMatch = await bcrypt.compare(password,userPass);
 
           const user = {
             id: `${userInfo.id}`,

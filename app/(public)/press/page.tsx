@@ -1,6 +1,11 @@
 import { prisma} from '@/scripts'
 import Link from 'next/link'
 import Image from 'next/image'
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Press',
+};
 
 export default async function Page() {
 

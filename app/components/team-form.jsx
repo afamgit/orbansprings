@@ -155,8 +155,9 @@ export function AddTeamForm() {
   }
   
   export function UpdateTeamForm({team}) {
+    console.log(team)
 
-   const updateTeamWithId = updateTeam.bind(null, team.tid)
+   const updateTeamWithId = updateTeam.bind(null, team.tmemberid)
    const [state, formAction] = useFormState(updateTeamWithId, initialState)
 
    return (
@@ -242,13 +243,12 @@ export function AddTeamForm() {
             type="file" 
             id="photo" 
             name="photo" 
-            required
             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
           />
           </div>
         </div>
 
-        <input type="hidden" id="picture" name="picture"/>
+        <input type="hidden" id="picture" name="picture" defaultValue={team.tmemberphoto}/>
               
                   <EditButton />
         <p aria-live="polite" className="sr-only">

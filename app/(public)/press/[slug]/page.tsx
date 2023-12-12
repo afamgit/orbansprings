@@ -2,6 +2,11 @@ import { prisma} from '@/scripts'
 import Image from 'next/image';
 import moment from 'moment';
 import { BsEyeFill } from 'react-icons/bs';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'Press',
+  };
 
 export default async function Page({params}: {params: {slug: string}}) {
     const slug = params.slug;

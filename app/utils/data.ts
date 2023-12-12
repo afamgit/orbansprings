@@ -13,16 +13,6 @@ export async function getUser(email: string) {
     }
   }
 
-export async function fetchMeterNumbers() {
-    try {
-        const allMeterNumbers = await prisma.meter_numbers.findMany()
-        return allMeterNumbers;
-    } 
- catch (error) {
-  console.error('Database Error:', error);
-  throw new Error('Failed to fetch meter numbers.');
-}
-}
 
 export async function fetchCustomers() {
     try {
@@ -99,3 +89,181 @@ export const areas = [
     "Agbani Road/Garriki"
 
 ]
+
+const ITEMS_PER_PAGE  = 15
+
+export async function fetchFilteredMeterNumbers(
+    query: string,
+    currentPage: number,
+  ) {
+    const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+  
+    try {
+      const meterNums = await prisma.meter_numbers.findMany({
+        skip:offset,
+        take: ITEMS_PER_PAGE
+      })
+      return meterNums;
+    } catch (error) {
+      console.error('Database Error:', error);
+      throw new Error('Failed to fetch meter numbers.');
+    }
+  }
+  
+  export async function fetchMeterNumbers(query: string) {
+    try {
+        const meterNums = await prisma.meter_numbers.count()
+        const totalPages = Math.ceil(Number(meterNums) / ITEMS_PER_PAGE);
+        return totalPages;
+      } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to fetch meter numbers.');
+      }
+    }
+    
+    export async function fetchFilteredMeters(
+        query: string,
+        currentPage: number,
+      ) {
+        const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+      
+        try {
+          const meters = await prisma.meters.findMany({
+            skip:offset,
+            take: ITEMS_PER_PAGE
+          })
+          return meters;
+        } catch (error) {
+          console.error('Database Error:', error);
+          throw new Error('Failed to fetch meters.');
+        }
+      }
+      
+      export async function fetchMeters(query: string) {
+        try {
+            const meters = await prisma.meters.count()
+            const totalPages = Math.ceil(Number(meters) / ITEMS_PER_PAGE);
+            return totalPages;
+          } catch (error) {
+            console.error('Database Error:', error);
+            throw new Error('Failed to fetch meters.');
+          }
+        }
+        
+        export async function fetchFilteredTeams(
+            query: string,
+            currentPage: number,
+          ) {
+            const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+          
+            try {
+              const meters = await prisma.team_members.findMany({
+                skip:offset,
+                take: ITEMS_PER_PAGE
+              })
+              return meters;
+            } catch (error) {
+              console.error('Database Error:', error);
+              throw new Error('Failed to fetch teams.');
+            }
+          }
+          
+          export async function fetchTeams(query: string) {
+            try {
+                const meters = await prisma.team_members.count()
+                const totalPages = Math.ceil(Number(meters) / ITEMS_PER_PAGE);
+                return totalPages;
+              } catch (error) {
+                console.error('Database Error:', error);
+                throw new Error('Failed to fetch teams.');
+              }
+            }
+        
+            export async function fetchFilteredPages(
+                query: string,
+                currentPage: number,
+              ) {
+                const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+              
+                try {
+                  const meters = await prisma.contentpages.findMany({
+                    skip:offset,
+                    take: ITEMS_PER_PAGE
+                  })
+                  return meters;
+                } catch (error) {
+                  console.error('Database Error:', error);
+                  throw new Error('Failed to fetch pages.');
+                }
+              }
+              
+              export async function fetchPages(query: string) {
+                try {
+                    const meters = await prisma.contentpages.count()
+                    const totalPages = Math.ceil(Number(meters) / ITEMS_PER_PAGE);
+                    return totalPages;
+                  } catch (error) {
+                    console.error('Database Error:', error);
+                    throw new Error('Failed to fetch pages.');
+                  }
+                }
+                
+
+                export async function fetchFilteredTestimonials(
+                    query: string,
+                    currentPage: number,
+                  ) {
+                    const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+                  
+                    try {
+                      const meters = await prisma.testimonials.findMany({
+                        skip:offset,
+                        take: ITEMS_PER_PAGE
+                      })
+                      return meters;
+                    } catch (error) {
+                      console.error('Database Error:', error);
+                      throw new Error('Failed to fetch testimonials.');
+                    }
+                  }
+                  
+                  export async function fetchTestimonials(query: string) {
+                    try {
+                        const meters = await prisma.testimonials.count()
+                        const totalPages = Math.ceil(Number(meters) / ITEMS_PER_PAGE);
+                        return totalPages;
+                      } catch (error) {
+                        console.error('Database Error:', error);
+                        throw new Error('Failed to fetch testimonials.');
+                      }
+                    }
+                    
+                    export async function fetchFilteredUsers(
+                        query: string,
+                        currentPage: number,
+                      ) {
+                        const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+                      
+                        try {
+                          const users = await prisma.users.findMany({
+                            skip:offset,
+                            take: ITEMS_PER_PAGE
+                          })
+                          return users;
+                        } catch (error) {
+                          console.error('Database Error:', error);
+                          throw new Error('Failed to fetch users.');
+                        }
+                      }
+                      
+                      export async function fetchUsers(query: string) {
+                        try {
+                            const users = await prisma.users.count()
+                            const totalPages = Math.ceil(Number(users) / ITEMS_PER_PAGE);
+                            return totalPages;
+                          } catch (error) {
+                            console.error('Database Error:', error);
+                            throw new Error('Failed to fetch users.');
+                          }
+                        }
+                        

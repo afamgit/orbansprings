@@ -8,10 +8,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { useFormState, useFormStatus } from 'react-dom';
-import { authenticate, doLogin, checkUser } from '@/app/utils/actions';
-import {handleSubmit} from '../../api/fetchUser'
-import { getUser } from '../utils/data';
-import { SiteContext } from '../../context';
+import { authenticate, checkUser } from '@/app/utils/actions';
 
 
 

@@ -1,17 +1,14 @@
 'use server'
 import { revalidatePath } from "next/cache"
-import { redirect, useRouter } from "next/navigation"
+import { redirect } from "next/navigation"
 import { writeFile } from 'fs/promises'
 import { join } from 'path'
 import { prisma } from '@/scripts'
 import {z} from 'zod'
-import moment from "moment"
 import process from 'process'
-import { slugify, storeUserInLocalStorage } from "./snippets"
+import { slugify } from "./snippets"
 import { signIn } from "../../auth"
 import { AuthError } from "next-auth"
-import { createHash } from "crypto";
-import {useAuth} from './useUser'
 
  
 const arrayRange = (start: number, stop: number, step: number) =>
@@ -42,41 +39,6 @@ export async function authenticate(
 
 }
 
-export async function doLogin(prevState: any, formData: FormData) {
-  const schema = z.object({
-      email: z.string().email(),
-      password: z.string(),
-  })
-  const parsedData = schema.parse({
-      email: formData.get('email'),
-      password: formData.get('password'),
-})
-
-try {
-  const hashedPassword = createHash("md5").update(parsedData.password).digest("hex");
-
-  const user = await prisma.users.findUnique({
-    where: {
-      email: parsedData.email,
-      password: hashedPassword
-  },
-  select: {
-      email: true,
-      id: true,
-      name:true,
-      username: true,
-      role: true
-  }
-  })
-
-  return user
-
-} catch (error) {
-  return;
-
-}
-
-}
 
   export async function newsletterSignup(prevState: any, formData: FormData) {
     const schema = z.object({
@@ -147,8 +109,8 @@ try {
 } catch (e) {
   return { message: 'Failed to create page' }
 }
-revalidatePath('/account/admin/content-pages')
-redirect('/account/admin/content-pages')
+revalidatePath('/account/content-pages')
+redirect('/account/content-pages')
 
 }
 
@@ -203,8 +165,8 @@ try {
   return { message: 'Failed to update page' }
 }
 
-revalidatePath('/account/admin/content-pages')
-redirect('/account/admin/content-pages')
+revalidatePath('/account/content-pages')
+redirect('/account/content-pages')
 }
 
 export async function deletePage(id: string) {
@@ -217,7 +179,7 @@ try {
   })
 
 
-  revalidatePath('/account/admin/content-pages')
+  revalidatePath('/account/content-pages')
   return { message: 'Deleted page' }
 
 } catch (e) {
@@ -274,8 +236,8 @@ try {
   return { message: 'Failed to create page' }
 }
 
-revalidatePath('/account/admin/testimonials')
-redirect('/account/admin/testimonials')
+revalidatePath('/account/testimonials')
+redirect('/account/testimonials')
 
 }
 
@@ -286,13 +248,15 @@ export async function updateTestimonial(id: string, prevState: any, formData: Fo
     name: z.string(),
     desc: z.string(),
     profession: z.string(),
-})
+    picture: z.string(),
+  })
 const parsedData = schema.parse({
     rating: formData.get('stars'),
     name: formData.get('name'),
     desc: formData.get('desc'),
     profession: formData.get('profession'),
-})
+    picture: formData.get('picture'),
+  })
 
 try {
   const file: File | null = formData.get('photo') as unknown as File
@@ -316,7 +280,7 @@ try {
     data: {
       tcustomer: parsedData.name,
       tmessage: parsedData.desc,
-      tphoto: file.name,
+      tphoto: file ? file.name : parsedData.picture,
       trole: parsedData.profession,
       tstars: parseInt(parsedData.rating),
       tdate: new Date(),
@@ -328,8 +292,8 @@ try {
   return { message: 'Failed to update testimonial' }
 }
 
-revalidatePath('/account/admin/testimonials')
-redirect('/account/admin/testimonials')
+revalidatePath('/account/testimonials')
+redirect('/account/testimonials')
 }
 
 export async function deleteTestimonial(id: string) {
@@ -342,7 +306,7 @@ try {
   })
 
 
-  revalidatePath('/account/admin/testimonials')
+  revalidatePath('/account/testimonials')
   return { message: 'Deleted testimonial' }
 
 } catch (e) {
@@ -408,8 +372,8 @@ try {
   return { message: 'Failed to create page' }
 }
 
-revalidatePath('/account/admin/teams')
-redirect('/account/admin/teams')
+revalidatePath('/account/teams')
+redirect('/account/teams')
 
 }
 
@@ -420,14 +384,15 @@ export async function updateTeam(id: string, prevState: any, formData: FormData)
     name: z.string(),
     profile: z.string(),
     position: z.string(),
-})
+    picture: z.string(),
+  })
 const parsedData = schema.parse({
     ranking: formData.get('ranking'),
     name: formData.get('name'),
     profile: formData.get('profile'),
     position: formData.get('position'),
-})
-
+    picture: formData.get('picture'),
+  })
 try {
   const file: File | null = formData.get('photo') as unknown as File
   if (file) {
@@ -442,7 +407,6 @@ try {
   const path = join(process.cwd(), 'public', file.name)
   const doUpload = await writeFile(path, buffer)
 }
-
   const doUpdate = await prisma.team_members.update({
     where: {
       tmemberid: parseInt(id)
@@ -451,7 +415,7 @@ try {
       tmember: parsedData.name,
       tmember_slug: slugify(parsedData.name),
       tmemberprofile: parsedData.profile,
-      tmemberphoto: file.name,
+      tmemberphoto: file ? file.name : parsedData.picture,
       tmemberposition: parsedData.position,
       tmemberrank: parseInt(parsedData.ranking),
     }
@@ -461,8 +425,8 @@ try {
   return { message: 'Failed to update team' }
 }
 
-revalidatePath('/account/admin/teams')
-redirect('/account/admin/teams')
+revalidatePath('/account/teams')
+redirect('/account/teams')
 }
 
 export async function deleteTeam(id: string) {
@@ -474,7 +438,7 @@ try {
     }
   })
 
-  revalidatePath('/account/admin/teams')
+  revalidatePath('/account/teams')
 
   return { message: 'Deleted team member' }
 
@@ -523,7 +487,8 @@ try {
   return { message: 'Failed to create meter' }
 }
 
-revalidatePath('/')
+revalidatePath('/account/meters')
+redirect('/account/meters')
 
 }
 
@@ -583,8 +548,8 @@ try {
   return { message: 'Failed to update meter' }
 }
 
-revalidatePath('/account/admin/meters')
-redirect('/account/admin/meters')
+revalidatePath('/account/meters')
+redirect('/account/meters')
 
 }
 
@@ -598,7 +563,7 @@ try {
   })
 
 
-  revalidatePath('/account/admin/meters')
+  revalidatePath('/account/meters')
   return {message: "Deleted meter"}
 
 } catch (e) {
@@ -653,12 +618,13 @@ try {
       }
     })
   }
-  
 
-  return revalidatePath('/')
 } catch (e) {
   return { message: 'Failed to generate meter numbers' }
 }
+
+revalidatePath('/account/meters/meter-numbers')
+redirect('/account/meters/meter-numbers')
 }
 
 
@@ -700,3 +666,136 @@ try {
 }
 
 
+export async function createUser(prevState: any, formData: FormData) {
+  const schema = z.object({
+      ranking: z.string(),
+      name: z.string(),
+      profile: z.string(),
+      position: z.string(),
+  })
+  const parsedData = schema.parse({
+      ranking: formData.get('ranking'),
+      name: formData.get('name'),
+      profile: formData.get('profile'),
+      position: formData.get('position'),
+})
+
+try {
+  const file: File | null = formData.get('photo') as unknown as File
+  if (!file) {
+    throw new Error('No file uploaded')
+  }
+
+  
+  const bytes = await file.arrayBuffer()
+  const buffer = Buffer.from(bytes)
+
+  // With the file data in the buffer, you can do whatever you want with it.
+  // For this, we'll just write it to the filesystem in a new location
+  // /Users/afamnnaji/Desktop/next-apps/orban-springs/public
+  console.log("Current working directory: ",
+  process.cwd());
+  const path = join(process.cwd(), 'public', file.name)
+  const doUpload = await writeFile(path, buffer)
+
+  const doInsert = await prisma.team_members.create({
+    data: {
+      tmcategory: 'Staff',
+      tmember: parsedData.name,
+      tmember_slug: slugify(parsedData.name),
+      tmemberprofile: parsedData.profile,
+      tmemberphoto: file.name,
+      tmemberposition: parsedData.position,
+      tmemberrank: parseInt(parsedData.ranking),
+      tmemberdateadded: new Date(),
+      tmembersummary: parsedData.profile,
+      tmemberpostedby: 'Admin',
+      tmember_email: '',
+      tmember_facebook: '',
+      tmember_instagram: '',
+      tmember_linkedin: '',
+      tmember_phone: '',
+      tmember_twitter: '',
+    }
+  })
+
+
+} catch (e) {
+  return { message: 'Failed to create page' }
+}
+
+revalidatePath('/account/teams')
+redirect('/account/teams')
+
+}
+
+export async function updateUser(id: string, prevState: any, formData: FormData) {
+
+  const schema = z.object({
+    ranking: z.string(),
+    name: z.string(),
+    profile: z.string(),
+    position: z.string(),
+    picture: z.string(),
+  })
+const parsedData = schema.parse({
+    ranking: formData.get('ranking'),
+    name: formData.get('name'),
+    profile: formData.get('profile'),
+    position: formData.get('position'),
+    picture: formData.get('picture'),
+  })
+try {
+  const file: File | null = formData.get('photo') as unknown as File
+  if (file) {
+ 
+  const bytes = await file.arrayBuffer()
+  const buffer = Buffer.from(bytes)
+
+  // With the file data in the buffer, you can do whatever you want with it.
+  // For this, we'll just write it to the filesystem in a new location
+  // /Users/afamnnaji/Desktop/next-apps/orban-springs/public
+
+  const path = join(process.cwd(), 'public', file.name)
+  const doUpload = await writeFile(path, buffer)
+}
+  const doUpdate = await prisma.team_members.update({
+    where: {
+      tmemberid: parseInt(id)
+    },
+    data: {
+      tmember: parsedData.name,
+      tmember_slug: slugify(parsedData.name),
+      tmemberprofile: parsedData.profile,
+      tmemberphoto: file ? file.name : parsedData.picture,
+      tmemberposition: parsedData.position,
+      tmemberrank: parseInt(parsedData.ranking),
+    }
+  })
+
+} catch (e) {
+  return { message: 'Failed to update team' }
+}
+
+revalidatePath('/account/teams')
+redirect('/account/teams')
+}
+
+export async function deleteUser(id: string) {
+
+  try {
+     await prisma.users.delete({
+      where: {
+        id: parseInt(id)
+      }
+    })
+  
+    revalidatePath('/account/users')
+  
+    return { message: 'Deleted user' }
+  
+  } catch (e) {
+    return { message: 'Failed to delete user' }
+  }
+  }
+  

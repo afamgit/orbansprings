@@ -2,6 +2,11 @@ import {prisma} from '@/scripts'
 import { BottomAppBannerHorizontal } from '@/app/components/bottom-app-banner-horizontal'
 import {Faq} from '@/app/components/faq'
 import { Key } from 'react'
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'FAQs',
+};
 
 export default async function Page() {
   const questions = await prisma.faqs.findMany()

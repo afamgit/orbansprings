@@ -1,5 +1,10 @@
 import SignupForm from '@/app/components/signup-form';
+import { Metadata } from 'next';
  
+export const metadata: Metadata = {
+  title: 'Sign up',
+};
+
 export default function SignupPage() {
   return (
     <main className="flex items-center justify-center md:h-screen">

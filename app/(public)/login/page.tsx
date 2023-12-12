@@ -1,6 +1,11 @@
 import LoginForm from '@/app/components/login-form';
+import { Metadata } from 'next';
 import Link from 'next/link';
  
+export const metadata: Metadata = {
+  title: 'Login',
+};
+
 export default function LoginPage() {
   return (
     <main className="flex items-center justify-center md:h-screen">

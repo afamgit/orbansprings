@@ -1,82 +1,54 @@
-'use client'
-
-import React, {useState, useEffect} from 'react'
 import Link from "next/link"
-import { FaSquareFull } from "react-icons/fa"
-import { usePathname } from "next/navigation"
-import { AiFillCloseSquare } from "react-icons/ai"
-import { BsList,  } from "react-icons/bs"
 
-export function AdminTopBar ({role}: {role:string}) {
-
-
-    const pathname = usePathname()
-
-    const [showMenu, setShowMenu] = useState(false)
-
+export async function AdminTopBar () {
 
      return (
-    <div className="bg-neutral-800">    
+    <div className="bg-neutral-800 md:hidden overflow-x-auto">    
 
-            <div className="relative md:hidden">
-            {!showMenu && <button className="text-4xl" onClick={() => setShowMenu(true)}><BsList /></button>}
-          {showMenu && (
-            <div className="absolute p-3 w-[300px] top-0 right-[40px] left-[-220px]">
-              <div className="flex justify-end content-end bg-black pr-10">
-                <button
-                  className="text-5xl rounded"
-                  onClick={() => setShowMenu(false)}
-                >
-                  <AiFillCloseSquare />
-                </button>
-              </div>
+            <ul className='flex justify-between items-center'>     
 
-              {role === 'admin' && <Link onClick={() => setShowMenu(false)} className='p-3' href='/account/admin/home'>
-                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 bg-slate-100 text-black`}>
-                    <FaSquareFull className='h-6 w-6 mr-2' /> Dashboard
-                </div>
-            </Link>}
-            {(role === 'admin' || role === 'iot') && <Link onClick={() => setShowMenu(false)} href='/account/admin/meters'>
-                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 bg-slate-100 text-black`}>
-                    <FaSquareFull className='h-6 w-6 mr-2' /> Meters
-                </div>
-            </Link>}
-            {role === 'admin' && <Link onClick={() => setShowMenu(false)} className='p-3' href='/account/admin/commissions'>
-                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 bg-slate-100 text-black`}>
-                    <FaSquareFull className='h-6 w-6 mr-2' /> Commissions
-                </div>
-            </Link>}
-            {role === 'admin' && <Link onClick={() => setShowMenu(false)} className='p-3' href='/account/admin/users'>
-                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 bg-slate-100 text-black`}>
-                    <FaSquareFull className='h-6 w-6 mr-2' /> Users
-                </div>
-            </Link>}
-            {role === 'admin' && <Link onClick={() => setShowMenu(false)} className='p-3' href='/account/admin/complaints'>
-                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 bg-slate-100 text-black`}>
-                    <FaSquareFull className='h-6 w-6 mr-2' /> Complaints
-                </div>
-            </Link>}
-            {role === 'admin' && <Link onClick={() => setShowMenu(false)} className='p-3' href='/account/admin/content-pages'>
-                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 bg-slate-100 text-black`}>
-                    <FaSquareFull className='h-6 w-6 mr-2' /> Pages
-                </div>
-            </Link>}
-            {role === 'admin' && <Link onClick={() => setShowMenu(false)} className='p-3' href='/account/admin/teams'>
-                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 bg-slate-100 text-black`}>
-                    <FaSquareFull className='h-6 w-6 mr-2' /> Team Members
-                </div>
-            </Link>}
-            {role === 'admin' && <Link onClick={() => setShowMenu(false)} className='p-3' href='/account/admin/testimonials'>
-                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 bg-slate-100 text-black`}>
-                    <FaSquareFull className='h-6 w-6 mr-2' /> Testimonials
-                </div>
-            </Link>}
+              <Link href='/account/home'>
+                <li className={`px-1`}>
+                    Dashboard
+                </li>
+            </Link>
+            <Link href='/account/meters'>
+                <li className={`px-1`}>
+                    Meters
+                </li>
+            </Link>
+            <Link className='p-3' href='/account/commissions'>
+                <li className={`px-1`}>
+                    Commissions
+                </li>
+            </Link>
+            <Link className='p-3' href='/account/users'>
+                <li className={`px-1`}>
+                    Users
+                </li>
+            </Link>
+            <Link className='p-3' href='/account/complaints'>
+                <li className={`px-1`}>
+                    Complaints
+                </li>
+            </Link>
+            <Link className='p-3' href='/account/content-pages'>
+                <li className={`px-1`}>
+                    Pages
+                </li>
+            </Link>
+            <Link className='p-3' href='/account/teams'>
+                <li className={`px-1`}>
+                    Team Members
+                </li>
+            </Link>
+            <Link className='p-3' href='/account/testimonials'>
+                <li className={`px-1`}>
+                    Testimonials
+                </li>
+            </Link>
 
+            </ul>
             </div>
-          )}
-        </div>
-
-      </div>
-
   );
 };

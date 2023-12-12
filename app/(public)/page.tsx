@@ -6,8 +6,11 @@ import {BottomAppBanner} from '../components/bottom-app-banner'
 import Link from 'next/link'
 import { authOptions } from '../utils/auth'
 import { auth } from "../../auth"
-// import { getServerSession } from "next-auth/next"
+import { Metadata } from 'next'
 
+export const metadata: Metadata = {
+  title: 'Home',
+};
 
 
 const gettingStarted = [

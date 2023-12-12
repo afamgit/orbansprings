@@ -6,19 +6,19 @@ import {PrismaAdapter} from '@auth/prisma-adapter'
 import { auth } from "./auth"
 
 
- const authConfig = {
+export const authConfig = {
   pages: {
     signIn: '/login'
   },
   adapter: PrismaAdapter(prisma),
-  secret: process.env.SECRET,
+  secret: "XsEZ90UkSqnhHXhGgCpfLManfxsFK1RxOPwjET1WQqw=",
   session: {
     strategy: "jwt"
   },
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
 
-      const isAllowedToSignIn = user.role !== ''
+      const isAllowedToSignIn = user.email !== ''
       if (isAllowedToSignIn) {
         return true
       } else {
