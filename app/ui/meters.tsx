@@ -64,7 +64,7 @@ export default async function Meters({
               {/* <MetersChart /> */}
     
     
-             <div className='w-full md:w-[1000px] mx-auto bg-white'>
+             <div className='w-full bg-white'>
              <table className="w-full table-auto" cellPadding={10}>
       <thead>
         <tr className='bg-gray-300 px-2 py-1'>

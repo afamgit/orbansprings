@@ -1,11 +1,10 @@
 import { prisma } from '@/scripts'
 import Image from 'next/image';
 import Link from 'next/link';
-import { fetchFilteredUsers } from '../utils/data';
-import { UpdateUser, DeleteUser } from '@/app/ui/buttons'
+import { fetchFilteredCommissions } from '../utils/data';
 import moment from 'moment';
 
-export default async function Users({
+export default async function Commissions({
     query,
     currentPage,
   }: {
@@ -13,15 +12,13 @@ export default async function Users({
     currentPage: number;
   }) { 
 
-    const getUsers = await fetchFilteredUsers(query, currentPage);
+    const getCommissions = await fetchFilteredCommissions(query, currentPage);
 
-    const allUsers = JSON.parse(JSON.stringify(getUsers))
+    const allCommissions = JSON.parse(JSON.stringify(getCommissions))
 
-    const total = await prisma.users.count({
-      where: {role: 'customer'}
-    })
+    const total = await prisma.users.count()
 
-    const volumeBought = async (userid: number) => {
+    const volumeSold = async (userid: number) => {
         const totalBought = await prisma.transactions.aggregate({
           where: {customerid: userid},
           _sum: {qty: true}
@@ -36,8 +33,7 @@ export default async function Users({
         <main className='w-full flex flex-col justify-start items-start'>
 
 <div className='w-full flex justify-between iteams-center my-2 py-2'>
-             <h1 className='font-bold text-2xl'>Users ({total})</h1>         
-              <Link className='rounded-full px-3 py-2 bg-gray-800 text-white' href='/account/users/create'>Add user</Link>
+             <h1 className='font-bold text-2xl'>Commissions ({total})</h1>         
          </div> 
 
          
@@ -48,24 +44,22 @@ export default async function Users({
       <th className='text-start'>#</th>
       <th className='text-start'>Name</th>
       <th className='text-start'>Location</th>
-      <th className='text-start'>Total Volume Bought(gl)</th>
+      <th className='text-start'>Volume sold(gl)</th>
       <th className='text-start'>Subscription Plan</th>
       <th className='text-start'>Date Joined</th>
-      <th className='flex justify-end'>Action</th>
     </tr>
   </thead>
   <tbody>
-    {allUsers.length > 0 && allUsers.map((item:any,i:number) => {
+    {allCommissions.length > 0 && allCommissions.map((item:any,i:number) => {
         const id = item.id.toString()
         return (
             <tr key={i} className='border-b-slate-100 border-b-2'>
             <td>{++i}</td>
             <td>{item.name}</td>
             <td>{item.area}</td>
-            <td>{volumeBought(parseInt(item.id))}</td>
+            <td>{volumeSold(parseInt(item.id))}</td>
             <td>{item.subscription_plan}</td>
             <td>{moment(item.createdAt).format('DD/MM/YYYY')}</td>
-            <td className='flex justify-end'><UpdateUser user={item} /> <DeleteUser id={id} /></td>
           </tr>
         )
     }
@@ -80,3 +74,4 @@ export default async function Users({
         </main>
       )
 }
+

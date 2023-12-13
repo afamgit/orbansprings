@@ -11,6 +11,7 @@ import UserBox from '@/app/components/user-box';
 import SignOut from '../../ui/signout';
 import { IotTopBar } from '@/app/components/iot-topbar'
 import { IotSideBar } from '@/app/components/iot-sidebar'
+import Link from 'next/link'
  
 
 const inter = Inter({ subsets: ['latin'] })
@@ -48,11 +49,10 @@ export default async function AdminLayout({
       <div className='h-screen sticky top-0 hidden md:h-full flex flex-shrink-0 md:block md:w-[250px] bg-neutral-800 text-white'>
       <div className="w-full flex flex-col justify-start items-start p-2 md:p-5">
       <div
-          className="flex justify-center items-center my-2 py-2 text-2xl"
-        ><div className='flex w-12 h-12'>
-            <Image className='rounded' src='/logo_full.jpeg' height={50} width={50} alt="logo" /> 
-        </div>
-          Orban Springs
+          className="flex justify-center items-center my-2 py-2 text-xl"
+        >
+                          <Image src='/logo_full.jpeg' height={48} width={48} alt="logo" className='rounded' />
+          <p className='ml-2 pl-2'>Orban Springs</p>
       </div>
       </div>
       <div className='min-h-screen bg-neutral-800 py-3'>
@@ -65,7 +65,7 @@ export default async function AdminLayout({
               </div>
 
       </div>
-      <div className='p-2 md:p-8'>{children}</div>
+      <div className='p-2 md:p-8 w-screen'>{children}</div>
       </div>
     </div>
 

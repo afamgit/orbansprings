@@ -1,9 +1,14 @@
-import { writeFile } from 'fs/promises'
-import { join } from 'path'
-import { prisma} from '@/scripts'
-import { UpdatePage, DeletePage } from '@/app/ui/buttons'
 import Link from 'next/link'
 import { Metadata } from 'next'
+import { fetchAverageDeliveryTime, fetchWaterSoldByArea } from '@/app/utils/data'
+import CustomersPerArea from '@/app/ui/charts/customers-per-area';
+import DriversPerArea from '@/app/ui/charts/drivers-per-area';
+import WaterAnalysis from '@/app/ui/charts/water-analysis';
+import { prisma } from '@/scripts';
+import Products from '@/app/ui/products';
+import LatestCustomers from '@/app/ui/latest-customers';
+import DashboardCards from '@/app/ui/dashboard-cards';
+import TestingCustomersPerArea from '../../../ui/charts/testing'
 
 export const metadata: Metadata = {
   title: 'Dashboard',
@@ -11,6 +16,11 @@ export const metadata: Metadata = {
 
 export default async function Page() {
 
+
+  const waterSoldByArea = await fetchWaterSoldByArea()
+  const averageDeliveryTime = await fetchAverageDeliveryTime()
+
+ 
       return (
         <main className='w-full flex flex-col justify-start items-center flex-wrap'>
          
@@ -18,6 +28,19 @@ export default async function Page() {
          <div className='w-full flex justify-between iteams-center my-2 py-2'>
              <h1 className='font-bold text-2xl'>Dashboard</h1>         
          </div> 
+
+    <DashboardCards />
+
+          <div className='w-full flex flex-col md:flex-row mx-2'>
+            <div className='w-2/3 p-2 rounded-lg'>
+            <h2 className='text-3xl font-bold my-3 py-3'>Overall Product Details</h2>
+            <Products />
+            </div>
+            <div className='w-1/3 p-2 rounded-lg'>
+            <h2 className='text-3xl font-bold my-3 py-3'>Recent Customers</h2>
+            <LatestCustomers />
+            </div>
+          </div>
 
         </main>
       )

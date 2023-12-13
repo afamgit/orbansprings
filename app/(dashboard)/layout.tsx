@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { barlow_semi_sondensed } from '@/app/ui/fonts'
 import '../globals.css'
 
 
@@ -22,7 +23,7 @@ export default async function DashboardLayout({
 
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={barlow_semi_sondensed.className}>
       {children}
       </body>
       </html>

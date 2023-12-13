@@ -1,11 +1,11 @@
 import { prisma } from '@/scripts'
 import Image from 'next/image';
 import Link from 'next/link';
-import { fetchFilteredUsers } from '../utils/data';
+import { fetchFilteredDrivers, fetchFilteredUsers } from '../utils/data';
 import { UpdateUser, DeleteUser } from '@/app/ui/buttons'
 import moment from 'moment';
 
-export default async function Users({
+export default async function Drivers({
     query,
     currentPage,
   }: {
@@ -13,12 +13,12 @@ export default async function Users({
     currentPage: number;
   }) { 
 
-    const getUsers = await fetchFilteredUsers(query, currentPage);
+    const getDrivers = await fetchFilteredDrivers(query, currentPage);
 
-    const allUsers = JSON.parse(JSON.stringify(getUsers))
+    const allDrivers = JSON.parse(JSON.stringify(getDrivers))
 
     const total = await prisma.users.count({
-      where: {role: 'customer'}
+        where: {role: 'driver'}
     })
 
     const volumeBought = async (userid: number) => {
@@ -36,8 +36,7 @@ export default async function Users({
         <main className='w-full flex flex-col justify-start items-start'>
 
 <div className='w-full flex justify-between iteams-center my-2 py-2'>
-             <h1 className='font-bold text-2xl'>Users ({total})</h1>         
-              <Link className='rounded-full px-3 py-2 bg-gray-800 text-white' href='/account/users/create'>Add user</Link>
+             <h1 className='font-bold text-2xl'>Drivers ({total})</h1>         
          </div> 
 
          
@@ -55,7 +54,7 @@ export default async function Users({
     </tr>
   </thead>
   <tbody>
-    {allUsers.length > 0 && allUsers.map((item:any,i:number) => {
+    {allDrivers.length > 0 && allDrivers.map((item:any,i:number) => {
         const id = item.id.toString()
         return (
             <tr key={i} className='border-b-slate-100 border-b-2'>

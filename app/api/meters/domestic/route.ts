@@ -41,6 +41,7 @@ export async function POST(req: Request) {
         data: {
             md_unique_id: meterid, 
             md_userid: userid || '',
+            md_area: meterExist?.m_area,
             md_consumption_rate: consumption_rate,
             md_volume_received: parseInt(volume),
             md_valve_state:valve_state,

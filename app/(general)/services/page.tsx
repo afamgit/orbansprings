@@ -34,7 +34,7 @@ export default async function Page() {
                 </div>
                 <div className='p-3 md:p-5'>
                 <h1 className='my-1 py-1 text-blue-800 font-bold text-2xl'>{item.cpagename}</h1>
-                    {item.cpagecontent}
+                    <p className='text-xl'>{item.cpagecontent}</p>
                 </div>
             </div>
         )

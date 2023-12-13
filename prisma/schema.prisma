@@ -321,6 +321,7 @@ model transactions {
   driverdeliverystatustime   DateTime @db.DateTime(0)
   customerdeliverystatus     String   @default("Waiting") @db.VarChar(255)
   customerdeliverystatustime DateTime @db.DateTime(0)
+  customerwaittime           Int      @default(0)
   orderprocessed             Boolean
   commission_paid            Int      @default(0) @db.TinyInt
   driverrating               Int?     @db.TinyInt
@@ -414,6 +415,7 @@ model meter_domestic_entries {
   mdid                Int      @id @default(autoincrement())
   md_unique_id        String   @db.VarChar(100)
   md_userid           String?  @db.VarChar(100)
+  md_area             String?  @db.VarChar(100)
   md_consumption_rate String   @db.VarChar(50)
   md_volume_received  Int
   md_valve_state      String   @db.VarChar(25)

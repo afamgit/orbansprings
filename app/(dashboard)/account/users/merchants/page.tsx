@@ -9,10 +9,11 @@ import Link from 'next/link'
 import Breadcrumbs from '@/app/ui/breadcrumbs'
 import { Metadata } from 'next'
 import Pagination from '@/app/ui/pagination'
-import { fetchUsers } from '@/app/utils/data'
+import { fetchUserMerchants, fetchUsers } from '@/app/utils/data'
 import Teams from '@/app/ui/teams'
 import Users from '@/app/ui/users'
 import { UserNumbersCard, UserNumbersCardPlain } from '@/app/ui/cards'
+import Merchants from '@/app/ui/merchants'
 
 export const metadata: Metadata = {
   title: 'Users',
@@ -34,10 +35,10 @@ export default async function Page({
     _count: {id: true} 
     })
       
-    const total = await fetchUsers(query)
+    const total = await fetchUserMerchants(query)
 
     const totalBasic = await prisma.users.count({
-      where: {subscription_plan: 'Basic', role: 'customer'}
+      where: {OR: [{role: 'fleetownerdriver'}, {role: 'fleetownerplumber'}]}
     })
 
     return (
@@ -46,9 +47,10 @@ export default async function Page({
            <Breadcrumbs
             breadcrumbs={[
               { label: 'Account', href: '/account' },
-              {
-                label: 'Users',
-                href: '/account/users',
+              { label: 'Users', href: '/account/users' }, 
+                {
+                label: 'Merchants',
+                href: '/account/merchants',
                 active: true,
               },
             ]}
@@ -65,19 +67,16 @@ export default async function Page({
             </div>
 
             <div className='w-full my-3 py-3'>
-              <h2 className='text-3xl'>Overall Customers List</h2>
-            <div className='my-2 p-2'>
-              <UserNumbersCardPlain num={totalBasic} name='Basic Customers' />
-            </div>
+              <h2 className='text-3xl'>Overall Merchants List</h2>
             </div>
 
-          <div className='w-full flex justofy-start items-center m-2 p-3'>
-            <Link className='text-4xl text-gray-900 font-medium' href='/account/users'>Customers</Link>
+            <div className='w-full flex justofy-start items-center m-2 p-3'>
+            <Link className='text-4xl text-gray-400 font-medium' href='/account/users'>Customers</Link>
             <Link className='text-4xl text-gray-400 font-medium px-4' href='/account/users/drivers'>Drivers</Link>
-            <Link className='text-4xl text-gray-400 font-medium' href='/account/users/merchants'>Merchants</Link>
+            <Link className='text-4xl text-gray-900 font-medium' href='/account/users/merchants'>Merchants</Link>
             </div>
 
-         <Users query={query} currentPage={currentPage} />
+         <Merchants query={query} currentPage={currentPage} />
 
 
 <div className="mt-5 flex w-full justify-center">
@@ -87,3 +86,4 @@ export default async function Page({
         </main>
       )
 }
+

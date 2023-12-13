@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { barlow_semi_sondensed } from '@/app/ui/fonts'
 import '../globals.css'
 import NavBar from '../components/header'
 import Footer from '../components/footer'
@@ -24,7 +25,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={barlow_semi_sondensed.className}>
         <NavBar />
       {children}
       <Footer />
