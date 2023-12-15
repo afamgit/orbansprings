@@ -319,6 +319,7 @@ model transactions {
   paymenttime                DateTime @db.DateTime(0)
   driverdeliverystatus       String   @db.VarChar(255)
   driverdeliverystatustime   DateTime @db.DateTime(0)
+  driverdeliverytime         Int      @default(0)
   customerdeliverystatus     String   @default("Waiting") @db.VarChar(255)
   customerdeliverystatustime DateTime @db.DateTime(0)
   customerwaittime           Int      @default(0)

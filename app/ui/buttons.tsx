@@ -1,6 +1,6 @@
 'use client'
 
-import { deletePage, deleteTestimonial, deleteTeam, deleteMeter, deleteUser } from '@/app/utils/actions';
+import { deletePage, deleteTestimonial, deleteTeam, deleteMeter, deleteUser, deleteFaq } from '@/app/utils/actions';
 import Link from 'next/link';
 import { BsTrash2Fill, BsPencilSquare } from 'react-icons/bs';
 
@@ -125,6 +125,33 @@ export function DeletePage({ id }: { id: string }) {
     return (
       <Link
         href={`/account/users/${user.id}/edit`}
+        className="rounded-md border p-2 hover:bg-gray-100"
+      >
+          <div className='flex justify-center items-center'>
+          <span className="sr-only">Update</span> <BsPencilSquare className='text-2xl' /><span className='hidden md:block'>Update</span>
+          </div>
+      </Link>
+    );
+  }
+  
+  export function DeleteFaq({ id }: { id: string }) {
+   
+    return (
+      <button onClick={() => {
+        if(confirm('Confirm you want to delete this user. This action is irreversible') === true) {
+          deleteFaq(id)}
+       }} className="rounded-md border p-2 hover:bg-gray-100">
+          <span className="sr-only">Delete</span> <BsTrash2Fill className='text-2xl text-red-600' /><span className='hidden md:block'>Delete</span>
+        </button>
+    );
+  }
+
+  export function UpdateFaq({ faq }: { faq: any }) {
+
+   
+    return (
+      <Link
+        href={`/account/faqs/${faq.faqid}/edit`}
         className="rounded-md border p-2 hover:bg-gray-100"
       >
           <div className='flex justify-center items-center'>

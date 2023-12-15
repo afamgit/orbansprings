@@ -1,11 +1,11 @@
 import { prisma } from '@/scripts'
 import Image from 'next/image';
 import Link from 'next/link';
-import { fetchFilteredDrivers, fetchFilteredUsers } from '../utils/data';
+import { fetchFilteredDrivers, fetchFilteredUsers, fetchFilteredVendors } from '../utils/data';
 import { UpdateUser, DeleteUser } from '@/app/ui/buttons'
 import moment from 'moment';
 
-export default async function Drivers({
+export default async function Vendors({
     query,
     currentPage,
   }: {
@@ -13,49 +13,49 @@ export default async function Drivers({
     currentPage: number;
   }) { 
 
-    const getDrivers = await fetchFilteredDrivers(query, currentPage);
+    const getVendors = await fetchFilteredVendors(query, currentPage);
 
-    const allDrivers = JSON.parse(JSON.stringify(getDrivers))
+    const allVendors = JSON.parse(JSON.stringify(getVendors))
 
     const total = await prisma.users.count({
-        where: {role: 'driver'}
+        where: {OR:[{role: 'plumber'}, {role:'tank cleaner'}]}
     })
 
-    const getDriverDetails = async (userid: number) => {
-      const driver = await prisma.users.findUnique({
+    const ordersDelivered = async (userid: number) => {
+      const total = await prisma.transactions.aggregate({
+        where: {driverid: userid},
+        _sum: {amount: true}
+      })
+    
+      return total. _sum.amount || '-'
+    }
+    
+    const totalCommissions = async (userid: number) => {
+      const total = await prisma.transactions.aggregate({
+        where: {driverid: userid},
+        _sum: {commission: true}
+      })
+    
+      return total. _sum.commission || '-'
+    }
+
+    const getVendorDetails = async (userid: number) => {
+      const vendor = await prisma.users.findUnique({
       where: {id: userid},
-      select: {id:true, name:true, area:true, areagroup: true, drv_vehicle_license_plate_no:true}
+      select: {id:true, name:true, area:true, areagroup: true, role:true}
   })
-  const driverBox = <div className='flex flex-col'>
+  const vendorBox = <div className='flex flex-col'>
     <div className='flex'>
-      <h4 className='mr-2 text-2xl'>{driver?.name} - </h4>
-      <h5 className='text-2xl'>{driver?.area}</h5>
+      <h4 className='mr-2 text-2xl'>{vendor?.name} - </h4>
+      <h5 className='text-2xl'>{vendor?.area}</h5>
     </div>
-    <div className='text-gray-600 text-xl'>{driver?.drv_vehicle_license_plate_no}</div>
+    <div className='text-gray-600 text-xl capitalize'>{vendor?.role}</div>
   </div>
-  return driverBox
+  return vendorBox
 
 }
 
 
-const volumeSold = async (userid: number) => {
-  let drvid = userid.toString()
-  const total = await prisma.meter_tanker_entries.aggregate({
-    where: {mt_tankerid: drvid},
-    _sum: {mt_volume_delivered: true}
-  })
-
-  return total. _sum.mt_volume_delivered || '-'
-}
-    const totalCommission = async (userid: number) => {
-        const total = await prisma.transactions.aggregate({
-          where: {driverid: userid},
-          _sum: {commission: true}
-        })
-      
-        return total. _sum.commission || '-'
-      }
-   
       const paidCommission = async (userid: number) => {
         const total = await prisma.driver_payments.aggregate({
           where: {dpaydriver: userid},
@@ -86,7 +86,7 @@ const volumeSold = async (userid: number) => {
         <main className='w-full flex flex-col justify-start items-start'>
 
 <div className='w-full flex justify-between iteams-center my-2 py-2'>
-             <h1 className='font-bold text-2xl'>Drivers ({total})</h1>         
+             <h1 className='font-bold text-2xl'>Vendors ({total})</h1>         
          </div> 
 
          
@@ -95,8 +95,8 @@ const volumeSold = async (userid: number) => {
   <thead>
   <tr className='bg-gray-300 px-2 py-1'>
       <th className='text-start'>#</th>
-      <th className='text-start'>Driver's Name</th>
-      <th className='text-start'>Volume Sold(gl)</th>
+      <th className='text-start'>Vendor's Name</th>
+      <th className='text-start'>Orders Delivered</th>
       <th className='text-start'>Total Commission (NGN)</th>
       <th className='text-start'>Paid Commission (NGN)</th>
       <th className='text-start'>Outstanding</th>
@@ -104,14 +104,14 @@ const volumeSold = async (userid: number) => {
     </tr>
   </thead>
   <tbody>
-    {allDrivers.length > 0 && allDrivers.map((item:any,i:number) => {
+    {allVendors.length > 0 && allVendors.map((item:any,i:number) => {
         const id = item.id.toString()
         return (
             <tr key={i} className='border-b-slate-100 border-b-2'>
             <td>{++i}</td>
-            <td>{getDriverDetails(parseInt(item.id))}</td>
-            <td>{volumeSold(parseInt(item.id))}</td>
-            <td>{totalCommission(parseInt(item.id))}</td>
+            <td>{getVendorDetails(parseInt(item.id))}</td>
+            <td>{ordersDelivered(parseInt(item.id))}</td>
+            <td>{totalCommissions(parseInt(item.id))}</td>
             <td>{paidCommission(parseInt(item.id))}</td>
             <td>{outstandingCommission(parseInt(item.id))}</td>
             <td className='flex justify-end'><UpdateUser user={item} /> <DeleteUser id={id} /></td>

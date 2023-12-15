@@ -659,10 +659,12 @@ try {
       
      }
 })
-  return revalidatePath('/')
 } catch (e) {
   return { message: 'Failed to send message' }
 }
+
+return redirect('/contact-confirmation')
+
 }
 
 
@@ -721,11 +723,11 @@ try {
 
 
 } catch (e) {
-  return { message: 'Failed to create page' }
+  return { message: 'Failed to create user' }
 }
 
-revalidatePath('/account/teams')
-redirect('/account/teams')
+revalidatePath('/account/users')
+redirect('/account/users')
 
 }
 
@@ -774,11 +776,11 @@ try {
   })
 
 } catch (e) {
-  return { message: 'Failed to update team' }
+  return { message: 'Failed to update user' }
 }
 
-revalidatePath('/account/teams')
-redirect('/account/teams')
+revalidatePath('/account/users')
+redirect('/account/users')
 }
 
 export async function deleteUser(id: string) {
@@ -798,4 +800,94 @@ export async function deleteUser(id: string) {
     return { message: 'Failed to delete user' }
   }
   }
+  
+  export async function createFaq(prevState: any, formData: FormData) {
+    const schema = z.object({
+        category: z.string(),
+        question: z.string(),
+        answer: z.string(),
+    })
+    const parsedData = schema.parse({
+        category: formData.get('category'),
+        question: formData.get('question'),
+        answer: formData.get('answer'),
+  })
+  
+  try {
+  
+    const doInsert = await prisma.faqs.create({
+      data: {
+        faqcat: parsedData.category,
+        faqquestion: parsedData.question,
+        faqslug: slugify(parsedData.question),
+        faqanswer: parsedData.answer,
+        faqpostedby: 'Admin',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+    })
+  
+  
+  } catch (e) {
+    return { message: 'Failed to create question' }
+  }
+  
+  revalidatePath('/account/faqs')
+  redirect('/account/faqs')
+  
+  }
+  
+  export async function updateFaq(id: string, prevState: any, formData: FormData) {
+  
+    const schema = z.object({
+      category: z.string(),
+      question: z.string(),
+      answer: z.string(),
+  })
+  const parsedData = schema.parse({
+      category: formData.get('category'),
+      question: formData.get('question'),
+      answer: formData.get('answer'),
+})
+  try {
+    const doUpdate = await prisma.faqs.update({
+      where: {
+        faqid: parseInt(id)
+      },
+      data: {
+        faqcat: parsedData.category,
+        faqquestion: parsedData.question,
+        faqslug: slugify(parsedData.question),
+        faqanswer: parsedData.answer,
+        faqpostedby: 'Admin',
+        updatedAt: new Date()
+      }
+    })
+  
+  } catch (e) {
+    return { message: 'Failed to update question' }
+  }
+  
+  revalidatePath('/account/faqs')
+  redirect('/account/faqs')
+  }
+  
+  export async function deleteFaq(id: string) {
+  
+    try {
+       await prisma.faqs.delete({
+        where: {
+          faqid: parseInt(id)
+        }
+      })
+    
+      revalidatePath('/account/faqs')
+    
+      return { message: 'Deleted question' }
+    
+    } catch (e) {
+      return { message: 'Failed to delete question' }
+    }
+    }
+    
   

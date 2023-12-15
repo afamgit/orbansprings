@@ -45,11 +45,10 @@ export default async function Drivers({
   <thead>
   <tr className='bg-gray-300 px-2 py-1'>
       <th className='text-start'>#</th>
-      <th className='text-start'>Name</th>
-      <th className='text-start'>Location</th>
-      <th className='text-start'>Total Volume Bought(gl)</th>
-      <th className='text-start'>Subscription Plan</th>
-      <th className='text-start'>Date Joined</th>
+      <th className='text-start'>Merchant's Name</th>
+      <th className='text-start'>Number of Fleets</th>
+      <th className='text-start'>Paid Subscription</th>
+      <th className='text-start'>Outstanding Plan</th>
       <th className='flex justify-end'>Action</th>
     </tr>
   </thead>
@@ -60,10 +59,9 @@ export default async function Drivers({
             <tr key={i} className='border-b-slate-100 border-b-2'>
             <td>{++i}</td>
             <td>{item.name}</td>
-            <td>{item.area}</td>
-            <td>{volumeBought(parseInt(item.id))}</td>
-            <td>{item.subscription_plan}</td>
-            <td>{moment(item.createdAt).format('DD/MM/YYYY')}</td>
+            <td>No of fleets</td>
+            <td>Paid Sub</td>
+            <td>Outstanding bal</td>
             <td className='flex justify-end'><UpdateUser user={item} /> <DeleteUser id={id} /></td>
           </tr>
         )

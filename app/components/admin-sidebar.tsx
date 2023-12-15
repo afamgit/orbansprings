@@ -51,6 +51,11 @@ export function AdminSideBar () {
                     <FaSquareFull className='h-8 w-8 mr-2' /> Testimonials
                 </div>
             </Link>
+            <Link className='p-3' href='/account/faqs'>
+                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${pathname?.endsWith('faqs') && 'bg-slate-100 text-black'}`}>
+                    <FaSquareFull className='h-8 w-8 mr-2' /> FAQs
+                </div>
+            </Link>
 
 
       </div>

@@ -7,7 +7,7 @@ export async function AdminTopBar () {
 
             <ul className='flex justify-between items-center'>     
 
-              <Link href='/account/home'>
+              <Link href='/account/dashboard'>
                 <li className={`px-1`}>
                     Dashboard
                 </li>
@@ -45,6 +45,11 @@ export async function AdminTopBar () {
             <Link className='p-3' href='/account/testimonials'>
                 <li className={`px-1`}>
                     Testimonials
+                </li>
+            </Link>
+            <Link className='p-3' href='/account/faqs'>
+                <li className={`px-1`}>
+                    FAQs
                 </li>
             </Link>
 
