@@ -3,12 +3,17 @@
 
 import { useState, useEffect, useRef } from "react"
 import Chart from 'chart.js/auto'
-import {areas} from '../../utils/data'
-import { fetchCustomersPerArea } from "../../utils/data"
 
 
  function DriversChart({dataLabels, dataValues}) {
     const ctx = useRef(null);
+
+    const [chartData, setChartData] = useState(dataValues);
+
+    useEffect(() => {
+      setChartData(dataValues);
+    }, []);
+
 
     useEffect(() => {
 
@@ -18,9 +23,8 @@ import { fetchCustomersPerArea } from "../../utils/data"
         const chart = new Chart(ctx.current, {
             type: 'pie',
             data: {
-                labels: dataLabels,
                 datasets: [{
-                    data: dataValues,
+                    data: chartData,
                     borderColor: [
                         "rgb(75, 192, 192)",
                         "rgb(255, 205, 86)",

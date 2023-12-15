@@ -27,7 +27,7 @@ function BarChartDisplay({ data }) {
         <BarChart
           width={550}
           height={300}
-          data={data}
+          data={chartData}
           margin={{
             top: 5,
             right: 30,

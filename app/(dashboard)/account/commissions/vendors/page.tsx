@@ -6,6 +6,8 @@ import Pagination from '@/app/ui/pagination'
 import { fetchVendors } from '@/app/utils/data'
 import Vendors from '@/app/ui/vendors'
 import { ExpectedCommission } from '@/app/ui/cards'
+import { prisma } from '@/scripts'
+
 
 export const metadata: Metadata = {
   title: 'Commissions | Vendors',

@@ -38,8 +38,6 @@ function AreaWaterChart() {
 
       const res = await response.json();
 
-      // alert(JSON.stringify(res.data))
-
       if (res.data.length === 0) {
         setMsg(res.message);
       } else {
@@ -86,7 +84,7 @@ function AreaWaterChart() {
           </div>
         </div>
         
-        <AreaChartDisplay data={chartData} />
+    <AreaChartDisplay data={chartData} />
 
       </div>
     </div>

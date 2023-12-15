@@ -3,12 +3,16 @@
 
 import { useState, useEffect, useRef } from "react"
 import Chart from 'chart.js/auto'
-import {areas} from '../../utils/data'
-import { fetchCustomersPerArea } from "../../utils/data"
 
 
  function CustomersChart({dataLabels, dataValues}) {
     const ctx = useRef(null);
+
+    const [chartData, setChartData] = useState(dataValues);
+
+    useEffect(() => {
+      setChartData(dataValues);
+    }, []);
 
     useEffect(() => {
         // let ctx = document.getElementById('customers').getContext('2d');
@@ -19,7 +23,7 @@ import { fetchCustomersPerArea } from "../../utils/data"
             type: 'pie',
             data: {
                 datasets: [{
-                    data: dataValues,
+                    data: chartData,
                     backgroundColor: [
                         "rgb(219, 213, 213)",
                         "rgb(110, 96, 96)",

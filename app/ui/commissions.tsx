@@ -20,7 +20,7 @@ export default async function Commissions({
 
     const volumeSold = async (userid: number) => {
         const totalBought = await prisma.transactions.aggregate({
-          where: {customerid: userid},
+          where: {driverid: userid},
           _sum: {qty: true}
         })
       

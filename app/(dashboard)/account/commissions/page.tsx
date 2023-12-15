@@ -6,6 +6,7 @@ import Pagination from '@/app/ui/pagination'
 import { fetchUserDrivers, fetchUsers } from '@/app/utils/data'
 import Drivers from '@/app/ui/drivers'
 import { ExpectedCommission } from '@/app/ui/cards'
+import { prisma } from '@/scripts'
 
 export const metadata: Metadata = {
   title: 'Users',
