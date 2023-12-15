@@ -13,6 +13,7 @@ export default async function Products() {
       _count: {id: true} ,
     })
 
+
     const cancelled = async (cat:string) => {
 
       const totalCancelled = await prisma.transactions.count({
@@ -51,8 +52,7 @@ export default async function Products() {
         return (
             <tr key={i} className='border-b-slate-100 border-b-2'>
             <td>{++i}</td>
-            <td>{item.productname}
-            <p>{item.productname}</p></td>
+            <td>{item.productname}</td>
             <td>{item._count.id}</td>
             <td>{deliveries(item.productname)}</td>
             <td>{cancelled(item.productname)}</td>

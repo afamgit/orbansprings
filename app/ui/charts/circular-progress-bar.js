@@ -9,7 +9,7 @@ function CircularProgressBar({num_meters}) {
 
   useEffect(() => {
     setTimeout(() => {
-      if (percentage < 20) {
+      if (percentage < num_meters) {
         setPercentage(percentage + 1);
       }
     }, 50);
