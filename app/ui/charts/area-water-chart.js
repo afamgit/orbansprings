@@ -6,6 +6,7 @@ import AreaChartDisplay from '../../ui/charts/area-chart'
 
 function AreaWaterChart() {
   const [chartData, setChartData] = useState([]);
+  const [chartDataLabel, setChartDataLabel] = useState([]);
   const [location, setLocation] = useState("New Heaven");
   const [userSelect, setUserSelect] = useState(true);
   const [msg, setMsg] = useState(null);
@@ -41,8 +42,8 @@ function AreaWaterChart() {
       if (res.data.length === 0) {
         setMsg(res.message);
       } else {
-
-        setChartData(res.data);
+        setChartData(res.data[0]);
+        setChartDataLabel(res.data[1]);
       }
     } catch (error) {
       console.log(error);
@@ -59,7 +60,7 @@ function AreaWaterChart() {
             </h1>
           </div>
 
-          <div className="h-[40px]">
+          <div className="h-[50px]">
             <select
               type="text"
               id="location"
@@ -70,8 +71,8 @@ function AreaWaterChart() {
                 setLocation(e.target.value);
               }}
               required
-              className="block w-full p-2 px-2  bg-gray-200 h-[50px] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6"
-            >
+              className="p-2 px-2 bg-slate-900 text-white h-[50px] w-[160px] rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-xl sm:leading-6" 
+              >
               {areas?.length > 0 &&
                 areas.map((item, i) => {
                   return (
@@ -83,6 +84,16 @@ function AreaWaterChart() {
             </select>
           </div>
         </div>
+
+        <div className="w-4/5 flex justify-center items-center my-3 py-31">
+            {chartDataLabel.length > 0 && chartDataLabel.map((item,i) => {
+              return (
+                <span key={i} className="px-2 text-sm">
+                  {item.abb}: {item.name}
+                </span>
+              )
+            })}
+          </div>
         
     <AreaChartDisplay data={chartData} />
 

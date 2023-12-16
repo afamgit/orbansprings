@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { fetchFilteredTeams } from '../utils/data';
 import { UpdateTeam, DeleteTeam } from '@/app/ui/buttons'
+import OptimizedImageWithFallback from '../components/fallback-image';
 
 export default async function Teams({
     query,
@@ -45,12 +46,12 @@ export default async function Teams({
             <td>{++i}</td>
             <td className='hidden md:block'>
             <div className='w-32 h-32'>
-                  <Image
+            <OptimizedImageWithFallback
                 src={`/${item.tmemberphoto}`}
                 height={96}
                 width={96}
                 alt={item.tmember}
-                className='rounded-lg'
+                classname='rounded-lg'
                 />
                 </div></td>
             <td>{item.tmember}</td>

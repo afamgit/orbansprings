@@ -12,7 +12,7 @@ export function AdminSideBar () {
      return (
     <div className="bg-neutral-800 text-white mt-3">    
           <Link className='p-3' href='/account/dashboard'>
-                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${pathname?.endsWith('dashboard') && 'bg-slate-100 text-black'}`}>
+                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${(pathname?.endsWith('dashboard') || pathname?.endsWith('account')) && 'bg-slate-100 text-black'}`}>
                     <FaSquareFull className='h-8 w-8 mr-2' /> Dashboard
                 </div>
             </Link>
@@ -22,7 +22,7 @@ export function AdminSideBar () {
                 </div>
             </Link>
             <Link className='p-3' href='/account/commissions'>
-                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${pathname?.endsWith('commissions') && 'bg-slate-100 text-black'}`}>
+                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${(pathname?.endsWith('commissions') || pathname?.endsWith('vendors')) && 'bg-slate-100 text-black'}`}>
                     <FaSquareFull className='h-8 w-8 mr-2' /> Commissions
                 </div>
             </Link>

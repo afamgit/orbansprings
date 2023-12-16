@@ -79,7 +79,7 @@ import {FaSquareFull} from 'react-icons/fa'
 
         <div className="w-full flex justify-between items-center px-2">
 
-          <div className="h-[40px]">
+          <div className="h-[50px]">
           <select 
             type="text" 
             id="location" 
@@ -90,7 +90,7 @@ import {FaSquareFull} from 'react-icons/fa'
                 setLocation(e.target.value)
             }}
             required
-            className="block w-full p-2 px-2  bg-gray-200 h-[50px] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6" 
+            className="p-2 px-2  bg-gray-300 h-[50px] w-[160px] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-xl sm:leading-6" 
           >
             {areas?.length > 0 && areas.map((item,i) => {
             return (

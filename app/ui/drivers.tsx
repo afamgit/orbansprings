@@ -37,6 +37,17 @@ export default async function Drivers({
 
 }
 
+const getDriverOutstanding = async (userid: number) => {
+  const driver = await prisma.users.findUnique({
+  where: {id: userid},
+  select: {id:true, commissions_outstanding:true}
+})
+const driverBox = <div className='flex flex-col'>
+<div className='text-xl'>{driver?.commissions_outstanding}</div>
+</div>
+return driverBox
+
+}
 
 const volumeSold = async (userid: number) => {
   let drvid = userid.toString()
@@ -53,7 +64,7 @@ const volumeSold = async (userid: number) => {
           _sum: {commission: true}
         })
       
-        return total. _sum.commission || '-'
+        return total. _sum.commission || null
       }
    
       const paidCommission = async (userid: number) => {
@@ -67,19 +78,12 @@ const volumeSold = async (userid: number) => {
 
       const outstandingCommission = async (userid: number) => {
 
-        const commissionTotal = await prisma.transactions.aggregate({
-          where: {driverid: userid},
-          _sum: {commission: true}
+        const commissionTotal = await prisma.users.findUnique({
+          where: {id: userid},
+          select: {commissions_outstanding: true}
         })
-        const paidTotal = await prisma.driver_payments.aggregate({
-          where: {dpaydriver: userid},
-          _sum: {dpayoutstanding: true}
-        })
-
-
-        // const outstanding = (parseFloat(commissionTotal. _sum.commission) - parseFloat(paidTotal. _sum.dpayoutstanding))
-      
-        return '-'
+       
+        return commissionTotal
       }
 
       return (
@@ -113,7 +117,7 @@ const volumeSold = async (userid: number) => {
             <td>{volumeSold(parseInt(item.id))}</td>
             <td>{totalCommission(parseInt(item.id))}</td>
             <td>{paidCommission(parseInt(item.id))}</td>
-            <td>{outstandingCommission(parseInt(item.id))}</td>
+            <td>{getDriverOutstanding(parseInt(item.id))}</td>
             <td className='flex justify-end'><UpdateUser user={item} /> <DeleteUser id={id} /></td>
           </tr>
         )

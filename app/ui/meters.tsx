@@ -19,9 +19,7 @@ export default async function Meters({
     by: ['m_status'],
     _count: {meterid: true} 
     })
-    
-    console.log(groupMeters)
-    
+        
     const volumeSoldTanker = async (mid: string) => {
     
         const totalVolume = await prisma.meter_tanker_entries.aggregate({

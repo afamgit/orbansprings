@@ -8,25 +8,34 @@ export default async function Products() {
 
     const total = await prisma.transactions.count()
 
-    const allProducts = await prisma.transactions.groupBy({
-      by: ['productname'],
-      _count: {id: true} ,
+    const allProducts = await prisma.products.findMany({
+      orderBy: {name: 'asc'},
+      select: {id:true, name:true, description:true}
     })
 
 
-    const cancelled = async (cat:string) => {
+    const orders = async (id:number) => {
 
       const totalCancelled = await prisma.transactions.count({
-        where: {productname: cat, status: 'cancelled'},
+        where: {productid: id},
       })
     
       return totalCancelled || '-'
     }
 
-    const deliveries = async (cat:string) => {
+    const cancelled = async (id:number) => {
+
+      const totalCancelled = await prisma.transactions.count({
+        where: {productid: id, status: 'cancelled'},
+      })
+    
+      return totalCancelled || '-'
+    }
+
+    const deliveries = async (id:number) => {
 
       const totalDelivered = await prisma.transactions.count({
-        where: {productname: cat, status: 'completed'},
+        where: {productid: id, status: 'completed'},
       })
     
       return totalDelivered || '-'
@@ -52,10 +61,11 @@ export default async function Products() {
         return (
             <tr key={i} className='border-b-slate-100 border-b-2'>
             <td>{++i}</td>
-            <td>{item.productname}</td>
-            <td>{item._count.id}</td>
-            <td>{deliveries(item.productname)}</td>
-            <td>{cancelled(item.productname)}</td>
+            <td>{item.name}
+            <p>{item.description.split(' ',8).join(' ')}</p></td>
+            <td>{orders(item.id)}</td>
+            <td>{deliveries(item.id)}</td>
+            <td>{cancelled(item.id)}</td>
           </tr>
         )
     }

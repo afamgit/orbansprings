@@ -36,7 +36,7 @@ function BarChartDisplay({ data }) {
           }}
           barGap={1}
           barCategoryGap={10}
-          barSize={10}
+          barSize={15}
         >
           {/* <CartesianGrid strokeDasharray="1" /> */}
           <XAxis dataKey="name" />
@@ -46,7 +46,6 @@ function BarChartDisplay({ data }) {
           <Bar
             dataKey="customerWait"
             fill="#999999"
-            strokeWidth={5}
             activeBar={<Rectangle fill="#999999" stroke="#999999" />}
           />
           <Bar

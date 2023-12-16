@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { fetchFilteredTestimonials } from '../utils/data';
 import { UpdateTestimonial, DeleteTestimonial } from '@/app/ui/buttons'
+import OptimizedImageWithFallback from '../components/fallback-image';
 
 export default async function Testimonials({
     query,
@@ -45,11 +46,12 @@ export default async function Testimonials({
           <td>{++i}</td>
             <td className='hidden md:block'>
             <div className='w-32 h-32'>
-                  <Image
+                  <OptimizedImageWithFallback
                 src={`/${item.tphoto}`}
                 height={96}
                 width={96}
                 alt={item.tcustomer}
+                classname='rounded-lg'
                 />
                 </div></td>        
                 <td>{item.tcustomer}</td>

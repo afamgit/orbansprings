@@ -54,6 +54,17 @@ export default async function Vendors({
   return vendorBox
 
 }
+const getVendorOutstanding = async (userid: number) => {
+  const driver = await prisma.users.findUnique({
+  where: {id: userid},
+  select: {id:true, commissions_outstanding:true}
+})
+const outstaningBox = <div className='flex flex-col'>
+<div className='text-xl'>{driver?.commissions_outstanding}</div>
+</div>
+return outstaningBox
+
+}
 
 
       const paidCommission = async (userid: number) => {
@@ -113,7 +124,7 @@ export default async function Vendors({
             <td>{ordersDelivered(parseInt(item.id))}</td>
             <td>{totalCommissions(parseInt(item.id))}</td>
             <td>{paidCommission(parseInt(item.id))}</td>
-            <td>{outstandingCommission(parseInt(item.id))}</td>
+            <td>{getVendorOutstanding(parseInt(item.id))}</td>
             <td className='flex justify-end'><UpdateUser user={item} /> <DeleteUser id={id} /></td>
           </tr>
         )

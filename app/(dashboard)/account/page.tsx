@@ -1,11 +1,19 @@
+import AdminDashboard from "@/app/components/admin-dashboard";
 import Breadcrumbs from "@/app/ui/breadcrumbs"
+import { auth, getUserFromEmail } from "@/auth";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: 'Account',
 };
 
-export default function Dashboard() {
+export default async function Dashboard() {
+
+  const userInfo = await auth()
+
+  const usremail = userInfo?.user.email || ''
+
+  const profile = await getUserFromEmail(usremail)
 
       return (
         <main>
@@ -14,9 +22,8 @@ export default function Dashboard() {
               { label: 'Account', href: '/account' },
             ]}
           />
-        <div className='flex flex-col justify-center items-center my-5 py-5'>
-          <h1 className='text-3xl'>Welcome</h1>
-          </div>
+
+        {profile?.role === 'admin' && <AdminDashboard />}
 
         </main>
       )
