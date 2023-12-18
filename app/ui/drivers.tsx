@@ -76,15 +76,6 @@ const volumeSold = async (userid: number) => {
         return total. _sum.dpayoutstanding || '-'
       }
 
-      const outstandingCommission = async (userid: number) => {
-
-        const commissionTotal = await prisma.users.findUnique({
-          where: {id: userid},
-          select: {commissions_outstanding: true}
-        })
-       
-        return commissionTotal
-      }
 
       return (
         <main className='w-full flex flex-col justify-start items-start'>
