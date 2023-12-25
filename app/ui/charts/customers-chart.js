@@ -25,8 +25,8 @@ import Chart from 'chart.js/auto'
                 datasets: [{
                     data: chartData,
                     backgroundColor: [
-                        "rgb(219, 213, 213)",
-                        "rgb(110, 96, 96)",
+                        "rgb(64, 164, 222)",
+                        "rgb(25, 176, 35)",
                     ],
                 }]
             },

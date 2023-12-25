@@ -65,7 +65,7 @@ export default async function Meters({
              <div className='w-full bg-white'>
              <table className="w-full table-auto" cellPadding={10}>
       <thead>
-        <tr className='bg-gray-300 px-2 py-1'>
+        <tr className='bg-sky-200 px-2 py-1'>
           <th className='text-start'>#</th>
           <th className='text-start'>Meter Info</th>
           <th className='text-start'>User type</th>
@@ -86,7 +86,7 @@ export default async function Meters({
                 <td className='px-2 py-1'>{item.m_for}</td>
                 <td className='px-2 py-1 text-center'>{item.m_for === 'Tanker' ? volumeSoldTanker(item.m_unique_id) : volumeSoldSupply(item.m_unique_id)}</td>
                 <td className='px-2 py-1 text-center'>{volumePurchased(item.m_unique_id,item.m_for)}</td>
-                <td className='px-2 py-1 text-center'><span className={`px-2 py-1 rounded w-full ${item.m_status === 'Active' ? 'bg-gray-400' : 'bg-gray-200'}`}>{item.m_status}</span></td>
+                <td className='px-2 py-1 text-center'><span className={`px-2 py-1 rounded w-full ${item.m_status === 'Active' ? 'bg-green-100' : 'bg-red-100'}`}>{item.m_status}</span></td>
                 <td className='px-2 py-1'><UpdateMeter meter={item} /> </td>
               </tr>
             )

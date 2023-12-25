@@ -59,7 +59,7 @@ function BarDeliveryDisplay() {
 
 
   return (
-    <div className="flex justify-center items-center bg-gray-300">
+    <div className="flex justify-center items-center bg-gray-100">
       <div className="flex flex-col justify-between items-center border-1 border-gray-600 text-gray-600">
         
       <div className="w-full flex justify-between items-center px-3">
@@ -70,11 +70,11 @@ function BarDeliveryDisplay() {
           </div>
           <div>
             <div className="w-full flex justify-start items-center text-xl">
-              <FaSquareFull className="h-3 w-3 mr-1 text-zinc-400" /> Customers
+              <FaSquareFull className="h-3 w-3 mr-1 text-sky-500" /> Customers
               2 hrs
             </div>
             <div className="w-full flex justify-start items-center text-xl">
-              <FaSquareFull className="h-3 w-3 mr-1 text-zinc-700" /> Drivers 1
+              <FaSquareFull className="h-3 w-3 mr-1 text-green-500" /> Drivers 1
               hr
             </div>
           </div>
@@ -110,14 +110,14 @@ function BarDeliveryDisplay() {
           {/* <Legend /> */}
           <Bar
             dataKey="customerWait"
-            fill="#999999"
+            fill="#369ee3"
             strokeWidth={5}
-            activeBar={<Rectangle fill="#999999" stroke="#999999" />}
+            activeBar={<Rectangle fill="#369ee3" stroke="#369ee3" />}
           />
           <Bar
             dataKey="driverDelivery"
-            fill="#666666"
-            activeBar={<Rectangle fill="#666666" stroke="#666666" />}
+            fill="#19b023"
+            activeBar={<Rectangle fill="#19b023" stroke="#19b023" />}
           />
         </BarChart>
       </div>

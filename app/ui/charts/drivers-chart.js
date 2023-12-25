@@ -26,12 +26,12 @@ import Chart from 'chart.js/auto'
                 datasets: [{
                     data: chartData,
                     borderColor: [
-                        "rgb(75, 192, 192)",
-                        "rgb(255, 205, 86)",
+                        "rgb(64, 164, 222)",
+                        "rgb(25, 176, 35)",
                     ],
                     backgroundColor: [
-                        "rgb(75, 192, 192 )",
-                        "rgb(255, 205, 86)",
+                        "rgb(64, 164, 222)",
+                        "rgb(25, 176, 35)",
                     ],
                     borderWidth: 1,
                 }]

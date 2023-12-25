@@ -54,15 +54,15 @@ export default async function Page({
             <div className='w-full md:max-w-[900px] mx-auto grid grid-cols-3 gap-6 p-6'>
             <div className='flex flex-col justify-center items-center p-4 border-1 border-gray-200'>
               <h3 className='text-3xl font-bold text-gray-600 my-4 py-3'>Installed Meters</h3>
-              <CircularProgressBar num_meters={installedMeters} />
+              <CircularProgressBar num_meters={installedMeters} type='installed' />
             </div>
             <div className='flex flex-col justify-center items-center p-4 border-3 border-red-600'>
               <h3 className='text-3xl font-bold text-gray-600 my-4 py-3'>Active Meters</h3>
-              <CircularProgressBar num_meters={activeMeters} />
+              <CircularProgressBar num_meters={activeMeters} type='active' />
             </div>
             <div className='flex flex-col justify-center items-center p-4 border-1 border-gray-200'>
               <h3 className='text-3xl font-bold text-gray-600 my-4 py-3'>Inactive Meters</h3>
-              <CircularProgressBar num_meters={inactiveMeters} />
+              <CircularProgressBar num_meters={inactiveMeters} type='inactive' />
             </div>
             </div>
 

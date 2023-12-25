@@ -62,7 +62,7 @@ import WaterChart from './water-chart'
     return (
         <>
         <div className="px-5 border-2 border-slate-200 rounded-lg">
-            <h1 className="mt-10 mb-4 text-2xl font-semibold capitalize ">Water Analysis</h1>
+            <h1 className="mt-10 mb-4 text-2xl font-semibold capitalize  border-b-2 border-b-gray-200 pb-3">Water Analysis</h1>
             <p className="text-xl my-3 py-2">This is the current composition of the Orban Springs water.</p>
             <div>
 
@@ -76,13 +76,13 @@ import WaterChart from './water-chart'
                     <FaSquareFull className='h-3 w-3 mr-1 text-zinc-300' /> Sulphur
                 </div>
                 <div className='w-full flex justify-start items-center px-1 text-xl bg-slate-00'>
-                    <FaSquareFull className='h-3 w-3 mr-1 text-zinc-500' /> Chlorine
+                    <FaSquareFull className='h-3 w-3 mr-1 text-blue-800' /> Chlorine
                 </div>
         <div className='w-full flex justify-start items-center px-1 text-xl bg-slate-100'>
-                    <FaSquareFull className='h-3 w-3 mr-1 text-zinc-700' /> Nitrogen
+                    <FaSquareFull className='h-3 w-3 mr-1 text-orange-700' /> Nitrogen
                 </div>
                 <div className='w-full flex justify-start items-center px-1 text-xl bg-slate-100'>
-                    <FaSquareFull className='h-3 w-3 mr-1 text-zinc-900' /> Oxygen
+                    <FaSquareFull className='h-3 w-3 mr-1 text-orange-900' /> Oxygen
                 </div>
         </div>
 

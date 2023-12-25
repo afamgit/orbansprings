@@ -48,7 +48,7 @@ export default async function Products() {
         <div className='w-full bg-white'>
          <table cellPadding={10} className="w-full table-auto p-3 md:p-5">
   <thead>
-  <tr className='bg-gray-300 px-2 py-1'>
+  <tr className='bg-sky-200 px-2 py-1'>
       <th className='text-start'>#</th>
       <th className='text-start'>Categories</th>
       <th className='text-start'>Orders</th>

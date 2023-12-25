@@ -36,6 +36,8 @@ export function UserNumbersCardPlain ({num, name}: {num: number, name: string}) 
 }
 
 export function ExpectedCommission ({title, amount}: {title: string, amount: number}) {
+
+    const amountColor = title === 'total expected commission' ? 'text-green-400' : title === 'total received' ? 'text-blue-500' : 'text-red-500'
     
     return (
     <div className={`w-full h-[120px] flex flex-col justify-between items-start shadow-lg p-4 px-3 rounded-lg bg-white border-1 border-slate-300`}>
@@ -43,7 +45,7 @@ export function ExpectedCommission ({title, amount}: {title: string, amount: num
         <div className="text-2xl capitalize">{title}</div>
         </div>
         <div className="w-full flex justify-start items-start">
-        <h3 className="text-4xl font-bold">{formatCurrency(amount)}</h3>
+        <h3 className={`text-4xl font-bold ${amountColor}`}>{formatCurrency(amount)}</h3>
         </div>
 </div>
 )

@@ -46,8 +46,8 @@ export default async function AdminLayout({
       <div className='w-full'>{profile?.role === 'admin' ? <AdminTopBar /> : <IotTopBar />}</div>
       </div>
       <div className='flex justify-start items-start'>
-      <div className='h-screen sticky top-0 hidden md:h-full flex flex-shrink-0 md:block md:w-[250px] bg-neutral-800 text-white'>
-      <div className="w-full flex flex-col justify-start items-start p-2 md:p-5">
+      <div className='h-screen sticky top-0 hidden md:h-full flex flex-shrink-0 md:block md:w-[250px] bg-sky-400 text-white'>
+      <div className="w-full flex flex-col justify-start bg-black bg-opacity-10 items-start p-2 md:p-5">
       <div
           className="flex justify-center items-center my-2 py-2 text-xl"
         >
@@ -55,7 +55,7 @@ export default async function AdminLayout({
           <p className='ml-2 pl-2'>Orban Springs</p>
       </div>
       </div>
-      <div className='min-h-screen bg-neutral-800 py-3'>
+      <div className='min-h-screen bg-black bg-opacity-10 py-3'>
         <p className='p-3'>{userInfo?.user.name}</p>
 
       <div className='my-2 py-2'><SignOut /></div>

@@ -35,7 +35,7 @@ export default async function LatestCustomers() {
                 </div></td>
             <td>{item.name}
             <p className='text-sm text-gray-500'>{item.area}</p></td>
-            <td className='capitalize'>{item.isactive ? 'active' : 'Iactive'}</td>
+            <td className='capitalize'>{item.isactive ? <span className='text-green-500'>Active</span> : <span className='text-red-400'>Inctive</span>}</td>
           </tr>
         )
     }

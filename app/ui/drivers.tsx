@@ -88,7 +88,7 @@ const volumeSold = async (userid: number) => {
         <div className='w-full bg-white'>
          <table cellPadding={10} className="w-full table-auto p-3 md:p-5">
   <thead>
-  <tr className='bg-gray-300 px-2 py-1'>
+  <tr className='bg-sky-200 px-2 py-1'>
       <th className='text-start'>#</th>
       <th className='text-start'>Driver's Name</th>
       <th className='text-start'>Volume Sold(gl)</th>
@@ -107,8 +107,8 @@ const volumeSold = async (userid: number) => {
             <td>{getDriverDetails(parseInt(item.id))}</td>
             <td>{volumeSold(parseInt(item.id))}</td>
             <td>{totalCommission(parseInt(item.id))}</td>
-            <td>{paidCommission(parseInt(item.id))}</td>
-            <td>{getDriverOutstanding(parseInt(item.id))}</td>
+            <td className='text-green-600'>{paidCommission(parseInt(item.id))}</td>
+            <td className='text-red-500'>{getDriverOutstanding(parseInt(item.id))}</td>
             <td className='flex justify-end'><UpdateUser user={item} /> <DeleteUser id={id} /></td>
           </tr>
         )

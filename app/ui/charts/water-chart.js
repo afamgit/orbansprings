@@ -17,12 +17,12 @@ import { fetchCustomersPerArea } from "../../utils/data"
             type: 'pie',
             data: {
                 datasets: [{
-                    data: [70, 10, 6,14],
+                    data: [35, 20, 26,9],
                     backgroundColor: [
-                        "rgb(118, 135, 62",
-                        "rgb(255, 205, 86)",
-                        "rgb(219, 213, 213)",
-                        "rgb(110, 96, 96)",
+                        "rgb(64, 164, 222)",
+                        "rgb(25, 176, 35)",
+                        "rgb(173, 124, 26)",
+                        "rgb(30, 113, 214)",
                     ],
                 }]
             },

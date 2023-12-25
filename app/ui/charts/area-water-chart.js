@@ -51,16 +51,16 @@ function AreaWaterChart() {
   };
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center bg-gray-100">
       <div className="border-1 border-gray-600 text-gray-600">
         <div className="w-full flex justify-between items-center px-2">
           <div>
-            <h1 className="text-2xl font-semibold capitalize ">
+            <h1 className="text-2xl font-semibold capitalize">
               Total Water Sold per location
             </h1>
           </div>
 
-          <div className="h-[50px]">
+          <div className="h-[50px] pr-2 bg-sky-200">
             <select
               type="text"
               id="location"
@@ -71,7 +71,7 @@ function AreaWaterChart() {
                 setLocation(e.target.value);
               }}
               required
-              className="p-2 px-2 bg-slate-900 text-white h-[50px] w-[160px] rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-xl sm:leading-6" 
+              className="p-2 px-2 bg-sky-200 text-gray-900 h-[50px] w-[160px] rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-xl sm:leading-6" 
               >
               {areas?.length > 0 &&
                 areas.map((item, i) => {

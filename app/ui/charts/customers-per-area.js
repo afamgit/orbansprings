@@ -73,13 +73,13 @@ import {FaSquareFull} from 'react-icons/fa'
     return (
         <>
         <div className="px-5 border-2 border-slate-200 rounded-lg">
-            <h1 className="mt-10 mb-4 text-2xl font-semibold capitalize ">Customers Per area</h1>
+            <h1 className="mt-10 mb-4 text-2xl font-semibold capitalize  border-b-2 border-b-gray-200 pb-3">Customers Per area</h1>
             <p className="text-xl my-3 py-2">Select an area to view the total customers in that area</p>
             <div>
 
         <div className="w-full flex justify-between items-center px-2">
 
-          <div className="h-[50px]">
+          <div className="h-[50px] pr-2 bg-sky-200">
           <select 
             type="text" 
             id="location" 
@@ -90,7 +90,7 @@ import {FaSquareFull} from 'react-icons/fa'
                 setLocation(e.target.value)
             }}
             required
-            className="p-2 px-2  bg-gray-300 h-[50px] w-[160px] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-xl sm:leading-6" 
+            className="p-2 px-1  bg-sky-200 h-[50px] w-[160px] rounded-md border-0 py-4.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-xl sm:leading-12" 
           >
             {areas?.length > 0 && areas.map((item,i) => {
             return (
@@ -102,10 +102,10 @@ import {FaSquareFull} from 'react-icons/fa'
         </div>
         <div>
          <div className='w-full flex justify-start items-center px-1 text-xl bg-slate-100'>
-                    <FaSquareFull className='h-3 w-3 mr-1 text-zinc-300' /> Basic
+                    <FaSquareFull className='h-3 w-3 mr-1 text-green-500' /> Basic
                 </div>
                 <div className='w-full flex justify-start items-center px-1 text-xl bg-slate-100'>
-                    <FaSquareFull className='h-3 w-3 mr-1 text-zinc-700' /> Premium
+                    <FaSquareFull className='h-3 w-3 mr-1 text-sky-500' /> Premium
                 </div>
         </div>
 

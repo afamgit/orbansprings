@@ -23,12 +23,12 @@ export default async function AdminDashboard() {
       <DashboardCards />
 
       <div className="w-full md:flex grid grid-cols-2 gap-4 my-3 py-3">
-        <div className="w-full md:w-1/2 flex flex-col justify-end items-end bg-gray-300 rounded-lg py-4">
+        <div className="w-full md:w-1/2 flex flex-col justify-end items-end bg-gray-100 rounded-lg py-4">
         
           
           <AreaWaterChart />
         </div>
-        <div className="w-full md:w-1/2 flex flex-col justify-end items-end bg-gray-300 rounded-lg py-4">
+        <div className="w-full md:w-1/2 flex flex-col justify-end items-end bg-gray-100 rounded-lg py-4">
        
           <BarDeliveryDisplay />
         </div>
