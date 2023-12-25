@@ -1,4 +1,6 @@
 import AdminDashboard from "@/app/components/admin-dashboard";
+import FleetOwnerDashboard from "@/app/components/fleet-owner-dashboard";
+import MeterOwnerDashboard from "@/app/components/meter-owner-dashboard";
 import Breadcrumbs from "@/app/ui/breadcrumbs"
 import { auth, getUserFromEmail } from "@/auth";
 import { Metadata } from "next";
@@ -24,6 +26,8 @@ export default async function Dashboard() {
           />
 
         {profile?.role === 'admin' && <AdminDashboard />}
+        {profile?.role === 'fleetownerdriver' && <FleetOwnerDashboard />}
+        {profile?.role === 'meterowner' && <MeterOwnerDashboard />}
 
         </main>
       )

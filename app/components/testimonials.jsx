@@ -17,7 +17,7 @@ const [filteredData, setFilteredData] = useState([]);
     setFilteredData(data.slice(0, 2))
     setTimeout(() => {
       handleNext()
-    },5000)
+    },10000)
   },[])
 
 
@@ -73,7 +73,7 @@ const [filteredData, setFilteredData] = useState([]);
             <div className="flex flex-col md:flex-row justify-content items-center w-full h-full md:w-[1200px] mx-auto py-5 md:h-[500px] overflow-y-scroll">
               {filteredData.length > 0 && filteredData.map((item,i) => {
                 return (
-                    <div key={i} className="relative h-full md:h-[420px] flex flex-col w-full md:w-2/5 mx-auto justify-between items-center bg-white rounded-xl px-10 py-5 my-6 transition duration-700 ease-in-out">
+                    <div key={i} className="relative h-full md:h-[400px] flex flex-col w-full md:w-2/5 mx-auto justify-between items-center bg-white rounded-xl px-10 py-5 my-6 transition duration-700 ease-in-out">
                     
                   <div className='p-3 absolute -top-[50px]'>
                       {item.tphoto !== "" && (
@@ -115,7 +115,7 @@ const [filteredData, setFilteredData] = useState([]);
 
             <div className="h-[60px] flex justify-center items-center gap-2">
 
-            {arrayRange(0,Math.ceil(data.length/2),1).map((_,i) => {
+            {arrayRange(0,Math.floor(data.length/2),1).map((_,i) => {
               
             return (
             <div key={i} onClick={() => setCurrentIndex(i)} className={`h-[20px] w-[20px] rounded-full cursor-pointer ${i === currentIndex ? 'bg-blue-500' : 'bg-white'} `}></div>

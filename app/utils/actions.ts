@@ -152,7 +152,7 @@ try {
       cpagemenu: parsedData.category,
       cpagename: parsedData.title,
       cpagecontent: parsedData.desc,
-      cpagephoto: file ? file.name : parsedData.picture,
+      cpagephoto: file.name !== '' && file.name !== null && file.name !== 'undefined' ? file.name : parsedData.picture,
       cpagesbanner: '',
       cpagelinkname: slugify(parsedData.title),
       cpage_postedby: 'admin',
@@ -280,7 +280,7 @@ try {
     data: {
       tcustomer: parsedData.name,
       tmessage: parsedData.desc,
-      tphoto: file ? file.name : parsedData.picture,
+      tphoto: file.name !== '' && file.name !== null && file.name !== 'undefined' ? file.name : parsedData.picture,
       trole: parsedData.profession,
       tstars: parseInt(parsedData.rating),
       tdate: new Date(),
@@ -415,7 +415,7 @@ try {
       tmember: parsedData.name,
       tmember_slug: slugify(parsedData.name),
       tmemberprofile: parsedData.profile,
-      tmemberphoto: file ? file.name : parsedData.picture,
+      tmemberphoto: file.name !== '' && file.name !== null && file.name !== 'undefined' ? file.name : parsedData.picture,
       tmemberposition: parsedData.position,
       tmemberrank: parseInt(parsedData.ranking),
     }
@@ -769,7 +769,7 @@ try {
       tmember: parsedData.name,
       tmember_slug: slugify(parsedData.name),
       tmemberprofile: parsedData.profile,
-      tmemberphoto: file ? file.name : parsedData.picture,
+      tmemberphoto: file.name !== '' && file.name !== null && file.name !== 'undefined' ? file.name : parsedData.picture,
       tmemberposition: parsedData.position,
       tmemberrank: parseInt(parsedData.ranking),
     }
