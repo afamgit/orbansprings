@@ -36,7 +36,7 @@ export default async function Users({
         <main className='w-full flex flex-col justify-start items-start'>
 
 <div className='w-full flex justify-between iteams-center my-2 py-2'>
-             <h1 className='font-bold text-2xl'>Users ({total})</h1>         
+             <h1 className='font-bold text-2xl'>Customers ({total})</h1>         
               <Link className='rounded-full px-3 py-2 bg-gray-800 text-white' href='/account/users/create'>Add user</Link>
          </div> 
 

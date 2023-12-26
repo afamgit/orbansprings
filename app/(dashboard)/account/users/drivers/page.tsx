@@ -14,6 +14,7 @@ import Teams from '@/app/ui/teams'
 import Users from '@/app/ui/users'
 import { UserNumbersCard, UserNumbersCardPlain } from '@/app/ui/cards'
 import Drivers from '@/app/ui/drivers'
+import UsersByNumbers from '@/app/components/users-by-numbers'
 
 export const metadata: Metadata = {
   title: 'Users',
@@ -30,10 +31,6 @@ export default async function Page({
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
 
-  const groupUsers = await prisma.users.groupBy({
-    by: ['role'],
-    _count: {id: true} 
-    })
       
     const total = await fetchUserDrivers(query)
 
@@ -57,14 +54,8 @@ export default async function Page({
             />
             </div>
 
-            <div className='flex justify-between mx-1 px-1 items-center my-5'>
-              {groupUsers.filter(item => (item.role !== 'admin' && item.role !== 'iot')).map((item,i) => {
+            <UsersByNumbers />
 
-              return (
-              <UserNumbersCard num={item._count} name={item.role} key={i} />
-              )
-            })}
-            </div>
 
             <div className='w-full my-3 py-3'>
               <h2 className='text-3xl'>Overall Drivers List</h2>

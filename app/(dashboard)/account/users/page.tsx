@@ -1,3 +1,4 @@
+import Image from 'next/image' 
 import { writeFile } from 'fs/promises'
 import { join } from 'path'
 import { prisma } from '@/scripts'
@@ -12,7 +13,8 @@ import Pagination from '@/app/ui/pagination'
 import { fetchUsers } from '@/app/utils/data'
 import Teams from '@/app/ui/teams'
 import Users from '@/app/ui/users'
-import { UserNumbersCard, UserNumbersCardPlain } from '@/app/ui/cards'
+import { UserNumbersCard, UserNumbersCardPlain, UserNumbersCardSingle } from '@/app/ui/cards'
+import UsersByNumbers from '@/app/components/users-by-numbers'
 
 export const metadata: Metadata = {
   title: 'Users',
@@ -36,9 +38,28 @@ export default async function Page({
       
     const total = await fetchUsers(query)
 
+    const totalUsers = await prisma.users.count({
+      where: {NOT:{role: 'admin'}}
+    })
+    const totalCustomers = await prisma.users.count({
+      where: {role: 'customer'}
+    })    
+    
+    const totalDrivers = await prisma.users.count({
+      where: {role: 'driver'}
+    })    
+    
+    const totalVendors = await prisma.users.count({
+      where: {OR:[{role: 'plumber'}, {role: 'tank cleaner'}]}
+    })    
+
+    const totalMerchants = await prisma.users.count({
+      where: {OR:[{role: 'fleetownerdriver'}, {role: 'fleetownerplumber'}]}
+    })
+
     const totalBasic = await prisma.users.count({
       where: {subscription_plan: 'Basic', role: 'customer'}
-    })
+    })    
 
     return (
         <main className='w-full flex flex-col justify-center items-center'>
@@ -55,14 +76,10 @@ export default async function Page({
             />
             </div>
 
-            <div className='flex justify-between mx-1 px-1 items-center my-5'>
-              {groupUsers.filter(item => (item.role !== 'admin' && item.role !== 'iot')).map((item,i) => {
+            
 
-              return (
-              <UserNumbersCard num={item._count} name={item.role} key={i} />
-              )
-            })}
-            </div>
+
+            <UsersByNumbers />
 
             <div className='w-full my-3 py-3'>
               <h2 className='text-3xl'>Overall Customers List</h2>
