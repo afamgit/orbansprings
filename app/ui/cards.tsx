@@ -41,25 +41,25 @@ export function UserNumbersCardSingle({
 
     const iconImage = name === "total user" ? (
         <Image
-          src="/users_icon.jpeg"
+          src="/users_icon.png"
           height={72}
           width={72}
           alt={name}
           className="text-sm"
         />
     ) : name === "customer" ? (
-        <Image src='/customers_icon.jpeg' height={72} width={72} alt={name} className='rounded' />
+        <Image src='/customers_icon.png' height={72} width={72} alt={name} className='rounded' />
     ) : name === "driver" ? (
         <Image
-          src="/users_icon.jpeg"
+          src="/dashboard.png"
           height={72}
           width={72}
           alt={name}
-          className="text-sm"
+          className="text-sm text-red-300"
         />
     ) : name === "vendor" ? (
         <Image
-          src="/vendors_icon.jpeg"
+          src="/vendors_icon.png"
           height={72}
           width={72}
           alt={name}
@@ -67,7 +67,7 @@ export function UserNumbersCardSingle({
         />
     ) : (
         <Image
-          src="/merchants_icon.jpeg"
+          src="/merchants_icon.png"
           height={72}
           width={72}
           alt={name}
@@ -112,7 +112,7 @@ export function UserNumbersCardPlain({
         <div className="text-xl">{name}</div>
       </div>
       <div className="w-full flex justify-start items-start">
-        <h3 className="text-4xl font-bold">{num}</h3>
+        <h3 className="text-4xl font-bold text-sky-400">{num}</h3>
       </div>
     </div>
   );

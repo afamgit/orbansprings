@@ -51,7 +51,7 @@ export default async function AdminLayout({
       <div
           className="flex justify-center items-center my-2 py-2 text-xl"
         >
-                          <Image src='/logo_full.jpeg' height={48} width={48} alt="logo" className='rounded' />
+                          <Image src='/logo_full.png' height={48} width={48} alt="logo" className='rounded' />
           <p className='ml-2 pl-2'>Orban Springs</p>
       </div>
       </div>

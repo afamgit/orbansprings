@@ -20,7 +20,7 @@ const NavBar = () => {
           style={{ height: "90px", width: "140px", objectFit: "cover" }}
           className="flex justify-center content-center"
         >
-          <Link href='/'><Image src='/logo_full.jpeg' height={60} width={90} alt="logo" /></Link>
+          <Link href='/'><Image src='/logo_full.png' height={60} width={90} alt="logo" /></Link>
         </div>
         <div className="hidden sm:block">
           <ul className="list-none flex gap-2 md:gap-4 text-lg font-bold">
