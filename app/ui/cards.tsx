@@ -51,7 +51,7 @@ export function UserNumbersCardSingle({
         <Image src='/customers_icon.png' height={72} width={72} alt={name} className='rounded' />
     ) : name === "driver" ? (
         <Image
-          src="/dashboard.png"
+          src="/users_icon.png"
           height={72}
           width={72}
           alt={name}
