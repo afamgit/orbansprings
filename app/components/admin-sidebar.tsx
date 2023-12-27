@@ -1,6 +1,7 @@
 'use client'
 
 import Link from "next/link"
+import Image from "next/image";
 import { FaSquareFull } from "react-icons/fa"
 import { CiGrid42 } from "react-icons/ci";
 import { BiTachometer, BiMessageDetail } from "react-icons/bi";
@@ -9,6 +10,7 @@ import { RiPagesLine, RiQuestionAnswerFill, RiTeamLine } from "react-icons/ri";
 import { MdBusinessCenter } from "react-icons/md";
 import { TbBriefcase2, TbCurrencyDollar } from "react-icons/tb";
 import { usePathname } from "next/navigation";
+import { CommissionIcon, CommissionIconWhite, ComplaintsIcon, ComplaintsIconWhite, DashboardIcon, DashboardIconWhite, MeterIcon, MeterIconWhite } from "./svgicons";
 
 export function AdminSideBar () {
 
@@ -19,17 +21,17 @@ export function AdminSideBar () {
     <div className="text-white mt-3">    
           <Link className='p-3' href='/account/dashboard'>
                 <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${(pathname?.endsWith('dashboard') || pathname?.endsWith('account')) && 'bg-slate-100 text-sky-400'}`}>
-                    <CiGrid42 className='h-8 w-8 mr-2' /> Dashboard
+                    {(pathname?.endsWith('dashboard') || pathname?.endsWith('account')) ? <DashboardIcon /> : <DashboardIconWhite />} <span className="ml-2">Dashboard</span> 
                 </div>
             </Link>
             <Link href='/account/meters'>
                 <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${(pathname?.endsWith('meters') || pathname?.endsWith('numbers')) && 'bg-slate-100 text-sky-400'}`}>
-                    <BiTachometer className='h-8 w-8 mr-2' /> Meters
+                {(pathname?.endsWith('meters') || pathname?.endsWith('numbers')) ? <MeterIcon /> : <MeterIconWhite />} <span className="ml-2">Meters</span> 
                 </div>
             </Link>
             <Link className='p-3' href='/account/commissions'>
                 <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${(pathname?.endsWith('commissions') || pathname?.endsWith('vendors')) && 'bg-slate-100 text-sky-400'}`}>
-                    <MdBusinessCenter className='h-8 w-8 mr-2' /> Commissions
+                {(pathname?.endsWith('commissions') || pathname?.endsWith('vendors')) ? <CommissionIcon /> : <CommissionIconWhite />} <span className="ml-2">Commissions</span> 
                 </div>
             </Link>
             <Link className='p-3' href='/account/users'>
@@ -39,7 +41,7 @@ export function AdminSideBar () {
             </Link>
             <Link className='p-3' href='/account/complaints'>
                 <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${pathname?.endsWith('complaints') && 'bg-slate-100 text-sky-400'}`}>
-                    <BiMessageDetail className='h-8 w-8 mr-2' /> Complaints
+                {pathname?.endsWith('complaints') ? <ComplaintsIcon /> : <ComplaintsIconWhite />} <span className="ml-2">Complaints</span> 
                 </div>
             </Link>
             <Link className='p-3' href='/account/content-pages'>
