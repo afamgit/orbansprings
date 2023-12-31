@@ -573,6 +573,16 @@ model usercat {
   usercatdesc  String @db.VarChar(250)
 }
 
+model complaints_replies {
+  creplyid      Int      @id @default(autoincrement())
+  complaintid   Int
+  creplysubject String   @db.VarChar(200)
+  creplyname    String   @db.VarChar(100)
+  creplyphone   String   @db.VarChar(50)
+  creplymessage String   @db.Text
+  createdAt     DateTime @db.DateTime(0)
+}
+
 enum order_table_last_update_by {
   customer
   staff

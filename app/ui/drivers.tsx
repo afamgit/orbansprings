@@ -31,7 +31,6 @@ export default async function Drivers({
       <h4 className='mr-2 text-2xl'>{driver?.name} - </h4>
       <h5 className='text-2xl'>{driver?.area}</h5>
     </div>
-    <div className='text-gray-600 text-xl'>{driver?.drv_vehicle_license_plate_no}</div>
   </div>
   return driverBox
 
@@ -78,23 +77,23 @@ const volumeSold = async (userid: number) => {
 
 
       return (
-        <main className='w-full flex flex-col justify-start items-start'>
+        <main className='w-full md:w-[1100px] mx-auto flex flex-col justify-start items-start'>
 
 <div className='w-full flex justify-between iteams-center my-2 py-2'>
              <h1 className='font-bold text-2xl'>Drivers ({total})</h1>         
          </div> 
 
          
-        <div className='w-full bg-white'>
+         <div className='w-full bg-white'>
          <table cellPadding={10} className="w-full table-auto p-3 md:p-5">
   <thead>
   <tr className='bg-sky-200 px-2 py-1'>
       <th className='text-start'>#</th>
       <th className='text-start'>Driver's Name</th>
+      <th className='text-start'>Plate no.</th>
       <th className='text-start'>Volume Sold(gl)</th>
-      <th className='text-start'>Total Commission (NGN)</th>
-      <th className='text-start'>Paid Commission (NGN)</th>
-      <th className='text-start'>Outstanding</th>
+      <th className='text-start'>Subscription Plan</th>
+      <th className='text-start'>Date Joined</th>
       <th className='flex justify-end'>Action</th>
     </tr>
   </thead>
@@ -105,10 +104,10 @@ const volumeSold = async (userid: number) => {
             <tr key={i} className='border-b-slate-100 border-b-2'>
             <td>{++i}</td>
             <td>{getDriverDetails(parseInt(item.id))}</td>
-            <td>{volumeSold(parseInt(item.id))}</td>
-            <td>{totalCommission(parseInt(item.id))}</td>
-            <td className='text-green-600'>{paidCommission(parseInt(item.id))}</td>
-            <td className='text-red-500'>{getDriverOutstanding(parseInt(item.id))}</td>
+            <td>{item.drv_vehicle_license_plate_no}</td>
+           <td>{volumeSold(parseInt(item.id))}</td>
+            <td>{item.subscription_plan}</td>
+            <td>{item.createdAt}</td>
             <td className='flex justify-end'><UpdateUser user={item} /> <DeleteUser id={id} /></td>
           </tr>
         )

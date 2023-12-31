@@ -15,6 +15,7 @@ import Users from '@/app/ui/users'
 import { UserNumbersCard, UserNumbersCardPlain } from '@/app/ui/cards'
 import Drivers from '@/app/ui/drivers'
 import UsersByNumbers from '@/app/components/users-by-numbers'
+import { FleetDriverWhite } from '@/app/components/svgicons'
 
 export const metadata: Metadata = {
   title: 'Users',
@@ -39,8 +40,8 @@ export default async function Page({
     })
 
     return (
-        <main className='w-full flex flex-col justify-center items-center'>
-        <div className='w-full flex flex-col justify-start items-start'>
+      <main className='w-full md:w-[1100px] flex flex-col justify-center items-center'>
+        <div className='w-full flex justify-end items-start'>
            <Breadcrumbs
             breadcrumbs={[
               { label: 'Account', href: '/account' },
@@ -64,6 +65,7 @@ export default async function Page({
           <div className='w-full flex justofy-start items-center m-2 p-3'>
             <Link className='text-4xl text-gray-400 font-medium' href='/account/users'>Customers</Link>
             <Link className='text-4xl text-gray-900 font-medium px-4' href='/account/users/drivers'>Drivers</Link>
+            <Link className='text-4xl text-gray-400 font-medium px-4' href='/account/users/vendors'>Vendors</Link>
             <Link className='text-4xl text-gray-400 font-medium' href='/account/users/merchants'>Merchants</Link>
             </div>
 

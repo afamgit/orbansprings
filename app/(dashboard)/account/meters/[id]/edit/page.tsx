@@ -20,8 +20,8 @@ export default async function Team({params}: {params: {id: string}}) {
     const customers = await fetchCustomers()
 
     return (
-        <main className='w-full flex flex-col justify-center items-center'>
-        <div className='w-full flex flex-col justify-start items-start'>
+      <main className='w-full md:w-[1100px] flex flex-col justify-center items-center'>
+      <div className='w-full flex justify-end items-start'>
           <Breadcrumbs
             breadcrumbs={[
               { label: 'Account', href: '/account' },

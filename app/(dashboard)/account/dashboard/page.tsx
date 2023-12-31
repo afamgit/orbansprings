@@ -18,11 +18,8 @@ export default async function Page() {
   const profile = await getUserFromEmail(usremail)
 
   return (
-    <main className="w-full flex flex-col justify-start items-center flex-wrap">
-      <div className="w-full flex justify-between iteams-center my-2 py-2">
-        <h1 className="font-bold text-2xl">Dashboard</h1>
-      </div>
-
+    <main className='w-full md:w-[1100px] flex flex-col justify-center items-center'>
+         
 
       {profile?.role === 'admin' && <AdminDashboard />}
         {profile?.role === 'fleetownerdriver' && <FleetOwnerDashboard />}

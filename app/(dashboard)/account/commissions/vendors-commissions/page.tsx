@@ -7,6 +7,7 @@ import { fetchVendors } from '@/app/utils/data'
 import Vendors from '@/app/ui/vendors'
 import { ExpectedCommission } from '@/app/ui/cards'
 import { prisma } from '@/scripts'
+import VendorsCommissions from '@/app/ui/vendors-commissions'
 
 
 export const metadata: Metadata = {
@@ -45,8 +46,8 @@ export default async function Page({
 
 
     return (
-        <main className='w-full flex flex-col justify-center items-center'>
-        <div className='w-full flex flex-col justify-start items-start'>
+      <main className='w-full md:w-[1100px] flex flex-col justify-center items-center'>
+      <div className='w-full flex justify-end items-start'>
            <Breadcrumbs
             breadcrumbs={[
               { label: 'Account', href: '/account' },
@@ -58,7 +59,7 @@ export default async function Page({
 
             <div className='w-full flex justofy-start items-center m-2 p-3'>
             <Link className='text-4xl text-gray-400 font-medium' href='/account/commissions'>Drivers</Link>
-            <Link className='text-4xl text-gray-900 font-medium px-4' href='/account/commissions/vendors'>Vendors</Link>
+            <Link className='text-4xl text-gray-900 font-medium px-4' href='/account/commissions/vendors-commissions'>Vendors</Link>
             </div>
 
             <div className='w-full grid grid-cols-3 gap-5'>
@@ -72,7 +73,7 @@ export default async function Page({
               <h2 className='text-3xl'>Overall Vendor's Commission</h2>
             </div>
 
-         <Vendors query={query} currentPage={currentPage} />
+         <VendorsCommissions query={query} currentPage={currentPage} />
 
 
 <div className="mt-5 flex w-full justify-center">

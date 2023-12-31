@@ -37,8 +37,8 @@ export default async function Page({
     const total = await fetchMeters(query)
 
       return (
-        <main className='w-full flex flex-col justify-center items-center'>
-        <div className='w-full flex flex-col justify-start items-start'>
+        <main className='w-full md:w-[1100px] flex flex-col justify-center items-center'>
+        <div className='w-full flex justify-end items-start'>
           <Breadcrumbs
             breadcrumbs={[
               { label: 'Account', href: '/account' },

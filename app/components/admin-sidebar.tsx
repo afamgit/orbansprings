@@ -10,7 +10,7 @@ import { RiPagesLine, RiQuestionAnswerFill, RiTeamLine } from "react-icons/ri";
 import { MdBusinessCenter } from "react-icons/md";
 import { TbBriefcase2, TbCurrencyDollar } from "react-icons/tb";
 import { usePathname } from "next/navigation";
-import { CommissionIcon, CommissionIconWhite, ComplaintsIcon, ComplaintsIconWhite, DashboardIcon, DashboardIconWhite, MeterIcon, MeterIconWhite } from "./svgicons";
+import { CommissionIcon, CommissionIconWhite, ComplaintsIcon, ComplaintsIconWhite, DashboardIcon, DashboardIconWhite, MeterIcon, MeterIconWhite, Users, UsersWhite } from "./svgicons";
 
 export function AdminSideBar () {
 
@@ -19,48 +19,48 @@ export function AdminSideBar () {
 
      return (
     <div className="text-white mt-3">    
-          <Link className='p-3' href='/account/dashboard'>
-                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${(pathname?.endsWith('dashboard') || pathname?.endsWith('account')) && 'bg-slate-100 text-sky-400'}`}>
+          <Link className='px-3 py-4' href='/account/dashboard'>
+                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${(pathname?.endsWith('dashboard') || pathname?.endsWith('account')) && 'bg-slate-100 text-sky-400 py-3'}`}>
                     {(pathname?.endsWith('dashboard') || pathname?.endsWith('account')) ? <DashboardIcon /> : <DashboardIconWhite />} <span className="ml-2">Dashboard</span> 
                 </div>
             </Link>
-            <Link href='/account/meters'>
-                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${(pathname?.endsWith('meters') || pathname?.endsWith('numbers')) && 'bg-slate-100 text-sky-400'}`}>
+            <Link className='px-3 py-4' href='/account/meters'>
+                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${(pathname?.endsWith('meters') || pathname?.endsWith('numbers')) && 'bg-slate-100 text-sky-400 py-3'}`}>
                 {(pathname?.endsWith('meters') || pathname?.endsWith('numbers')) ? <MeterIcon /> : <MeterIconWhite />} <span className="ml-2">Meters</span> 
                 </div>
             </Link>
-            <Link className='p-3' href='/account/commissions'>
-                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${(pathname?.endsWith('commissions') || pathname?.endsWith('vendors')) && 'bg-slate-100 text-sky-400'}`}>
-                {(pathname?.endsWith('commissions') || pathname?.endsWith('vendors')) ? <CommissionIcon /> : <CommissionIconWhite />} <span className="ml-2">Commissions</span> 
+            <Link className='px-3 py-4' href='/account/commissions'>
+                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${pathname?.endsWith('commissions') && 'bg-slate-100 text-sky-400 py-3'}`}>
+                {pathname?.endsWith('commissions') ? <CommissionIcon /> : <CommissionIconWhite />} <span className="ml-2">Commissions</span> 
                 </div>
             </Link>
-            <Link className='p-3' href='/account/users'>
-                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${pathname?.endsWith('users') && 'bg-slate-100 text-sky-400'}`}>
-                    <FaUsers className='h-8 w-8 mr-2' /> Users
+            <Link className='px-3 py-4' href='/account/users'>
+                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${(pathname?.endsWith('users') || pathname?.endsWith('drivers') || pathname?.endsWith('vendors') ||pathname?.endsWith('merchants')) && 'bg-slate-100 text-sky-400 py-3'}`}>
+                {pathname?.endsWith('users') || pathname?.endsWith('drivers') || pathname?.endsWith('vendors') ||pathname?.endsWith('merchants') ? <Users /> : <UsersWhite />} <span className="ml-2">Users</span>
                 </div>
             </Link>
-            <Link className='p-3' href='/account/complaints'>
-                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${pathname?.endsWith('complaints') && 'bg-slate-100 text-sky-400'}`}>
+            <Link className='px-3 py-4' href='/account/complaints'>
+                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${pathname?.endsWith('complaints') && 'bg-slate-100 text-sky-400 py-3'}`}>
                 {pathname?.endsWith('complaints') ? <ComplaintsIcon /> : <ComplaintsIconWhite />} <span className="ml-2">Complaints</span> 
                 </div>
             </Link>
-            <Link className='p-3' href='/account/content-pages'>
-                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${pathname?.endsWith('pages') && 'bg-slate-100 text-sky-400'}`}>
+            <Link className='px-3 py-4' href='/account/content-pages'>
+                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${pathname?.endsWith('pages') && 'bg-slate-100 text-sky-400 py-3'}`}>
                     <RiPagesLine className='h-8 w-8 mr-2' /> Pages
                 </div>
             </Link>
-            <Link className='p-3' href='/account/teams'>
-                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${pathname?.endsWith('teams') && 'bg-slate-100 text-sky-400'}`}>
+            <Link className='px-3 py-4' href='/account/teams'>
+                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${pathname?.endsWith('teams') && 'bg-slate-100 text-sky-400 py-3'}`}>
                     <RiTeamLine className='h-8 w-8 mr-2' /> Team Members
                 </div>
             </Link>
-            <Link className='p-3' href='/account/testimonials'>
-                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${pathname?.endsWith('testimonials') && 'bg-slate-100 text-sky-400'}`}>
+            <Link className='px-3 py-4' href='/account/testimonials'>
+                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${pathname?.endsWith('testimonials') && 'bg-slate-100 text-sky-400 py-3'}`}>
                     <BiMessageDetail className='h-8 w-8 mr-2' /> Testimonials
                 </div>
             </Link>
-            <Link className='p-3' href='/account/faqs'>
-                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${pathname?.endsWith('faqs') && 'bg-slate-100 text-sky-400'}`}>
+            <Link className='px-3 py-4' href='/account/faqs'>
+                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${pathname?.endsWith('faqs') && 'bg-slate-100 text-sky-400 py-3'}`}>
                     <RiQuestionAnswerFill className='h-8 w-8 mr-2' /> FAQs
                 </div>
             </Link>

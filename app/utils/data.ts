@@ -246,7 +246,7 @@ export async function fetchFilteredUsers(
 
   try {
     const users = await prisma.users.findMany({
-      where: { role: 'customer' },
+      where: {AND:[{role: 'customer' }, {OR:[{name: {contains:query}},{email:{contains: query}}, {phone: {contains: query}},{username:{contains:query}}]}]},
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -279,7 +279,7 @@ export async function fetchFilteredDrivers(
 
   try {
     const users = await prisma.users.findMany({
-      where: { role: 'driver' },
+      where: {AND:[{role: 'driver' }, {OR:[{name: {contains:query}},{email:{contains: query}}, {phone: {contains: query}},{username:{contains:query}},{drv_vehicle_license_plate_no: {contains: query}}]}]},
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -311,7 +311,7 @@ export async function fetchFilteredVendors(
 
   try {
     const vendors = await prisma.users.findMany({
-      where: { OR: [{ role: 'plumber' }, { role: 'tank cleaner' }] },
+      where: {AND: [{OR:[{role: 'plumber' }, {role: 'tank cleaner'}]}, {OR:[{name: {contains:query}},{email:{contains: query}}, {phone: {contains: query}},{username:{contains:query}}]}]},
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -332,7 +332,20 @@ export async function fetchVendors(query: string) {
     return totalPages;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch merchants.');
+    throw new Error('Failed to fetch vendors.');
+  }
+}
+
+export async function fetchUserVendors(query: string) {
+  try {
+    const vendors = await prisma.users.count({
+      where: {OR:[{role: 'plumber'}, {role: 'tank cleaner'}]}
+    })
+    const totalPages = Math.ceil(Number(vendors) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch vendors.');
   }
 }
 
@@ -344,7 +357,7 @@ export async function fetchFilteredMerchants(
 
   try {
     const users = await prisma.users.findMany({
-      where: { OR: [{ role: 'fleetownerdriver' }, { role: 'fleetownerplumber' }] },
+      where: {AND: [{OR:[{ role: 'fleetownerdriver' }, { role: 'fleetownerplumber' }]}, {OR:[{name: {contains:query}},{email:{contains: query}}, {phone: {contains: query}},{username:{contains:query}}]}]},
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -407,6 +420,7 @@ export async function fetchFilteredComplaints(
 
   try {
     const complaints = await prisma.contact_messages.findMany({
+      orderBy: {createdAt: 'desc'},
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -425,6 +439,39 @@ export async function fetchComplaints(query: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch complaints.');
+  }
+}
+
+
+
+export async function fetchFilteredNotifications(
+  query: string,
+  currentPage: number,
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const notifications = await prisma.usermessages.findMany({
+      where: {NOT:{umsg_cat: 'Announcement'}},
+      orderBy: {umsg_time: 'desc'},
+      skip: offset,
+      take: ITEMS_PER_PAGE
+    })
+    return notifications;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch notifications.');
+  }
+}
+
+export async function fetchNotifications(query: string) {
+  try {
+    const notifications = await prisma.usermessages.count()
+    const totalPages = Math.ceil(Number(notifications) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch notifications.');
   }
 }
 

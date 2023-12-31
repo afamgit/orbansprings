@@ -667,6 +667,38 @@ return redirect('/contact-confirmation')
 
 }
 
+export async function replyComplaint(id: string, prevState: any, formData: FormData) {
+  const schema = z.object({
+    name: z.string(),
+    phone: z.string(),
+    subject: z.string(),
+    message: z.string(),
+  })
+  const data = schema.parse({
+      name: formData.get('name'),
+      phone: formData.get('phone'),
+      subject: formData.get('subject'),
+      message: formData.get('message'),
+})
+
+try {
+  await prisma.complaints_replies.create({
+     data: {
+      complaintid: parseInt(id),
+      creplyname: data.name,
+      creplyphone: data.phone,
+      creplysubject: data.subject,
+      creplymessage: data.message,
+      createdAt: new Date(),      
+     }
+})
+} catch (e) {
+  return { message: 'Failed to reply message' }
+}
+
+return redirect('/account/complaints')
+
+}
 
 export async function createUser(prevState: any, formData: FormData) {
   const schema = z.object({

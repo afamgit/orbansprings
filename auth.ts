@@ -15,7 +15,7 @@ export type User = {
     username: string;
     email: string;
     password: string;
-    role: string
+    role: string;
   };
 
 
@@ -62,7 +62,8 @@ export async function getUser(username: string): Promise<User | undefined | null
             username: true,
             email: true,
             password:true,
-            role: true
+            role: true,
+            photo: true
         }
       });
 

@@ -30,40 +30,16 @@ export default async function Page({
 }) {
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
-
-  const groupUsers = await prisma.users.groupBy({
-    by: ['role'],
-    _count: {id: true} 
-    })
       
     const total = await fetchUsers(query)
-
-    const totalUsers = await prisma.users.count({
-      where: {NOT:{role: 'admin'}}
-    })
-    const totalCustomers = await prisma.users.count({
-      where: {role: 'customer'}
-    })    
-    
-    const totalDrivers = await prisma.users.count({
-      where: {role: 'driver'}
-    })    
-    
-    const totalVendors = await prisma.users.count({
-      where: {OR:[{role: 'plumber'}, {role: 'tank cleaner'}]}
-    })    
-
-    const totalMerchants = await prisma.users.count({
-      where: {OR:[{role: 'fleetownerdriver'}, {role: 'fleetownerplumber'}]}
-    })
 
     const totalBasic = await prisma.users.count({
       where: {subscription_plan: 'Basic', role: 'customer'}
     })    
 
     return (
-        <main className='w-full flex flex-col justify-center items-center'>
-        <div className='w-full flex flex-col justify-start items-start'>
+      <main className='w-full md:w-[1100px] flex flex-col justify-center items-center'>
+        <div className='w-full flex justify-end items-start'>
            <Breadcrumbs
             breadcrumbs={[
               { label: 'Account', href: '/account' },
@@ -91,6 +67,7 @@ export default async function Page({
           <div className='w-full flex justofy-start items-center m-2 p-3'>
             <Link className='text-4xl text-gray-900 font-medium' href='/account/users'>Customers</Link>
             <Link className='text-4xl text-gray-400 font-medium px-4' href='/account/users/drivers'>Drivers</Link>
+            <Link className='text-4xl text-gray-400 font-medium px-4' href='/account/users/vendors'>Vendors</Link>
             <Link className='text-4xl text-gray-400 font-medium' href='/account/users/merchants'>Merchants</Link>
             </div>
 

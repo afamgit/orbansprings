@@ -20,7 +20,7 @@ function CircularProgressBar({num_meters, type}) {
   return (
     <div className='flex justify-center items-center'>
       <div className='border-1 border-gray-600 text-gray-600'>
-        <CircularProgressbar value={percentage} text={percentage} strokeWidth={10} styles={{path: {stroke: strokeColor}, text: {fill: strokeColor}}} />
+        <CircularProgressbar value={percentage} text={percentage} strokeWidth={7} styles={{path: {stroke: strokeColor}, text: {fill: strokeColor}}} />
       </div>
     </div>
   );

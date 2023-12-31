@@ -46,10 +46,9 @@ export default async function Vendors({
   })
   const vendorBox = <div className='flex flex-col'>
     <div className='flex'>
-      <h4 className='mr-2 text-2xl'>{vendor?.name} - </h4>
-      <h5 className='text-2xl'>{vendor?.area}</h5>
+      <h4 className='mr-2 text-2xl'>{vendor?.name} </h4>
     </div>
-    <div className='text-gray-600 text-xl capitalize'>{vendor?.role}</div>
+    <div className='text-gray-400 text-xl'>{vendor?.area}</div>
   </div>
   return vendorBox
 
@@ -107,10 +106,9 @@ return outstaningBox
   <tr className='bg-sky-200 px-2 py-1'>
       <th className='text-start'>#</th>
       <th className='text-start'>Vendor's Name</th>
-      <th className='text-start'>Orders Delivered</th>
-      <th className='text-start'>Total Commission (NGN)</th>
-      <th className='text-start'>Paid Commission (NGN)</th>
-      <th className='text-start'>Outstanding</th>
+      <th className='text-start'>Vendor Type</th>
+      <th className='text-start'>Total Orders Completed</th>
+      <th className='text-start'>Orders Cancelled</th>
       <th className='flex justify-end'>Action</th>
     </tr>
   </thead>
@@ -121,10 +119,9 @@ return outstaningBox
             <tr key={i} className='border-b-slate-100 border-b-2'>
             <td>{++i}</td>
             <td>{getVendorDetails(parseInt(item.id))}</td>
-            <td>{ordersDelivered(parseInt(item.id))}</td>
+            <td className='capitalize'>{item.role}</td>
             <td>{totalCommissions(parseInt(item.id))}</td>
             <td>{paidCommission(parseInt(item.id))}</td>
-            <td>{getVendorOutstanding(parseInt(item.id))}</td>
             <td className='flex justify-end'><UpdateUser user={item} /> <DeleteUser id={id} /></td>
           </tr>
         )
