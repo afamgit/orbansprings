@@ -70,7 +70,7 @@ export default async function AdminLayout({
 
       </div>
       <div className='w-full md:max-w-[1200px] mx-auto'>
-      <div className='p-2 md:p-6 sticky top-0 bg-white flex justify-between items-center'><div className='w-1/2'><SearchBar /></div> <div className='flex justify-between items-center w-[220px]'><Link href='/account/notifications'><Bell /></Link> <div className='flex justify-start items-center bg-sky-100 w-[180px] rounded px-3 py-2 '>{profile?.username} <Image className='rounded-full' src={`/${profile?.photo}`} height={50} width={50} alt="logo" />  <SignOut /></div></div></div>
+      {/* <div className='p-2 md:p-6 sticky top-0 bg-white flex justify-between items-center'><div className='w-1/2'><SearchBar /></div> <div className='flex justify-between items-center w-[220px]'><Link href='/account/notifications'><Bell /></Link> <div className='flex justify-start items-center bg-sky-100 w-[180px] rounded px-3 py-2 '>{profile?.username} <Image className='rounded-full' src={`/${profile?.photo}`} height={50} width={50} alt="logo" />  <SignOut /></div></div></div> */}
       <div className='p-2 md:p-8 w-screen'>{children}</div>
       </div>
       </div>
