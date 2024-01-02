@@ -8,8 +8,21 @@ export const metadata: Metadata = {
     title: 'Press',
   };
 
+  export async function generateStaticParams() {
+
+    const allSlugs = await prisma.blog.findMany({
+        orderBy: {createdAt: 'desc'},
+        take:3,
+        skip: 0,
+        select: {
+            titleslug: true
+        }
+    })
+    return [allSlugs ]
+  }
+
 export default async function Page({params}: {params: {slug: string}}) {
-    const slug = params.slug;
+    const {slug} = params;
 
     const post = await prisma.blog.findFirst({
         where: {
