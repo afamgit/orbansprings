@@ -1,9 +1,26 @@
 export const formatCurrency = (amount: number) => {
+  if(amount === 0) {
+    return 'NGN - - -'
+  }
   return (amount).toLocaleString('en-US', {
     style: 'currency',
     currency: 'NGN',
   });
 };
+
+export const formatAmount = (amount: number) => {
+  if (amount > 0) {
+    const formatter = Intl.NumberFormat("en");
+    return `${formatter.format(amount)}.00`;
+  } else {
+    return `-`;
+  }
+};
+
+export function addOneYear(date: any) {
+  date.setFullYear(date.getFullYear() + 1);
+  return date;
+}
 
 export const formatDateToLocal = (
   dateStr: string,

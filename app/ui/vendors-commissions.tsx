@@ -1,25 +1,27 @@
 import { prisma } from '@/scripts'
 import Image from 'next/image';
 import Link from 'next/link';
-import { fetchFilteredDrivers, fetchFilteredUsers, fetchFilteredVendors } from '../utils/data';
+import { fetchFilteredDrivers, fetchFilteredUsers, fetchFilteredVendors, fetchFilteredVendorsCommissions } from '../utils/data';
 import { UpdateUser, DeleteUser } from '@/app/ui/buttons'
 import moment from 'moment';
+import { formatAmount } from '../utils/utils';
 
 export default async function VendorsCommissions({
-    query,
-    currentPage,
-  }: {
-    query: string;
-    currentPage: number;
-  }) { 
+  query,
+  currentPage,
+  fType,
+  fSubType
+}: {
+  query: string;
+  currentPage: number;
+  fType: string;
+  fSubType: string;
+}) { 
 
-    const getVendors = await fetchFilteredVendors(query, currentPage);
+    const getVendors = await fetchFilteredVendorsCommissions(query, currentPage, fType, fSubType);
 
     const allVendors = JSON.parse(JSON.stringify(getVendors))
 
-    const total = await prisma.users.count({
-        where: {OR:[{role: 'plumber'}, {role:'tank cleaner'}]}
-    })
 
     const ordersDelivered = async (userid: number) => {
       const total = await prisma.transactions.aggregate({
@@ -96,10 +98,6 @@ return outstaningBox
       return (
         <main className='w-full md:w-[1100px] mx-auto flex flex-col justify-start items-start'>
 
-<div className='w-full flex justify-between iteams-center my-2 py-2'>
-             <h1 className='font-bold text-2xl'>Vendors ({total})</h1>         
-         </div> 
-
          
         <div className='w-full bg-white'>
          <table cellPadding={10} className="w-full table-auto p-3 md:p-5">
@@ -111,7 +109,6 @@ return outstaningBox
       <th className='text-start'>Total Commission (NGN)</th>
       <th className='text-start'>Paid Commission (NGN)</th>
       <th className='text-start'>Outstanding</th>
-      <th className='flex justify-end'>Action</th>
     </tr>
   </thead>
   <tbody>
@@ -120,12 +117,11 @@ return outstaningBox
         return (
             <tr key={i} className='border-b-slate-100 border-b-2'>
             <td>{++i}</td>
-            <td>{getVendorDetails(parseInt(item.id))}</td>
-            <td>{ordersDelivered(parseInt(item.id))}</td>
-            <td>{totalCommissions(parseInt(item.id))}</td>
-            <td>{paidCommission(parseInt(item.id))}</td>
-            <td>{getVendorOutstanding(parseInt(item.id))}</td>
-            <td className='flex justify-end'><UpdateUser user={item} /> <DeleteUser id={id} /></td>
+            <td>{getVendorDetails(parseInt(item.driverid))}</td>
+            <td>1</td>
+            <td className='text-end'>{formatAmount(item.commission)}</td>
+            <td className='text-green-600 text-end'>{item.paymentstatus === 'Paid' ? formatAmount(item.commission) : '-'}</td>
+            <td className='text-red-500 text-end'>{item.paymentstatus === 'Unpaid' ? formatAmount(item.commission) : '-'}</td>
           </tr>
         )
     }

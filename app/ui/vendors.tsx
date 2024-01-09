@@ -122,7 +122,7 @@ return outstaningBox
             <td className='capitalize'>{item.role}</td>
             <td>{totalCommissions(parseInt(item.id))}</td>
             <td>{paidCommission(parseInt(item.id))}</td>
-            <td className='flex justify-end'><UpdateUser user={item} /> <DeleteUser id={id} /></td>
+            <td className='flex justify-end'><DeleteUser id={id} /></td>
           </tr>
         )
     }

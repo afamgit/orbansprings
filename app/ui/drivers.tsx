@@ -8,12 +8,16 @@ import moment from 'moment';
 export default async function Drivers({
     query,
     currentPage,
+    subType,
+    location
   }: {
     query: string;
     currentPage: number;
+    subType: string;
+    location: string;
   }) { 
 
-    const getDrivers = await fetchFilteredDrivers(query, currentPage);
+    const getDrivers = await fetchFilteredDrivers(query, currentPage, subType, location);
 
     const allDrivers = JSON.parse(JSON.stringify(getDrivers))
 
@@ -27,24 +31,13 @@ export default async function Drivers({
       select: {id:true, name:true, area:true, areagroup: true, drv_vehicle_license_plate_no:true}
   })
   const driverBox = <div className='flex flex-col'>
-    <div className='flex'>
+      <Link className='font-bold' href={`/account/users/${userid}/driver-detail?showDialog=y`}>
+        <div className='flex'>
       <h4 className='mr-2 text-2xl'>{driver?.name} - </h4>
       <h5 className='text-2xl'>{driver?.area}</h5>
-    </div>
+    </div></Link>
   </div>
   return driverBox
-
-}
-
-const getDriverOutstanding = async (userid: number) => {
-  const driver = await prisma.users.findUnique({
-  where: {id: userid},
-  select: {id:true, commissions_outstanding:true}
-})
-const driverBox = <div className='flex flex-col'>
-<div className='text-xl'>{driver?.commissions_outstanding}</div>
-</div>
-return driverBox
 
 }
 
@@ -57,24 +50,6 @@ const volumeSold = async (userid: number) => {
 
   return total. _sum.mt_volume_delivered || '-'
 }
-    const totalCommission = async (userid: number) => {
-        const total = await prisma.transactions.aggregate({
-          where: {driverid: userid},
-          _sum: {commission: true}
-        })
-      
-        return total. _sum.commission || null
-      }
-   
-      const paidCommission = async (userid: number) => {
-        const total = await prisma.driver_payments.aggregate({
-          where: {dpaydriver: userid},
-          _sum: {dpayoutstanding: true}
-        })
-      
-        return total. _sum.dpayoutstanding || '-'
-      }
-
 
       return (
         <main className='w-full md:w-[1100px] mx-auto flex flex-col justify-start items-start'>
@@ -103,12 +78,12 @@ const volumeSold = async (userid: number) => {
         return (
             <tr key={i} className='border-b-slate-100 border-b-2'>
             <td>{++i}</td>
-            <td>{getDriverDetails(parseInt(item.id))}</td>
+            <td className='font-bold'><Link href={`/account/users/${item.id}/driver-detail?showDialog=y`}>{item.name}</Link></td>
             <td>{item.drv_vehicle_license_plate_no}</td>
            <td>{volumeSold(parseInt(item.id))}</td>
             <td>{item.subscription_plan}</td>
-            <td>{item.createdAt}</td>
-            <td className='flex justify-end'><UpdateUser user={item} /> <DeleteUser id={id} /></td>
+            <td>{moment(item.createdAt).format('DD/MM/YYYY')}</td>
+            <td className='flex justify-end'><DeleteUser id={id} /></td>
           </tr>
         )
     }

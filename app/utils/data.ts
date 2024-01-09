@@ -17,9 +17,9 @@ export async function getUser(email: string) {
 export async function fetchCustomers() {
   try {
     const allCustomers = await prisma.users.findMany({
-      where: {
-        role: 'customer'
-      },
+      where: {NOT:[{
+        role: 'admin'
+      }]},
       select: {
         username: true,
         name: true
@@ -241,32 +241,38 @@ export async function fetchTestimonials(query: string) {
 export async function fetchFilteredUsers(
   query: string,
   currentPage: number,
+  subType: string,
+  location: string,
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
     const users = await prisma.users.findMany({
-      where: {AND:[{role: 'customer' }, {OR:[{name: {contains:query}},{email:{contains: query}}, {phone: {contains: query}},{username:{contains:query}}]}]},
+      where: {AND:[{AND:[{role: 'customer' }, {subscription_plan: subType}, {area: {contains:location}}]}, {OR:[{name: {contains:query}},{email:{contains: query}}, {phone: {contains: query}},{username:{contains:query}}]}]},
       skip: offset,
       take: ITEMS_PER_PAGE
     })
     return users;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch users.');
+    throw new Error('Failed to fetch basic users.');
   }
 }
 
-export async function fetchUsers(query: string) {
+export async function fetchUsers(
+  query: string,
+  subType: string,
+  location: string,
+  ) {
   try {
     const users = await prisma.users.count({
-      where: { role: 'customer' }
+      where: {AND:[{ role: 'customer' }, {subscription_plan: subType}, {area: {contains:location}}]}
     })
     const totalPages = Math.ceil(Number(users) / ITEMS_PER_PAGE);
     return totalPages;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch users.');
+    throw new Error('Failed to fetch basic users.');
   }
 }
 
@@ -274,12 +280,14 @@ export async function fetchUsers(query: string) {
 export async function fetchFilteredDrivers(
   query: string,
   currentPage: number,
+  subType: string,
+  location: string,
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
     const users = await prisma.users.findMany({
-      where: {AND:[{role: 'driver' }, {OR:[{name: {contains:query}},{email:{contains: query}}, {phone: {contains: query}},{username:{contains:query}},{drv_vehicle_license_plate_no: {contains: query}}]}]},
+      where: {AND:[{AND:[{role: 'driver' }, {subscription_plan: subType}, {area: {contains:location}}]}, {OR:[{name: {contains:query}},{email:{contains: query}}, {phone: {contains: query}},{username:{contains:query}}]}]},
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -290,10 +298,14 @@ export async function fetchFilteredDrivers(
   }
 }
 
-export async function fetchUserDrivers(query: string) {
+export async function fetchUserDrivers(
+  query: string,
+  subType: string,
+  location: string,
+) {
   try {
     const users = await prisma.users.count({
-      where: { role: 'driver' }
+      where: {AND:[{ role: 'driver' }, {subscription_plan: subType}, {area: {contains:location}}]}
     })
     const totalPages = Math.ceil(Number(users) / ITEMS_PER_PAGE);
     return totalPages;
@@ -411,6 +423,224 @@ export async function fetchCommissions(query: string) {
   }
 }
 
+export async function fetchFilteredDriversCommissions(
+  query: string,
+  currentPage: number,
+  fType: string,
+  fSubType: string,
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const drvcommissions = await prisma.transactions.findMany({
+      where: {AND:{req_type: 'Water packages'}, NOT:{driverid: 0}},
+      select: {id:true, req_type:true, productid:true, driverid:true, commission:true, commission_paid:true, status:true, paymentstatus:true, createdAt:true},
+      skip: offset,
+      take: ITEMS_PER_PAGE
+    })
+    return drvcommissions;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch drivers commissions.');
+  }
+}
+
+export async function fetchDriversCommissions(query: string,  fType: string,
+  fSubType: string,
+) {
+  try {
+    const drvcommissions = await prisma.transactions.count({
+      where: {AND:{req_type: 'Water packages'}, NOT:{driverid: 0}},
+    })
+    const totalPages = Math.ceil(Number(drvcommissions) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch drivers commissions.');
+  }
+}
+
+export async function fetchFilteredVendorsCommissions(
+  query: string,
+  currentPage: number,
+  fType: string,
+  fSubType: string,
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const vendcommissions = await prisma.transactions.findMany({
+      where: {AND:{OR:[{req_type: 'Plumbing'}, {req_type: 'Tank cleaning'}]}, NOT:{driverid: 0}},
+      select: {id:true, req_type:true, productid:true, driverid:true, commission:true, commission_paid:true, status:true, paymentstatus:true, createdAt:true},
+      skip: offset,
+      take: ITEMS_PER_PAGE
+    })
+    return vendcommissions;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch vendors commissions.');
+  }
+}
+
+export async function fetchVendorsCommissions(query: string,  fType: string,
+  fSubType: string,
+) {
+  try {
+    const vendcommissions = await prisma.transactions.count({
+      where: {AND:{OR:[{req_type: 'Plumbing'}, {req_type: 'Tank cleaning'}]}, NOT:{driverid: 0}},
+    })
+    const totalPages = Math.ceil(Number(vendcommissions) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch vendors commissions.');
+  }
+}
+
+export async function fetchFilteredMerchantsFleetCommissions(
+  query: string,
+  currentPage: number,
+  fType: string,
+  fSubType: string,
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const mfleetcommissions = await prisma.transactions.findMany({
+      where: {OR:[{req_type: 'Plumbing'}, {req_type: 'Tank cleaning'}]},
+      select: {id:true, req_type:true, fleetid:true, driverid:true, commission:true, commission_paid:true, status:true, paymentstatus:true, createdAt:true},
+      skip: offset,
+      take: ITEMS_PER_PAGE
+    })
+    return mfleetcommissions;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch merchants fleet commissions.');
+  }
+}
+
+export async function fetchMerchantsFleetCommissions(query: string,  fType: string,
+  fSubType: string,
+) {
+  try {
+    const mfleetcommissions = await prisma.transactions.count({
+      where: {OR:[{req_type: 'Plumbing'}, {req_type: 'Tank cleaning'}]},
+    })
+    const totalPages = Math.ceil(Number(mfleetcommissions) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch merchants fleet commissions.');
+  }
+}
+
+export async function fetchFilteredMerchantsWaterCommissions(
+  query: string,
+  currentPage: number,
+  fType: string,
+  fSubType: string,
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const mwatercommissions = await prisma.transactions.findMany({
+      where: {OR:[{req_type: 'Plumbing'}, {req_type: 'Tank cleaning'}]},
+      select: {id:true, req_type:true, fleetid:true, driverid:true, commission:true, commission_paid:true, status:true, paymentstatus:true, createdAt:true},
+      skip: offset,
+      take: ITEMS_PER_PAGE
+    })
+    return mwatercommissions;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch merchants water commissions.');
+  }
+}
+
+export async function fetchMerchantsWaterCommissions(query: string,  fType: string,
+  fSubType: string,
+) {
+  try {
+    const mwatercommissions = await prisma.transactions.count({
+      where: {OR:[{req_type: 'Plumbing'}, {req_type: 'Tank cleaning'}]},
+    })
+    const totalPages = Math.ceil(Number(mwatercommissions) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch merchants water commissions.');
+  }
+}
+
+export async function fetchFilteredCustomerOrders(
+  query: string,
+  currentPage: number,
+  product: string,
+  id: string
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const orders = await prisma.transactions.findMany({
+      where: {AND:[{customerid: parseInt(id) }, {OR:[{productname:{contains: product}}]}]},
+      select: {id: true, productname: true, createdAt: true, status:true, orderref:true, drivername:true, driverdeliverystatus:true},
+      skip: offset,
+      take: ITEMS_PER_PAGE
+    })
+    return orders;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch customer orders.');
+  }
+}
+
+export async function fetchCustomerOrders(query: string, product: string, id: string) {
+  try {
+    const orders = await prisma.transactions.count({
+      where: {AND:[{customerid: parseInt(id) }, {OR:[{productname: {contains:product}}]}]},
+    })
+    const totalPages = Math.ceil(Number(orders) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch customer orders.');
+  }
+}
+
+
+export async function fetchFilteredDriverOrders(
+  query: string,
+  currentPage: number,
+  product: string,
+  id: string
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const orders = await prisma.transactions.findMany({
+      where: {AND:[{driverid: parseInt(id) }, {OR:[{productname:{contains: product}}]}]},
+      select: {id: true, productname: true, createdAt: true, status:true, orderref:true, drivername:true, driverdeliverystatus:true},
+      skip: offset,
+      take: ITEMS_PER_PAGE
+    })
+    return orders;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch driver orders.');
+  }
+}
+
+export async function fetchDriverOrders(query: string, product: string, id: string) {
+  try {
+    const orders = await prisma.transactions.count({
+      where: {AND:[{driverid: parseInt(id) }, {OR:[{productname: {contains:product}}]}]},
+    })
+    const totalPages = Math.ceil(Number(orders) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch driver orders.');
+  }
+}
 
 export async function fetchFilteredComplaints(
   query: string,

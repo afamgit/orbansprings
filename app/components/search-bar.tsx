@@ -14,6 +14,8 @@ export function SearchBar () {
         const params = new URLSearchParams(searchParams)
 
         params.set('page','1')
+        params.delete('subscription')
+        params.delete('location')
 
         if(term) {
             params.set('query', term)

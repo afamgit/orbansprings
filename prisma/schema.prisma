@@ -583,6 +583,74 @@ model complaints_replies {
   createdAt     DateTime @db.DateTime(0)
 }
 
+model subscriptions {
+  subplanid          Int      @id @default(autoincrement())
+  subplantype        String   @default("Premium") @db.VarChar(25)
+  subplanusername    String   @db.VarChar(100)
+  subplanamt         Int      @default(5000)
+  subplan_from       DateTime @db.DateTime(0)
+  subplan_to         DateTime @db.DateTime(0)
+  subplan_status     String   @default("Active") @db.VarChar(15)
+  subplan_pay_status String   @default("Paid") @db.VarChar(10)
+  subplan_area       String   @db.VarChar(50)
+  subplan_admin      String   @db.VarChar(100)
+  createdAt          DateTime @db.DateTime(0)
+  updatedAt          DateTime @db.DateTime(0)
+}
+
+model order_transactions {
+  id                         Int      @id @default(autoincrement())
+  uuid                       String?  @db.Char(36)
+  orderref                   String   @db.VarChar(25)
+  productid                  Int
+  productname                String   @db.VarChar(50)
+  qty                        Int      @default(0)
+  orderdetails               String   @db.Text
+  req_type                   String   @db.VarChar(30)
+  task                       String?  @db.Text
+  howmany                    Int?     @db.TinyInt
+  amount                     Float    @db.Float
+  commission                 Float    @db.Float
+  driverfee                  Float    @db.Float
+  driverid                   Int
+  drivername                 String   @db.VarChar(100)
+  driverphone                String   @db.VarChar(30)
+  driveremail                String   @db.VarChar(100)
+  drivervehicleplateno       String   @db.VarChar(50)
+  driverphoto                String   @db.VarChar(100)
+  fleetid                    String?  @db.VarChar(50)
+  driverlatitude             Decimal  @db.Decimal(8, 6)
+  driverlongitude            Decimal  @db.Decimal(9, 6)
+  driveraccept               DateTime @db.DateTime(0)
+  customerid                 Int
+  customername               String   @db.VarChar(100)
+  customeremail              String   @db.VarChar(100)
+  customerphone              String   @db.VarChar(30)
+  customeraddress            String   @db.VarChar(255)
+  customerarea               String   @db.VarChar(75)
+  customerareagroup          String?  @db.VarChar(30)
+  third_party_delivery       String   @db.VarChar(5)
+  customerlatitude           Decimal  @db.Decimal(8, 6)
+  customerlongitude          Decimal  @db.Decimal(9, 6)
+  status                     String   @default("New") @db.VarChar(255)
+  paymentstatus              String   @default("Unpaid") @db.VarChar(255)
+  paymentmode                String   @default("Card") @db.VarChar(255)
+  paymenttime                DateTime @db.DateTime(0)
+  driverdeliverystatus       String   @db.VarChar(255)
+  driverdeliverystatustime   DateTime @db.DateTime(0)
+  driverdeliverytime         Int      @default(0)
+  customerdeliverystatus     String   @default("Waiting") @db.VarChar(255)
+  customerdeliverystatustime DateTime @db.DateTime(0)
+  customerwaittime           Int      @default(0)
+  orderprocessed             Boolean
+  commission_paid            Int      @default(0) @db.TinyInt
+  driverrating               Int?     @db.TinyInt
+  driverfeedback             String?  @db.Text
+  notes                      String   @db.VarChar(255)
+  createdAt                  DateTime @db.DateTime(0)
+  updatedAt                  DateTime @db.DateTime(0)
+}
+
 enum order_table_last_update_by {
   customer
   staff

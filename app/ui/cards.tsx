@@ -104,15 +104,22 @@ export function UserNumbersCardPlain({
   num: number;
   name: string;
 }) {
+  const numColor =
+  name === "orders completed"
+      ? "text-sky-500"
+      : name === "orders cancelled"
+      ? "text-red-500"
+            : "text-sky-500";
+
   return (
     <div
-      className={`w-[200px] h-[120px] flex flex-col justify-between items-start mx-2 py-3 px-3 rounded-lg bg-white border-1 border-slate-300`}
+      className={`w-[200px] h-[120px] flex flex-col justify-between items-start mx-2 py-3 px-3 rounded-lg bg-white border-1 border-slate-300 shadow-lg`}
     >
       <div className="flex items-center justify-center">
-        <div className="text-xl">{name}</div>
+        <div className="text-xl capitalize">{name}</div>
       </div>
       <div className="w-full flex justify-start items-start">
-        <h3 className="text-4xl font-bold text-sky-400">{num}</h3>
+        <h3 className={`text-4xl font-bold ${numColor}`}>{num}</h3>
       </div>
     </div>
   );
@@ -128,9 +135,13 @@ export function ExpectedCommission({
   const amountColor =
     title === "total expected commission"
       ? "text-green-400"
-      : title === "total received"
+      : title === "expected subscription revenue"
+      ? "text-yellow-700"
+      : title === "total received subscription"
+      ? "text-lime-400": 
+      title === "total received"
       ? "text-blue-500"
-      : "text-red-500";
+            : "text-red-500";
 
   return (
     <div

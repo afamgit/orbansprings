@@ -62,7 +62,7 @@ export default async function Drivers({
             <td>No of fleets</td>
             <td>Paid Sub</td>
             <td>Outstanding bal</td>
-            <td className='flex justify-end'><UpdateUser user={item} /> <DeleteUser id={id} /></td>
+            <td className='flex justify-end'><DeleteUser id={id} /></td>
           </tr>
         )
     }
