@@ -15,6 +15,7 @@ import Users from '@/app/ui/users'
 import { UserNumbersCard, UserNumbersCardPlain } from '@/app/ui/cards'
 import Vendors from '@/app/ui/vendors'
 import UsersByNumbers from '@/app/components/users-by-numbers'
+import { VendorType } from '@/app/components/vendor-type'
 
 export const metadata: Metadata = {
   title: 'Vendors',
@@ -26,13 +27,15 @@ export default async function Page({
   searchParams?: {
     query?: string;
     page?: string;
+    type?: string;
   };
 }) {
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
+  const type = searchParams?.type || '';
 
       
-    const total = await fetchUserVendors(query)
+    const total = await fetchUserVendors(query,type)
 
     const totalBasic = await prisma.users.count({
       where: {OR: [{role: 'fleetownerdriver'}, {role: 'fleetownerplumber'}]}
@@ -56,11 +59,6 @@ export default async function Page({
 
             <UsersByNumbers />
 
-
-            <div className='w-full my-3 py-3'>
-              <h2 className='text-3xl'>Overall Vendors List</h2>
-            </div>
-
             <div className='w-full flex justofy-start items-center m-2 p-3'>
             <Link className='text-4xl text-gray-400 font-medium' href='/account/users'>Customers</Link>
             <Link className='text-4xl text-gray-400 font-medium px-4' href='/account/users/drivers'>Drivers</Link>
@@ -68,7 +66,20 @@ export default async function Page({
             <Link className='text-4xl text-gray-400 font-medium' href='/account/users/merchants'>Merchants</Link>
             </div>
 
-         <Vendors query={query} currentPage={currentPage} />
+            <div className="w-full rounded-lg border-2 border-gray-200 p-3">
+        <div className="w-full md:flex justify-between items-center my-3 py-3">
+          <h2 className="text-3xl">Overall Vendors List</h2>
+
+          <div className="flex justify-center items-center mx-2 px-3">
+            <div className="mr-1">
+              <VendorType />
+            </div>
+          </div>
+        </div>
+        </div>
+
+
+         <Vendors query={query} currentPage={currentPage} type={type} />
 
 
 <div className="mt-5 flex w-full justify-center">

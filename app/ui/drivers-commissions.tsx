@@ -9,16 +9,18 @@ import { formatAmount } from '../utils/utils';
 export default async function DriversComissions({
     query,
     currentPage,
-    fType,
-    fSubType
+    fyear,
+    ftype,
+    fsubtype
   }: {
     query: string;
     currentPage: number;
-    fType: string;
-    fSubType: string;
+    fyear: string;
+    ftype: string;
+    fsubtype: string;
   }) { 
 
-    const getDrivers = await fetchFilteredDriversCommissions(query, currentPage, fType, fSubType);
+    const getDrivers = await fetchFilteredDriversCommissions(query, currentPage, fyear, ftype, fsubtype);
 
     const allDrivers = JSON.parse(JSON.stringify(getDrivers))
 

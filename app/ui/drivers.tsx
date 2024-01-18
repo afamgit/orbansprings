@@ -52,11 +52,7 @@ const volumeSold = async (userid: number) => {
 }
 
       return (
-        <main className='w-full md:w-[1100px] mx-auto flex flex-col justify-start items-start'>
-
-<div className='w-full flex justify-between iteams-center my-2 py-2'>
-             <h1 className='font-bold text-2xl'>Drivers ({total})</h1>         
-         </div> 
+        <main className='w-full md:w-[1100px] mx-auto flex flex-col justify-start items-start my-5'>
 
          
          <div className='w-full bg-white'>

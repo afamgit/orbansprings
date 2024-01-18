@@ -22,14 +22,14 @@ export default async function Page({
   searchParams?: {
     query?: string;
     page?: string;
-    fType?: string;
-    fSubType?: string
+    ftype?: string;
+    fsubtype?: string;
   };
 }) {
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
-  const fType = searchParams?.fType || '';
-  const fSubType = searchParams?.fSubType || '';
+  const fType = searchParams?.ftype || '';
+  const fSubType = searchParams?.fsubtype || '';
 
       
     const total = await fetchMerchantsWaterCommissions(query, fType, fSubType)  
@@ -63,11 +63,16 @@ export default async function Page({
             />
             </div>
 
-            <div className='w-full flex justofy-start items-center m-2 p-3'>
-            <Link className='text-4xl text-gray-400 font-medium' href='/account/commissions'>Drivers</Link>
-            <Link className='text-4xl text-gray-400 font-medium px-4' href='/account/commissions/vendors-commissions'>Vendors</Link>
-            <Link className='text-4xl text-gray-400 font-medium px-4' href='/account/commissions/merchants-fleet-commissions'>Merchants (Fleet)</Link>
-            <Link className='text-4xl text-gray-900 font-medium px-4' href='/account/commissions/merchants-water-commissions'>Merchants (Water)</Link>
+            <div className='w-full md:flex justify-between items-center my-3'>
+              <div className='p-2'>
+              <Link className='text-3xl text-gray-400 font-medium pr-2' href='/account/commissions'>Drivers</Link>
+            <Link className='text-3xl text-gray-400 font-medium px-2' href='/account/commissions/vendors-commissions'>Vendors</Link>
+            <Link className='text-3xl text-gray-400 font-medium px-2' href='/account/commissions/merchants-fleet-commissions'>Merchants (Fleet)</Link>
+            <Link className='text-3xl text-gray-900 font-medium px-2' href='/account/commissions/merchants-water-commissions'>Merchants (Water)</Link>
+              </div>
+              <div className='flex justify-end items-end'>
+              <FilterDate />
+              </div>
             </div>
 
             <div className='w-full grid grid-cols-3 gap-5'>
@@ -77,15 +82,8 @@ export default async function Page({
             </div>
 
 
-            <div className="w-full md:flex justify-between items-center my-3 py-3">
+            <div className="w-full justify-start items-center my-3 py-3">
             <h2 className='text-3xl'>Overall Merchants Water Commission</h2>
-
-          <div className="flex justify-center items-center mx-2 px-3">
-            <div className="mr-1">
-              <FilterDate />
-            </div>
-           
-          </div>
           </div>
 
          <MerchantWaterCommissions query={query} currentPage={currentPage} fType={fType} fSubType={fSubType} />

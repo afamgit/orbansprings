@@ -1,5 +1,8 @@
 import { prisma } from '@/scripts'
 import { createHash } from "crypto";
+import { getMonthsFromMap, getMonthsFromWeekMap, incrementNumber, monthsMap } from './utils';
+import { any } from 'zod';
+import moment from 'moment';
 
 export async function getUser(email: string) {
 
@@ -318,12 +321,13 @@ export async function fetchUserDrivers(
 export async function fetchFilteredVendors(
   query: string,
   currentPage: number,
+  type: string
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
     const vendors = await prisma.users.findMany({
-      where: {AND: [{OR:[{role: 'plumber' }, {role: 'tank cleaner'}]}, {OR:[{name: {contains:query}},{email:{contains: query}}, {phone: {contains: query}},{username:{contains:query}}]}]},
+      where: {AND: [{OR:[{role: 'plumber' }, {role: 'tank cleaner'}]}, {role: {contains: type}}, {OR:[{name: {contains:query}},{email:{contains: query}}, {phone: {contains: query}},{username:{contains:query}}]}]},
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -348,10 +352,10 @@ export async function fetchVendors(query: string) {
   }
 }
 
-export async function fetchUserVendors(query: string) {
+export async function fetchUserVendors(query: string, type: string) {
   try {
     const vendors = await prisma.users.count({
-      where: {OR:[{role: 'plumber'}, {role: 'tank cleaner'}]}
+      where: {AND:[{OR:[{role: 'plumber'}, {role: 'tank cleaner'}]}, {role: {contains:type}}]}
     })
     const totalPages = Math.ceil(Number(vendors) / ITEMS_PER_PAGE);
     return totalPages;
@@ -426,14 +430,44 @@ export async function fetchCommissions(query: string) {
 export async function fetchFilteredDriversCommissions(
   query: string,
   currentPage: number,
-  fType: string,
-  fSubType: string,
+  fyear: string,
+  ftype: string,
+  fsubtype: string,
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+  
+
+  let month, year, nextyear
+
+
+  if(ftype === 'monthly') {
+
+    month = getMonthsFromMap(fsubtype)
+    const nextMonthNumber = month === "12" ? "12" : incrementNumber(month)
+
+    year = JSON.stringify(`${fyear}-${month}-01`)
+    nextyear = JSON.stringify(`${fyear}-${nextMonthNumber}-01`)
+
+  } else if(ftype === 'weekly') {
+
+    const week = getMonthsFromWeekMap(fsubtype)
+
+    year = JSON.stringify(`${fyear}-${week[0]}`)
+    nextyear = JSON.stringify(`${fyear}-${week[1]}`)
+
+  } else {
+    let thisyearNext = "2025"
+
+    year = (fyear !== '' && fyear !== null && fyear !== 'undefined') ? JSON.stringify(`${fyear}-01-01`) : JSON.stringify("2021-01-01")
+    const followingYear = (fyear !== '' && fyear !== null && fyear !== 'undefined') ? incrementNumber(fyear)  : thisyearNext
+
+    nextyear = JSON.stringify(`${followingYear}-01-01`)
+  }
+
 
   try {
     const drvcommissions = await prisma.transactions.findMany({
-      where: {AND:{req_type: 'Water packages'}, NOT:{driverid: 0}},
+      where: {AND:{AND:[{req_type: 'Water packages'}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: 0}},
       select: {id:true, req_type:true, productid:true, driverid:true, commission:true, commission_paid:true, status:true, paymentstatus:true, createdAt:true},
       skip: offset,
       take: ITEMS_PER_PAGE
@@ -445,12 +479,41 @@ export async function fetchFilteredDriversCommissions(
   }
 }
 
-export async function fetchDriversCommissions(query: string,  fType: string,
-  fSubType: string,
+export async function fetchDriversCommissions(query: string, fyear: string, ftype: string,
+  fsubtype: string,
 ) {
+  // const month = getMonthsFromMap(fsubtype)
+
+
+  let month, year, nextyear
+
+
+  if(ftype === 'monthly') {
+
+    month = getMonthsFromMap(fsubtype)
+    const incrementYear = incrementNumber(fyear)
+    const nextMonthNumber = month === "12" ? "01" : incrementNumber(month)
+    
+    year = JSON.stringify(`${fyear}-${month}-01`)
+    nextyear = month === "12" ? JSON.stringify(`${incrementYear}-01-01`) : JSON.stringify(`${fyear}-${nextMonthNumber}-01`)
+
+  } else if(ftype === 'weekly') {
+
+    const week = getMonthsFromWeekMap(fsubtype)
+    year = JSON.stringify(`${fyear}-${week[0]}`)
+    nextyear = JSON.stringify(`${fyear}-${week[1]}`)
+
+  } else {
+    let thisyearNext = "2025"
+    year = (fyear !== '' && fyear !== null && fyear !== 'undefined') ? JSON.stringify(`${fyear}-01-01`) : JSON.stringify("2021-01-01")
+    const followingYear = (fyear !== '' && fyear !== null && fyear !== 'undefined') ? incrementNumber(fyear)  : thisyearNext
+
+    nextyear = JSON.stringify(`${followingYear}-01-01`)
+  }
+
   try {
     const drvcommissions = await prisma.transactions.count({
-      where: {AND:{req_type: 'Water packages'}, NOT:{driverid: 0}},
+      where: {AND:{AND:[{req_type: 'Water packages'}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: 0}},
     })
     const totalPages = Math.ceil(Number(drvcommissions) / ITEMS_PER_PAGE);
     return totalPages;
@@ -463,14 +526,43 @@ export async function fetchDriversCommissions(query: string,  fType: string,
 export async function fetchFilteredVendorsCommissions(
   query: string,
   currentPage: number,
-  fType: string,
-  fSubType: string,
+  fyear: string,
+  ftype: string,
+  fsubtype: string,
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
+  let month, year, nextyear
+
+
+  if(ftype === 'monthly') {
+
+    month = getMonthsFromMap(fsubtype)
+    const nextMonthNumber = month === "12" ? "12" : incrementNumber(month)
+
+    year = JSON.stringify(`${fyear}-${month}-01`)
+    nextyear = JSON.stringify(`${fyear}-${nextMonthNumber}-01`)
+
+  } else if(ftype === 'weekly') {
+
+    const week = getMonthsFromWeekMap(fsubtype)
+
+    year = JSON.stringify(`${fyear}-${week[0]}`)
+    nextyear = JSON.stringify(`${fyear}-${week[1]}`)
+
+  } else {
+    let thisyearNext = "2025"
+
+    year = (fyear !== '' && fyear !== null && fyear !== 'undefined') ? JSON.stringify(`${fyear}-01-01`) : JSON.stringify("2021-01-01")
+    const followingYear = (fyear !== '' && fyear !== null && fyear !== 'undefined') ? incrementNumber(fyear)  : thisyearNext
+
+    nextyear = JSON.stringify(`${followingYear}-01-01`)
+  }
+
+
   try {
     const vendcommissions = await prisma.transactions.findMany({
-      where: {AND:{OR:[{req_type: 'Plumbing'}, {req_type: 'Tank cleaning'}]}, NOT:{driverid: 0}},
+      where: {AND:{AND:[{OR:[{req_type: 'Plumbing'}, {req_type: 'Tank cleaning'}]}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: 0}},
       select: {id:true, req_type:true, productid:true, driverid:true, commission:true, commission_paid:true, status:true, paymentstatus:true, createdAt:true},
       skip: offset,
       take: ITEMS_PER_PAGE
@@ -482,12 +574,39 @@ export async function fetchFilteredVendorsCommissions(
   }
 }
 
-export async function fetchVendorsCommissions(query: string,  fType: string,
-  fSubType: string,
+export async function fetchVendorsCommissions(query: string, fyear: string, ftype: string,
+  fsubtype: string,
 ) {
+
+  let month, year, nextyear
+
+
+  if(ftype === 'monthly') {
+
+    month = getMonthsFromMap(fsubtype)
+    const incrementYear = incrementNumber(fyear)
+    const nextMonthNumber = month === "12" ? "01" : incrementNumber(month)
+    
+    year = JSON.stringify(`${fyear}-${month}-01`)
+    nextyear = month === "12" ? JSON.stringify(`${incrementYear}-01-01`) : JSON.stringify(`${fyear}-${nextMonthNumber}-01`)
+
+  } else if(ftype === 'weekly') {
+
+    const week = getMonthsFromWeekMap(fsubtype)
+    year = JSON.stringify(`${fyear}-${week[0]}`)
+    nextyear = JSON.stringify(`${fyear}-${week[1]}`)
+
+  } else {
+    let thisyearNext = "2025"
+    year = (fyear !== '' && fyear !== null && fyear !== 'undefined') ? JSON.stringify(`${fyear}-01-01`) : JSON.stringify("2021-01-01")
+    const followingYear = (fyear !== '' && fyear !== null && fyear !== 'undefined') ? incrementNumber(fyear)  : thisyearNext
+
+    nextyear = JSON.stringify(`${followingYear}-01-01`)
+  }
+
   try {
     const vendcommissions = await prisma.transactions.count({
-      where: {AND:{OR:[{req_type: 'Plumbing'}, {req_type: 'Tank cleaning'}]}, NOT:{driverid: 0}},
+      where: {AND:{AND:[{OR:[{req_type: 'Plumbing'}, {req_type: 'Tank cleaning'}]}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: 0}},
     })
     const totalPages = Math.ceil(Number(vendcommissions) / ITEMS_PER_PAGE);
     return totalPages;

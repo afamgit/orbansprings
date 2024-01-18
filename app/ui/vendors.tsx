@@ -8,17 +8,19 @@ import moment from 'moment';
 export default async function Vendors({
     query,
     currentPage,
+    type
   }: {
     query: string;
     currentPage: number;
+    type: string
   }) { 
 
-    const getVendors = await fetchFilteredVendors(query, currentPage);
+    const getVendors = await fetchFilteredVendors(query, currentPage, type);
 
     const allVendors = JSON.parse(JSON.stringify(getVendors))
 
     const total = await prisma.users.count({
-        where: {OR:[{role: 'plumber'}, {role:'tank cleaner'}]}
+        where: {AND:[{OR:[{role: 'plumber'}, {role:'tank cleaner'}]},{role: {contains:type}}]}
     })
 
     const ordersDelivered = async (userid: number) => {

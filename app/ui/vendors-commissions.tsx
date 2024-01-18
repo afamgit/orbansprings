@@ -9,16 +9,18 @@ import { formatAmount } from '../utils/utils';
 export default async function VendorsCommissions({
   query,
   currentPage,
-  fType,
-  fSubType
+  fyear,
+  ftype,
+  fsubtype
 }: {
   query: string;
   currentPage: number;
-  fType: string;
-  fSubType: string;
+  fyear: string;
+  ftype: string;
+  fsubtype: string;
 }) { 
 
-    const getVendors = await fetchFilteredVendorsCommissions(query, currentPage, fType, fSubType);
+    const getVendors = await fetchFilteredVendorsCommissions(query, currentPage, fyear, ftype, fsubtype);
 
     const allVendors = JSON.parse(JSON.stringify(getVendors))
 

@@ -9,9 +9,10 @@ import { ExpectedCommission } from '@/app/ui/cards'
 import { prisma } from '@/scripts'
 import DriversComissions from '@/app/ui/drivers-commissions'
 import { FilterDate } from '@/app/components/filter-date'
+import { getMonthsFromMap, getMonthsFromWeekMap, incrementNumber } from '@/app/utils/utils'
 
 export const metadata: Metadata = {
-  title: 'Commissions',
+  title: 'Commissions | Drivers',
 };
 
 export default async function Page({
@@ -20,32 +21,61 @@ export default async function Page({
   searchParams?: {
     query?: string;
     page?: string;
-    fType?: string;
-    fSubType?: string
+    fyear?: string;
+    ftype?: string;
+    fsubtype?: string;
   };
 }) {
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
-  const fType = searchParams?.fType || '';
-  const fSubType = searchParams?.fSubType || '';
+  const fyear = searchParams?.fyear || '';
+  const ftype = searchParams?.ftype || '';
+  const fsubtype = searchParams?.fsubtype || '';
 
       
+  let month, year, nextyear
+
+
+  if(ftype === 'monthly') {
+
+    month = getMonthsFromMap(fsubtype)
+    const nextMonthNumber = month === "12" ? "12" : incrementNumber(month)
+
+    year = JSON.stringify(`${fyear}-${month}-01`)
+    nextyear = JSON.stringify(`${fyear}-${nextMonthNumber}-01`)
+
+  } else if(ftype === 'weekly') {
+
+    const week = getMonthsFromWeekMap(fsubtype)
+
+    year = JSON.stringify(`${fyear}-${week[0]}`)
+    nextyear = JSON.stringify(`${fyear}-${week[1]}`)
+
+  } else {
+    let thisyearNext = "2025"
+    year = (fyear !== '' && fyear !== null && fyear !== 'undefined') ? JSON.stringify(`${fyear}-01-01`) : JSON.stringify("2021-01-01")
+    const followingYear = (fyear !== '' && fyear !== null && fyear !== 'undefined') ? incrementNumber(fyear)  : thisyearNext
+    nextyear = JSON.stringify(`${followingYear}-01-01`)
+  }
+
+
+
   const totalCommissions = await prisma?.transactions.aggregate({
-    where: {req_type: 'Water packages'},
+    where: {AND:{AND:[{req_type: 'Water packages'}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: 0}},
     _sum: {commission: true}
   })
 
   const totalPaid = await prisma?.transactions.aggregate({
-    where: {AND:[{req_type: 'Water packages'},{paymentstatus: 'Paid'}]},
+    where: {AND:{AND:[{req_type: 'Water packages'}, {paymentstatus: 'Paid'}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: 0}},
     _sum: {commission: true}
   })
 
   const totalOutstaniding = await prisma?.transactions.aggregate({
-    where: {AND:[{req_type: 'Water packages'},{paymentstatus: 'Unpaid'}]},
+    where: {AND:{AND:[{req_type: 'Water packages'}, {paymentstatus: 'Unpaid'}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: 0}},
     _sum: {commission: true}
   })
 
-  const total = await fetchDriversCommissions(query, fType, fSubType)
+  const total = await fetchDriversCommissions(query, fyear, ftype, fsubtype)
 
     return (
         <main className='w-full md:w-[1100px] flex flex-col justify-center items-center'>
@@ -59,11 +89,16 @@ export default async function Page({
             />
             </div>
 
-            <div className='w-full flex justofy-start items-center m-2 p-3'>
-            <Link className='text-4xl text-gray-900 font-medium' href='/account/commissions'>Drivers</Link>
-            <Link className='text-4xl text-gray-400 font-medium px-4' href='/account/commissions/vendors-commissions'>Vendors</Link>
-            <Link className='text-4xl text-gray-400 font-medium px-4' href='/account/commissions/merchants-fleet-commissions'>Merchants (Fleet)</Link>
-            <Link className='text-4xl text-gray-400 font-medium px-4' href='/account/commissions/merchants-water-commissions'>Merchants (Water)</Link>
+            <div className='w-full md:flex justify-between items-center my-3'>
+              <div className='p-2'>
+              <Link className='text-3xl text-gray-900 font-medium pr-2' href='/account/commissions'>Drivers</Link>
+            <Link className='text-3xl text-gray-400 font-medium px-2' href='/account/commissions/vendors-commissions'>Vendors</Link>
+            <Link className='text-3xl text-gray-400 font-medium px-2' href='/account/commissions/merchants-fleet-commissions'>Merchants (Fleet)</Link>
+            <Link className='text-3xl text-gray-400 font-medium px-2' href='/account/commissions/merchants-water-commissions'>Merchants (Water)</Link>
+              </div>
+              <div className='flex justify-end items-end'>
+              <FilterDate />
+              </div>
             </div>
 
             <div className='w-full grid grid-cols-3 gap-3'>
@@ -73,19 +108,12 @@ export default async function Page({
             </div>
 
 
-            <div className="w-full md:flex justify-between items-center my-3 py-3">
+            <div className="w-full justify-start items-center my-3 py-3">
             <h2 className='text-3xl'>Overall Driver's Commission</h2>
-
-          <div className="flex justify-center items-center mx-2 px-3">
-            <div className="mr-1">
-              <FilterDate />
-            </div>
-           
-          </div>
           </div>
 
 
-         <DriversComissions query={query} currentPage={currentPage} fType={fType} fSubType={fSubType}  />
+         <DriversComissions query={query} currentPage={currentPage} fyear={fyear} ftype={ftype} fsubtype={fsubtype}  />
 
 
 <div className="mt-5 flex w-full justify-center">
