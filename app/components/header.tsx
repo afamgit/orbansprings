@@ -15,32 +15,32 @@ const NavBar = () => {
 
   return (
     <div className="sticky top-0 bg-white text-dark border-b-2 border-gray-300 z-10">
-      <div className="max-w-[1200px] mx-auto flex justify-between items-center text-dark h-[100px] px-4">
+      <div className="max-w-[1200px] mx-auto flex justify-start items-center text-dark h-[100px] px-3">
         <div
-          style={{ height: "90px", width: "140px", objectFit: "cover" }}
-          className="flex justify-center content-center"
+          style={{ height: "90px", width: "300px", objectFit: "cover" }}
+          className="flex justify-start content-center"
         >
           <Link href='/'><Image src='/logo_full.png' height={60} width={90} alt="logo" /></Link>
         </div>
         <div className="hidden sm:block">
-          <ul className="list-none flex gap-2 md:gap-4 text-lg font-bold">
-          <li className={pathname === '/' ? "text-gray-900 p-1 md:p-2 border-b-2 border-gray-700" : 'text-gray-600 p-1 md:p-2'}>
-              <Link href='/'>Home</Link>
+          <ul className="list-none flex gap-2 md:gap-8 text-2xl font-bold">
+          <li className={pathname === '/' ? "text-gray-900 p-1 md:p-2" : 'text-gray-600 p-1 md:p-2'}>
+              <Link href='/' className={pathname === '/' ? "border-b-2 border-gray-700" : 'text-gray-600'}>Home</Link>
               </li>
-              <li className={pathname === '/services' ? "text-gray-900 p-1 md:p-2 border-b-2 border-gray-700" : 'text-gray-600 p-1 md:p-2'}>
-              <Link href="/services"> Services</Link>
+              <li className={pathname === '/services' ? "text-gray-900 p-1 md:p-2" : 'text-gray-600 p-1 md:p-2'}>
+              <Link href="/services" className={pathname === '/services' ? "border-b-2 border-gray-700" : 'text-gray-600'}> Services</Link>
               </li>
-            <li className={pathname === '/about' ? "text-gray-900 p-1 md:p-2 border-b-2 border-gray-700" : 'text-gray-600 p-1 md:p-2'}>
-              <Link href="/about"> About</Link>
+            <li className={pathname === '/about' ? "text-gray-900 p-1 md:py-2" : 'text-gray-600 p-1 md:p-2'}>
+              <Link href="/about" className={pathname === '/about' ? "border-b-2 border-gray-700" : 'text-gray-600'}> About</Link>
             </li>
-            <li className={pathname === '/faq' ? "text-gray-900 p-1 md:p-2 border-b-2 border-gray-700" : 'text-gray-600 p-1 md:p-2'}>
-            <Link href="/faq"> FAQ</Link>
+            <li className={pathname === '/faq' ? "text-gray-900 p-1 md:p-2" : 'text-gray-600 p-1 md:p-2'}>
+            <Link href="/faq" className={pathname === '/faq' ? "border-b-2 border-gray-700" : 'text-gray-600'}> FAQ</Link>
               </li>
-            <li className={pathname === '/contact' ? "text-gray-900 p-1 md:p-2 border-b-2 border-gray-700" : 'text-gray-600 p-1 md:p-2'}>
-            <Link href="/contact"> Contact</Link>
+            <li className={pathname === '/contact' ? "text-gray-900 p-1 md:p-2" : 'text-gray-600 p-1 md:p-2'}>
+            <Link href="/contact" className={pathname === '/contact' ? "border-b-2 border-gray-700" : 'text-gray-600'}> Contact</Link>
               </li>
-              <li className={pathname === '/press' ? "text-gray-900 p-1 md:p-2 border-b-2 border-gray-700" : 'text-gray-600 p-1 md:p-2'}>
-              <Link href="/press"> Press</Link>
+              <li className={pathname === '/press' ? "text-gray-900 p-1 md:p-2" : 'text-gray-600 p-1 md:p-2'}>
+              <Link href="/press" className={pathname === '/press' ? "border-b-2 border-gray-700" : 'text-gray-600'}> Press</Link>
             </li>
             <li className="py-2 px-4 rounded bg-blue-800 text-white">
               Download App

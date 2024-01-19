@@ -37,7 +37,7 @@ export default async function Page({params}: {params: {slug: string}}) {
 
             <div className='my-1 py-2 flex justify-start items-start'>
                 <div className='flex justify-center items-center text-sm'>
-                <BsEyeFill className='mr-2' /> {post?.views} <span className='ml-2'>{moment(post?.createdAt).format('DD/MM/YYYY')}</span>
+                <BsEyeFill className='mr-2 text-sky-300' /> {post?.views} <span className='ml-2'>{moment(post?.createdAt).format('DD/MM/YYYY')}</span>
                 </div>
             </div>
 

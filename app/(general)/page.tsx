@@ -7,6 +7,8 @@ import Link from 'next/link'
 import { authOptions } from '../utils/auth'
 import { auth } from "../../auth"
 import { Metadata } from 'next'
+import { BsArrowUpRight, BsEyeFill } from 'react-icons/bs'
+import moment from 'moment'
 
 export const metadata: Metadata = {
   title: 'Home',
@@ -64,7 +66,7 @@ export default async function Home() {
 
       <div className='py-3 md:p-6 bg-white'>
         <div className='py-3 bg-white w-full max-w-[1200px] mx-auto'>
-        <h1 className='my-4 py-3 text-center text-3xl md:text-5xl'>How to get started</h1>
+        <h1 className='my-4 py-3 text-gray-800  text-center text-3xl md:text-5xl'>How to get started</h1>
 
         <div className='flex justify-center items-center'>
         <div className='md:flex'>
@@ -93,27 +95,42 @@ export default async function Home() {
       </div>
 
       <div className='bg-gray-200 p-8'>
-        <h1 className='text-5xl text-center my-3 py-3'>Press</h1>
+        <h1 className='text-5xl text-center text-gray-800 my-3 py-3'>Press</h1>
         <div className='w-full md:w-[1200px] mx-auto flex justify-start items-center flex-wrap'>
         {blogs.map((item,i) => {
           return (
-            <Link href={`/press/${item.titleslug}`} key={i} className='w-full md:w-1/3 gap-2 p-3'>
-              <Image
+            <Link href={`/press/${item.titleslug}`} key={i} className='w-full flex gap-2 p-3'>
+                <div className='w-2/5'>
+                <Image
             key={i}
-              height={500}
-              width={400}
+              height={400}
+              width={500}
               src={`https://orbansprings.com/${item.artphoto}`}
               alt={item.title}
               className='rounded-lg'
             />
-            <h3 className='text-2xl my-1 py-2'>{item.title}</h3>
+                </div>
+                <div className='w-3/5 mt-2 p-2 md:p-5'>
+                <h3 className='text-xl text-gray-800 md:text-3xl'>{item.title}</h3>
+
+            <div className='my-1 py-2 flex justify-start items-start'>
+                <div className='flex justify-center items-center text-sm'>
+                <BsEyeFill className='mr-2 text-sky-300' /> {item.views} <span className='ml-2'>{moment(item.createdAt).format('DD/MM/YYYY')}</span>
+                </div>
+            </div>
+
+            <div dangerouslySetInnerHTML={{__html: `${item.fullcontent.split(' ',200).join(' ')}`}} />
+
+            <p className='text-sky-400 font-bold text-xl flex items-center'>Read more <BsArrowUpRight size={18} className='text-sm' /></p>
+
+                </div>
               </Link>
           )
         })}
       </div>
 
       <div className='p-3 md:p-5'>
-        <h1 className='text-5xl text-center my-3 py-3'>Our Partners</h1>
+        <h1 className='text-5xl text-center my-3 py-3 text-gray-800'>Our Partners</h1>
         <div className='w-full md:w-[1200px] mx-auto flex justify-center items-center flex-wrap'>
         {partners.map((item,i) => {          
           return <div className='p-1 m-1 flex flex-col justify-center items-center md:p-3 md:m-3 bg-blue-900 rounded-lg' key={i}>
