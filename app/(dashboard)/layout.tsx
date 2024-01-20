@@ -24,7 +24,7 @@ export default async function DashboardLayout({
   return (
     <html lang="en">
       <body className={barlow_semi_sondensed.className}>
-      {children}
+      <div className='w-full'>{children}</div>
       </body>
       </html>
   )

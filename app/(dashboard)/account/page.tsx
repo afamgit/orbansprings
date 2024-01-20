@@ -17,7 +17,7 @@ export default async function Dashboard() {
   const profile = await getUserFromEmail(usremail);
 
   return (
-    <main className="w-full md:w-[1100px] flex flex-col justify-center items-center">
+    <main className="w-full flex flex-col justify-center items-center">
       <div className="w-full flex justify-end items-start">
         <Breadcrumbs breadcrumbs={[{ label: "Account", href: "/account" }]} />
       </div>

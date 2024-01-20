@@ -29,9 +29,17 @@ export function SearchBar () {
     <div className="relative w-full flex justify-start items-center border-2 border-gray-200 h-[50px] px-3 py-2 rounded-full">    
         <input 
         type="text"
+        placeholder="Search for users, meters..."
+        onChange={(e) => handleSearch(e.target.value)}
+        className="md:hidden px-3 h-[40px] w-full outline-0"
+        defaultValue={searchParams.get('query')?.toString()}
+        
+        />
+        <input 
+        type="text"
         placeholder="Search for users, meters, merchants and many more"
         onChange={(e) => handleSearch(e.target.value)}
-        className="px-3 h-[40px] w-full outline-0"
+        className="hidden md:block px-3 h-[40px] w-full outline-0"
         defaultValue={searchParams.get('query')?.toString()}
         
         />
