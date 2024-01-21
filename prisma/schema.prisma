@@ -372,6 +372,8 @@ model users {
   drv_license_back             String?   @db.VarChar(100)
   drv_vehicle_license_plate_no String?   @db.VarChar(50)
   drv_vehicle_capacity         String?   @db.VarChar(100)
+  drv_vehicle_make             String?   @db.VarChar(50)
+  drv_vehicle_meterid          String?   @db.VarChar(25)
   drv_account_name             String?   @db.VarChar(100)
   drv_account_no               String?   @db.VarChar(25)
   drv_bank                     String?   @db.VarChar(100)
@@ -649,6 +651,18 @@ model order_transactions {
   notes                      String   @db.VarChar(255)
   createdAt                  DateTime @db.DateTime(0)
   updatedAt                  DateTime @db.DateTime(0)
+}
+
+model trucks {
+  truckid          Int      @id @default(autoincrement())
+  truck_make       String   @db.VarChar(75)
+  truck_plateno    String   @db.VarChar(20)
+  truck_fleetowner String?  @db.VarChar(100)
+  truck_meterid    String?  @db.VarChar(25)
+  truck_driver     String?  @db.VarChar(100)
+  truck_status     String   @default("Active") @db.VarChar(10)
+  createdAt        DateTime @db.DateTime(0)
+  updatedAt        DateTime @db.DateTime(0)
 }
 
 enum order_table_last_update_by {

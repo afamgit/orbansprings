@@ -6,12 +6,16 @@ import { fetchFilteredMeters } from '../utils/data';
 export default async function Meters({
     query,
     currentPage,
+    usertype,
+    status
   }: {
     query: string;
     currentPage: number;
+    usertype: string;
+    status: string
   }) { 
 
-    const allMeters = await fetchFilteredMeters(query, currentPage);
+    const allMeters = await fetchFilteredMeters(query, currentPage, usertype, status);
 
     const total = await prisma.meters.count()
 

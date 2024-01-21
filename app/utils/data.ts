@@ -127,11 +127,16 @@ export async function fetchMeterNumbers(query: string) {
 export async function fetchFilteredMeters(
   query: string,
   currentPage: number,
+  usertype: string,
+  status: string
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-
+const type = usertype === 'Customer' ? 'Domestic Use' : usertype === 'Driver' ? 'Tanker' : usertype
   try {
     const meters = await prisma.meters.findMany({
+      where: {
+        m_for: {contains: type}, m_status: {startsWith: status}
+      },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -142,9 +147,15 @@ export async function fetchFilteredMeters(
   }
 }
 
-export async function fetchMeters(query: string) {
+export async function fetchMeters(query: string, usertype: string, status: string) {
+  const type = usertype === 'Customer' ? 'Domestic Use' : usertype === 'Driver' ? 'Tanker' : usertype
+
   try {
-    const meters = await prisma.meters.count()
+    const meters = await prisma.meters.count({
+      where: {
+        m_for: {contains: type}, m_status: {startsWith: status}
+      }
+    })
     const totalPages = Math.ceil(Number(meters) / ITEMS_PER_PAGE);
     return totalPages;
   } catch (error) {

@@ -6,6 +6,8 @@ import Pagination from '@/app/ui/pagination';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 import { Metadata } from 'next';
 import CircularProgressBar from '../../../ui/charts/circular-progress-bar';
+import { UserType } from '@/app/components/user-type';
+import { Status } from '@/app/components/status';
 
 export const metadata: Metadata = {
   title: 'Meters',
@@ -17,10 +19,14 @@ export default async function Page({
   searchParams?: {
     query?: string;
     page?: string;
+    usertype?: string;
+    status?: string;
   };
 }) {
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
+  const usertype = searchParams?.usertype || '';
+  const status = searchParams?.status || '';
 
   const installedMeters = await prisma.meters.count({
     where: {m_assigned: 'Yes'}
@@ -34,7 +40,7 @@ export default async function Page({
     where: {m_status: 'Inactive'}
   })
 
-    const total = await fetchMeters(query)
+    const total = await fetchMeters(query, usertype, status)
 
       return (
         <main className='w-full md:w-[1100px] flex flex-col justify-center items-center'>
@@ -66,7 +72,20 @@ export default async function Page({
             </div>
             </div>
 
-    <Meters query={query} currentPage={currentPage} />
+            <div className="w-full md:flex justify-between items-center my-3 py-3">
+          <h2 className="text-3xl">Overall Meters List</h2>
+
+          <div className="flex justify-center items-center mx-2 px-3">
+            <div className="mr-1">
+              <Status />
+            </div>
+            <div>
+              <UserType />
+            </div>
+          </div>
+        </div>
+
+    <Meters query={query} currentPage={currentPage} usertype={usertype} status={status} />
 
     <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={total} />
