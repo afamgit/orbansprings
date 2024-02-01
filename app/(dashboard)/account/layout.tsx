@@ -17,6 +17,10 @@ import { SearchBar } from "@/app/components/search-bar";
 import { FaBell } from "react-icons/fa";
 import { Bell } from "@/app/components/svgicons";
 import { prisma } from "@/scripts";
+import { VendorMerchantTopBar } from "@/app/components/vendormerchant-topbar";
+import { WaterMerchantTopBar } from "@/app/components/watermerchant-topbar";
+import { VendorMerchantSideBar } from "@/app/components/vendormerchant-sidebar";
+import { WaterMerchantSideBar } from "@/app/components/watermerchant-sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -48,7 +52,7 @@ export default async function AdminLayout({
     <div className="w-full min-h-screen">
       <div className="md:hidden bg-black text-white py-2 flex flex-col justify-between items-center">
         <div className="w-full">
-          {profile?.role === "admin" ? <AdminTopBar /> : <IotTopBar />}
+          {profile?.role === "admin" ? <AdminTopBar /> : profile?.role === "fleetownerdriver" ? <VendorMerchantTopBar /> : profile?.role === "fleetownermeter" ? <WaterMerchantTopBar /> : <IotTopBar />}
         </div>
       </div>
       <div className="flex justify-start items-start">
@@ -67,7 +71,7 @@ export default async function AdminLayout({
           </div>
           <div className="min-h-screen bg-black bg-opacity-10 py-3">
             <div className="w-full my-2 py-2">
-              {profile?.role === "admin" ? <AdminSideBar /> : <IotSideBar />}
+            {profile?.role === "admin" ? <AdminSideBar /> : profile?.role === "fleetownerdriver" ? <VendorMerchantSideBar /> : profile?.role === "fleetownermeter" ? <WaterMerchantSideBar /> : <IotSideBar />}
             </div>
           </div>
         </div>
@@ -81,12 +85,12 @@ export default async function AdminLayout({
                 <Bell />
               </Link>
               <div className="flex justify-start items-center bg-sky-100 w-[180px] rounded px-3 py-2 ">
-                {profile?.username}
+                {profile?.username} 
                 <Image
-                  className="rounded-full"
-                  src={`/${profile?.photo}`}
-                  height={50}
-                  width={50}
+                  className="rounded-full ml-2"
+                  src={`${process.env.NEXTAUTH_URL}/${profile?.photo}`}
+                  height={30}
+                  width={30}
                   alt="logo"
                 />
                 <SignOut />

@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-export async function FleetOwnerTopBar () {
+export async function VendorMerchantTopBar () {
 
      return (
     <div className="bg-neutral-800 md:hidden overflow-x-auto">    
@@ -12,14 +12,24 @@ export async function FleetOwnerTopBar () {
                     Dashboard
                 </li>
             </Link>
-            <Link href='/account/meters'>
+            <Link href='/account/drivers'>
                 <li className={`px-1`}>
-                    Meters
+                    Drivers
                 </li>
             </Link>
-            <Link className='p-3' href='/account/commissions'>
+            <Link className='p-3' href='/account/orders'>
                 <li className={`px-1`}>
-                    Commissions
+                    Orders
+                </li>
+            </Link>
+            <Link className='p-3' href='/account/fleet'>
+                <li className={`px-1`}>
+                    Fleet
+                </li>
+            </Link>
+            <Link className='p-3' href='/account/profile'>
+                <li className={`px-1`}>
+                    Profile
                 </li>
             </Link>
 

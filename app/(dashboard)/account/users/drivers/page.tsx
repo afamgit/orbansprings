@@ -120,7 +120,7 @@ export default async function Page({
           <div className="flex justify-center items-center mx-2 px-3">
             <div className="mr-1">
               <SubscriptionType />
-            </div>{" "}
+            </div>
             <div>
               <Location />
             </div>

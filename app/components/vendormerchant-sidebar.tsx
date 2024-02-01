@@ -4,7 +4,7 @@ import Link from "next/link"
 import { FaSquareFull } from "react-icons/fa"
 import { usePathname } from "next/navigation";
 
-export function FleetOwnerSideBar () {
+export function VendorMerchantSideBar () {
 
     const pathname = usePathname()
 

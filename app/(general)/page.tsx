@@ -99,8 +99,8 @@ export default async function Home() {
         <div className='w-full md:w-[1200px] mx-auto flex justify-start items-center flex-wrap'>
         {blogs.map((item,i) => {
           return (
-            <Link href={`/press/${item.titleslug}`} key={i} className='w-full flex gap-2 p-3'>
-                <div className='w-2/5'>
+            <Link href={`/press/${item.titleslug}`} key={i} className='w-full md:flex gap-2 p-3'>
+                <div className='w-full md:w-2/5'>
                 <Image
             key={i}
               height={400}
@@ -110,7 +110,7 @@ export default async function Home() {
               className='rounded-lg'
             />
                 </div>
-                <div className='w-3/5 mt-2 p-2 md:p-5'>
+                <div className='w-full md:w-3/5 mt-2 p-2 md:p-5'>
                 <h3 className='text-xl text-gray-800 md:text-3xl'>{item.title}</h3>
 
             <div className='my-1 py-2 flex justify-start items-start'>
