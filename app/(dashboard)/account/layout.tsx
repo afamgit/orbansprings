@@ -17,10 +17,10 @@ import { SearchBar } from "@/app/components/search-bar";
 import { FaBell } from "react-icons/fa";
 import { Bell } from "@/app/components/svgicons";
 import { prisma } from "@/scripts";
-import { VendorMerchantTopBar } from "@/app/components/vendormerchant-topbar";
-import { WaterMerchantTopBar } from "@/app/components/watermerchant-topbar";
-import { VendorMerchantSideBar } from "@/app/components/vendormerchant-sidebar";
-import { WaterMerchantSideBar } from "@/app/components/watermerchant-sidebar";
+import { VendorMerchantSideBar } from "@/app/components/vendor-merchants/sidebar";
+import { VendorMerchantTopBar } from "@/app/components/vendor-merchants/topbar";
+import { WaterMerchantSideBar } from "@/app/components/water-merchants/sidebar";
+import { WaterMerchantTopBar } from "@/app/components/water-merchants/topbar";
 
 const inter = Inter({ subsets: ["latin"] });
 

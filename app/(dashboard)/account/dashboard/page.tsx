@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 import { auth, getUserFromEmail } from "@/auth";
 import AdminDashboard from "@/app/components/admin-dashboard";
-import VendorMerchantDashboard from "@/app/components/vendormerchant-dashboard";
-import WaterMerchantDashboard from "@/app/components/watermerchant-dashboard";
+import VendorMerchantDashboard from "@/app/components/vendor-merchants/dashboard";
+import WaterMerchantDashboard from "@/app/components/water-merchants/dashboard";
 
 export const metadata: Metadata = {
   title: "Dashboard",

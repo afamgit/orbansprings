@@ -285,6 +285,7 @@ model transactions {
   orderref                   String   @db.VarChar(25)
   productid                  Int
   productname                String   @db.VarChar(50)
+  product_subscription       String   @default("Basic") @db.VarChar(25)
   qty                        Int      @default(0)
   orderdetails               String   @db.Text
   req_type                   String   @db.VarChar(30)

@@ -29,6 +29,11 @@ export function AdminSideBar () {
                 {(pathname?.endsWith('meters') || pathname?.endsWith('numbers')) ? <MeterIcon /> : <MeterIconWhite />} <span className="ml-2">Meters</span> 
                 </div>
             </Link>
+            <Link className='px-3 py-4' href='/account/orders'>
+                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${(pathname?.endsWith('water') || pathname?.endsWith('tank') || pathname?.endsWith('plumbing')) && 'bg-slate-100 text-sky-400 py-3'}`}>
+                {(pathname?.endsWith('water') || pathname?.endsWith('tank') || pathname?.endsWith('plumbing')) ? <MeterIcon /> : <MeterIconWhite />} <span className="ml-2">Orders</span> 
+                </div>
+            </Link>
             <Link className='px-3 py-4' href='/account/commissions'>
                 <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${pathname?.endsWith('commissions') && 'bg-slate-100 text-sky-400 py-3'}`}>
                 {pathname?.endsWith('commissions') ? <CommissionIcon /> : <CommissionIconWhite />} <span className="ml-2">Commissions</span> 

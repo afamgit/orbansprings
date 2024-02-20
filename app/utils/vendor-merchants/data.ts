@@ -1,6 +1,6 @@
 import { prisma } from '@/scripts'
 import { createHash } from "crypto";
-import { getMonthsFromMap, getMonthsFromWeekMap, incrementNumber, monthsMap } from './utils';
+import { getMonthsFromMap, getMonthsFromWeekMap, incrementNumber, monthsMap } from '../utils';
 import { any } from 'zod';
 import moment from 'moment';
 
@@ -769,114 +769,6 @@ export async function fetchDriverOrders(query: string, product: string, id: stri
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch driver orders.');
-  }
-}
-
-export async function fetchFilteredOrders(
-  query: string,
-  currentPage: number,
-  product: string,
-  subscription: string,
-  location: string
-) {
-  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-
-  try {
-    const orders = await prisma.transactions.findMany({
-      where: {AND:[{req_type: 'Water packages' }, {OR: [{productname: {contains:product}}]}, {OR: [{product_subscription: {contains:subscription}}]}, {OR: [{customerarea: {contains:location}}]}]},
-      select: {id: true, productname: true, req_type:true, createdAt: true, status:true, orderref:true, customername:true, customerareagroup:true, customerarea:true, amount:true},
-      skip: offset,
-      take: ITEMS_PER_PAGE
-    })
-    return orders;
-  } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch orders.');
-  }
-}
-
-export async function fetchOrders(query: string, product: string, subscription: string, location: string) {
-  try {
-    const orders = await prisma.transactions.count({
-      where: {AND:[{req_type: 'Water packages' }, {OR: [{productname: {contains:product}}]}, {OR: [{product_subscription: {contains:subscription}}]}, {OR: [{customerarea: {contains:location}}]}]}
-    })
-    const totalPages = Math.ceil(Number(orders) / ITEMS_PER_PAGE);
-    return totalPages;
-  } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch orders.');
-  }
-}
-
-export async function fetchFilteredOrdersTank(
-  query: string,
-  currentPage: number,
-  product: string,
-  subscription: string,
-  location: string
-) {
-  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-
-  try {
-    const orders = await prisma.transactions.findMany({
-      where: {AND:[{req_type: 'Tank cleaning' }, {OR: [{productname: {contains:product}}]}, {OR: [{product_subscription: {contains:subscription}}]}, {OR: [{customerarea: {contains:location}}]}]},
-      select: {id: true, productname: true, req_type:true, createdAt: true, status:true, orderref:true, customername:true, customerareagroup:true, customerarea:true, amount:true},
-      skip: offset,
-      take: ITEMS_PER_PAGE
-    })
-    return orders;
-  } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch tank cleaning orders.');
-  }
-}
-
-export async function fetchOrdersTank(query: string, product: string, subscription: string, location: string) {
-  try {
-    const orders = await prisma.transactions.count({
-      where: {AND:[{req_type: 'Tank cleaning' }, {OR: [{productname: {contains:product}}]}, {OR: [{product_subscription: {contains:subscription}}]}, {OR: [{customerarea: {contains:location}}]}]}
-    })
-    const totalPages = Math.ceil(Number(orders) / ITEMS_PER_PAGE);
-    return totalPages;
-  } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch tank cleaning orders.');
-  }
-}
-
-export async function fetchFilteredOrdersPlumbing(
-  query: string,
-  currentPage: number,
-  product: string,
-  subscription: string,
-  location: string
-) {
-  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-
-  try {
-    const orders = await prisma.transactions.findMany({
-      where: {AND:[{req_type: 'Plumbing' }, {OR: [{productname: {contains:product}}]}, {OR: [{product_subscription: {contains:subscription}}]}, {OR: [{customerarea: {contains:location}}]}]},
-      select: {id: true, productname: true, req_type:true, createdAt: true, status:true, orderref:true, customername:true, customerareagroup:true, customerarea:true, amount:true},
-      skip: offset,
-      take: ITEMS_PER_PAGE
-    })
-    return orders;
-  } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch plumbing orders.');
-  }
-}
-
-export async function fetchOrdersPlumbing(query: string, product: string, subscription: string, location: string) {
-  try {
-    const orders = await prisma.transactions.count({
-      where: {AND:[{req_type: 'Plumbing' }, {OR: [{productname: {contains:product}}]}, {OR: [{product_subscription: {contains:subscription}}]}, {OR: [{customerarea: {contains:location}}]}]}
-    })
-    const totalPages = Math.ceil(Number(orders) / ITEMS_PER_PAGE);
-    return totalPages;
-  } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch plumbing orders.');
   }
 }
 
