@@ -1,0 +1,23 @@
+# Environment variables declared in this file are automatically made available to Prisma.
+# See the documentation for more detail: https://pris.ly/d/prisma-schema#accessing-environment-variables-from-the-schema
+
+# Prisma supports the native connection string format for PostgreSQL, MySQL, SQLite, SQL Server, MongoDB and CockroachDB.
+# See the documentation for all the connection string options: https://pris.ly/d/connection-strings
+
+# DATABASE_URL="mysql://root:triadpass@localhost:3306/orban"
+
+DATABASE_URL="mysql://eodata:Eobase!2022@208.112.52.108:3306/orban"
+
+AUTH_SECRET="XsEZ90UkSqnhHXhGgCpfLManfxsFK1RxOPwjET1WQqw="
+
+# NEXTAUTH_URL=https://orbansprings.vercel.app
+
+# NEXTAUTH_URL=https://orbansprings.com
+
+NEXTAUTH_URL=http://localhost:3000
+
+NEXTAUTH_SECRET="XsEZ90UkSqnhHXhGgCpfLManfxsFK1RxOPwjET1WQqw="
+
+REACT_APP_API_URL_DEV=http://localhost/orban
+
+REACT_APP_API_URL_PRO=https://orbansprings.com

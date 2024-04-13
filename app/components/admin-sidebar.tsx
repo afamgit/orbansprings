@@ -44,6 +44,16 @@ export function AdminSideBar () {
                 {pathname?.endsWith('users') || pathname?.endsWith('drivers') || pathname?.endsWith('vendors') ||pathname?.endsWith('merchants') ? <Users /> : <UsersWhite />} <span className="ml-2">Users</span>
                 </div>
             </Link>
+            <Link className='px-3 py-4' href='/account/products'>
+                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${(pathname?.endsWith('products')) && 'bg-slate-100 text-sky-400 py-3'}`}>
+                {(pathname?.endsWith('products')) ? <MeterIcon /> : <MeterIconWhite />} <span className="ml-2">Products</span> 
+                </div>
+            </Link>
+            <Link className='px-3 py-4' href='/account/areagroups'>
+                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${(pathname?.endsWith('areagroups')) && 'bg-slate-100 text-sky-400 py-3'}`}>
+                {(pathname?.endsWith('areagroups')) ? <MeterIcon /> : <MeterIconWhite />} <span className="ml-2">Area Groups</span> 
+                </div>
+            </Link>
             <Link className='px-3 py-4' href='/account/complaints'>
                 <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${pathname?.endsWith('complaints') && 'bg-slate-100 text-sky-400 py-3'}`}>
                 {pathname?.endsWith('complaints') ? <ComplaintsIcon /> : <ComplaintsIconWhite />} <span className="ml-2">Complaints</span> 

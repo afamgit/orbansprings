@@ -187,6 +187,243 @@ try {
 }
 }
 
+export async function createProduct(prevState: any, formData: FormData) {
+  const schema = z.object({
+      category: z.string(),
+      name: z.string(),
+      desc: z.string(),
+      sku: z.string(),
+      price: z.coerce.number(),
+      size: z.string(),
+      responsetime: z.string(),
+      status: z.string().transform((value) => value === "1" ? true : false),
+      paymentaccount: z.string(),
+    })
+  const parsedData = schema.parse({
+      category: formData.get('category'),
+      name: formData.get('productname'),
+      desc: formData.get('desc'),
+      sku: formData.get('sku'),
+      price: formData.get('price'),
+      size: formData.get('size'),
+      responsetime: formData.get('responsetime'),
+      status: formData.get('status'),
+      paymentaccount: formData.get('paymentaccount'),
+})
+
+try {
+  const file: File | null = formData.get('photo') as unknown as File
+  if (!file) {
+    throw new Error('No file uploaded')
+  }
+
+  
+  const bytes = await file.arrayBuffer()
+  const buffer = Buffer.from(bytes)
+
+  // With the file data in the buffer, you can do whatever you want with it.
+  // For this, we'll just write it to the filesystem in a new location
+  // /Users/afamnnaji/Desktop/next-apps/orban-springs/public
+  console.log("Current working directory: ",
+  process.cwd());
+  const path = join(process.cwd(), 'public', file.name)
+  const doUpload = await writeFile(path, buffer)
+
+  const doInsert = await prisma.products.create({
+    data: {
+      category: parsedData.category,
+      catslug: slugify(parsedData.category),
+      uuid: '',
+      name: parsedData.name,
+      nameslug: slugify(parsedData.name),
+      sku: parsedData.sku,
+      description: parsedData.desc,
+      picture: file.name,
+      price: parsedData.price,
+      size: parsedData.size,
+      response_time: parsedData.responsetime,
+      status: parsedData.status,
+      payment_account: parsedData.paymentaccount,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
+  })
+
+} catch (e) {
+  return { message: 'Failed to create product' }
+}
+revalidatePath('/account/products')
+redirect('/account/products')
+
+}
+
+export async function updateProduct(id: string, prevState: any, formData: FormData) {
+
+  const schema = z.object({
+    category: z.string(),
+    name: z.string(),
+    desc: z.string(),
+    sku: z.string(),
+    price: z.coerce.number(),
+    size: z.string(),
+    responsetime: z.string(),
+    status: z.string().transform((value) => value === "1" ? true : false),
+    paymentaccount: z.string(),
+    picture: z.string()
+  })
+const parsedData = schema.parse({
+    category: formData.get('category'),
+    name: formData.get('productname'),
+    desc: formData.get('desc'),
+    sku: formData.get('sku'),
+    price: formData.get('price'),
+    size: formData.get('size'),
+    responsetime: formData.get('responsetime'),
+    status: formData.get('status'),
+    paymentaccount: formData.get('paymentaccount'),
+    picture: formData.get('picture')
+})
+
+try {
+  const file: File | null = formData.get('photo') as unknown as File
+  if (file) {
+ 
+  const bytes = await file.arrayBuffer()
+  const buffer = Buffer.from(bytes)
+
+  // With the file data in the buffer, you can do whatever you want with it.
+  // For this, we'll just write it to the filesystem in a new location
+  // /Users/afamnnaji/Desktop/next-apps/orban-springs/public
+
+  const path = join(process.cwd(), 'public', file.name)
+  const doUpload = await writeFile(path, buffer)
+}
+
+  const doUpdate = await prisma.products.update({
+    where: {
+      id: parseInt(id)
+    },
+    data: {
+      category: parsedData.category,
+      catslug: slugify(parsedData.category),
+      uuid: '',
+      name: parsedData.name,
+      nameslug: slugify(parsedData.name),
+      sku: parsedData.sku,
+      description: parsedData.desc,
+      picture: file.name !== '' && file.name !== null && file.name !== 'undefined' ? file.name : parsedData.picture,
+      price: parsedData.price,
+      size: parsedData.size,
+      response_time: parsedData.responsetime,
+      status: parsedData.status,
+      payment_account: parsedData.paymentaccount,
+      updatedAt: new Date()
+    }
+  })
+
+
+} catch (e) {
+  return { message: 'Failed to update product' }
+}
+
+revalidatePath('/account/products')
+redirect('/account/products')
+}
+
+export async function deleteProduct(id: string) {
+
+try {
+   await prisma.products.delete({
+    where: {
+      id: parseInt(id)
+    }
+  })
+
+
+  revalidatePath('/account/products')
+  return { message: 'Deleted product' }
+
+} catch (e) {
+  return { message: 'Failed to delete product' }
+}
+}
+
+export async function createAreaGroup(prevState: any, formData: FormData) {
+  const schema = z.object({
+      name: z.string(),
+      areas: z.string(),
+    })
+  const parsedData = schema.parse({
+      name: formData.get('areagroup'),
+      areas: formData.get('areas'),
+})
+
+try {
+
+  const doInsert = await prisma.area_groups.create({
+    data: {
+      agname: parsedData.name,
+      agareas: parsedData.areas,
+    }
+  })
+
+} catch (e) {
+  return { message: 'Failed to create area group' }
+}
+revalidatePath('/account/areagroups')
+redirect('/account/areagroups')
+
+}
+
+export async function updateAreaGroup(id: string, prevState: any, formData: FormData) {
+
+  const schema = z.object({
+    name: z.string(),
+    areas: z.string(),
+  })
+const parsedData = schema.parse({
+    name: formData.get('areagroup'),
+    areas: formData.get('areas'),
+})
+
+try {
+
+  const doUpdate = await prisma.area_groups.update({
+    where: {
+      agid: parseInt(id)
+    },
+    data: {
+      agname: parsedData.name,
+      agareas: parsedData.areas,
+    }
+  })
+
+
+} catch (e) {
+  return { message: 'Failed to update area group' }
+}
+
+revalidatePath('/account/areagroups')
+redirect('/account/areagroups')
+}
+
+export async function deleteAreaGroup(id: string) {
+
+try {
+   await prisma.area_groups.delete({
+    where: {
+      agid: parseInt(id)
+    }
+  })
+
+
+  revalidatePath('/account/areagroups')
+  return { message: 'Deleted area group' }
+
+} catch (e) {
+  return { message: 'Failed to delete area group' }
+}
+}
 
 export async function createTestimonial(prevState: any, formData: FormData) {
   const schema = z.object({
@@ -627,7 +864,72 @@ revalidatePath('/account/meters/meter-numbers')
 redirect('/account/meters/meter-numbers')
 }
 
+export async function createProductPrices(prevState: any, formData: FormData) {
+  const schema = z.object({
+      productid: z.coerce.number(),
+      subscriptiontype: z.string()
+  })
+  const parsedData = schema.parse({
+    productid: formData.get('productid'),
+    subscriptiontype: formData.get('subscriptiontype'),
+})
 
+const areas = await prisma.area_groups.findMany()
+
+try {
+
+  for (let i=0; i < areas.length; i++) {
+    const area = areas[i].agname
+  
+    await prisma.product_prices_areas.create({
+      data: 
+        {
+        ppa_pid: parsedData.productid,
+        pparea: area,
+        pp_subscription: parsedData.subscriptiontype,
+        pp_rate: 19,
+      }
+    })
+  
+  }
+
+} catch (e) {
+  return { message: 'Failed to generate product prices' }
+}
+
+revalidatePath(`/account/products/${parsedData.productid}/prices`)
+// redirect('/account/products')
+}
+
+export async function updateProductPrice(ppriceid: string, prevState: any, formData: FormData) {
+  const schema = z.object({
+    productid: z.coerce.number(),
+      amount: z.coerce.number()
+  })
+  const parsedData = schema.parse({
+    productid: formData.get('productid'),
+    amount: formData.get('amount'),
+})
+
+
+try {
+  
+    await prisma.product_prices_areas.update({
+      where: {ppid: parseInt(ppriceid), ppa_pid: parsedData.productid},
+      data: 
+        {
+        pp_rate: parsedData.amount,
+      }
+    })
+  
+
+} catch (e) {
+  return { message: 'Failed to update product price' }
+}
+
+revalidatePath(`/account/products/${parsedData.productid}/prices`)
+// redirect('/account/products')
+}
 
 export async function sendMessage(prevState: any, formData: FormData) {
   const schema = z.object({

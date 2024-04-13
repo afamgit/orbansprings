@@ -5,13 +5,13 @@ import { UpdatePage, DeletePage } from '@/app/ui/buttons'
 import Link from 'next/link'
 import Breadcrumbs from '@/app/ui/breadcrumbs'
 import { Metadata } from 'next'
-import { fetchFaqs, fetchPages } from '@/app/utils/data'
+import { fetchAllProducts, fetchPages } from '@/app/utils/data'
 import ContentPages from '@/app/ui/contentpages'
 import Pagination from '@/app/ui/pagination'
-import Faqs from '@/app/ui/faqs'
+import AllProducts from '@/app/ui/allproducts'
 
 export const metadata: Metadata = {
-  title: 'FAQs',
+  title: 'Products',
 };
 
 export default async function Page({
@@ -25,8 +25,7 @@ export default async function Page({
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
   
-const total = await fetchFaqs(query)
-const allPages = await prisma.contentpages.findMany()
+const total = await fetchAllProducts(query)
 
       return (
         <main className='w-full md:w-[1100px] flex flex-col justify-center items-center'>
@@ -35,15 +34,15 @@ const allPages = await prisma.contentpages.findMany()
             breadcrumbs={[
               { label: 'Account', href: '/account' },
               {
-                label: 'FAQs',
-                href: '/account/faqs',
+                label: 'Products',
+                href: '/account/products',
                 active: true,
               },
             ]}
             />
             </div>
 
-            <Faqs query={query} currentPage={currentPage} />
+            <AllProducts query={query} currentPage={currentPage} />
 
             <Pagination totalPages={total} />
          

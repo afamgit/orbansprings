@@ -12,8 +12,8 @@ function SubmitButton() {
   const { pending } = useFormStatus()
  
   return (
-    <button type="submit" aria-disabled={pending} className='p-2 bg-blue-300 rounded'>
-      Add
+    <button type="submit" disabled={pending} className='p-2 bg-blue-300 rounded'>
+      {pending ? 'Adding ...' : 'Add'}
     </button>
   )
 }
@@ -22,8 +22,8 @@ function EditButton() {
   const { pending } = useFormStatus()
  
   return (
-    <button type="submit" aria-disabled={pending} className='p-2 bg-blue-300 rounded'>
-      Update
+    <button type="submit" disabled={pending} className='p-2 bg-blue-300 rounded'>
+      {pending ? 'Updating ...' : 'Update'}
     </button>
   )
 }

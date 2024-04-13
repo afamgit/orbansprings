@@ -9,20 +9,20 @@ datasource db {
 
 model bannerads {
   id_ad         Int       @id @default(autoincrement())
-  title_ad      String    @default("") @db.VarChar(255)
+  title_ad      String    @default(dbgenerated("()")) @db.VarChar(255)
   descr_ad      String    @db.Text
   adcode        String    @db.Text
   file_ad       String    @db.VarChar(255)
   topfile_ad    String?   @db.VarChar(100)
-  url_ad        String    @default("") @db.VarChar(150)
+  url_ad        String    @default(dbgenerated("()")) @db.VarChar(150)
   banner_rank   Int
   addedon_ad    DateTime  @default(now()) @db.Timestamp(0)
-  startdate_ad  DateTime  @default(dbgenerated("('0000-00-00')")) @db.Date
-  enddate_ad    DateTime  @default(dbgenerated("('0000-00-00')")) @db.Date
-  daysno_ad     String    @default("") @db.VarChar(32)
+  startdate_ad  DateTime  @default(dbgenerated("(0000-00-00)")) @db.Date
+  enddate_ad    DateTime  @default(dbgenerated("(0000-00-00)")) @db.Date
+  daysno_ad     String    @default(dbgenerated("()")) @db.VarChar(32)
   width_ad      String?   @db.VarChar(32)
   height_ad     String?   @db.VarChar(32)
-  position_ad   String    @default("") @db.VarChar(32)
+  position_ad   String    @default(dbgenerated("()")) @db.VarChar(32)
   banner_status String    @db.VarChar(15)
   visible_ad    Int       @default(0) @db.TinyInt
   userid_ad     String    @db.VarChar(50)
@@ -42,10 +42,10 @@ model blog {
   titleslug       String   @db.VarChar(50)
   brief           String   @db.MediumText
   fullcontent     String   @db.MediumText
-  artphoto        String?  @default("images/noimage.png") @db.VarChar(100)
+  artphoto        String?  @default(dbgenerated("(images/noimage.png)")) @db.VarChar(100)
   artphotocaption String   @db.VarChar(150)
   author          String?  @db.VarChar(50)
-  artstatus       String   @default("1") @db.VarChar(10)
+  artstatus       String   @default(dbgenerated("(1)")) @db.VarChar(10)
   nstatus         String   @db.VarChar(20)
   views           Int      @default(3)
   artsubmit       DateTime @default(now()) @db.Timestamp(0)
@@ -63,7 +63,7 @@ model contentpages {
   cpagecontent   String   @db.Text
   cpagephoto     String?  @db.VarChar(100)
   cpagesbanner   String?  @db.VarChar(100)
-  cpagemenu      String   @default("top") @db.VarChar(10)
+  cpagemenu      String   @default(dbgenerated("(top)")) @db.VarChar(10)
   cpagelinkname  String   @db.VarChar(100)
   cpage_postedby String   @db.VarChar(100)
   createdAt      DateTime @db.DateTime(0)
@@ -115,7 +115,7 @@ model newsletter_body {
   nlb_id       Int       @id @default(autoincrement())
   nlb_title    String    @db.VarChar(100)
   nlb_story    String    @db.Text
-  nlb_finished String    @default("No") @db.VarChar(4)
+  nlb_finished String    @default(dbgenerated("(No)")) @db.VarChar(4)
   nlb_postedby String    @db.VarChar(100)
   createdAt    DateTime  @db.DateTime(0)
   updatedAt    DateTime? @db.DateTime(0)
@@ -183,7 +183,7 @@ model requests {
   driverphone          String   @db.VarChar(50)
   driveremail          String   @db.VarChar(100)
   drivervehicleplateno String   @db.VarChar(50)
-  status               String   @default("pending") @db.VarChar(255)
+  status               String   @default(dbgenerated("(pending)")) @db.VarChar(255)
   createdAt            DateTime @db.DateTime(0)
   updatedAt            DateTime @updatedAt @db.DateTime(0)
 }
@@ -285,7 +285,7 @@ model transactions {
   orderref                   String   @db.VarChar(25)
   productid                  Int
   productname                String   @db.VarChar(50)
-  product_subscription       String   @default("Basic") @db.VarChar(25)
+  product_subscription       String   @default(dbgenerated("(Basic)")) @db.VarChar(25)
   qty                        Int      @default(0)
   orderdetails               String   @db.Text
   req_type                   String   @db.VarChar(30)
@@ -314,14 +314,14 @@ model transactions {
   third_party_delivery       String   @db.VarChar(5)
   customerlatitude           Decimal  @db.Decimal(8, 6)
   customerlongitude          Decimal  @db.Decimal(9, 6)
-  status                     String   @default("New") @db.VarChar(255)
-  paymentstatus              String   @default("Unpaid") @db.VarChar(255)
-  paymentmode                String   @default("Card") @db.VarChar(255)
+  status                     String   @default(dbgenerated("(New)")) @db.VarChar(255)
+  paymentstatus              String   @default(dbgenerated("(Unpaid)")) @db.VarChar(255)
+  paymentmode                String   @default(dbgenerated("(Card)")) @db.VarChar(255)
   paymenttime                DateTime @db.DateTime(0)
   driverdeliverystatus       String   @db.VarChar(255)
   driverdeliverystatustime   DateTime @db.DateTime(0)
   driverdeliverytime         Int      @default(0)
-  customerdeliverystatus     String   @default("Waiting") @db.VarChar(255)
+  customerdeliverystatus     String   @default(dbgenerated("(Waiting)")) @db.VarChar(255)
   customerdeliverystatustime DateTime @db.DateTime(0)
   customerwaittime           Int      @default(0)
   orderprocessed             Boolean
@@ -355,7 +355,7 @@ model users {
   email                        String    @unique(map: "email") @db.VarChar(100)
   password                     String    @db.VarChar(255)
   phone                        String?   @db.VarChar(255)
-  subscription_plan            String    @default("Basic") @db.VarChar(15)
+  subscription_plan            String    @default(dbgenerated("(Basic)")) @db.VarChar(15)
   subscription_end             DateTime? @db.DateTime(0)
   address                      String?   @db.VarChar(255)
   area                         String?   @db.VarChar(100)
@@ -366,7 +366,7 @@ model users {
   role                         String    @db.VarChar(255)
   user_type                    String?   @db.VarChar(15)
   expotoken                    String?   @db.VarChar(255)
-  photo                        String?   @default("images/noimage.png") @db.VarChar(255)
+  photo                        String?   @default(dbgenerated("(images/noimage.png)")) @db.VarChar(255)
   identification               String?   @db.VarChar(255)
   identification_back          String?   @db.VarChar(100)
   drv_license                  String?   @db.VarChar(100)
@@ -453,12 +453,12 @@ model meter_tanker_entries {
 model meters {
   meterid       Int      @id @default(autoincrement())
   m_unique_id   String   @unique(map: "m_unique_id") @db.VarChar(100)
-  m_for         String   @default("Domestic Use") @db.VarChar(100)
-  m_assigned    String   @default("No") @db.VarChar(25)
+  m_for         String   @default(dbgenerated("(Domestic Use)")) @db.VarChar(100)
+  m_assigned    String   @default(dbgenerated("(No)")) @db.VarChar(25)
   m_assigned_to String?  @db.VarChar(100)
   m_area        String?  @db.VarChar(75)
-  m_status      String   @default("Inactive") @db.VarChar(15)
-  m_valve_state String   @default("Closed") @db.VarChar(15)
+  m_status      String   @default(dbgenerated("(Inactive)")) @db.VarChar(15)
+  m_valve_state String   @default(dbgenerated("(Closed)")) @db.VarChar(15)
   createdAt     DateTime @db.DateTime(0)
   updatedAt     DateTime @updatedAt @db.DateTime(0)
 }
@@ -470,7 +470,7 @@ model contact_messages {
   cemail    String   @db.VarChar(100)
   csubject  String   @db.VarChar(200)
   cmessage  String   @db.Text
-  cstatus   String   @default("Open") @db.VarChar(10)
+  cstatus   String   @default(dbgenerated("(Open)")) @db.VarChar(10)
   createdAt DateTime @db.DateTime(0)
   updatedAt DateTime @updatedAt @db.DateTime(0)
 }
@@ -479,8 +479,8 @@ model meter_numbers {
   meter_uuid_id   Int      @id @default(autoincrement())
   meter_type      String   @db.VarChar(20)
   meter_uuid      String   @db.VarChar(50)
-  meter_uuid_used String   @default("No") @db.VarChar(5)
-  meter_assigned  String   @default("No") @db.VarChar(5)
+  meter_uuid_used String   @default(dbgenerated("(No)")) @db.VarChar(5)
+  meter_assigned  String   @default(dbgenerated("(No)")) @db.VarChar(5)
   createdAt       DateTime @db.DateTime(0)
 }
 
@@ -491,7 +491,7 @@ model driverequests {
   customerid Int
   address    String   @db.VarChar(255)
   driverid   Int
-  status     String   @default("pending") @db.VarChar(255)
+  status     String   @default(dbgenerated("(pending)")) @db.VarChar(255)
   createdAt  DateTime @db.DateTime(0)
   updatedAt  DateTime @db.DateTime(0)
 }
@@ -514,20 +514,20 @@ model order_table {
   username            String?                    @db.VarChar(50)
   order_date          DateTime?                  @db.Date
   order_time          DateTime                   @default(now()) @db.Timestamp(0)
-  status              String                     @default("New") @db.VarChar(25)
+  status              String                     @default(dbgenerated("(New)")) @db.VarChar(25)
   customercomment     String?                    @db.Text
-  notes               String                     @default("None") @db.VarChar(255)
-  shipping_first_name String                     @default("") @db.VarChar(50)
-  shipping_last_name  String                     @default("") @db.VarChar(50)
-  shipping_address1   String                     @default("") @db.VarChar(100)
-  shipping_address2   String                     @default("") @db.VarChar(100)
-  shipping_phone      String                     @default("") @db.VarChar(32)
+  notes               String                     @default(dbgenerated("(None)")) @db.VarChar(255)
+  shipping_first_name String                     @default(dbgenerated("()")) @db.VarChar(50)
+  shipping_last_name  String                     @default(dbgenerated("()")) @db.VarChar(50)
+  shipping_address1   String                     @default(dbgenerated("()")) @db.VarChar(100)
+  shipping_address2   String                     @default(dbgenerated("()")) @db.VarChar(100)
+  shipping_phone      String                     @default(dbgenerated("()")) @db.VarChar(32)
   shipping_email      String?                    @db.VarChar(50)
-  shipping_city       String                     @default("") @db.VarChar(100)
-  shipping_state      String                     @default("") @db.VarChar(32)
+  shipping_city       String                     @default(dbgenerated("()")) @db.VarChar(100)
+  shipping_state      String                     @default(dbgenerated("()")) @db.VarChar(32)
   shipping_country    String                     @db.VarChar(100)
   order_total         Decimal                    @default(0.00) @db.Decimal(30, 2)
-  delivery_type       String                     @default("Home delivery") @db.VarChar(50)
+  delivery_type       String                     @default(dbgenerated("(Home delivery)")) @db.VarChar(50)
   shipping_cost       Decimal                    @default(0.00) @db.Decimal(30, 2)
   grandtotal          Decimal                    @default(0.00) @db.Decimal(30, 2)
   gatewayid           Int
@@ -541,7 +541,7 @@ model order_table {
   order_stage         Int                        @default(0) @db.TinyInt
   shipping_option     String                     @db.VarChar(30)
   payment_option      String                     @db.VarChar(50)
-  payment_status      String                     @default("Unpaid") @db.VarChar(15)
+  payment_status      String                     @default(dbgenerated("(Unpaid)")) @db.VarChar(15)
 }
 
 model packages {
@@ -588,70 +588,17 @@ model complaints_replies {
 
 model subscriptions {
   subplanid          Int      @id @default(autoincrement())
-  subplantype        String   @default("Premium") @db.VarChar(25)
+  subplantype        String   @default(dbgenerated("(Premium)")) @db.VarChar(25)
   subplanusername    String   @db.VarChar(100)
   subplanamt         Int      @default(5000)
   subplan_from       DateTime @db.DateTime(0)
   subplan_to         DateTime @db.DateTime(0)
-  subplan_status     String   @default("Active") @db.VarChar(15)
-  subplan_pay_status String   @default("Paid") @db.VarChar(10)
+  subplan_status     String   @default(dbgenerated("(Active)")) @db.VarChar(15)
+  subplan_pay_status String   @default(dbgenerated("(Paid)")) @db.VarChar(10)
   subplan_area       String   @db.VarChar(50)
   subplan_admin      String   @db.VarChar(100)
   createdAt          DateTime @db.DateTime(0)
   updatedAt          DateTime @db.DateTime(0)
-}
-
-model order_transactions {
-  id                         Int      @id @default(autoincrement())
-  uuid                       String?  @db.Char(36)
-  orderref                   String   @db.VarChar(25)
-  productid                  Int
-  productname                String   @db.VarChar(50)
-  qty                        Int      @default(0)
-  orderdetails               String   @db.Text
-  req_type                   String   @db.VarChar(30)
-  task                       String?  @db.Text
-  howmany                    Int?     @db.TinyInt
-  amount                     Float    @db.Float
-  commission                 Float    @db.Float
-  driverfee                  Float    @db.Float
-  driverid                   Int
-  drivername                 String   @db.VarChar(100)
-  driverphone                String   @db.VarChar(30)
-  driveremail                String   @db.VarChar(100)
-  drivervehicleplateno       String   @db.VarChar(50)
-  driverphoto                String   @db.VarChar(100)
-  fleetid                    String?  @db.VarChar(50)
-  driverlatitude             Decimal  @db.Decimal(8, 6)
-  driverlongitude            Decimal  @db.Decimal(9, 6)
-  driveraccept               DateTime @db.DateTime(0)
-  customerid                 Int
-  customername               String   @db.VarChar(100)
-  customeremail              String   @db.VarChar(100)
-  customerphone              String   @db.VarChar(30)
-  customeraddress            String   @db.VarChar(255)
-  customerarea               String   @db.VarChar(75)
-  customerareagroup          String?  @db.VarChar(30)
-  third_party_delivery       String   @db.VarChar(5)
-  customerlatitude           Decimal  @db.Decimal(8, 6)
-  customerlongitude          Decimal  @db.Decimal(9, 6)
-  status                     String   @default("New") @db.VarChar(255)
-  paymentstatus              String   @default("Unpaid") @db.VarChar(255)
-  paymentmode                String   @default("Card") @db.VarChar(255)
-  paymenttime                DateTime @db.DateTime(0)
-  driverdeliverystatus       String   @db.VarChar(255)
-  driverdeliverystatustime   DateTime @db.DateTime(0)
-  driverdeliverytime         Int      @default(0)
-  customerdeliverystatus     String   @default("Waiting") @db.VarChar(255)
-  customerdeliverystatustime DateTime @db.DateTime(0)
-  customerwaittime           Int      @default(0)
-  orderprocessed             Boolean
-  commission_paid            Int      @default(0) @db.TinyInt
-  driverrating               Int?     @db.TinyInt
-  driverfeedback             String?  @db.Text
-  notes                      String   @db.VarChar(255)
-  createdAt                  DateTime @db.DateTime(0)
-  updatedAt                  DateTime @db.DateTime(0)
 }
 
 model trucks {
@@ -661,9 +608,23 @@ model trucks {
   truck_fleetowner String?  @db.VarChar(100)
   truck_meterid    String?  @db.VarChar(25)
   truck_driver     String?  @db.VarChar(100)
-  truck_status     String   @default("Active") @db.VarChar(10)
+  truck_status     String   @default(dbgenerated("(Active)")) @db.VarChar(10)
   createdAt        DateTime @db.DateTime(0)
   updatedAt        DateTime @db.DateTime(0)
+}
+
+model area_groups {
+  agid    Int    @id @default(autoincrement())
+  agname  String @db.VarChar(75)
+  agareas String @db.Text
+}
+
+model product_prices_areas {
+  ppid            Int    @id @default(autoincrement())
+  ppa_pid         Int
+  pparea          String @db.VarChar(75)
+  pp_subscription String @default(dbgenerated("(Basic)")) @db.VarChar(15)
+  pp_rate         Int    @default(1)
 }
 
 enum order_table_last_update_by {

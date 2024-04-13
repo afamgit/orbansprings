@@ -1,6 +1,6 @@
 'use client'
 
-import { deletePage, deleteTestimonial, deleteTeam, deleteMeter, deleteUser, deleteFaq } from '@/app/utils/actions';
+import { deletePage, deleteProduct, deleteAreaGroup, deleteTestimonial, deleteTeam, deleteMeter, deleteUser, deleteFaq } from '@/app/utils/actions';
 import Link from 'next/link';
 import { BsTrash2Fill, BsPencilSquare } from 'react-icons/bs';
 
@@ -23,6 +23,69 @@ export function DeletePage({ id }: { id: string }) {
     return (
       <Link
         href={`/account/content-pages/${page.cpageid}/edit`}
+        className="rounded-md border p-2 hover:bg-gray-100"
+      >
+          <span className="sr-only">Update</span> <BsPencilSquare className='text-2xl' /><span className='hidden md:block'>Update</span>
+      </Link>
+    );
+  }
+
+  export function DeleteProduct({ id }: { id: string }) {
+   
+    return (
+        <button onClick={() => {
+          if(confirm('Confirm you want to delete this product. This action is irreversible') === true) {
+            deleteProduct(id)}
+         }} className="rounded-md border p-2 hover:bg-gray-100">
+          <span className="sr-only">Delete</span> <BsTrash2Fill className='text-2xl text-red-600' /><span className='hidden md:block'>Delete</span>
+        </button>
+    );
+  }
+
+  export function UpdateProduct({ product }: { product: any }) {
+
+   
+    return (
+      <Link
+        href={`/account/products/${product.id}/edit`}
+        className="rounded-md border p-2 hover:bg-gray-100"
+      >
+          <span className="sr-only">Update</span> <BsPencilSquare className='text-2xl' /><span className='hidden md:block'>Update</span>
+      </Link>
+    );
+  }
+
+  export function UpdateProductPrices({ id }: { id: any }) {
+
+   
+    return (
+      <Link
+        href={`/account/products/${id}/prices`}
+        className="rounded-md border p-2 hover:bg-gray-100"
+      >
+          <span className="sr-only">Manage prices</span> <span className='hidden md:block'>Manage prices</span>
+      </Link>
+    );
+  }
+
+  export function DeleteAreaGroup({ id }: { id: string }) {
+   
+    return (
+        <button onClick={() => {
+          if(confirm('Confirm you want to delete this area group. This action is irreversible') === true) {
+            deleteAreaGroup(id)}
+         }} className="rounded-md border p-2 hover:bg-gray-100">
+          <span className="sr-only">Delete</span> <BsTrash2Fill className='text-2xl text-red-600' /><span className='hidden md:block'>Delete</span>
+        </button>
+    );
+  }
+
+  export function UpdateAreaGroup({ areagroup }: { areagroup: any }) {
+
+   
+    return (
+      <Link
+        href={`/account/areagroups/${areagroup.agid}/edit`}
         className="rounded-md border p-2 hover:bg-gray-100"
       >
           <span className="sr-only">Update</span> <BsPencilSquare className='text-2xl' /><span className='hidden md:block'>Update</span>

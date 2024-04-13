@@ -222,6 +222,64 @@ export async function fetchPages(query: string) {
   }
 }
 
+export async function fetchFilteredAllProducts(
+  query: string,
+  currentPage: number,
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const products = await prisma.products.findMany({
+      skip: offset,
+      take: ITEMS_PER_PAGE
+    })
+    return products;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch products.');
+  }
+}
+
+export async function fetchAllProducts(query: string) {
+  try {
+    const products = await prisma.products.count()
+    const totalPages = Math.ceil(Number(products) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch products.');
+  }
+}
+
+
+export async function fetchFilteredAreaGroups(
+  query: string,
+  currentPage: number,
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const areagroups = await prisma.area_groups.findMany({
+      skip: offset,
+      take: ITEMS_PER_PAGE
+    })
+    return areagroups;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch area groups.');
+  }
+}
+
+export async function fetchAreaGroups(query: string) {
+  try {
+    const areagroups = await prisma.area_groups.count()
+    const totalPages = Math.ceil(Number(areagroups) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch area groups.');
+  }
+}
 
 export async function fetchFilteredTestimonials(
   query: string,
@@ -991,15 +1049,15 @@ export async function fetchWaterAnalysis() {
   }
 }
 
-export async function fetchAllProducts() {
-  try {
-    const products = await prisma.products.findMany()
-    return products;
-  } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to fetch products.');
-  }
-}
+// export async function fetchAllProducts() {
+//   try {
+//     const products = await prisma.products.findMany()
+//     return products;
+//   } catch (error) {
+//     console.error('Database Error:', error);
+//     throw new Error('Failed to fetch products.');
+//   }
+// }
 
 export async function fetchLatestCustomers() {
   try {
