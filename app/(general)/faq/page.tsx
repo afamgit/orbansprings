@@ -12,7 +12,7 @@ export default async function Page() {
   const questions = await prisma.faqs.findMany()
 
   return (
-    <div className="bg-gray-100">
+    <div className="bg-gray-100 text-gray-900">
       <div className='w-full md:max-w-[1200px] mx-auto flex flex-col justify-center items-center'>
       <h1 className='mt-3 py-3 text-sky-600 font-bold text-3xl text-center md:text-5xl'>Frequently Asked Questions</h1>
       <h1 className='my-1 py-1 text-sky-600 font-bold text-3xl text-center md:text-5xl'>{`(FAQs)`}</h1>

@@ -19,7 +19,7 @@ export default async function Page() {
   const teamMembers = await prisma.team_members.findMany()
 
   return (
-    <div className="bg-gray-100">
+    <div className="bg-gray-100 text-gray-900">
       <div className='max-w-[1200px] mx-auto flex flex-col justify-center items-center p-2 md:p-5'>
               <h1 className='my-3 py-3 text-sky-600 font-bold text-5xl'>About</h1>
       <h3 className='text-2xl my-2 py-2 font-medium'>Orban Springs</h3>

@@ -2,6 +2,8 @@ import { prisma } from '@/scripts'
 import { fetchFilteredCommissions, fetchFilteredOrders } from '../utils/data';
 import moment from 'moment';
 import { formatCurrency } from '../utils/utils';
+import { statusBg } from '../utils/snippets';
+import Link from 'next/link';
 
 export default async function Orders({
     query,
@@ -22,13 +24,6 @@ export default async function Orders({
     const allOrders = JSON.parse(JSON.stringify(getOrders))
 
     const total = await prisma.transactions.count()
-
-   
-      const statusBg = (status: string) => {
-        const bg = status === 'New' ? 'bg-gray-300' : status === 'Completed' ? 'bg-green-400' : status === 'Pending' ? 'bg-red-300' : status === 'Accepted' ? 'bg-green-200' : status === 'Cancelled' ? 'bg-red-300' : 'bg-red-600'
-
-        return  `px-3 py-1 text-gray-900 rounded text-center ${bg}`
-      }
 
 
       return (
@@ -57,7 +52,7 @@ export default async function Orders({
         return (
             <tr key={i} className='border-b-slate-100 border-b-2'>
             <td>{++i}</td>
-            <td>{item.orderref}<br /><span className='text-gray-400'>{item.customername}</span></td>
+            <td className='font-bold'><Link href={`/account/orders/${item.id}/order-detail?showDialog=y`}>{item.orderref}</Link><br /><span className='text-gray-400'>{item.customername}</span></td>
             <td>{item.customerarea}</td>
             <td>{item.productname}<br /><span className='text-gray-400'>{moment(item.createdAt).format('DD/MM/YYYY H:mma')}</span></td>
             <td className='text-center'>{formatCurrency(item.amount)}</td>

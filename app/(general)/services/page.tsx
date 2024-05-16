@@ -16,7 +16,7 @@ export default async function Page() {
     })
 
   return (
-    <div className="bg-gray-100">
+    <div className="bg-white text-gray-900">
       <div className='max-w-[1200px] mx-auto flex flex-col justify-center items-center'>
               <h1 className='my-3 py-3 text-sky-600 font-bold text-2xl md:text-5xl'>Services</h1>
       <h3 className='text-2xl my-2 py-2 font-bold'>These are the services Orban Springs provides</h3>

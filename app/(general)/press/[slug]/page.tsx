@@ -2,15 +2,36 @@ import { prisma} from '@/scripts'
 import Image from 'next/image';
 import moment from 'moment';
 import { BsEyeFill } from 'react-icons/bs';
-import { Metadata } from 'next';
+import type { Metadata, ResolvingMetadata } from 'next'
+ 
+type Props = {
+  params: { slug: string }
+  searchParams: { [key: string]: string | string[] | undefined }
+}
 
-export const metadata: Metadata = {
-    title: 'Press',
-  };
+  export async function generateMetadata(
+    { params, searchParams }: Props,
+    parent: ResolvingMetadata
+  ): Promise<Metadata> {
+    // read route params
+    const {slug} = params;
+
+    const thepost = await prisma.articles.findFirst({
+        where: {
+            titleslug: slug
+        },
+        select: {mkeys: true, mdesc:true, title:true, author:true}
+    })
+
+    return {
+      title: thepost?.title,
+      description: thepost?.mdesc
+    }
+  }
 
   export async function generateStaticParams() {
 
-    const allSlugs = await prisma.blog.findMany({
+    const allSlugs = await prisma.articles.findMany({
         orderBy: {createdAt: 'desc'},
         take:3,
         skip: 0,
@@ -24,14 +45,15 @@ export const metadata: Metadata = {
 export default async function Page({params}: {params: {slug: string}}) {
     const {slug} = params;
 
-    const post = await prisma.blog.findFirst({
+    const post = await prisma.articles.findFirst({
         where: {
             titleslug: slug
         }
     })
 
+
     return (
-        <div className='p-3 bg-white'>
+        <div className='p-3 bg-white text-gray-900'>
         <div className='w-full md:w-[1200px] mx-auto p-3 md:p-5 bg-white'>
             <h3 className='text-xl md:text-3xl mt-7 py-5'>{post?.title}</h3>
 
@@ -43,9 +65,9 @@ export default async function Page({params}: {params: {slug: string}}) {
 
             <div className='w-full md:w-4/5 my-2 py=1 flex justify-center items-center'>
             <Image
-              height={500}
+              height={300}
               width={400}
-              src={`https://orbansprings.com/${post?.artphoto}`}
+              src={`${post?.artphoto}`}
               alt={`${post?.title}`}
               className='rounded-lg'
             />  

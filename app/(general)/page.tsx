@@ -32,7 +32,7 @@ image: '/get_started_4.jpeg'
 
 export default async function Home() {
 
-  const blogs = await prisma.blog.findMany({
+  const blogs = await prisma.articles.findMany({
     orderBy: {createdAt: 'desc'},
     skip: 0,
     take: 3
@@ -94,10 +94,12 @@ export default async function Home() {
 
       </div>
 
-      <div className='bg-gray-200 p-8'>
+      <div className='bg-gray-200 p-8 text-gray-900'>
         <h1 className='text-5xl text-center text-gray-800 my-3 py-3'>Press</h1>
         <div className='w-full md:w-[1200px] mx-auto flex justify-start items-center flex-wrap'>
         {blogs.map((item,i) => {
+            let imgSrc = item.artphoto?.includes('images') ? `https://orbansprings.com/${item.artphoto}` : `${item.artphoto}`
+
           return (
             <Link href={`/press/${item.titleslug}`} key={i} className='w-full md:flex gap-2 p-3'>
                 <div className='w-full md:w-2/5'>
@@ -105,7 +107,7 @@ export default async function Home() {
             key={i}
               height={400}
               width={500}
-              src={`https://orbansprings.com/${item.artphoto}`}
+              src={`${imgSrc}`}
               alt={item.title}
               className='rounded-lg'
             />

@@ -1,6 +1,6 @@
 'use client'
 
-import { deletePage, deleteProduct, deleteAreaGroup, deleteTestimonial, deleteTeam, deleteMeter, deleteUser, deleteFaq } from '@/app/utils/actions';
+import { deletePage, deleteArticle, deleteAccount, deleteProduct, deleteAreaGroup, deleteTestimonial, deleteTeam, deleteMeter, deleteUser, deleteFaq } from '@/app/utils/actions';
 import Link from 'next/link';
 import { BsTrash2Fill, BsPencilSquare } from 'react-icons/bs';
 
@@ -29,6 +29,46 @@ export function DeletePage({ id }: { id: string }) {
       </Link>
     );
   }
+
+  export function DeleteAccount({ id }: { id: string }) {
+   
+    return (
+      <button onClick={() => {
+        if(confirm('Confirm you want to delete your account. This action is irreversible') === true) {
+          deleteAccount(id)}
+       }} className="rounded-md border p-2 bg-blue-300 hover:bg-blue-400">
+          <span className='text-gray-900'>Delete Profile</span>
+        </button>
+    );
+  }
+
+  export function DeleteBlog({ id }: { id: string }) {
+   
+    return (
+      <button onClick={() => {
+        if(confirm('Confirm you want to delete this article. This action is irreversible') === true) {
+          deleteArticle(id)}
+       }} className="rounded-md border p-2 hover:bg-gray-100">
+          <span className="sr-only">Delete</span> <BsTrash2Fill className='text-2xl text-red-600' /><span className='hidden md:block'>Delete</span>
+        </button>
+    );
+  }
+
+  export function UpdateBlog({ article }: { article: any }) {
+
+   
+    return (
+      <Link
+        href={`/account/blog/${article.artid}/edit`}
+        className="rounded-md border p-2 hover:bg-gray-100"
+      >
+          <div className='flex justify-center items-center'>
+          <span className="sr-only">Update</span> <BsPencilSquare className='text-2xl' /><span className='hidden md:block'>Update</span>
+          </div>
+      </Link>
+    );
+  }
+
 
   export function DeleteProduct({ id }: { id: string }) {
    

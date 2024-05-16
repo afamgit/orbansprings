@@ -20,7 +20,7 @@ export default function LoginForm() {
   const [errorMessage, dispatch] = useFormState(authenticate, undefined);
  
   return (
-    <form action={dispatch} className="space-y-3">
+    <form action={dispatch} className="space-y-3 text-gray-800">
       <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
         <h1 className={`mb-3 text-2xl`}>
           Please log in to continue.
@@ -91,8 +91,8 @@ function LoginButton() {
   const { pending } = useFormStatus();
  
   return (
-    <button className="flex justify-center items-center mt-4 w-full bg-sky-200 px-3 py-2 rounded-full" aria-disabled={pending}>
-    <span>Login</span> <ArrowRightIcon className="ml-2 h-5 w-5 text-slate-700" />
+    <button className="flex justify-center items-center mt-4 w-full bg-sky-200 px-3 py-2 rounded-full" disabled={pending}>
+    <span>{pending ? 'Logging in...' : 'Login'}</span> <ArrowRightIcon className="ml-2 h-5 w-5 text-slate-700" />
   </button>
   );
 }

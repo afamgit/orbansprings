@@ -16,6 +16,40 @@ export async function getUser(email: string) {
   }
 }
 
+export async function getProfileUser(email: string) {
+
+  try {
+    const user = await prisma.users.findFirst({
+      where: {email: email},
+      select: {
+        name:true, username: true, photo:true, address: true, phone: true, role:true, email:true, id:true
+      }
+    });
+
+    return user;
+  } catch (error: any) {
+    console.error('Failed to fetch user:', error);
+    throw new Error('Failed to fecth user')
+  }
+}
+
+export async function getProfilePassword(email: string) {
+
+  try {
+    const user = await prisma.users.findFirst({
+      where: {email: email},
+      select: {
+        name:true, username: true, role:true, email:true, id:true, password:true
+      }
+    });
+
+    return user;
+  } catch (error: any) {
+    console.error('Failed to fetch user:', error);
+    throw new Error('Failed to fecth user')
+  }
+}
+
 
 export async function fetchCustomers() {
   try {
@@ -248,6 +282,35 @@ export async function fetchAllProducts(query: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch products.');
+  }
+}
+
+export async function fetchFilteredBlog(
+  query: string,
+  currentPage: number,
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const blog = await prisma.articles.findMany({
+      skip: offset,
+      take: ITEMS_PER_PAGE
+    })
+    return blog;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch articles.');
+  }
+}
+
+export async function fetchBlog(query: string) {
+  try {
+    const blog = await prisma.articles.count()
+    const totalPages = Math.ceil(Number(blog) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch articles.');
   }
 }
 

@@ -48,6 +48,9 @@ export default async function AdminLayout({
     },
   });
 
+  const profileImg = profile?.photo?.includes('profile') ? `https://orbansprings.com/${profile.photo}` : `${profile?.photo}`
+
+
   return (
     <div className="w-full min-h-screen">
       <div className="md:hidden bg-black text-white py-2 flex flex-col justify-between items-center">
@@ -57,8 +60,8 @@ export default async function AdminLayout({
       </div>
       <div className="flex justify-start items-start">
         <div className="h-screen sticky top-0 hidden md:h-full flex flex-shrink-0 md:block w-full md:w-1/5 bg-sky-400 text-white">
-          <div className="w-full flex flex-col justify-start bg-black bg-opacity-10 items-start p-2 md:p-5">
-            <div className="flex justify-center items-center my-2 py-2 text-xl">
+          <div className="w-full flex flex-col justify-start bg-black bg-opacity-10 items-start p-2 md:px-5 md:py-1">
+            <div className="flex justify-center items-center my-1 py-1 text-xl">
               <Image
                 src="/logo_full.png"
                 height={48}
@@ -69,8 +72,8 @@ export default async function AdminLayout({
               <p className="ml-2 pl-2">Orban Springs</p>
             </div>
           </div>
-          <div className="min-h-screen bg-black bg-opacity-10 py-3">
-            <div className="w-full my-2 py-2">
+          <div className=" bg-black bg-opacity-10 pt-1">
+            <div className="w-full h-full overflow-y-auto md: h-[750px]">
             {profile?.role === "admin" ? <AdminSideBar /> : profile?.role === "fleetownerdriver" ? <VendorMerchantSideBar /> : profile?.role === "fleetownermeter" ? <WaterMerchantSideBar /> : <IotSideBar />}
             </div>
           </div>
@@ -88,7 +91,7 @@ export default async function AdminLayout({
                 {profile?.username} 
                 <Image
                   className="rounded-full ml-2"
-                  src={`${process.env.NEXTAUTH_URL}/${profile?.photo}`}
+                  src={`${profileImg}`}
                   height={30}
                   width={30}
                   alt="logo"

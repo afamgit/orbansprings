@@ -144,7 +144,6 @@ export function AddPageForm() {
           </div>
         </div>
 
-        <input type="hidden" id="picture" name="picture"/>
     
         <SubmitButton />
 <p aria-live="polite" className="sr-only">
@@ -174,6 +173,7 @@ export function AddPageForm() {
                 <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
                   Update content page
                 </h2>
+                <p>{state?.message}</p>
               </div>
       
               <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -185,7 +185,7 @@ export function AddPageForm() {
             type="text" 
             id="category" 
             name="category" 
-            defaultValue={page.cpagemenu}
+            defaultValue={page?.cpagemenu}
             required
             className="block w-full p-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
           >
@@ -205,7 +205,7 @@ export function AddPageForm() {
                       type="text" 
                       id="title" 
                       name="title" 
-                      defaultValue={page.cpagename} 
+                      defaultValue={page?.cpagename} 
                       required
                       className="block w-full p-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
                     />
@@ -220,7 +220,7 @@ export function AddPageForm() {
                       rows={4}
                       id="desc" 
                       name="desc" 
-                      defaultValue={page.cpagecontent} 
+                      defaultValue={page?.cpagecontent} 
                       required
                       className="block w-full p-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
                     />
@@ -239,7 +239,7 @@ export function AddPageForm() {
                     </div>
                   </div>
 
-                  <input type="hidden" id="picture" name="picture" defaultValue={page.cpagephoto} />
+                  <input type="hidden" id="picture" name="picture" defaultValue={page?.cpagephoto} />
               
                   <EditButton />
         <p aria-live="polite" className="sr-only">

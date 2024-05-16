@@ -29,7 +29,7 @@ export default async function AreaGroups({
   <thead>
   <tr className='bg-gray-300 px-2 py-1'>
     <th className='text-start'>#</th>
-      <th className='text-start'>Page</th>
+      <th className='text-start'>Area group</th>
       <th className='text-start flex justify-end'>Action</th>
     </tr>
   </thead>
