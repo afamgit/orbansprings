@@ -34,6 +34,11 @@ export function AdminSideBar () {
                 {(pathname?.endsWith('water') || pathname?.endsWith('tank') || pathname?.endsWith('plumbing')) ? <MeterIcon /> : <MeterIconWhite />} <span className="ml-2">Orders</span> 
                 </div>
             </Link>
+            <Link className='px-1' href='/account/requests'>
+                <div className={`w-full flex justify-start items-center md:px-8 text-xl ${pathname?.endsWith('requests') && 'bg-slate-100 text-sky-400 py-1'}`}>
+                {pathname?.endsWith('requests') ? <MeterIcon /> : <MeterIconWhite />} <span className="ml-2">Requests</span> 
+                </div>
+            </Link>
             <Link className='px-1' href='/account/commissions'>
                 <div className={`w-full flex justify-start items-center md:px-8 text-xl ${pathname?.endsWith('commissions') && 'bg-slate-100 text-sky-400 py-1'}`}>
                 {pathname?.endsWith('commissions') ? <CommissionIcon /> : <CommissionIconWhite />} <span className="ml-2">Commissions</span> 

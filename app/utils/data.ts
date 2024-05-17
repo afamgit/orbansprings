@@ -1001,6 +1001,116 @@ export async function fetchOrdersPlumbing(query: string, product: string, subscr
   }
 }
 
+export async function fetchFilteredRequests(
+  query: string,
+  currentPage: number,
+  product: string,
+  status: string,
+  location: string
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const requests = await prisma.requests.findMany({
+      where: {AND:[{req_type: 'Water packages' }, {OR: [{productname: {contains:product}}]}, {OR: [{status: {contains:status}}]}, {OR: [{customerarea: {contains:location}}]}]},
+      select: {id: true, productname: true, req_type:true, createdAt: true, status:true, orderref:true, customername:true, customerareagroup:true, customerarea:true,},
+      skip: offset,
+      take: ITEMS_PER_PAGE
+    })
+    return requests;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch requests.');
+  }
+}
+
+export async function fetchRequests(query: string, product: string, status: string, location: string) {
+  try {
+    const requests = await prisma.transactions.count({
+      where: {AND:[{req_type: 'Water packages' }, {OR: [{productname: {contains:product}}]}, {OR: [{status: {contains:status}}]}, {OR: [{customerarea: {contains:location}}]}]}
+    })
+    const totalPages = Math.ceil(Number(requests) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch requests.');
+  }
+}
+
+export async function fetchFilteredRequestsTank(
+  query: string,
+  currentPage: number,
+  product: string,
+  status: string,
+  location: string
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const requests = await prisma.requests.findMany({
+      where: {AND:[{req_type: 'Tank cleaning' }, {OR: [{productname: {contains:product}}]}, {OR: [{status: {contains:status}}]}, {OR: [{customerarea: {contains:location}}]}]},
+      select: {id: true, productname: true, req_type:true, createdAt: true, status:true, orderref:true, customername:true, customerareagroup:true, customerarea:true,},
+      skip: offset,
+      take: ITEMS_PER_PAGE
+    })
+    return requests;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch tank cleaning requests.');
+  }
+}
+
+export async function fetchRequestsTank(query: string, product: string, status: string, location: string) {
+  try {
+    const requests = await prisma.requests.count({
+      where: {AND:[{req_type: 'Tank cleaning' }, {OR: [{productname: {contains:product}}]}, {OR: [{status: {contains:status}}]}, {OR: [{customerarea: {contains:location}}]}]}
+    })
+    const totalPages = Math.ceil(Number(requests) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch tank cleaning requests.');
+  }
+}
+
+export async function fetchFilteredRequestsPlumbing(
+  query: string,
+  currentPage: number,
+  product: string,
+  status: string,
+  location: string
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const requests = await prisma.requests.findMany({
+      where: {AND:[{req_type: 'Plumbing' }, {OR: [{productname: {contains:product}}]}, {OR: [{status: {contains:status}}]}, {OR: [{customerarea: {contains:location}}]}]},
+      select: {id: true, productname: true, req_type:true, createdAt: true, status:true, orderref:true, customername:true, customerareagroup:true, customerarea:true,},
+      skip: offset,
+      take: ITEMS_PER_PAGE
+    })
+    return requests;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch plumbing requests.');
+  }
+}
+
+export async function fetchRequestsPlumbing(query: string, product: string, status: string, location: string) {
+  try {
+    const requests = await prisma.requests.count({
+      where: {AND:[{req_type: 'Plumbing' }, {OR: [{productname: {contains:product}}]}, {OR: [{status: {contains:status}}]}, {OR: [{customerarea: {contains:location}}]}]}
+    })
+    const totalPages = Math.ceil(Number(requests) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch plumbing requests.');
+  }
+}
+
+
+
 export async function fetchFilteredComplaints(
   query: string,
   currentPage: number,
