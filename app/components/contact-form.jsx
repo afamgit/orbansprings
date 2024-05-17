@@ -34,7 +34,7 @@ export function ContactForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+setLoading(true)
 
     try {
       const formData = new FormData();
