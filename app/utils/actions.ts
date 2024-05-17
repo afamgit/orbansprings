@@ -46,19 +46,33 @@ export async function newsletterSignup(prevState: any, formData: FormData) {
     email: z.string(),
   })
   const data = schema.parse({
-    email: formData.get('email'),
+    email: formData.get('nemail'),
   })
 
   try {
+
+const checkNewsletter = await prisma.newsletter.findFirst({
+  where: {nlemail: data.email}
+})
+
+if(checkNewsletter) {
+  return { message: 'This email address exists on our Newsletter database' }
+}
+
     await prisma.newsletter.create({
       data: {
         nlemail: data.email,
-        nlname: data.email
-
+        nlname: data.email,
+        nlstatus: 1,
+        nl_received: 0,
+        nl_id: 0
       }
     })
+    return { message: 'You have successfully signed up' }
+
   } catch (e) {
-    throw e
+    console.log(e)
+    return { message: 'Failed to sign up' }
   }
 }
 
