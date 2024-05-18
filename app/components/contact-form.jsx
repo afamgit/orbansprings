@@ -64,6 +64,7 @@ setLoading(true)
           return
   }
 
+
       const response = await fetch(
         '/api/contact',
         {
@@ -71,7 +72,7 @@ setLoading(true)
           headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(parsedData)
+        body: JSON.stringify(parsedData.data)
     })
 
       const res = await response.json();
@@ -102,8 +103,8 @@ formData.append("action", "send");
       const resultResponse = await result.json();
 
       if (resultResponse?.status === 400) {
-        setMsg(resultResponse?.msg);
         setLoading(false);
+        setMsg(resultResponse?.msg);
       } else {
         setLoading(false);
         router.push(`/contact-confirmation?msg=${resultResponse?.msg}`);
