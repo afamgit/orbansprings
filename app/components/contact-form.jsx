@@ -69,11 +69,11 @@ setLoading(true)
       const resultResponse = await result.json();
 
       if (resultResponse?.status === 400) {
-        setMsg(resultResponse.message);
+        setMsg(resultResponse?.msg);
         setLoading(false);
       } else {
         setLoading(false);
-        router.push(`/contact-confirmation?msg${resultResponse.message}`);
+        router.push(`/contact-confirmation?msg=${resultResponse?.msg}`);
       }
     } catch (err) {
       console.error(err);
