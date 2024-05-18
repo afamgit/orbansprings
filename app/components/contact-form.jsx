@@ -30,23 +30,32 @@ export function ContactForm() {
 
   const [state, formAction] = useFormState(sendMessage, initialState);
 
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [subject, setSubject] = useState('');
+  const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (event) => {
+
+  async function handleSubmit(event) {
     event.preventDefault();
+
 setLoading(true)
+
+
 
     try {
       const formData = new FormData();
 
-      formData.append("name", event.target.name);
-      formData.append("email", event.target.email);
-      formData.append("phone", event.target.phone);
-      formData.append("subject", event.target.subject);
-      formData.append("message", event.target.message);
+      formData.append("name", name);
+      formData.append("email", email);
+      formData.append("phone", phone);
+      formData.append("subject", subject);
+      formData.append("message", message);
       formData.append("fromname", "Orban Springs");
       formData.append("fromemail", "info@orbansprings.com");
-      formData.append("yourchoice", "");
+      formData.append("yourchoice", '');
       formData.append("action", "send");
 
       const result = await fetch(
@@ -84,6 +93,7 @@ setLoading(true)
                   id="name"
                   name="name"
                   placeholder="Name"
+                  onChange={(event) => setName(event.target.value)}
                   required
                   className="block h-[40px] w-full p-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6"
                 />
@@ -97,6 +107,7 @@ setLoading(true)
                   id="phone"
                   name="phone"
                   placeholder="Phone"
+                  onChange={(event) => setPhone(event.target.value)}
                   required
                   className="block h-[40px] w-full p-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6"
                 />
@@ -112,6 +123,7 @@ setLoading(true)
                   id="email"
                   name="email"
                   placeholder="Email"
+                  onChange={(event) => setEmail(event.target.value)}
                   required
                   className="block h-[40px] w-full p-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6"
                 />
@@ -125,6 +137,7 @@ setLoading(true)
                   id="subject"
                   name="subject"
                   placeholder="Subject"
+                  onChange={(event) => setSubject(event.target.value)}
                   required
                   className="block h-[40px] w-full p-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6"
                 />
@@ -140,6 +153,7 @@ setLoading(true)
                 id="message"
                 name="message"
                 placeholder="Message"
+                onChange={(event) => setMessage(event.target.value)}
                 required
                 className="block w-full p-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
