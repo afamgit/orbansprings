@@ -57,17 +57,23 @@ const profileImg = profile?.photo?.includes('profile') ? `https://orbansprings.c
           }
  
           const file = inputFileRef.current.files[0];
+
+          const formData = new FormData();
+
+          formData.append("file", file)
+          formData.append("action", 'upload')
  
           const response = await fetch(
-            `/api/images?filename=${file.name}`,
+            'https://support.orbansprings.com/api/upload_file.php',
             {
               method: 'POST',
-              body: file,
+              body: formData,
             },
           );
  
-          const newBlob = (await response.json()) as PutBlobResult;
- 
+          // const newBlob = (await response.json()) as PutBlobResult;
+          const newBlob = await response.json();
+
           setBlob(newBlob);
         }}
       >
@@ -82,6 +88,8 @@ const profileImg = profile?.photo?.includes('profile') ? `https://orbansprings.c
         <input name="file" ref={inputFileRef} type="file" />
         <button className='mt-3 bg-gray-600 text-white rounded px-3 py-1' type="submit">Upload</button>
       </form>
+
+      {JSON.stringify(blob)}
 
 
 <Image
