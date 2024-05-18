@@ -71,7 +71,7 @@ setLoading(true)
           headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(parsedData.data)
+        body: JSON.stringify(parsedData)
     })
 
       const res = await response.json();
