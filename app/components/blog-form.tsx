@@ -316,16 +316,21 @@ export function AddBlogForm() {
  
           const file = inputFileRef.current.files[0];
  
+          const formData = new FormData();
+
+          formData.append("file", file)
+          formData.append("action", 'upload')
+ 
           const response = await fetch(
-            `/api/images?filename=${file.name}`,
+            'https://support.orbansprings.com/api/upload_file.php',
             {
               method: 'POST',
-              body: file,
+              body: formData,
             },
           );
  
-          const newBlob = (await response.json()) as PutBlobResult;
- 
+          // const newBlob = (await response.json()) as PutBlobResult;
+          const newBlob = await response.json();
           setBlob(newBlob);
         }}
       >
@@ -645,16 +650,22 @@ export function AddBlogForm() {
  
           const file = inputFileRef.current.files[0];
  
+          const formData = new FormData();
+
+          formData.append("file", file)
+          formData.append("action", 'upload')
+ 
           const response = await fetch(
-            `/api/images?filename=${file.name}`,
+            'https://support.orbansprings.com/api/upload_file.php',
             {
               method: 'POST',
-              body: file,
+              body: formData,
             },
           );
  
-          const newBlob = (await response.json()) as PutBlobResult;
- 
+          // const newBlob = (await response.json()) as PutBlobResult;
+          const newBlob = await response.json();
+
           setBlob(newBlob);
         }}
       >
@@ -670,21 +681,18 @@ export function AddBlogForm() {
         <button className='mt-3 bg-gray-600 text-white rounded px-3 py-1' type="submit">Upload</button>
       </form>
 
+      <Image
+              height={220}
+              width={200}
+              src={`${blog?.artphoto}`}
+              alt={blog?.title}
+              className='rounded-lg h-[200px] mt-4'
+            />
       </div>
 
-      {/* {blob && (
-        <div>
-          Blob url: <a href={blob.url}>{blob.url}</a>
-        </div>
-      )} */}
+  
 
-{/* <Image
-              height={550}
-              width={400}
-              src={`https://aretywrh7vrc3oul.public.blob.vercel-storage.com/logo_full-GrDYhhDMWyK6Mi1TzWnEBLA3cI4Lbu.png`}
-              alt={blog?.title}
-              className='rounded-lg h-[400px]'
-            /> */}
+
 
 
     </div> </div>

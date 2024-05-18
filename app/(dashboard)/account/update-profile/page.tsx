@@ -32,15 +32,21 @@ const profileImg = profile?.photo?.includes('profile') ? `https://orbansprings.c
       <div className="max-w-[1200px] mx-auto justify-center items-start p-8">
 
 <h3 className='my-2 py-2 text-2xl font-bold'>Profile</h3>
-      <Image
+      
+      <div className='w-full flex justify-start items-center'>
+        <Image
               height={300}
               width={300}
               src={`${profileImg}`}
               alt={profile?.name || ''}
-              className='rounded-full h-[200px] w-[200px] mt-6'
+              className='rounded-full h-[250px] w-[250px] mt-4 mr-4'
             />
-
-
+            <div className='w-3/5 flex flex-col justify-start items-start ml-2 pl-4'>
+          <h3 className='text-3xl font-bold mb-2'>{profile?.name}</h3>
+          <p className='capitalize'>{profile?.role}</p>
+        </div>        
+        </div>
+        
 
         <h3 className='my-3 py-2 text-2xl font-bold'>Personal settings</h3>
         <div className='border-2 border-gray-200 p-3 rounded-lg'>

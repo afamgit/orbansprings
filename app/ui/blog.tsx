@@ -47,7 +47,7 @@ export default async function Blog({
             <td className='hidden md:block'>
             <div className='w-16 h-16'>
             <Image
-                src={`/blog/${item.artphoto}`}
+                src={`${item.artphoto}`}
                 height={48}
                 width={48}
                 alt={item.title}
