@@ -78,15 +78,16 @@ setLoading(true)
       const res = await response.json();
 
       if(res.status === 400) {
+        setLoading(false)
         setMsg(res.message) 
     } else {
       const formData = new FormData();
 
-formData.append("name", parsedData.name);
-formData.append("email", parsedData.email);
-formData.append("phone", parsedData.phone);
-formData.append("subject", parsedData.subject);
-formData.append("message", parsedData.message);
+formData.append("name", parsedData?.data.name);
+formData.append("email", parsedData?.data.email);
+formData.append("phone", parsedData?.data.phone);
+formData.append("subject", parsedData?.data.subject);
+formData.append("message", parsedData?.data.message);
 formData.append("fromname", "Orban Springs");
 formData.append("fromemail", "info@orbansprings.com");
 formData.append("yourchoice", '');
