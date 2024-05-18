@@ -10,6 +10,12 @@ const nextConfig = {
           },
           {
             protocol: 'https',
+            hostname: 'support.orbansprings.com',
+            port: '',
+            pathname: '/**',
+          },
+          {
+            protocol: 'https',
             hostname: 'orbansprings.vercel.app',
             port: '',
             pathname: '/**',
