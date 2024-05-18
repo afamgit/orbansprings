@@ -92,7 +92,7 @@ formData.append("yourchoice", '');
 formData.append("action", "send");
 
       const result = await fetch(
-        "https://justwebservices.com/api/client_contact_form.php",
+        "https://support.orbansprings.com/api/client_contact_form.php",
         {
           method: "POST",
           body: formData,
