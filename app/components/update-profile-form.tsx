@@ -89,8 +89,6 @@ const profileImg = profile?.photo?.includes('profile') ? `https://orbansprings.c
         <button className='mt-3 bg-gray-600 text-white rounded px-3 py-1' type="submit">Upload</button>
       </form>
 
-      {JSON.stringify(blob)}
-
 
 <Image
               height={300}
