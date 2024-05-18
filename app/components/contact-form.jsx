@@ -73,7 +73,7 @@ setLoading(true)
         setLoading(false);
       } else {
         setLoading(false);
-        router.push(`/contact-confirmation`);
+        router.push(`/contact-confirmation?msg${resultResponse.message}`);
       }
     } catch (err) {
       console.error(err);

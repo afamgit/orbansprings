@@ -8,7 +8,9 @@ export const metadata: Metadata = {
     title: 'Contact form confirmation',
   };
 
-export default async function Page() {
+export default async function Page({searchParams}: {searchParams:{msg: string}}) {
+
+  const msg = searchParams.msg
 
   return (
     <div className="bg-gray-100 text-gray-900">
@@ -21,7 +23,7 @@ export default async function Page() {
       <div className='w-full md:max-w-[1200px] mx-auto md:flex justify-start items-start'>
         <div className='w-full md:w-[800px] flex flex-col justify-start items-start md:w-3/5 rounded-lg p-2'>
           <p className='text-4xl mt-4'>Message sent</p>
-          <p className='text-xl my-3'>Thank you! Your message has been successfully sent</p>
+          <p className='text-xl my-3'>Thank you! {msg}</p>
         </div>
         <div className='w-full md:w-2/5 flex flex-col justify-center items-center p-5'>
             <div className='w-[350px] my-2 px-4 py-2 flex justify-start items-center bg-white shadow-md rounded'>
