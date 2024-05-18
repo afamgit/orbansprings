@@ -86,8 +86,8 @@ formData.append("email", parsedData.email);
 formData.append("phone", parsedData.phone);
 formData.append("subject", parsedData.subject);
 formData.append("message", parsedData.message);
-formData.append("fromname", "Orban Springs Testing");
-formData.append("fromemail", "nnajiafam@yahoo.com");
+formData.append("fromname", "Orban Springs");
+formData.append("fromemail", "info@orbansprings.com");
 formData.append("yourchoice", '');
 formData.append("action", "send");
 
