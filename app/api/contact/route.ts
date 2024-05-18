@@ -1,58 +1,40 @@
 import { NextResponse, NextRequest } from 'next/server'
-const nodemailer = require('nodemailer');
+import { prisma } from "@/scripts";
 
 // Handles POST requests to /api
 
 export async function POST(req: Request) {
-    const username = process.env.EMAIL_USERNAME;
-    const password = process.env.EMAIL_PASSWORD;
-    const myEmail = process.env.PERSONAL_EMAIL;
-    const host = process.env.HOST;
 
-    const formData = await req.formData()
-    const name = formData.get('name')
-    const email = formData.get('email')
-    const phone = formData.get('phone')
-    const subject = formData.get('subject')
-    const message = formData.get('message')
+  const body = await req.json()
 
-    const transporter = nodemailer.createTransport({
-        sendmail: true,
-  newline: 'unix',
-  host: host,
-  port: 465,
-//   port: 587,
-  secure: false,
-  auth: {
-    user: username,
-    pass: password
-  },
-  tls:{
-    rejectUnauthorized:false  // if on local
-  }
-    });
+  const {name, email, phone, subject, message } = body
+
+  console.log(`${subject} and ${name}`)
 
     try {
 
-        const mail = await transporter.sendMail({
-            from: username,
-            to: myEmail,
-            replyTo: email,
-            subject: `Heels and Key meessage from ${email}`,
-            html: `
-            <p>Name: ${name} </p>
-            <p>Email: ${email} </p>
-            <p>Phone: ${phone} </p>
-            <p>Subject: ${subject} </p>
-            <p>Message: ${message} </p>
-            `,
-        })
+      const createMessage = await prisma.contact_messages.create({
+        data: {
+          cname: name,
+          cemail: email,
+          cphone: phone,
+          csubject: subject,
+          cmessage: message,
+          cstatus: 'Open',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        }
+      })
 
-        return NextResponse.json({ message: "Success: email was sent" })
+      if(!createMessage) {
+       return NextResponse.json({ status: 400, message: "Could not send message" })
+      }
+
+        return NextResponse.json({ status: 200, message: "Message sent" })
 
     } catch (error) {
         console.log(error)
-        NextResponse.json({ message: "COULD NOT SEND MESSAGE" })
+      return  NextResponse.json({ status: 400, message: "Could not send message" })
     }
 
   }

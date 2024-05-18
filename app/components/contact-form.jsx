@@ -5,6 +5,15 @@ import { useFormStatus } from "react-dom";
 import { sendMessage } from "../utils/actions";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import z from 'zod';
+
+const messageSchema = z.object({
+  name: z.string().min(4, 'Name must be at least 4 characters'),
+  email: z.string().email(),
+  phone: z.string(),
+  subject: z.string(),
+  message: z.string(),
+})
 
 const initialState = {
   message: null,
@@ -30,33 +39,57 @@ export function ContactForm() {
 
   const [state, formAction] = useFormState(sendMessage, initialState);
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [subject, setSubject] = useState('');
-  const [message, setMessage] = useState('');
+  const [data, setData] = useState({});
+  const [msg, setMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const updateData = (e) => {
+    setData({
+        ...data, [e.target.name]: e.target.value
+    })
+}
 
   async function handleSubmit(event) {
     event.preventDefault();
 
 setLoading(true)
 
-
-
     try {
+      const parsedData = messageSchema.safeParse(data)
+
+      if (!parsedData.success) {
+          console.log(parsedData.error);
+          setErrorMsg('Contact form validation failed')
+          return
+  }
+
+      const response = await fetch(
+        '/api/contact',
+        {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(parsedData.data)
+    })
+
+      const res = await response.json();
+
+      if(res.status === 400) {
+        setMsg(res.message) 
+    } else {
       const formData = new FormData();
 
-      formData.append("name", name);
-      formData.append("email", email);
-      formData.append("phone", phone);
-      formData.append("subject", subject);
-      formData.append("message", message);
-      formData.append("fromname", "Orban Springs");
-      formData.append("fromemail", "info@orbansprings.com");
-      formData.append("yourchoice", '');
-      formData.append("action", "send");
+formData.append("name", parsedData.name);
+formData.append("email", parsedData.email);
+formData.append("phone", parsedData.phone);
+formData.append("subject", parsedData.subject);
+formData.append("message", parsedData.message);
+formData.append("fromname", "Orban Springs Testing");
+formData.append("fromemail", "nnajiafam@yahoo.com");
+formData.append("yourchoice", '');
+formData.append("action", "send");
 
       const result = await fetch(
         "https://justwebservices.com/api/client_contact_form.php",
@@ -75,6 +108,7 @@ setLoading(true)
         setLoading(false);
         router.push(`/contact-confirmation?msg=${resultResponse?.msg}`);
       }
+    }
     } catch (err) {
       console.error(err);
       alert("Error, please try resubmitting the form");
@@ -84,6 +118,11 @@ setLoading(true)
   return (
     <>
       <div className="w-full md:w-4/5 flex min-h-full bg-white rounded-lg p-6 flex-col justify-center shadow-md">
+
+      {msg !== '' && <div className='my-3 py-3'>
+                  <span className='bg-sky-200 text-gray-900 rounded-lg px-4 py-3 text-xl'>{msg}</span>
+                  </div>}
+
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-2 gap-4 my-3">
             <div className="rounded">
@@ -93,7 +132,7 @@ setLoading(true)
                   id="name"
                   name="name"
                   placeholder="Name"
-                  onChange={(event) => setName(event.target.value)}
+                  onChange={updateData}
                   required
                   className="block h-[40px] w-full p-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6"
                 />
@@ -107,7 +146,7 @@ setLoading(true)
                   id="phone"
                   name="phone"
                   placeholder="Phone"
-                  onChange={(event) => setPhone(event.target.value)}
+                  onChange={updateData}
                   required
                   className="block h-[40px] w-full p-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6"
                 />
@@ -123,7 +162,7 @@ setLoading(true)
                   id="email"
                   name="email"
                   placeholder="Email"
-                  onChange={(event) => setEmail(event.target.value)}
+                  onChange={updateData}
                   required
                   className="block h-[40px] w-full p-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6"
                 />
@@ -137,7 +176,7 @@ setLoading(true)
                   id="subject"
                   name="subject"
                   placeholder="Subject"
-                  onChange={(event) => setSubject(event.target.value)}
+                  onChange={updateData}
                   required
                   className="block h-[40px] w-full p-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6"
                 />
@@ -153,7 +192,7 @@ setLoading(true)
                 id="message"
                 name="message"
                 placeholder="Message"
-                onChange={(event) => setMessage(event.target.value)}
+                onChange={updateData}
                 required
                 className="block w-full p-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
