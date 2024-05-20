@@ -22,7 +22,24 @@ export async function getProfileUser(email: string) {
     const user = await prisma.users.findFirst({
       where: {email: email},
       select: {
-        name:true, username: true, photo:true, address: true, phone: true, role:true, email:true, id:true
+        name:true, username: true, photo:true, address: true, phone: true, role:true, email:true, enable2fa:true, id:true
+      }
+    });
+
+    return user;
+  } catch (error: any) {
+    console.error('Failed to fetch user:', error);
+    throw new Error('Failed to fecth user')
+  }
+}
+
+export async function getProfileFromUser(username: string) {
+
+  try {
+    const user = await prisma.users.findFirst({
+      where: {username: username},
+      select: {
+        name:true, username: true, email:true, enable2fa:true, id:true
       }
     });
 
@@ -311,6 +328,36 @@ export async function fetchBlog(query: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch articles.');
+  }
+}
+
+export async function fetchFilteredNewsletters(
+  query: string,
+  currentPage: number,
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const newsletters = await prisma.newsletter_body.findMany({
+      orderBy: {createdAt: 'desc'},
+      skip: offset,
+      take: ITEMS_PER_PAGE
+    })
+    return newsletters;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch newsletters.');
+  }
+}
+
+export async function fetchNewsletters(query: string) {
+  try {
+    const newsletters = await prisma.newsletter_body.count()
+    const totalPages = Math.ceil(Number(newsletters) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch newsletters.');
   }
 }
 

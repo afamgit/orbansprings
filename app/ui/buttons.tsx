@@ -1,6 +1,6 @@
 'use client'
 
-import { deletePage, deleteArticle, deleteAccount, deleteProduct, deleteAreaGroup, deleteTestimonial, deleteTeam, deleteMeter, deleteUser, deleteFaq } from '@/app/utils/actions';
+import { deletePage, deleteNewsletter, deleteArticle, deleteAccount, deleteProduct, deleteAreaGroup, deleteTestimonial, deleteTeam, deleteMeter, deleteUser, deleteFaq } from '@/app/utils/actions';
 import Link from 'next/link';
 import { BsTrash2Fill, BsPencilSquare } from 'react-icons/bs';
 
@@ -23,6 +23,31 @@ export function DeletePage({ id }: { id: string }) {
     return (
       <Link
         href={`/account/content-pages/${page.cpageid}/edit`}
+        className="rounded-md border p-2 hover:bg-gray-100"
+      >
+          <span className="sr-only">Update</span> <BsPencilSquare className='text-2xl' /><span className='hidden md:block'>Update</span>
+      </Link>
+    );
+  }
+
+  export function DeleteNewsletter({ id }: { id: string }) {
+   
+    return (
+        <button onClick={() => {
+          if(confirm('Confirm you want to delete this newsletter. This action is irreversible') === true) {
+            deleteNewsletter(id)}
+         }} className="rounded-md border p-2 hover:bg-gray-100">
+          <span className="sr-only">Delete</span> <BsTrash2Fill className='text-2xl text-red-600' /><span className='hidden md:block'>Delete</span>
+        </button>
+    );
+  }
+
+  export function UpdateNewsletter({ newsletter }: { newsletter: any }) {
+
+   
+    return (
+      <Link
+        href={`/account/newsletters/${newsletter.nlb_id}/edit`}
         className="rounded-md border p-2 hover:bg-gray-100"
       >
           <span className="sr-only">Update</span> <BsPencilSquare className='text-2xl' /><span className='hidden md:block'>Update</span>

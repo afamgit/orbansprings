@@ -17,6 +17,16 @@ export async function AdminTopBar () {
                     Meters
                 </li>
             </Link>
+            <Link href='/account/orders'>
+                <li className={`px-1`}>
+                    Orders
+                </li>
+            </Link>
+            <Link href='/account/requests'>
+                <li className={`px-1`}>
+                    Requests
+                </li>
+            </Link>
             <Link className='p-3' href='/account/commissions'>
                 <li className={`px-1`}>
                     Commissions
@@ -50,6 +60,16 @@ export async function AdminTopBar () {
             <Link className='p-3' href='/account/teams'>
                 <li className={`px-1`}>
                     Team Members
+                </li>
+            </Link>
+            <Link className='p-3' href='/account/blog'>
+                <li className={`px-1`}>
+                    Articles
+                </li>
+            </Link>
+            <Link className='p-3' href='/account/newsletters'>
+                <li className={`px-1`}>
+                    Newsletters
                 </li>
             </Link>
             <Link className='p-3' href='/account/testimonials'>

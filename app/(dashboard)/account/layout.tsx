@@ -59,8 +59,8 @@ export default async function AdminLayout({
         </div>
       </div>
       <div className="flex justify-start items-start">
-        <div className="h-screen sticky top-0 hidden md:h-full flex flex-shrink-0 md:block w-full md:w-1/5 bg-sky-400 text-white">
-          <div className="w-full flex flex-col justify-start bg-black bg-opacity-10 items-start p-2 md:px-5 md:py-1">
+        <div className="h-screen sticky top-0 bottom-0 hidden md:h-screen flex flex-shrink-0 md:block w-full md:w-1/5 bg-sky-400 text-white">
+          <div className="w-full flex flex-col justify-start items-start p-2 md:px-5 md:py-1">
             <div className="flex justify-center items-center my-1 py-1 text-xl">
               <Image
                 src="/logo_full.png"
@@ -72,7 +72,7 @@ export default async function AdminLayout({
               <p className="ml-2 pl-2">Orban Springs</p>
             </div>
           </div>
-          <div className=" bg-black bg-opacity-10 pt-1">
+          <div className="pt-1">
             <div className="w-full h-full overflow-y-auto md: h-[750px]">
             {profile?.role === "admin" ? <AdminSideBar /> : profile?.role === "fleetownerdriver" ? <VendorMerchantSideBar /> : profile?.role === "fleetownermeter" ? <WaterMerchantSideBar /> : <IotSideBar />}
             </div>

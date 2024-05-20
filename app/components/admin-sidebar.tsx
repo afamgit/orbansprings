@@ -18,7 +18,7 @@ export function AdminSideBar () {
 
 
      return (
-    <div className="flex flex-col gap-y-4 h-full text-white my-2 overflow-y-scroll">    
+    <div className="flex flex-col gap-y-2 text-white my-2 overflow-y-scroll">    
           <Link className='px-1' href='/account/dashboard'>
                 <div className={`w-full flex justify-start items-center md:py-0 md:px-8 text-xl ${(pathname?.endsWith('dashboard') || pathname?.endsWith('account')) && 'bg-slate-100 text-sky-400 py-1'}`}>
                     {(pathname?.endsWith('dashboard') || pathname?.endsWith('account')) ? <DashboardIcon /> : <DashboardIconWhite />} <span className="ml-2">Dashboard</span> 
@@ -77,6 +77,11 @@ export function AdminSideBar () {
             <Link className='px-1' href='/account/blog'>
                 <div className={`w-full flex justify-start items-center md:px-8 text-xl ${pathname?.endsWith('blog') && 'bg-slate-100 text-sky-400 py-1'}`}>
                     <FaBook className='h-8 w-8 mr-2' /> Articles
+                </div>
+            </Link>
+            <Link className='px-1' href='/account/newsletters'>
+                <div className={`w-full flex justify-start items-center md:px-8 text-xl ${pathname?.endsWith('newsletters') && 'bg-slate-100 text-sky-400 py-1'}`}>
+                    <FaBook className='h-8 w-8 mr-2' /> Newsletters
                 </div>
             </Link>
             <Link className='px-1' href='/account/testimonials'>

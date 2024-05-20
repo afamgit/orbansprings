@@ -104,9 +104,9 @@ const profileImg = profile?.photo?.includes('profile') ? `https://orbansprings.c
 
     <form action={formAction}>
 
-    <div>
+    <div className='mt-2'>
         <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">Name</label>
-          <div className="mt-2">
+          <div className="mt-1">
           <input 
             type="text" 
             id="name" 
@@ -118,9 +118,9 @@ const profileImg = profile?.photo?.includes('profile') ? `https://orbansprings.c
           </div>
         </div>
 
-        <div>
+        <div className='mt-2'>
         <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Email</label>
-          <div className="mt-2">
+          <div className="mt-1">
           <input 
             type="email" 
             id="email" 
@@ -131,9 +131,9 @@ const profileImg = profile?.photo?.includes('profile') ? `https://orbansprings.c
           </div>
         </div>
 
-        <div>
+        <div className='mt-2'>
         <label htmlFor="phone" className="block text-sm font-medium leading-6 text-gray-900">Phone</label>
-          <div className="mt-2">
+          <div className="mt-1">
           <input 
             type="text" 
             id="phone" 
@@ -146,9 +146,9 @@ const profileImg = profile?.photo?.includes('profile') ? `https://orbansprings.c
 
 
 
-    <div>
+    <div className='mt-2'>
         <label htmlFor="address" className="block text-sm font-medium leading-6 text-gray-900">Address</label>
-          <div className="mt-2">
+          <div className="mt-1">
           <input 
             type="text" 
             id="address" 
@@ -160,9 +160,9 @@ const profileImg = profile?.photo?.includes('profile') ? `https://orbansprings.c
           </div>
         </div>
 
-    <div>
+    <div className='mt-2'>
         <label htmlFor="areagroup" className="block text-sm font-medium leading-6 text-gray-900">Area Group</label>
-          <div className="mt-2">
+          <div className="mt-1">
           <select 
             id="areagroup" 
             name="areagroup" 
@@ -178,6 +178,25 @@ const profileImg = profile?.photo?.includes('profile') ? `https://orbansprings.c
             </select>
           </div>
         </div>
+
+        <div className='mt-2'>
+        <label htmlFor="enable2fa" className="block text-sm font-medium leading-6 text-gray-900">Enable 2FA (2 Factor Authentifiction)</label>
+        <p className='text-gray-600 text-sm py-1'>With 2 factor authentication enabled, a code would be generated and sent to your email address anytime you try to login</p>
+          <div className="mt-1">
+          <select 
+            id="enable2fa" 
+            name="enable2fa" 
+            defaultValue={profile?.enable2fa}
+            required
+            className="block w-full p-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
+          >
+            <option value='no'>No</option>
+            <option value='yes'>Yes</option>
+           
+            </select>
+          </div>
+        </div>
+
 
 
         <input type="hidden" id="uploadedpic" name="uploadedpic" defaultValue={blob?.url}/>

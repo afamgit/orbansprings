@@ -10,6 +10,7 @@ import { slugify, removeTags } from "./snippets"
 import { signIn, signOut } from "../../auth"
 import { AuthError } from "next-auth"
 import bcrypt from 'bcrypt'
+import { v4 as uuidv4 } from 'uuid';
 
 
 const arrayRange = (start: number, stop: number, step: number) =>
@@ -23,8 +24,62 @@ export async function authenticate(
   formData: FormData,
 ) {
 
+  const schema = z.object({
+    username: z.string(),
+    usercode: z.string(),
+    userpass: z.string(),
+
+  })
+  const data = schema.parse({
+    username: formData.get('username'),
+    usercode: formData.get('usercode'),
+    userpass: formData.get('password'),
+  })
+
+
   try {
-    await signIn('credentials', formData);
+
+    const checkUser = await prisma.users.findFirst({
+      where: {username: data.username, },
+      select: {username:true, email:true, enable2fa:true, code2fa:true, expiry2fa:true, password:true}
+    })
+  
+    const userPass = checkUser?.password.startsWith('$2y$') ? checkUser.password.replace('$2y$', '$2b$') : checkUser?.password.startsWith('$2b$') ? checkUser?.password : '';
+  
+    const existingPass = data.userpass.trim()
+  
+    const passwordsMatch = await bcrypt.compare(existingPass, userPass)
+  
+    if(!passwordsMatch) {
+      return 'Invalid credentials'; 
+    }
+    
+  if(checkUser?.enable2fa === 'yes' && checkUser?.code2fa !== data.usercode) {
+
+    const randomId = uuidv4().substring(0,6)
+
+    const generateCode = await prisma.users.update({
+      data: {
+        code2fa: randomId,
+      },
+      where: {email: checkUser?.email, username: checkUser?.username}
+    })
+
+    return 'require 2fa code'; 
+  }
+  
+  if(checkUser?.enable2fa === 'yes' && checkUser?.code2fa === data.usercode) {
+
+    const deleteCode = await prisma.users.update({
+      data: {
+        code2fa: '',
+      },
+      where: {email: checkUser?.email, username: checkUser?.username}
+    })
+
+  }
+
+  await signIn('credentials', formData);
 
   } catch (error) {
     if (error instanceof AuthError) {
@@ -228,6 +283,7 @@ export async function updateProfile(id: string, prevState: any, formData: FormDa
     phone: z.string(),
     address: z.string(),
     areagroup: z.string(),
+    enable2fa: z.string(),
     photourl: z.string(),
     uploadedpic: z.string()
   })
@@ -238,6 +294,7 @@ export async function updateProfile(id: string, prevState: any, formData: FormDa
     price: formData.get('price'),
     address: formData.get('address'),
     areagroup: formData.get('areagroup'),
+    enable2fa: formData.get('enable2fa'),
     photourl: formData.get('photourl'),
     uploadedpic: formData.get('uploadedpic')
   })
@@ -255,6 +312,7 @@ export async function updateProfile(id: string, prevState: any, formData: FormDa
         address: parsedData.address,
         photo: parsedData.uploadedpic || parsedData.photourl,
         areagroup: parsedData.areagroup,
+        enable2fa: parsedData.enable2fa,
         updatedAt: new Date()
       }
     })
@@ -1009,6 +1067,101 @@ export async function deleteArticle(id: string) {
   }
 }
 
+export async function createNewsletter(story: string, prevState: any, formData: FormData) {
+  const schema = z.object({
+    title: z.string(),
+    postedby: z.string(),
+  })
+  const parsedData = schema.parse({
+    title: formData.get('title'),
+    postedby: formData.get('postedby'),
+  })
+
+  try {
+
+    const doInsert = await prisma.newsletter_body.create({
+      data: {
+        nlb_title: parsedData.title,
+        nlb_story: story,
+        nlb_finished: 'No',
+        nlb_postedby: parsedData.postedby,
+        updatedAt: new Date(),
+        createdAt: new Date()
+      }
+    })
+
+    const updateSubscribers = await prisma.newsletter.updateMany({
+      data: {
+        nl_received: 0,
+        nl_id: doInsert?.nlb_id
+      }
+    })
+
+
+  } catch (e) {
+    return { message: 'Failed to add newsletter' }
+  }
+
+  revalidatePath('/account/newsletters')
+  redirect('/account/newsletters')
+
+}
+
+export async function updateNewsletter(id: string, story: string, prevState: any, formData: FormData) {
+
+  const schema = z.object({
+    title: z.string(),
+    finished: z.string(),
+    postedby: z.string(),
+  })
+  const parsedData = schema.parse({
+    title: formData.get('title'),
+    finished: formData.get('finished'),
+    postedby: formData.get('postedby'),
+  })
+
+  
+  try {
+
+    const doUpdate = await prisma.newsletter_body.update({
+      where: {
+        nlb_id: parseInt(id)
+      },
+      data: {
+        nlb_title: parsedData.title,
+        nlb_story: story,
+        nlb_finished: parsedData.finished,
+        nlb_postedby: parsedData.postedby,
+        updatedAt: new Date()
+      }
+    })
+
+  } catch (e) {
+    console.log(e)
+    return { message: 'Failed to update newsletter' }
+  }
+
+  revalidatePath('/account/newsletters')
+  redirect('/account/newsletters')
+}
+
+export async function deleteNewsletter(id: string) {
+
+  try {
+    await prisma.newsletter_body.delete({
+      where: {
+        nlb_id: parseInt(id)
+      }
+    })
+
+    revalidatePath('/account/newsletters')
+
+    return { message: 'Deleted newsletter' }
+
+  } catch (e) {
+    return { message: 'Failed to delete newsletter' }
+  }
+}
 
 export async function createMeter(prevState: any, formData: FormData) {
   const schema = z.object({
