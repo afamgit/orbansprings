@@ -16,7 +16,7 @@ const userSchema = z.object({
     name: z.string().min(4, 'Name must be at least 4 characters'),
     email: z.string().email(),
     password: z.string().min(6, 'Password must be at least 6 characters'),
-    confirmpassword: z.string().min(1, 'Confirm password is required')
+    confirmpassword: z.string().min(6, 'Confirm password is required')
 })
 .refine((data) => data.password === data.confirmpassword, {
     path: ['confirmpassword'],

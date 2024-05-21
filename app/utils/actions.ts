@@ -26,14 +26,13 @@ export async function authenticate(
 
   const schema = z.object({
     username: z.string(),
-    usercode: z.string(),
     userpass: z.string(),
-
+    usercode: z.string(),
   })
   const data = schema.parse({
     username: formData.get('username'),
-    usercode: formData.get('usercode'),
     userpass: formData.get('password'),
+    usercode: formData.get('usercode'),
   })
 
 
