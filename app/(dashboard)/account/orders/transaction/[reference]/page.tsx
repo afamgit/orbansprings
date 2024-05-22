@@ -17,7 +17,7 @@ export default async function Page({
   searchParams,
 }: {
   params: {
-    id: string;
+    reference: string;
   };
   searchParams?: {
     query?: string;
@@ -25,15 +25,16 @@ export default async function Page({
     product?: string;
   };
 }) {
-  const id = params.id;
+  const reference = params.reference;
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
   const product = searchParams?.product || "";
 
-  const orderDb = await prisma.transactions.findUnique({
+  const orderDb = await prisma.transactions.findFirst({
     where: {
-      id: parseInt(id),
+      orderref: reference,
     },
+    select: {id:true, orderref:true,productname:true,customername:true, customeremail:true,customerphone:true, customeraddress:true, customerareagroup:true, createdAt:true, amount:true, status:true, paymentstatus:true, paymenttime:true }
   });
 
   const order = JSON.parse(JSON.stringify(orderDb))
@@ -83,16 +84,24 @@ export default async function Page({
   <div className="w-3/5">{order?.productname}</div>
   </div>
   <div className="w-[400px] px-2 flex justify-start items-start my-2">
-  <div className="w-2/5">Amount</div>
-  <div className="w-3/5">N{formatAmount(order?.amount)}</div>
-  </div>
-  <div className="w-[400px] px-2 flex justify-start items-start my-2">
   <div className="w-2/5">Date & Time</div>
   <div className="w-3/5">{moment(order?.createdAt).format('DD/MM/YYYY H:mma')}</div>
   </div>
   <div className="w-[400px] px-2 flex justify-start items-start my-2">
   <div className="w-2/5">Status</div>
   <div className="w-3/5"><span className={`${statusBg(order?.status || '')} px-2 py-1`}>{order?.status}</span></div>
+  </div>
+  <div className="w-[400px] px-2 flex justify-start items-start my-2">
+  <div className="w-2/5">Amount</div>
+  <div className="w-3/5">N{order?.amount && formatAmount(order?.amount)}</div>
+  </div>
+  <div className="w-[400px] px-2 flex justify-start items-start my-2">
+  <div className="w-2/5">Payment Status</div>
+  <div className="w-3/5"><span className={`${order?.paymentstatus === 'Unpaid' ? 'bg-red-500 text-white' : order?.paymentstatus === 'Paid' ? 'bg-green-400 text-gray-800' : null} px-2 py-1`}>{order?.paymentstatus}</span></div>
+  </div>
+  <div className="w-[400px] px-2 flex justify-start items-start my-2">
+  <div className="w-2/5">Payment Date & Time</div>
+  <div className="w-3/5">{order?.paymenttime && moment(order?.paymenttime).format('DD/MM/YYYY H:mma')}</div>
   </div>
   <div className="w-[400px] px-2 flex justify-start items-start my-2">
   <div className="w-2/5">Agent</div>
@@ -112,7 +121,7 @@ export default async function Page({
             },
             {
               label: "Order Detail",
-              href: `/account/orders/${id}/order-detail`,
+              href: `/account/orders/${reference}`,
               active: true,
             },
           ]}
@@ -126,10 +135,6 @@ export default async function Page({
             <div className="w-full w-[400px] px-2 flex justify-start items-start my-2">
   <div className="w-2/5">UserID</div>
   <div className="w-3/5">{order?.id}</div>
-  </div>
-  <div className="w-full w-[400px] px-2 flex justify-start items-start my-2">
-  <div className="w-2/5">Order Reference</div>
-  <div className="w-3/5">{order?.orderref}</div>
   </div>
   <div className="w-full w-[400px] px-2 flex justify-start items-start my-2">
   <div className="w-2/5">Username</div>
@@ -156,12 +161,12 @@ export default async function Page({
   <div className="w-3/5">{order?.id}</div>
   </div>
   <div className="w-full w-[400px] px-2 flex justify-start items-start my-2">
-  <div className="w-2/5">Product</div>
-  <div className="w-3/5">{order?.productname}</div>
+  <div className="w-2/5">Order Reference</div>
+  <div className="w-3/5">{order?.orderref}</div>
   </div>
   <div className="w-full w-[400px] px-2 flex justify-start items-start my-2">
-  <div className="w-2/5">Amount</div>
-  <div className="w-3/5">N{formatAmount(order?.amount)}</div>
+  <div className="w-2/5">Product</div>
+  <div className="w-3/5">{order?.productname}</div>
   </div>
   <div className="w-full w-[400px] px-2 flex justify-start items-start my-2">
   <div className="w-2/5">Date & Time</div>
@@ -170,6 +175,18 @@ export default async function Page({
   <div className="w-full w-[400px] px-2 flex justify-start items-start my-2">
   <div className="w-2/5">Status</div>
   <div className="w-3/5"><span className={`${statusBg(order?.status || '')} px-2 py-1`}>{order?.status}</span></div>
+  </div>
+  <div className="w-full w-[400px] px-2 flex justify-start items-start my-2">
+  <div className="w-2/5">Amount</div>
+  <div className="w-3/5">N{order?.amount && formatAmount(order?.amount)}</div>
+  </div>
+  <div className="w-full w-[400px] px-2 flex justify-start items-start my-2">
+  <div className="w-2/5">Payment Status</div>
+  <div className="w-3/5"><span className={`${order?.paymentstatus === 'Unpaid' ? 'bg-red-500 text-white' : order?.paymentstatus === 'Paid' ? 'bg-green-400 text-gray-800' : null} px-2 py-1`}>{order?.paymentstatus}</span></div>
+  </div>
+  <div className="w-full w-[400px] px-2 flex justify-start items-start my-2">
+  <div className="w-2/5">Payment Date & Time</div>
+  <div className="w-3/5">{order?.paymenttime && moment(order?.paymenttime).format('DD/MM/YYYY H:mma')}</div>
   </div>
   <div className="w-full w-[400px] px-2 flex justify-start items-start my-2">
   <div className="w-2/5">Agent</div>

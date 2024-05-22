@@ -306,7 +306,7 @@ model transactions {
   fleetid                    String?  @db.VarChar(50)
   driverlatitude             Decimal  @db.Decimal(8, 6)
   driverlongitude            Decimal  @db.Decimal(9, 6)
-  driveraccept               DateTime @db.DateTime(0)
+  driveraccept               String?  @db.VarChar(30)
   customerid                 Int
   customername               String   @db.VarChar(100)
   customeremail              String   @db.VarChar(100)
@@ -320,12 +320,12 @@ model transactions {
   status                     String   @default(dbgenerated("(New)")) @db.VarChar(255)
   paymentstatus              String   @default(dbgenerated("(Unpaid)")) @db.VarChar(255)
   paymentmode                String   @default(dbgenerated("(Card)")) @db.VarChar(255)
-  paymenttime                DateTime @db.DateTime(0)
+  paymenttime                String?  @db.VarChar(30)
   driverdeliverystatus       String   @db.VarChar(255)
-  driverdeliverystatustime   DateTime @db.DateTime(0)
+  driverdeliverystatustime   String?  @db.VarChar(30)
   driverdeliverytime         Int      @default(0)
   customerdeliverystatus     String   @default(dbgenerated("(Waiting)")) @db.VarChar(255)
-  customerdeliverystatustime DateTime @db.DateTime(0)
+  customerdeliverystatustime String?  @db.VarChar(30)
   customerwaittime           Int      @default(0)
   orderprocessed             Boolean
   commission_paid            Int      @default(0) @db.TinyInt

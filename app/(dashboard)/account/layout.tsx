@@ -21,6 +21,8 @@ import { VendorMerchantSideBar } from "@/app/components/vendor-merchants/sidebar
 import { VendorMerchantTopBar } from "@/app/components/vendor-merchants/topbar";
 import { WaterMerchantSideBar } from "@/app/components/water-merchants/sidebar";
 import { WaterMerchantTopBar } from "@/app/components/water-merchants/topbar";
+import { getProfileUser } from "@/app/utils/data";
+import { redirect } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,20 +36,13 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const userInfo = await auth();
 
-  const usremail = userInfo?.user.email || "";
+  const userInfo = await auth()
 
-  const profile = await prisma?.users.findFirst({
-    where: { email: usremail },
-    select: {
-      id: true,
-      username: true,
-      role: true,
-      photo: true,
-    },
-  });
+  const usrEmail = userInfo?.user.email || ''
 
+  const profile = await getProfileUser(usrEmail)
+  
   const profileImg = profile?.photo?.includes('profile') ? `https://orbansprings.com/${profile.photo}` : `${profile?.photo}`
 
 
@@ -55,7 +50,7 @@ export default async function AdminLayout({
     <div className="w-full min-h-screen">
       <div className="md:hidden bg-black text-white py-2 flex flex-col justify-between items-center">
         <div className="w-full">
-          {profile?.role === "admin" ? <AdminTopBar /> : profile?.role === "fleetownerdriver" ? <VendorMerchantTopBar /> : profile?.role === "fleetownermeter" ? <WaterMerchantTopBar /> : <IotTopBar />}
+          {profile?.role === "admin" ? <AdminTopBar /> : profile?.role === "fleetownerdriver" ? <VendorMerchantTopBar /> : profile?.role === "fleetownermeter" ? <WaterMerchantTopBar /> : redirect('/login')}
         </div>
       </div>
       <div className="flex justify-start items-start">
@@ -74,7 +69,7 @@ export default async function AdminLayout({
           </div>
           <div className="pt-1">
             <div className="w-full h-full overflow-y-auto md: h-[750px]">
-            {profile?.role === "admin" ? <AdminSideBar /> : profile?.role === "fleetownerdriver" ? <VendorMerchantSideBar /> : profile?.role === "fleetownermeter" ? <WaterMerchantSideBar /> : <IotSideBar />}
+            {profile?.role === "admin" ? <AdminSideBar /> : profile?.role === "fleetownerdriver" ? <VendorMerchantSideBar /> : profile?.role === "fleetownermeter" ? <WaterMerchantSideBar /> : redirect('/login') }
             </div>
           </div>
         </div>

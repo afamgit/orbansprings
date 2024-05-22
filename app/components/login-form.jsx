@@ -11,11 +11,9 @@ import { useFormState, useFormStatus } from 'react-dom';
 import { authenticate, checkUser } from '@/app/utils/actions';
 import { getProfileFromUser } from '../utils/data';
 
-
-
 export default function LoginForm() {
 
-    const router = useRouter()
+  const router = useRouter()
 
     const [showCode, setShowCode] = useState('hidden')
     const [showCredentials, setShowCredentials] = useState('block')
@@ -34,7 +32,7 @@ export default function LoginForm() {
 
   const send2faEmail = async () => {
 
-    const userProfile = getProfileFromUser(uname);
+    const userProfile = await getProfileFromUser(uname);
 
     const formData = new FormData();
 

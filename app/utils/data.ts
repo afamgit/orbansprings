@@ -3,6 +3,7 @@ import { createHash } from "crypto";
 import { getMonthsFromMap, getMonthsFromWeekMap, incrementNumber, monthsMap } from './utils';
 import { any } from 'zod';
 import moment from 'moment';
+import { auth } from '@/auth';
 
 export async function getUser(email: string) {
 
@@ -15,6 +16,8 @@ export async function getUser(email: string) {
     throw new Error('Failed to fecth user')
   }
 }
+
+
 
 export async function getProfileUser(email: string) {
 

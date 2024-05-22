@@ -30,27 +30,15 @@ export async function POST(req: Request) {
     const updateUser = await prisma.users.update({
         data: {
             commissions_outstanding: 0,
+            isavailable: false,
+            isavailable_by: '',
+            isavailable_reason: '',
             updatedAt: new Date(),
         },
         where: {id: user.id}
     })
 
-    const paymentref = user.commission_payment_ref || ''
-
-    const getDriverPaymentId = await prisma.driver_payments.findFirst({
-        where: {dpayref: paymentref}
-    })
-
-    const updateOrder = await prisma.driver_payments.update({
-        data: {
-            dpaypaystackref: paymentref, 
-            updatedAt: new Date(),
-        },
-        where: {dpayid: getDriverPaymentId?.dpayid}
-    })
-
-
-    return NextResponse.json({user: user, msg: 'ok', message: `Driver successfully updated`})
+    return NextResponse.json({user: updateUser, msg: 'ok', message: `Driver successfully updated`})
 
    } catch(error) {
 
