@@ -2,6 +2,7 @@ import { prisma} from '@/scripts'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Metadata } from 'next';
+import { unstable_noStore as noStore } from 'next/cache';
 
 export const metadata: Metadata = {
   title: 'Press',
@@ -9,6 +10,7 @@ export const metadata: Metadata = {
 
 export default async function Page() {
 
+  noStore()
     const posts = await prisma.articles.findMany()
 
     return (

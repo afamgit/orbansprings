@@ -4,8 +4,8 @@ import {HomeServices} from '../components/home-services'
 import {Testimonials} from '../components/testimonials'
 import {BottomAppBanner} from '../components/bottom-app-banner'
 import Link from 'next/link'
-import { authOptions } from '../utils/auth'
-import { auth } from "../../auth"
+import { unstable_noStore as noStore } from 'next/cache';
+
 import { Metadata } from 'next'
 import { BsArrowUpRight, BsEyeFill } from 'react-icons/bs'
 import moment from 'moment'
@@ -31,7 +31,8 @@ image: '/get_started_4.jpeg'
 ]
 
 export default async function Home() {
-
+  
+noStore()
   const blogs = await prisma.articles.findMany({
     orderBy: {createdAt: 'desc'},
     skip: 0,
