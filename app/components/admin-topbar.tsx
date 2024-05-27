@@ -82,6 +82,11 @@ export async function AdminTopBar () {
                     FAQs
                 </li>
             </Link>
+            <Link className='p-3' href='/account/update-profile'>
+                <li className={`px-1`}>
+                    Update Profile
+                </li>
+            </Link>
 
             </ul>
             </div>
