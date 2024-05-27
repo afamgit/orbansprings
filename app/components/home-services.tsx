@@ -16,7 +16,7 @@ desc: 'Gain accurate insights into your water quality with real-time water analy
 },
 {name: 'Vendor Platform',
 img: '/vendor_platform_icon.jpeg',
-desc: 'Leverage technology to efficienty manage your water distribution business. Our vendor platform offers rea-time analysis, interactive dashboards, fleet management tools and accurate insights into all aspects of your business',
+desc: 'Leverage technology to efficiently manage your water distribution business. Our vendor platform offers real-time analysis, interactive dashboards, fleet management tools and accurate insights into all aspects of your business',
 },
 {name: 'IoT Smart Meter',
 img: '/iot_smart_meter.jpeg',
