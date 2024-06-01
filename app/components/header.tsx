@@ -47,10 +47,10 @@ const NavBar = () => {
             </li>
           </ul>
         </div>
-        <div className="relative sm:hidden">
+        <div className="relative sm:hidden text-gray-900">
           <button className="text-4xl" onClick={() => setShowMenu(true)}><BsList /></button>
           {showMenu && (
-            <div className="absolute bg-white p-3 w-[200px] top-0 right-[100px] left-[-150px]">
+            <div className="absolute bg-white text-gray-800 p-3 w-[200px] top-0 right-[100px] left-[-150px]">
               <div className="flex justify-end content-end">
                 <button
                   className="text-5xl rounded"
