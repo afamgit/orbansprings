@@ -1,7 +1,7 @@
 'use client'
 
 import React, {useState, useRef} from 'react';
-import { PaystackButton } from 'react-paystack';
+import PaystackButton from 'paystack-button';
 
 export function PayCommissionButtonApp (user, redirecturl) {
 
