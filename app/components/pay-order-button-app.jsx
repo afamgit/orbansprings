@@ -73,10 +73,10 @@ const componentProps = {
         <div className='p-2 bg-light'>
                     {user && item && item.amount > 0 && <PaystackButton {...componentProps} />}
 
-                    <p className='py-1 my-1'>{statusMsg}</p>
+                    {/* <p className='py-1 my-1'>{statusMsg}</p> */}
         {msg === 'ok' && btnref.current.click()}
 
-        <p className='bg-light my-2 p-2'><a ref={btnref} href={redirecturl === 'exp' ? `exp://192.168.1.4:19000/--/index?paymentref=${payref}` : `orban://index?paymentref=${payref}`}>Exit window</a></p>
+        <p className='bg-light my-2 p-2'><a ref={btnref} href={redirecturl === 'exp' ? `exp://192.168.1.4:19000/--/customer?paymentref=${payref}` : `orban://customer?paymentref=${payref}`}>Exit window</a></p>
 
         </div>
     )
