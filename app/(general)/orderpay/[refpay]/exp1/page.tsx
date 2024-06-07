@@ -19,14 +19,17 @@ export default async function Page({params}: {params: {refpay: string}}) {
       select: {orderref:true, customerid:true, customername:true, customeremail:true, paymentstatus:true, amount:true, productname:true, updatedAt:true}
     })
 
+    const item = JSON.parse(JSON.stringify(order))
+
+
+    const userid = parseInt(item?.id)
+
     const customer = await prisma.users.findFirst({
         where: {
-            id: order?.customerid
+            id: userid
         },
         select: {id:true, name:true, email:true, password:true, updatedAt:true}
     })
-
-    const item = JSON.parse(JSON.stringify(order))
 
     const user = JSON.parse(JSON.stringify(customer))
 
