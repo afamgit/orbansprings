@@ -29,7 +29,7 @@ export default async function Page({params}: {params: {refpay: string}}) {
     })
 
     return (
-        <div className='p-3 bg-white'>
+        <div className='p-3 bg-white text-gray-800'>
                       <div className="w-full md:w-[1200px] mx-auto flex justify-start items-center">
         <div className='hidden md:block'>
           <Breadcrumbs
