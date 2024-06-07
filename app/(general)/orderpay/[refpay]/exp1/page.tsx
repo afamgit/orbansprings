@@ -46,8 +46,6 @@ export default async function Page({params}: {params: {refpay: string}}) {
         <div className='w-full md:w-[1200px]  mx-auto p-3 md:p-5 bg-white'>
 
 
-{user && item &&
-
   <div>
             <h3 className='my-3'>Order for {item?.productname} at {moment(item?.updatedAt).format('Do MMM YYYY HH:mma')}</h3>
 
@@ -63,7 +61,7 @@ export default async function Page({params}: {params: {refpay: string}}) {
       </div>
     </div>
 
-  </div>}
+  </div>
 
        </div>
             </div>
