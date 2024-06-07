@@ -14,17 +14,19 @@ type Props = {
 export default async function Page({params}: {params: {refpay: string, redirecturl: string}}) {
     const {refpay, redirecturl} = params;
 
-    const item = await prisma.transactions.findFirst({
+    const order = await prisma.transactions.findFirst({
       where: {orderref: refpay},
       select: {orderref:true, customerid:true, customername:true, customeremail:true, paymentstatus:true, amount:true, productname:true, updatedAt:true}
     })
 
     const customer = await prisma.users.findFirst({
         where: {
-            id: item?.customerid
+            id: order?.customerid
         },
         select: {id:true, name:true, email:true, password:true, updatedAt:true}
     })
+
+    const item = JSON.parse(JSON.stringify(order))
 
     const user = JSON.parse(JSON.stringify(customer))
 
