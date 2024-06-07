@@ -8,6 +8,7 @@ export function PayCommissionButtonApp (user, redirecturl) {
     let btnref = useRef();
 
 const userid = user.id;
+const payref = user.commission_payment_ref;
 
 const [msg, setMsg] = useState('')
 const [errorMsg, setErrorMsg] = useState('')

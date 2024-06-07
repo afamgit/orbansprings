@@ -8,6 +8,7 @@ export function PayOrderButtonApp (user, item, redirecturl) {
     let btnref = useRef();
 
 const orderid = item.id;
+const payref = item.orderref;
 
 const [msg, setMsg] = useState('')
 const [errorMsg, setErrorMsg] = useState('')
