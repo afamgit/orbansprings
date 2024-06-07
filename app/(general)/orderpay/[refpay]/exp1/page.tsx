@@ -24,7 +24,7 @@ export default async function Page({params}: {params: {refpay: string}}) {
 
     const userid = parseInt(item?.id)
 
-    const customer = await prisma.users.findFirst({
+    const customer = await prisma.users.findUnique({
         where: {
             id: userid
         },
