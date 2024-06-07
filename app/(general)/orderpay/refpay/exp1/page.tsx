@@ -1,7 +1,7 @@
 import { prisma} from '@/scripts'
 import Link from 'next/link';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
-import {PayCommissionButtonApp} from '@/app/components/pay-commission-button-app'
+import {PayOrderButtonApp} from '@/app/components/pay-order-button-app'
 import moment from 'moment';
 import { formatAmount } from '@/app/utils/utils';
 
@@ -11,15 +11,22 @@ type Props = {
 }
 
 
-export default async function Page({params}: {params: {refpay: string, redirecturl: string}}) {
-    const {refpay, redirecturl} = params;
+export default async function Page({params}: {params: {refpay: string}}) {
+    const {refpay} = params;
+
+    const order = await prisma.transactions.findFirst({
+      where: {orderref: refpay},
+      select: {orderref:true, customerid:true, customername:true, customeremail:true, paymentstatus:true, amount:true, productname:true, updatedAt:true}
+    })
 
     const customer = await prisma.users.findFirst({
         where: {
-            commission_payment_ref: refpay
+            id: order?.customerid
         },
-        select: {id:true, name:true, commission_payment_ref:true, commissions_outstanding:true, updatedAt:true}
+        select: {id:true, name:true, email:true, password:true, updatedAt:true}
     })
+
+    const item = JSON.parse(JSON.stringify(order))
 
     const user = JSON.parse(JSON.stringify(customer))
 
@@ -30,7 +37,7 @@ export default async function Page({params}: {params: {refpay: string, redirectu
           <Breadcrumbs
           breadcrumbs={[
             { label: "Home", href: "/" },
-            { label: "Commission Payment", href: "/commissionpay", active: true },
+            { label: "Order Payment", href: "/orderpay", active: true },
           ]}
         />
         </div>
@@ -39,16 +46,16 @@ export default async function Page({params}: {params: {refpay: string, redirectu
         <div className='w-full md:w-[1200px]  mx-auto p-3 md:p-5 bg-white'>
 
 
-{user &&
+{user && item &&
 
   <div>
-            <h3 className='my-3'>Outstanding commission as at {moment(user.updatedAt).format('Do MMM YYYY HH:mma')}</h3>
+            <h3 className='my-3'>Order for {item?.productname} at {moment(item?.updatedAt).format('Do MMM YYYY HH:mma')}</h3>
 
     <div className='row'>
       <div className='col-md-6 my-3'>
         Name: {user.name}<br />
-        Outstanding commission: {formatAmount(user?.commissions_outstanding)}<br />
-        {user?.commissions_outstanding > 0 && <PayCommissionButtonApp user={user} redirecturl={redirecturl} />}<br />
+        Amount: {formatAmount(item?.amount)}<br />
+        {item?.amount > 0 && <PayOrderButtonApp user={user} item={item} redirecturl='exp1' />}<br />
 
       </div>
       <div>
