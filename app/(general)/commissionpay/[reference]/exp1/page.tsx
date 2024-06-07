@@ -1,7 +1,7 @@
 import { prisma} from '@/scripts'
 import Link from 'next/link';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
-import {PayCommissionButtonApp} from '../../../../components/pay-order-button-app'
+import {PayCommissionButtonApp} from '@/app/components/pay-commission-button-app'
 import moment from 'moment';
 import { formatAmount } from '@/app/utils/utils';
 
