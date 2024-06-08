@@ -75,7 +75,6 @@ const componentProps = {
 
                     {/* <p className='py-1 my-1'>{statusMsg}</p> */}
         {msg === 'ok' && btnref.current.click()}
-                    <p className='py-1 my-1'>{JSON.stringify(item)}</p>
 
         <p className='bg-light my-2 p-2'><a ref={btnref} href={redirecturl === 'exp' ? `exp://192.168.1.4:19000/--/order-details/${payref}` : `orban://order-details/${payref}`}>Exit window</a></p>
 
