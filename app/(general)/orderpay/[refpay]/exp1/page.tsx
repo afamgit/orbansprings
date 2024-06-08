@@ -41,7 +41,7 @@ export default async function Page({params}: {params: {refpay: string}}) {
         </div>
       </div>
 
-        <div className='w-full md:w-[1200px]  mx-auto p-3 md:p-5 bg-white'>
+        <div className='w-full md:w-[1200px]  mx-auto p-3 md:p-5 bg-white text-gray-800'>
 
 
   <div>
