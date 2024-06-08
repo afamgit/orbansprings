@@ -7,8 +7,8 @@ export function PayOrderButtonApp (user, item, redirecturl) {
 
     let btnref = useRef();
 
-const orderid = item.id;
-const payref = item.orderref;
+const orderid = item?.id;
+const payref = item?.orderref;
 
 const [msg, setMsg] = useState('')
 const [errorMsg, setErrorMsg] = useState('')
@@ -16,12 +16,12 @@ const [errorMsg, setErrorMsg] = useState('')
 const publicKey = "pk_live_24315e9e44f2aef9c009d799e937bbfb8f463fb0";
 
 const componentProps = {
-    email: user.email,
-    amount: item.amount * 100,
-    reference: item.orderref,
+    email: user?.email,
+    amount: item?.amount * 100,
+    reference: item?.orderref,
     metadata: {
-      name: user.name,
-      phone: user.phone,
+      name: user?.name,
+      phone: user?.phone,
     },
     publicKey,
     text: "Pay Now",
@@ -72,7 +72,7 @@ const componentProps = {
 
     return (
         <div className='p-2 bg-light'>
-                    {user && item && item.amount > 0 && <PaystackButton {...componentProps} />}
+                    {item?.amount > 0 && <PaystackButton {...componentProps} />}
 
                     {/* <p className='py-1 my-1'>{statusMsg}</p> */}
         {msg === 'ok' && btnref.current.click()}
