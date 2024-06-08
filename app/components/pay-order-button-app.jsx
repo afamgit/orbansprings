@@ -3,12 +3,11 @@
 import React, {useState, useRef} from 'react';
 import PaystackButton from './paystack-button';
 
-export function PayOrderButtonApp (user, item, redirecturl) {
+export function PayOrderButtonApp (name, email, phone, orderid, orderref, amount, redirecturl) {
 
     let btnref = useRef();
 
-const orderid = item?.id;
-const payref = item?.orderref;
+const payref = orderref;
 
 const [msg, setMsg] = useState('')
 const [errorMsg, setErrorMsg] = useState('')
@@ -16,12 +15,12 @@ const [errorMsg, setErrorMsg] = useState('')
 const publicKey = "pk_live_24315e9e44f2aef9c009d799e937bbfb8f463fb0";
 
 const componentProps = {
-    email: user?.email,
-    amount: item?.amount * 100,
-    reference: item?.orderref,
+    email: email,
+    amount: amount * 100,
+    reference: orderref,
     metadata: {
-      name: user?.name,
-      phone: user?.phone,
+      name: name,
+      phone: phone,
     },
     publicKey,
     text: "Pay Now",
@@ -78,7 +77,7 @@ const componentProps = {
         {msg === 'ok' && btnref.current.click()}
                     <p className='py-1 my-1'>{JSON.stringify(item)}</p>
 
-        <p className='bg-light my-2 p-2'><a ref={btnref} href={redirecturl === 'exp' ? `exp://192.168.1.4:19000/--/customer?paymentref=${payref}` : `orban://customer?paymentref=${payref}`}>Exit window</a></p>
+        <p className='bg-light my-2 p-2'><a ref={btnref} href={redirecturl === 'exp' ? `exp://192.168.1.4:19000/--/order-details/${payref}` : `orban://order-details/${payref}`}>Exit window</a></p>
 
         </div>
     )

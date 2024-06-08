@@ -16,7 +16,7 @@ export default async function Page({params}: {params: {refpay: string}}) {
 
     const order = await prisma.transactions.findFirst({
       where: {orderref: refpay},
-      select: {orderref:true, customerid:true, customername:true, customeremail:true, paymentstatus:true, amount:true, productname:true, updatedAt:true}
+      select: {orderref:true, id:true, customerid:true, customername:true, customeremail:true, paymentstatus:true, amount:true, productname:true, updatedAt:true}
     })
 
     const userid = order?.customerid
@@ -25,7 +25,7 @@ export default async function Page({params}: {params: {refpay: string}}) {
         where: {
             id: userid
         },
-        select: {id:true, name:true, email:true, password:true, updatedAt:true}
+        select: {id:true, name:true, email:true, phone:true, updatedAt:true}
     })
 
     return (
@@ -46,7 +46,6 @@ export default async function Page({params}: {params: {refpay: string}}) {
 
   <div>
             <h3 className='my-3'>Order for {order?.productname} at {moment(order?.updatedAt).format('Do MMM YYYY HH:mma')}</h3>
-            <p className='py-1 my-1'>{JSON.stringify(order)}</p>
 
     <div className='row'>
       <div className='col-md-6 my-3'>
@@ -54,7 +53,7 @@ export default async function Page({params}: {params: {refpay: string}}) {
         </div>
         {order && <div className='col-md-6 my-3'>
         Amount: {formatAmount(order?.amount)}<br />
-        {order?.amount > 0 && <PayOrderButtonApp user={customer} item={order} redirecturl='exp1' />}<br />
+        {order?.amount > 0 && <PayOrderButtonApp name={customer?.name} email={customer?.email} phone={customer?.phone} orderid={order?.id} orderref={order?.orderref} amount={order?.amount} redirecturl='exp1' />}<br />
 </div>}
       </div>
       <div>
