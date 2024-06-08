@@ -9,6 +9,7 @@ export function PayOrderButtonApp (name, email, phone, orderid, orderref, amount
 
 const payref = orderref;
 
+const [order, setOrder] = useState(null)
 const [msg, setMsg] = useState('')
 const [errorMsg, setErrorMsg] = useState('')
 
@@ -45,7 +46,7 @@ const componentProps = {
     formData.append('order', orderid);
     formData.append('action', 'cardupdateorder');
 
-    fetch(`${apiUrl}/api/orders.php`, {
+    fetch(`https://support.orbansprings.com/api/orders.php`, {
       method:'post',
       body: formData
     }).then((res) => {
