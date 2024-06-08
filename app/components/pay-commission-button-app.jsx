@@ -7,7 +7,6 @@ export function PayCommissionButtonApp ({name, email, phone, userid, paymentref,
 
     let btnref = useRef();
 
-const userid = userid;
 const payref = paymentref;
 
 const [msg, setMsg] = useState('')
