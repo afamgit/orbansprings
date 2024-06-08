@@ -14,14 +14,14 @@ type Props = {
 export default async function Page({params}: {params: {refpay: string}}) {
     const {refpay} = params;
 
-    const item = await prisma.transactions.findFirst({
+    const order = await prisma.transactions.findFirst({
       where: {orderref: refpay},
       select: {orderref:true, customerid:true, customername:true, customeremail:true, paymentstatus:true, amount:true, productname:true, updatedAt:true}
     })
 
-    const userid = item?.customerid
+    const userid = order?.customerid
 
-    const user = await prisma.users.findUnique({
+    const customer = await prisma.users.findUnique({
         where: {
             id: userid
         },
@@ -45,15 +45,16 @@ export default async function Page({params}: {params: {refpay: string}}) {
 
 
   <div>
-            <h3 className='my-3'>Order for {item?.productname} at {moment(item?.updatedAt).format('Do MMM YYYY HH:mma')}</h3>
+            <h3 className='my-3'>Order for {order?.productname} at {moment(order?.updatedAt).format('Do MMM YYYY HH:mma')}</h3>
+            <p className='py-1 my-1'>{JSON.stringify(order)}</p>
 
     <div className='row'>
       <div className='col-md-6 my-3'>
-        {user && <p>Name: {user.name}</p>}
+        {customer && <p>Name: {customer.name}</p>}
         </div>
-        {item && <div className='col-md-6 my-3'>
-        Amount: {formatAmount(item?.amount)}<br />
-        {item?.amount > 0 && <PayOrderButtonApp user={user} item={item} redirecturl='exp1' />}<br />
+        {order && <div className='col-md-6 my-3'>
+        Amount: {formatAmount(order?.amount)}<br />
+        {order?.amount > 0 && <PayOrderButtonApp user={customer} item={order} redirecturl='exp1' />}<br />
 </div>}
       </div>
       <div>
