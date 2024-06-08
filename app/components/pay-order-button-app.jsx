@@ -3,7 +3,7 @@
 import React, {useState, useRef} from 'react';
 import PaystackButton from './paystack-button';
 
-export function PayOrderButtonApp (name, email, phone, orderid, orderref, amount, redirecturl) {
+export function PayOrderButtonApp ({name, email, phone, orderid, orderref, amount, redirecturl}) {
 
     let btnref = useRef();
 
@@ -72,11 +72,10 @@ const componentProps = {
 
     return (
         <div className='p-2 bg-light'>
-                    {amount > 0 && <PaystackButton {...componentProps} />}
+                    {amount > 0 && <div className='w-[90px] rounded justofy-center content-center bg-sky-500 text-white px-4 py-2'><PaystackButton {...componentProps} /></div>}
 
                     {/* <p className='py-1 my-1'>{statusMsg}</p> */}
         {msg === 'ok' && btnref.current.click()}
-                    {/* <p className='py-1 my-1'>{email} - {amount} - {orderref}</p> */}
 
         <p className='bg-light my-2 p-2'><a ref={btnref} href={redirecturl === 'exp' ? `exp://192.168.1.4:19000/--/order-details/${payref}` : `orban://order-details/${payref}`}>Exit window</a></p>
 

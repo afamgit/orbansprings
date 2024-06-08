@@ -18,7 +18,7 @@ export default async function Page({params}: {params: {refpay: string}}) {
         where: {
             commission_payment_ref: refpay
         },
-        select: {id:true, name:true, commission_payment_ref:true, commissions_outstanding:true, updatedAt:true}
+        select: {id:true, name:true, email:true, phone:true, commission_payment_ref:true, commissions_outstanding:true, updatedAt:true}
     })
 
     const user = JSON.parse(JSON.stringify(customer))
@@ -42,13 +42,13 @@ export default async function Page({params}: {params: {refpay: string}}) {
 {user &&
 
   <div>
-            <h3 className='my-3'>Outstanding commission as at {moment(user.updatedAt).format('Do MMM YYYY HH:mma')}</h3>
+            <h3 className='my-3'>Outstanding commission as at {moment(user?.updatedAt).format('Do MMM YYYY HH:mma')}</h3>
 
     <div className='row'>
       <div className='col-md-6 my-3'>
-        Name: {user.name}<br />
+        Name: {user?.name}<br />
         Outstanding commission: {formatAmount(user?.commissions_outstanding)}<br />
-        {user?.commissions_outstanding > 0 && <PayCommissionButtonApp user={user} redirecturl='exp1' />}<br />
+        {user?.commissions_outstanding > 0 && <PayCommissionButtonApp name={user?.name} email={user?.email} phone={user?.phone} userid={user?.id} outstanding={user?.commissions_outstanding} paymentref={user?.commission_payment_ref} redirecturl='exp1' />}<br />
 
       </div>
       <div>
