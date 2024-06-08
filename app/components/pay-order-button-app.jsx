@@ -71,7 +71,7 @@ const componentProps = {
 
     return (
         <div className='p-2 bg-light'>
-                    {item?.amount > 0 && <PaystackButton {...componentProps} />}
+                    {amount > 0 && <PaystackButton {...componentProps} />}
 
                     {/* <p className='py-1 my-1'>{statusMsg}</p> */}
         {msg === 'ok' && btnref.current.click()}
