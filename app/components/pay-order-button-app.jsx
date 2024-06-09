@@ -2,9 +2,11 @@
 
 import React, {useState, useRef} from 'react';
 import PaystackButton from './paystack-button';
+import { useRouter } from 'next/navigation';
 
 export function PayOrderButtonApp ({name, email, phone, orderid, orderref, amount, redirecturl}) {
 
+  const router = useRouter()
     let btnref = useRef();
 
 const payref = orderref;
@@ -44,14 +46,15 @@ const componentProps = {
         setMsg("Payment successful!");
         setTimeout(() => {
             setMsg('');
-        },4000);
+            router.push(`https://orbansprings.com/${reference}/exp1`)
+          },4000);
         // doCardPaymentUpdate(reference);
     },
     onClose: () => alert("Wait! You are yet to complete your payment!"),
   }
 
   const handleCardPaymentUpdate = (reference) => {
-      doCardPaymentUpdate();
+    
   }
 
   const updateOrder = async (reference) => {
@@ -117,8 +120,6 @@ const componentProps = {
 
                     {/* <p className='py-1 my-1'>{statusMsg}</p> */}
         {/* {msg === 'ok' && btnref.current.click()} */}
-                    <p className='py-1 my-1 text-gray-800'>Message {msg}</p>
-                    <p className='py-1 my-1 text-gray-800'>Error message: {errorMsg}</p>
 
         <p className='bg-light my-2 p-2'><a ref={btnref} href={redirecturl === 'exp' ? `exp://192.168.1.4:19000/--/order-details/${payref}` : `orban://order-details/${payref}`}>Exit window</a></p>
 

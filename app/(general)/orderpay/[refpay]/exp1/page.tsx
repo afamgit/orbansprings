@@ -53,7 +53,11 @@ export default async function Page({params}: {params: {refpay: string}}) {
         </div>
         {order && <div className='col-md-6 my-3'>
         Amount: {formatAmount(order?.amount)}<br />
-        {order?.amount > 0 && <PayOrderButtonApp name={customer?.name} email={customer?.email} phone={customer?.phone} orderid={order?.id} orderref={order?.orderref} amount={order?.amount} redirecturl='exp1' />}<br />
+        {order?.amount > 0 && order?.paymentstatus === 'Unpaid' ? 
+        <PayOrderButtonApp name={customer?.name} email={customer?.email} phone={customer?.phone} orderid={order?.id} orderref={order?.orderref} amount={order?.amount} redirecturl='exp1' />
+        :
+        <div className='my-2'>The payment status for this order is {order?.paymentstatus}</div>
+        }
 </div>}
       </div>
       <div>
