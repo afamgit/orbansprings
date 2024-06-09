@@ -9,7 +9,6 @@ export function PayOrderButtonApp ({name, email, phone, orderid, orderref, amoun
 
 const payref = orderref;
 
-const [order, setOrder] = useState(null)
 const [msg, setMsg] = useState('')
 const [errorMsg, setErrorMsg] = useState('')
 
@@ -39,34 +38,58 @@ const componentProps = {
       doCardPaymentUpdate();
   }
 
-  const doCardPaymentUpdate = () => {
+  const updateOrder = async () => {
 
     let formData = new FormData();
 
-    formData.append('order', orderid);
-    formData.append('action', 'cardupdateorder');
+    formData.append('order', orderref);
 
-    fetch(`https://support.orbansprings.com/api/orders.php`, {
+    const response = await fetch('/api/orders/paystack-order.php', {
       method:'post',
       body: formData
-    }).then((res) => {
-        return res.json()
-    }).then((res) => {
-      if(res.status === 200) {
-        setOrder(res.orderdetail);
-        setMsg(res.msg);
-        setTimeout(() => {
-          setMsg('')
-        },6000)  
-      } else if (res.status === 400) {
-        setErrorMsg(res.msg)
+    })
+    const data = await response.json()
+
+    if(data.status === 200) {
+      setMsg(res.msg);
+      setTimeout(() => {
+        setMsg('')
+      },6000) 
+    } else if(data.status === 400){
+      setErrorMsg(res.msg)
         setTimeout(() => {
           setErrorMsg('')
-        },5000)  
-      }
-    }).catch((err) => {
-        console.log(err)
+        },5000) 
+    }
+
+  }
+
+  const doCardPaymentUpdate = async () => {
+
+    let formData = new FormData();
+
+    formData.append('order', orderref);
+    formData.append('action', 'verifypayment');
+
+    const response = await fetch('https://support.orbansprings.com/api/paystack.php', {
+      method:'post',
+      body: formData
     })
+    const data = await response.json()
+
+    if(data.status === 200) {
+      setMsg(res.msg);
+      updateOrder(orderref)
+      setTimeout(() => {
+        setMsg('')
+      },3000) 
+    } else if(data.status === 400){
+      setErrorMsg(res.msg)
+        setTimeout(() => {
+          setErrorMsg('')
+        },3000) 
+    }
+
   }
 
 
@@ -75,7 +98,9 @@ const componentProps = {
                     {amount > 0 && <div className='w-[90px] rounded justofy-center content-center bg-sky-500 text-white px-4 py-2'><PaystackButton {...componentProps} /></div>}
 
                     {/* <p className='py-1 my-1'>{statusMsg}</p> */}
-        {msg === 'ok' && btnref.current.click()}
+        {/* {msg === 'ok' && btnref.current.click()} */}
+                    <p className='py-1 my-1'>Message {msg}</p>
+                    <p className='py-1 my-1'>Error message: {errorMsg}</p>
 
         <p className='bg-light my-2 p-2'><a ref={btnref} href={redirecturl === 'exp' ? `exp://192.168.1.4:19000/--/order-details/${payref}` : `orban://order-details/${payref}`}>Exit window</a></p>
 
