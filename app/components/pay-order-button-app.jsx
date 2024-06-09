@@ -19,17 +19,33 @@ const componentProps = {
     amount: amount * 100,
     reference: orderref,
     metadata: {
-      name: name,
-      phone: phone,
+      custom_fields: [
+        {
+            display_name: 'name',
+            variable_name: 'name',
+            value: name
+        },
+        {
+          display_name: 'phone',
+          variable_name: 'phone',
+          value: phone
+      },
+      {
+        display_name: 'type',
+        variable_name: 'type',
+        value: 'Order'
+    }
+        // To pass extra metadata, add an object with the same fields as above
+    ]
     },
     publicKey,
     text: "Pay Now",
-    onSuccess: () => {
-        setMsg("Thanks for doing business with us! Come back soon!!");
+    onSuccess: (reference) => {
+        setMsg("Payment successful!");
         setTimeout(() => {
             setMsg('');
         },4000);
-        doCardPaymentUpdate();
+        // doCardPaymentUpdate(reference);
     },
     onClose: () => alert("Wait! You are yet to complete your payment!"),
   }
@@ -38,17 +54,18 @@ const componentProps = {
       doCardPaymentUpdate();
   }
 
-  const updateOrder = async () => {
+  const updateOrder = async (reference) => {
 
     let formData = new FormData();
 
-    formData.append('order', orderref);
+    formData.append('order', reference);
 
     const response = await fetch('/api/orders/paystack-order.php', {
       method:'post',
       body: formData
     })
     const data = await response.json()
+    alert(`from update: ${JSON.stringify(data)}`)
 
     if(data.status === 200) {
       setMsg(res.msg);
@@ -64,11 +81,11 @@ const componentProps = {
 
   }
 
-  const doCardPaymentUpdate = async () => {
+  const doCardPaymentUpdate = async (reference) => {
 
     let formData = new FormData();
 
-    formData.append('order', orderref);
+    formData.append('order', reference);
     formData.append('action', 'verifypayment');
 
     const response = await fetch('https://support.orbansprings.com/api/paystack.php', {
@@ -76,10 +93,11 @@ const componentProps = {
       body: formData
     })
     const data = await response.json()
+    alert(`from verification: ${JSON.stringify(data)}`)
 
     if(data.status === 200) {
       setMsg(res.msg);
-      updateOrder(orderref)
+      updateOrder(reference)
       setTimeout(() => {
         setMsg('')
       },3000) 
@@ -99,8 +117,8 @@ const componentProps = {
 
                     {/* <p className='py-1 my-1'>{statusMsg}</p> */}
         {/* {msg === 'ok' && btnref.current.click()} */}
-                    <p className='py-1 my-1'>Message {msg}</p>
-                    <p className='py-1 my-1'>Error message: {errorMsg}</p>
+                    <p className='py-1 my-1 text-gray-800'>Message {msg}</p>
+                    <p className='py-1 my-1 text-gray-800'>Error message: {errorMsg}</p>
 
         <p className='bg-light my-2 p-2'><a ref={btnref} href={redirecturl === 'exp' ? `exp://192.168.1.4:19000/--/order-details/${payref}` : `orban://order-details/${payref}`}>Exit window</a></p>
 
