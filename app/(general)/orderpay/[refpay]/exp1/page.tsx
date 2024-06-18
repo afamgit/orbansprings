@@ -19,11 +19,11 @@ export default async function Page({params}: {params: {refpay: string}}) {
       select: {orderref:true, id:true, customerid:true, customername:true, customeremail:true, paymentstatus:true, amount:true, productname:true, updatedAt:true}
     })
 
-    const userid = order?.customerid
+    const userid = order?.customerid || ''
 
     const customer = await prisma.users.findUnique({
         where: {
-            id: userid
+            id: parseInt(userid)
         },
         select: {id:true, name:true, email:true, phone:true, updatedAt:true}
     })
