@@ -1,6 +1,6 @@
 import Modal from "@/app/components/modal";
 import { prisma } from "@/scripts";
-import UserModal from "@/app/components/user-modal";
+import DriverModal from "@/app/components/driver-modal";
 import Breadcrumbs from "@/app/ui/breadcrumbs";
 import { Metadata } from "next";
 import Pagination from "@/app/ui/pagination";
@@ -32,7 +32,7 @@ import DriverOrders from "@/app/ui/driver-orders";
 import { DriverDropdown } from "@/app/components/driver-dropdown";
 
 export const metadata: Metadata = {
-  title: "Users",
+  title: "Drivers",
 };
 
 export default async function Page({
@@ -60,8 +60,8 @@ export default async function Page({
     select: {
       id: true,
       name: true,
-      photo: true,
       createdAt: true,
+      photo: true,
       isavailable: true,
       drv_vehicle_license_plate_no: true,
       subscription_plan: true,
@@ -70,7 +70,7 @@ export default async function Page({
 
   const driverName = user?.name || "";
 
-  const profileImg = user?.photo?.includes('profile') ? `https://orbansprings.com/${user.photo}` : user?.photo?.includes('noimage') ? `https://support.orbansprings.com/${user.photo}` : `/${user?.photo}`
+  const profileImg = user?.photo?.includes('https') ? user?.photo : `https://support.orbansprings.com/${user?.photo}`
 
 
   const meterNumber = async (id: string) => {
@@ -108,11 +108,11 @@ export default async function Page({
 
   return (
     <main className="w-full md:w-[1100px] flex flex-col justify-center items-center">
-      <UserModal>
+      <DriverModal>
         <div className="w-full rounded-lg border-2 border-gray-200 p-3">
           <div className="w-full flex justify-between items-center">
             <div className="flex justify-start items-center">
-              <Link className="text-gray-900 mr-2" href="/account/users/drivers">
+              <Link className="text-gray-900 mr-2" href="/account/vendor-merchants/drivers">
                 <FaChevronLeft size={24} className="outline-0" />
               </Link>
               <Image
@@ -194,7 +194,7 @@ export default async function Page({
             <Pagination totalPages={total} />
           </div>
         </div>
-      </UserModal>
+      </DriverModal>
 
       <div className="w-full flex justify-end items-start">
         <Breadcrumbs
@@ -220,8 +220,8 @@ export default async function Page({
               <FaChevronLeft size={24} className="outline-0" />
             </Link>
             <Image
-              src="/noimage.png"
-              height={80}
+                src={`${profileImg}`}
+                height={80}
               width={80}
               alt="photo"
               className="rounded-full"

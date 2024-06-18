@@ -17,6 +17,11 @@ export const formatAmount = (amount: number) => {
   }
 };
 
+export const getPhotoUrl = (imgUrl: string) => {
+  const imageUrl = imgUrl.includes('https') ? `${imgUrl}` : `/${imgUrl}`
+return imageUrl
+}
+
 export const monthsMap = [
   {"name":"January", "abbr": "01"},
   {"name":"February", "abbr": "02"},

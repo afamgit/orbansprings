@@ -500,6 +500,91 @@ export async function fetchUserDrivers(
   }
 }
 
+export async function fetchFilteredMerchantDrivers(
+  id: number,
+  query: string,
+  currentPage: number,
+  availability: string,
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  const available = availability === 'Available' ? true : availability === 'Unavailable' ? false : availability === '' ? undefined : null 
+
+  try {
+    const users = await prisma.users.findMany({
+      where: {AND:[{AND:[{role: 'driver'}, {fleetid: id}, {OR:[{isavailable: available}]}]}, {OR:[{name: {contains:query}},{email:{contains: query}}, {phone: {contains: query}},{username:{contains:query}}]}]},
+      skip: offset,
+      take: ITEMS_PER_PAGE
+    })
+    return users;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch drivers.');
+  }
+}
+
+export async function fetchMerchantDrivers(
+  id: number,
+  query: string,
+  availability: string,
+) {
+
+  const available = availability === 'Available' ? true : false 
+
+  try {
+    const users = await prisma.users.count({
+      where: {AND:[{ role: 'driver' }, {fleetid:id}, {isavailable: available}]}
+    })
+    const totalPages = Math.ceil(Number(users) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch drivers.');
+  }
+}
+
+export async function fetchFilteredMerchantTrucks(
+  id: number,
+  query: string,
+  currentPage: number,
+  status: string,
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  const t_status = status === 'Active' ? 'Active' : status === 'Inactive' ? 'Inactive' : undefined 
+
+  try {
+    const trucks = await prisma.trucks.findMany({
+      where: {AND:[{AND:[{truck_fleetowner: id}, {OR:[{truck_status: t_status}]}]}, {OR:[{truck_make: {contains:query}},{truck_plateno:{contains: query}}, {truck_driver: {contains: query}}]}]},
+      skip: offset,
+      take: ITEMS_PER_PAGE
+    })
+    return trucks;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch trucks.');
+  }
+}
+
+export async function fetchMerchantTrucks(
+  id: number,
+  query: string,
+  status: string,
+) {
+
+
+  try {
+    const trucks = await prisma.trucks.count({
+      where: {AND:[{truck_fleetowner:id}, {truck_status: status}]}
+    })
+    const totalPages = Math.ceil(Number(trucks) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch trucks.');
+  }
+}
+
 export async function fetchFilteredVendors(
   query: string,
   currentPage: number,
@@ -649,7 +734,7 @@ export async function fetchFilteredDriversCommissions(
 
   try {
     const drvcommissions = await prisma.transactions.findMany({
-      where: {AND:{AND:[{req_type: 'Water packages'}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: 0}},
+      where: {AND:{AND:[{req_type: 'Water packages'}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: '0'}},
       select: {id:true, req_type:true, productid:true, driverid:true, commission:true, commission_paid:true, status:true, paymentstatus:true, createdAt:true},
       skip: offset,
       take: ITEMS_PER_PAGE
@@ -695,7 +780,7 @@ export async function fetchDriversCommissions(query: string, fyear: string, ftyp
 
   try {
     const drvcommissions = await prisma.transactions.count({
-      where: {AND:{AND:[{req_type: 'Water packages'}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: 0}},
+      where: {AND:{AND:[{req_type: 'Water packages'}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: '0'}},
     })
     const totalPages = Math.ceil(Number(drvcommissions) / ITEMS_PER_PAGE);
     return totalPages;
@@ -744,7 +829,7 @@ export async function fetchFilteredVendorsCommissions(
 
   try {
     const vendcommissions = await prisma.transactions.findMany({
-      where: {AND:{AND:[{OR:[{req_type: 'Plumbing'}, {req_type: 'Tank cleaning'}]}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: 0}},
+      where: {AND:{AND:[{OR:[{req_type: 'Plumbing'}, {req_type: 'Tank cleaning'}]}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: '0'}},
       select: {id:true, req_type:true, productid:true, driverid:true, commission:true, commission_paid:true, status:true, paymentstatus:true, createdAt:true},
       skip: offset,
       take: ITEMS_PER_PAGE
@@ -788,7 +873,7 @@ export async function fetchVendorsCommissions(query: string, fyear: string, ftyp
 
   try {
     const vendcommissions = await prisma.transactions.count({
-      where: {AND:{AND:[{OR:[{req_type: 'Plumbing'}, {req_type: 'Tank cleaning'}]}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: 0}},
+      where: {AND:{AND:[{OR:[{req_type: 'Plumbing'}, {req_type: 'Tank cleaning'}]}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: '0'}},
     })
     const totalPages = Math.ceil(Number(vendcommissions) / ITEMS_PER_PAGE);
     return totalPages;
@@ -882,9 +967,10 @@ export async function fetchFilteredCustomerOrders(
 
   try {
     const orders = await prisma.transactions.findMany({
-      where: {AND:[{customerid: parseInt(id) }, {OR:[{productname:{contains: product}}]}]},
+      where: {AND:[{customerid: id}, {OR:[{productname:{contains: product}}]}]},
       select: {id: true, productname: true, createdAt: true, status:true, orderref:true, drivername:true, driverdeliverystatus:true},
-      skip: offset,
+       orderBy: {createdAt: 'desc'},
+     skip: offset,
       take: ITEMS_PER_PAGE
     })
     return orders;
@@ -897,7 +983,7 @@ export async function fetchFilteredCustomerOrders(
 export async function fetchCustomerOrders(query: string, product: string, id: string) {
   try {
     const orders = await prisma.transactions.count({
-      where: {AND:[{customerid: parseInt(id) }, {OR:[{productname: {contains:product}}]}]},
+      where: {AND:[{customerid: id}, {OR:[{productname: {contains:product}}]}]},
     })
     const totalPages = Math.ceil(Number(orders) / ITEMS_PER_PAGE);
     return totalPages;
@@ -918,8 +1004,9 @@ export async function fetchFilteredDriverOrders(
 
   try {
     const orders = await prisma.transactions.findMany({
-      where: {AND:[{driverid: parseInt(id) }, {OR:[{productname:{contains: product}}]}]},
+      where: {AND:[{driverid: id }, {OR:[{productname:{contains: product}}]}]},
       select: {id: true, productname: true, createdAt: true, status:true, orderref:true, drivername:true, driverdeliverystatus:true},
+      orderBy: {createdAt: 'desc'},
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -933,7 +1020,7 @@ export async function fetchFilteredDriverOrders(
 export async function fetchDriverOrders(query: string, product: string, id: string) {
   try {
     const orders = await prisma.transactions.count({
-      where: {AND:[{driverid: parseInt(id) }, {OR:[{productname: {contains:product}}]}]},
+      where: {AND:[{driverid: id}, {OR:[{productname: {contains:product}}]}]},
     })
     const totalPages = Math.ceil(Number(orders) / ITEMS_PER_PAGE);
     return totalPages;
@@ -956,7 +1043,8 @@ export async function fetchFilteredOrders(
     const orders = await prisma.transactions.findMany({
       where: {AND:[{req_type: 'Water packages' }, {OR: [{productname: {contains:product}}]}, {OR: [{product_subscription: {contains:subscription}}]}, {OR: [{customerarea: {contains:location}}]}]},
       select: {id: true, productname: true, req_type:true, createdAt: true, status:true, orderref:true, customername:true, customerareagroup:true, customerarea:true, amount:true},
-      skip: offset,
+       orderBy: {createdAt: 'desc'},
+     skip: offset,
       take: ITEMS_PER_PAGE
     })
     return orders;
@@ -992,7 +1080,8 @@ export async function fetchFilteredOrdersTank(
     const orders = await prisma.transactions.findMany({
       where: {AND:[{req_type: 'Tank cleaning' }, {OR: [{productname: {contains:product}}]}, {OR: [{product_subscription: {contains:subscription}}]}, {OR: [{customerarea: {contains:location}}]}]},
       select: {id: true, productname: true, req_type:true, createdAt: true, status:true, orderref:true, customername:true, customerareagroup:true, customerarea:true, amount:true},
-      skip: offset,
+       orderBy: {createdAt: 'desc'},
+     skip: offset,
       take: ITEMS_PER_PAGE
     })
     return orders;
@@ -1028,7 +1117,8 @@ export async function fetchFilteredOrdersPlumbing(
     const orders = await prisma.transactions.findMany({
       where: {AND:[{req_type: 'Plumbing' }, {OR: [{productname: {contains:product}}]}, {OR: [{product_subscription: {contains:subscription}}]}, {OR: [{customerarea: {contains:location}}]}]},
       select: {id: true, productname: true, req_type:true, createdAt: true, status:true, orderref:true, customername:true, customerareagroup:true, customerarea:true, amount:true},
-      skip: offset,
+       orderBy: {createdAt: 'desc'},
+     skip: offset,
       take: ITEMS_PER_PAGE
     })
     return orders;
@@ -1050,6 +1140,42 @@ export async function fetchOrdersPlumbing(query: string, product: string, subscr
     throw new Error('Failed to fetch plumbing orders.');
   }
 }
+
+export async function fetchFilteredVendorOrders(
+  query: string,
+  currentPage: number,
+  fleet: string
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const orders = await prisma.transactions.findMany({
+      where: {AND:[{req_type: 'Water packages', fleetid: fleet }]},
+      select: {id: true, productname: true, req_type:true, createdAt: true, status:true, orderref:true, customername:true, customerphone:true, drivername:true, drivervehicleplateno:true, customerareagroup:true, customerarea:true, amount:true},
+      orderBy: {createdAt: 'desc'},
+      skip: offset,
+      take: ITEMS_PER_PAGE
+    })
+    return orders;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch orders.');
+  }
+}
+
+export async function fetchVendorOrders(query: string, fleet: string) {
+  try {
+    const orders = await prisma.transactions.count({
+      where: {AND:[{req_type: 'Water packages', fleetid: fleet }]}
+    })
+    const totalPages = Math.ceil(Number(orders) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch orders.');
+  }
+}
+
 
 export async function fetchFilteredRequests(
   query: string,

@@ -14,8 +14,8 @@ export const useAuth = ({user}) => {
     }
   },[])
 
-  return {
-    userInfo: userInfo, isLoggenOn: isLoggenOn
-  }
+  return [
+    userInfo, isLoggenOn
+  ]
 
   }

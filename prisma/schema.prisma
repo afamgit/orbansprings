@@ -125,10 +125,11 @@ model newsletter_body {
 }
 
 model paystackresponse {
-  prid         Int     @id @default(autoincrement())
-  prbody       String  @db.Text
-  pracc_number String? @db.VarChar(50)
-  pracc_bank   String? @db.VarChar(25)
+  prid         Int      @id @default(autoincrement())
+  prbody       String   @db.Text
+  pracc_number String?  @db.VarChar(50)
+  pracc_bank   String?  @db.VarChar(25)
+  createdAt    DateTime @db.DateTime(0)
 }
 
 model productcategories {
@@ -171,6 +172,8 @@ model requests {
   howmany              Int?     @db.TinyInt
   productid            Int
   productname          String   @db.VarChar(75)
+  amount               Float    @db.Float
+  commission           Float    @db.Float
   customerid           Int
   customername         String   @db.VarChar(75)
   customerphone        String   @db.VarChar(50)
@@ -180,12 +183,12 @@ model requests {
   third_party_delivery String   @db.VarChar(5)
   customerlatitude     Decimal  @db.Decimal(8, 6)
   customerlongitude    Decimal  @db.Decimal(9, 6)
-  address              String   @db.VarChar(255)
-  driverid             Int
-  drivername           String   @db.VarChar(75)
-  driverphone          String   @db.VarChar(50)
-  driveremail          String   @db.VarChar(100)
-  drivervehicleplateno String   @db.VarChar(50)
+  address              String?  @db.VarChar(255)
+  driverid             Int?
+  drivername           String?  @db.VarChar(75)
+  driverphone          String?  @db.VarChar(50)
+  driveremail          String?  @db.VarChar(100)
+  drivervehicleplateno String?  @db.VarChar(50)
   status               String   @default(dbgenerated("(pending)")) @db.VarChar(255)
   createdAt            DateTime @db.DateTime(0)
   updatedAt            DateTime @updatedAt @db.DateTime(0)
@@ -297,7 +300,7 @@ model transactions {
   amount                     Float    @db.Float
   commission                 Float    @db.Float
   driverfee                  Float    @db.Float
-  driverid                   Int
+  driverid                   String?  @db.VarChar(11)
   drivername                 String   @db.VarChar(100)
   driverphone                String   @db.VarChar(30)
   driveremail                String   @db.VarChar(100)
@@ -307,7 +310,7 @@ model transactions {
   driverlatitude             Decimal  @db.Decimal(8, 6)
   driverlongitude            Decimal  @db.Decimal(9, 6)
   driveraccept               String?  @db.VarChar(30)
-  customerid                 Int
+  customerid                 String?  @db.VarChar(11)
   customername               String   @db.VarChar(100)
   customeremail              String   @db.VarChar(100)
   customerphone              String   @db.VarChar(30)
@@ -358,6 +361,7 @@ model users {
   email                        String    @unique(map: "email") @db.VarChar(100)
   password                     String    @db.VarChar(255)
   phone                        String?   @db.VarChar(255)
+  dob                          String?   @db.VarChar(25)
   subscription_plan            String    @default(dbgenerated("(Basic)")) @db.VarChar(15)
   subscription_end             DateTime? @db.DateTime(0)
   address                      String?   @db.VarChar(255)
@@ -611,7 +615,7 @@ model trucks {
   truckid          Int      @id @default(autoincrement())
   truck_make       String   @db.VarChar(75)
   truck_plateno    String   @db.VarChar(20)
-  truck_fleetowner String?  @db.VarChar(100)
+  truck_fleetowner Int?
   truck_meterid    String?  @db.VarChar(25)
   truck_driver     String?  @db.VarChar(100)
   truck_status     String   @default(dbgenerated("(Active)")) @db.VarChar(10)

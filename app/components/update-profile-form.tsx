@@ -32,7 +32,7 @@ function EditButton() {
  const updateProfileWithId = updateProfile.bind(null, profile?.id)
    const [state, formAction] = useFormState(updateProfileWithId, initialState)
  
-const profileImg = profile?.photo?.includes('profile') ? `https://orbansprings.com/${profile.photo}` : `${profile?.photo}`
+   const profileImg = profile?.photo?.includes('profile') ? `https://orbansprings.com/${profile.photo}` : profile?.photo?.includes('noimage') ? `https://support.orbansprings.com/${profile.photo}` : `/${profile?.photo}`
 
    return (
     <>

@@ -135,38 +135,40 @@ export async function createPage(prevState: any, formData: FormData) {
   const schema = z.object({
     category: z.string(),
     title: z.string(),
+    photourl: z.string(),
     desc: z.string(),
   })
   const parsedData = schema.parse({
     category: formData.get('category'),
     title: formData.get('title'),
+    photourl: formData.get('photourl'),
     desc: formData.get('desc'),
   })
 
   try {
-    const file: File | null = formData.get('photo') as unknown as File
-    if (!file) {
-      throw new Error('No file uploaded')
-    }
+    // const file: File | null = formData.get('photo') as unknown as File
+    // if (!file) {
+    //   throw new Error('No file uploaded')
+    // }
 
 
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
+    // const bytes = await file.arrayBuffer()
+    // const buffer = Buffer.from(bytes)
 
-    // With the file data in the buffer, you can do whatever you want with it.
-    // For this, we'll just write it to the filesystem in a new location
-    // /Users/afamnnaji/Desktop/next-apps/orban-springs/public
-    console.log("Current working directory: ",
-      process.cwd());
-    const path = join(process.cwd(), 'public', file.name)
-    const doUpload = await writeFile(path, buffer)
+    // // With the file data in the buffer, you can do whatever you want with it.
+    // // For this, we'll just write it to the filesystem in a new location
+    // // /Users/afamnnaji/Desktop/next-apps/orban-springs/public
+    // console.log("Current working directory: ",
+    //   process.cwd());
+    // const path = join(process.cwd(), 'public', file.name)
+    // const doUpload = await writeFile(path, buffer)
 
     const doInsert = await prisma.contentpages.create({
       data: {
         cpagemenu: parsedData.category,
         cpagename: parsedData.title,
         cpagecontent: parsedData.desc,
-        cpagephoto: file.name,
+        cpagephoto: parsedData.photourl,
         cpagesbanner: '',
         cpagelinkname: slugify(parsedData.title),
         cpage_postedby: 'admin',
@@ -189,29 +191,31 @@ export async function updatePage(id: string, prevState: any, formData: FormData)
     category: z.string(),
     title: z.string(),
     desc: z.string(),
-    picture: z.string(),
-  })
+    photourl: z.string(),
+    uploadedpic: z.string(),
+})
   const parsedData = schema.parse({
     category: formData.get('category'),
     title: formData.get('title'),
     desc: formData.get('desc'),
-    picture: formData.get('picture'),
-  })
+    photourl: formData.get('photourl'),
+    uploadedpic: formData.get('uploadedpic'),
+})
 
   try {
-    const file: File | null = formData.get('photo') as unknown as File
-    if (file) {
+    // const file: File | null = formData.get('photo') as unknown as File
+    // if (file) {
 
-      const bytes = await file.arrayBuffer()
-      const buffer = Buffer.from(bytes)
+    //   const bytes = await file.arrayBuffer()
+    //   const buffer = Buffer.from(bytes)
 
-      // With the file data in the buffer, you can do whatever you want with it.
-      // For this, we'll just write it to the filesystem in a new location
-      // /Users/afamnnaji/Desktop/next-apps/orban-springs/public
+    //   // With the file data in the buffer, you can do whatever you want with it.
+    //   // For this, we'll just write it to the filesystem in a new location
+    //   // /Users/afamnnaji/Desktop/next-apps/orban-springs/public
 
-      const path = join(process.cwd(), 'public', file.name)
-      const doUpload = await writeFile(path, buffer)
-    }
+    //   const path = join(process.cwd(), 'public', file.name)
+    //   const doUpload = await writeFile(path, buffer)
+    // }
 
     const doUpdate = await prisma.contentpages.update({
       where: {
@@ -221,7 +225,7 @@ export async function updatePage(id: string, prevState: any, formData: FormData)
         cpagemenu: parsedData.category,
         cpagename: parsedData.title,
         cpagecontent: parsedData.desc,
-        cpagephoto: file.name !== '' && file.name !== null && file.name !== 'undefined' ? file.name : parsedData.picture,
+        cpagephoto: parsedData.uploadedpic || parsedData.photourl,
         cpagesbanner: '',
         cpagelinkname: slugify(parsedData.title),
         cpage_postedby: 'admin',
@@ -255,6 +259,213 @@ export async function deletePage(id: string) {
     return { message: 'Failed to delete page' }
   }
 }
+
+export async function createDriver(prevState: any, formData: FormData) {
+  const schema = z.object({
+    fname: z.string(),
+    lname: z.string(),
+    fleet: z.coerce.number(),
+    email: z.string().email(),
+    phone: z.string(),
+    address: z.string(),
+    areagroup: z.string(),
+    vehplateno: z.string(),
+    vehcapacity: z.string(),
+    photourl: z.string(),
+  })
+  const parsedData = schema.parse({
+    fname: formData.get('fname'),
+    lname: formData.get('lname'),
+    fleet: formData.get('fleet'),
+    email: formData.get('email'),
+    phone: formData.get('phone'),
+    address: formData.get('address'),
+    areagroup: formData.get('areagroup'),
+    vehplateno: formData.get('truckno'),
+    vehcapacity: formData.get('truckvol'),
+    photourl: formData.get('photourl'),
+  })
+
+  try {
+
+    const name = `${parsedData.fname} ${parsedData.lname}`
+    const hashedPassword = await bcrypt.hash('111111',10)
+
+    const doUpdate = await prisma.users.create({
+      data: {
+        name: name,
+        first_name: parsedData.fname,
+        last_name: parsedData.lname,
+        fleetid: parsedData.fleet,
+        username: name,
+        password: hashedPassword,
+        email: parsedData.email,
+        phone: parsedData.phone,
+        address: parsedData.address,
+        subscription_plan: 'Basic',
+        role: 'driver',
+        photo: parsedData.photourl,
+        areagroup: parsedData.areagroup,
+        drv_vehicle_license_plate_no: parsedData.vehplateno,
+        drv_vehicle_capacity: parsedData.vehcapacity,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+    })
+
+  } catch (e) {
+    return { message: 'Failed to create page' }
+  }
+  revalidatePath('/account/vendor-merchants/drivers')
+  redirect('/account/vendor-merchants/drivers')
+
+}
+
+export async function updateDriver(id: string, prevState: any, formData: FormData) {
+
+  const schema = z.object({
+    fname: z.string(),
+    lname: z.string(),
+    fleet: z.coerce.number(),
+    email: z.string().email(),
+    phone: z.string(),
+    address: z.string(),
+    areagroup: z.string(),
+    vehplateno: z.string(),
+    vehcapacity: z.string(),
+    photourl: z.string(),
+    uploadedpic: z.string()
+  })
+  const parsedData = schema.parse({
+    fname: formData.get('fname'),
+    lname: formData.get('lname'),
+    fleet: formData.get('fleet'),
+    email: formData.get('email'),
+    phone: formData.get('phone'),
+    address: formData.get('address'),
+    areagroup: formData.get('areagroup'),
+    vehplateno: formData.get('truckno'),
+    vehcapacity: formData.get('truckvol'),
+    photourl: formData.get('photourl'),
+    uploadedpic: formData.get('uploadedpic')
+  })
+
+  try {
+   
+    const name = `${parsedData.fname} ${parsedData.lname}`
+
+    const doUpdate = await prisma.users.update({
+      where: {
+        id: parseInt(id)
+      },
+      data: {
+        name: name,
+        first_name: parsedData.fname,
+        last_name: parsedData.lname,
+        fleetid: parsedData.fleet,
+        email: parsedData.email,
+        phone: parsedData.phone,
+        address: parsedData.address,
+        photo: parsedData.uploadedpic || parsedData.photourl,
+        areagroup: parsedData.areagroup,
+        drv_vehicle_license_plate_no: parsedData.vehplateno,
+        drv_vehicle_capacity: parsedData.vehcapacity,
+        updatedAt: new Date()
+      }
+    })
+
+  } catch (e) {
+    return { message: 'Failed to update driver' }
+  }
+
+  revalidatePath('/account/vendor-merchants/drivers')
+  redirect('/account/vendor-merchants/drivers')
+}
+
+export async function createTruck(prevState: any, formData: FormData) {
+  const schema = z.object({
+    truckbrand: z.string(),
+    plateno: z.string(),
+    meter: z.string(),
+    driver: z.string(),
+    fleet: z.coerce.number(),
+  })
+  const parsedData = schema.parse({
+    truckbrand: formData.get('truckbrand'),
+    plateno: formData.get('plateno'),
+    meter: formData.get('meter'),
+    driver: formData.get('driver'),
+    fleet: formData.get('fleet'),
+  })
+
+  try {
+
+    const doUpdate = await prisma.trucks.create({
+      data: {
+        truck_make: parsedData.truckbrand,
+        truck_plateno: parsedData.plateno,
+        truck_fleetowner: parsedData.fleet,
+        truck_meterid: parsedData.meter,
+        truck_driver: parsedData.driver,
+        truck_status: 'Active',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+    })
+
+  } catch (e) {
+    return { message: 'Failed to create truck' }
+  }
+  revalidatePath('/account/vendor-merchants/fleet')
+  redirect('/account/vendor-merchants/fleet')
+
+}
+
+export async function updateTruck(id: string, prevState: any, formData: FormData) {
+
+  const schema = z.object({
+    truckbrand: z.string(),
+    plateno: z.string(),
+    meter: z.string(),
+    driver: z.string(),
+    fleet: z.coerce.number(),
+    status: z.string(),
+  })
+  const parsedData = schema.parse({
+    truckbrand: formData.get('truckbrand'),
+    plateno: formData.get('plateno'),
+    meter: formData.get('meter'),
+    driver: formData.get('driver'),
+    fleet: formData.get('fleet'),
+    status: formData.get('status'),
+  })
+
+  try {
+   
+
+    const doUpdate = await prisma.trucks.update({
+      where: {
+        truckid: parseInt(id)
+      },
+      data: {
+        truck_make: parsedData.truckbrand,
+        truck_plateno: parsedData.plateno,
+        truck_fleetowner: parsedData.fleet,
+        truck_meterid: parsedData.meter,
+        truck_driver: parsedData.driver,
+        truck_status: parsedData.status,
+        updatedAt: new Date()
+      }
+    })
+
+  } catch (e) {
+    return { message: 'Failed to update truck' }
+  }
+
+  revalidatePath('/account/vendor-merchants/fleet')
+  redirect('/account/vendor-merchants/fleet')
+}
+
 
 export async function deleteAccount(id: string) {
 
@@ -290,7 +501,6 @@ export async function updateProfile(id: string, prevState: any, formData: FormDa
     name: formData.get('name'),
     email: formData.get('email'),
     phone: formData.get('phone'),
-    price: formData.get('price'),
     address: formData.get('address'),
     areagroup: formData.get('areagroup'),
     enable2fa: formData.get('enable2fa'),

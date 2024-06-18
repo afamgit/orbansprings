@@ -21,9 +21,9 @@ export default async function Users({
 
     const allUsers = JSON.parse(JSON.stringify(getUsers))
 
-    const volumeBought = async (userid: number) => {
+    const volumeBought = async (userid: string) => {
         const totalBought = await prisma.transactions.aggregate({
-          where: {customerid: userid},
+          where: {customerid: userid.toString()},
           _sum: {qty: true}
         })
       
@@ -55,7 +55,7 @@ export default async function Users({
             <td>{++i}</td>
             <td className='font-bold'><Link href={`/account/users/${item.id}/customer-detail?showDialog=y`}>{item.name}</Link></td>
             <td>{item.area}</td>
-            <td>{volumeBought(parseInt(item.id))}</td>
+            <td>{volumeBought(item.id)}</td>
             <td>{item.subscription_plan}</td>
             <td>{moment(item.createdAt).format('DD/MM/YYYY')}</td>
             <td className='flex justify-end'><DeleteUser id={id} /></td>

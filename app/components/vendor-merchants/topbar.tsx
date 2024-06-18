@@ -27,7 +27,7 @@ export async function VendorMerchantTopBar () {
                     Fleet
                 </li>
             </Link>
-            <Link className='p-3' href='/account/profile'>
+            <Link className='p-3' href='/account/update-profile'>
                 <li className={`px-1`}>
                     Profile
                 </li>

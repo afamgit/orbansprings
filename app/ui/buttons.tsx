@@ -79,6 +79,36 @@ export function DeletePage({ id }: { id: string }) {
     );
   }
 
+  export function UpdateDriver ({ driver }: { driver: string }) {
+
+   
+    return (
+      <Link
+        href={`/account/vendor-merchants/drivers/${driver}/edit`}
+        className="rounded-md border p-2 hover:bg-gray-100"
+      >
+          <div className='flex justify-center items-center'>
+          <span className="sr-only">Update</span> <BsPencilSquare className='text-2xl' />
+          </div>
+      </Link>
+    );
+  }
+
+  export function UpdateTruck ({ truck }: { truck: string }) {
+
+   
+    return (
+      <Link
+        href={`/account/vendor-merchants/fleet/${truck}/edit`}
+        className="rounded-md border p-2 hover:bg-gray-100"
+      >
+          <div className='flex justify-center items-center'>
+          <span className="sr-only">Update</span> <BsPencilSquare className='text-2xl' />
+          </div>
+      </Link>
+    );
+  }
+
   export function UpdateBlog({ article }: { article: any }) {
 
    
@@ -93,7 +123,6 @@ export function DeletePage({ id }: { id: string }) {
       </Link>
     );
   }
-
 
   export function DeleteProduct({ id }: { id: string }) {
    

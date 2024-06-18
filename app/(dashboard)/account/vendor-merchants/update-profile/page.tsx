@@ -24,7 +24,7 @@ export default async function Page() {
 
 const id = profile?.id.toString() || ''
 
-const profileImg = profile?.photo?.includes('profile') ? `https://orbansprings.com/${profile.photo}` : profile?.photo?.includes('noimage') ? `https://support.orbansprings.com/${profile.photo}` : `/${profile?.photo}`
+const profileImg = profile?.photo?.includes('https') ? profile?.photo : `https://support.orbansprings.com/${profile?.photo}`
 
   return (
     <div className="bg-gray-100 text-gray-900">

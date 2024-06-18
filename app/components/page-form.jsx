@@ -1,9 +1,13 @@
 'use client'
- 
+
 import { useFormState } from 'react-dom'
 import { useFormStatus } from 'react-dom'
 import { createPage, updatePage, deletePage } from '../utils/actions'
- 
+import React, { useState, useRef } from 'react';
+import Image from 'next/image';
+import { getPhotoUrl } from '../utils/utils';
+import Link from 'next/link';
+
 const initialState = {
   message: null,
 }
@@ -70,7 +74,10 @@ export function AddForm() {
 
 export function AddPageForm() {
     const [state, formAction] = useFormState(createPage, initialState)
-   
+    const inputFileRef = useRef(null);
+    const [blob, setBlob] = useState(null);
+      const [loading, setLoading] = useState(false);
+
     return (
       <>
 
@@ -82,7 +89,8 @@ export function AddPageForm() {
       </h2>
     </div>
 
-    <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <div className="w-full md:flex mt-6 mx-auto">
+                <div className='w-4/5 px-4'>
     <form action={formAction}>
         <div>
         <label htmlFor="category" className="block text-sm font-medium leading-6 text-gray-900">Category</label>
@@ -131,7 +139,7 @@ export function AddPageForm() {
           </div>
         </div>
 
-        <div>
+        {/* <div>
         <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">Photo</label>
           <div className="mt-2">
           <input 
@@ -142,14 +150,84 @@ export function AddPageForm() {
             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
           />
           </div>
+        </div> */}
+
+<div>
+        <label htmlFor="photourl" className="block text-sm font-medium leading-6 text-gray-900">Image url</label>
+          <div className="mt-2">
+          <input 
+            type="text" 
+            value={blob?.url}
+            id="photourl" 
+            name="photourl" 
+            className="block w-full p-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
+          />
+          </div>
         </div>
 
+
     
-        <SubmitButton />
+        <div className='my-2'>
+                 <SubmitButton /> <Link href='/account/content-pages' className='p-2 ml-2 bg-gray-200 rounded'>
+      Cancel
+    </Link>
+                  </div> 
 <p aria-live="polite" className="sr-only">
 {state?.message}
 </p>
       </form>
+      </div>
+
+      <div className='w-1/5'>
+                  
+                  <form
+                    onSubmit={async (event) => {
+                      event.preventDefault();
+                      setLoading(true)
+            
+             
+                      if (!inputFileRef.current?.files) {
+                        throw new Error('No file selected');
+                      }
+             
+                      const file = inputFileRef.current.files[0];
+             
+                      const formData = new FormData();
+            
+                      formData.append("file", file)
+                      formData.append("action", 'upload')
+             
+                      const response = await fetch(
+                        'https://support.heelsandkey.com/api/upload_file.php',
+                        {
+                          method: 'POST',
+                          body: formData,
+                        },
+                      );
+             
+                      // const newBlob = (await response.json()) as PutBlobResult;
+                      const newBlob = await response.json();
+            
+                      setLoading(false)
+            
+                      setBlob(newBlob);
+                    }}
+                  >
+                    {blob && <Image
+                          height={550}
+                          width={400}
+                          src={`${blob?.url}`}
+                          alt={''}
+                          className='rounded-lg h-[100px] mb-4'
+                        /> }
+            
+                    <input name="file" ref={inputFileRef} type="file" required />
+                    <button className='mt-3 bg-gray-600 text-white rounded px-3 py-1' type="submit">{loading ? 'Uploading...' : 'Upload'}</button>
+                  </form>
+            
+                  </div>
+            
+            
 
     </div>
   </div>
@@ -163,6 +241,9 @@ export function AddPageForm() {
 
    const updatePageWithId = updatePage.bind(null, page.cpageid)
    const [state, formAction] = useFormState(updatePageWithId, initialState)
+   const inputFileRef = useRef(null);
+   const [blob, setBlob] = useState(null);
+    const [loading, setLoading] = useState(false);
 
    return (
     <>
@@ -176,7 +257,8 @@ export function AddPageForm() {
                 <p>{state?.message}</p>
               </div>
       
-              <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+              <div className="w-full md:flex mt-6 mx-auto">
+                <div className='w-4/5 px-4'>
               <form action={formAction}>
                   <div>
                   <label htmlFor="category" className="block text-sm font-medium leading-6 text-gray-900">Category</label>
@@ -227,7 +309,7 @@ export function AddPageForm() {
                     </div>
                   </div>
 
-                  <div>
+                  {/* <div>
                   <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">Photo</label>
                     <div className="mt-2">
                     <input 
@@ -237,20 +319,92 @@ export function AddPageForm() {
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
                     />
                     </div>
-                  </div>
+                  </div> */}
 
-                  <input type="hidden" id="picture" name="picture" defaultValue={page?.cpagephoto} />
+<div>
+        <label htmlFor="photourl" className="block text-sm font-medium leading-6 text-gray-900">Image url</label>
+          <div className="mt-2">
+          <input 
+            type="text" 
+            id="photourl" 
+            name="photourl" 
+            defaultValue={page?.cpagephoto}
+            className="block w-full p-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
+          />
+          </div>
+        </div>
+
+        <input type="hidden" id="uploadedpic" name="uploadedpic" defaultValue={blob?.url}/>
               
-                  <EditButton />
+                 <div className='my-2'>
+                 <EditButton /> <Link href='/account/content-pages' className='p-2 ml-2 bg-gray-200 rounded'>
+      Cancel
+    </Link>
+                  </div> 
+                  
         <p aria-live="polite" className="sr-only">
           {state?.message}
         </p>
                 </form>
       
               </div>
+              <div className='w-1/5'>
+                  
+                  <form
+                    onSubmit={async (event) => {
+                      event.preventDefault();
+                      setLoading(true)
+             
+                      if (!inputFileRef.current?.files) {
+                        throw new Error('No file selected');
+                      }
+             
+                      const file = inputFileRef.current.files[0];
+             
+                      const formData = new FormData();
+            
+                      formData.append("file", file)
+                      formData.append("action", 'upload')
+             
+                      const response = await fetch(
+                        'https://support.heelsandkey.com/api/upload_file.php',
+                        {
+                          method: 'POST',
+                          body: formData,
+                        },
+                      );
+             
+                      // const newBlob = (await response.json()) as PutBlobResult;
+                      const newBlob = await response.json();
+            setLoading(false)
+                      setBlob(newBlob);
+                    }}
+                  >
+                    {blob && <Image
+                          height={550}
+                          width={400}
+                          src={`${blob?.url}`}
+                          alt={page?.cpagename}
+                          className='rounded-lg h-[100px] mb-4'
+                        />}
+            
+                    <input name="file" ref={inputFileRef} type="file" />
+                    <button className='mt-3 bg-gray-600 text-white rounded px-3 py-1' type="submit">{loading ? 'Uploading...' : 'Upload'}</button>
+                  </form>
+
+                  {page.cpagephoto !== null && page.cpagephoto !== '' && <Image
+                src={getPhotoUrl(page.cpagephoto)}
+                height={48}
+                width={48}
+                alt={page.cpagename}
+                className='rounded-lg mt-8 h-[100px] w-[100px]'
+                />}
+            
+                  </div>
+            
             </div>
           
-       
+       </div>
     </>
 
     )

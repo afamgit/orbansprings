@@ -61,17 +61,17 @@ export default async function Page({
 
 
   const totalCommissions = await prisma?.transactions.aggregate({
-    where: {AND:{AND:[{OR:[{req_type: 'Plumbing'}, {req_type: 'Tank Cleaning'}]}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: 0}},
+    where: {AND:{AND:[{OR:[{req_type: 'Plumbing'}, {req_type: 'Tank Cleaning'}]}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: '0'}},
     _sum: {commission: true}
   })
 
   const totalPaid = await prisma?.transactions.aggregate({
-    where: {AND:{AND:[{OR:[{req_type: 'Plumbing'}, {req_type: 'Tank Cleaning'}]}, {paymentstatus: 'Paid'}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: 0}},
+    where: {AND:{AND:[{OR:[{req_type: 'Plumbing'}, {req_type: 'Tank Cleaning'}]}, {paymentstatus: 'Paid'}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: '0'}},
     _sum: {commission: true}
   })
 
   const totalUnPaid = await prisma?.transactions.aggregate({
-    where: {AND:{AND:[{OR:[{req_type: 'Plumbing'}, {req_type: 'Tank Cleaning'}]}, {paymentstatus: 'Unpaid'}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: 0}},
+    where: {AND:{AND:[{OR:[{req_type: 'Plumbing'}, {req_type: 'Tank Cleaning'}]}, {paymentstatus: 'Unpaid'}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: '0'}},
     _sum: {commission: true}
   })
 

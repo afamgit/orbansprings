@@ -23,18 +23,18 @@ export default async function Vendors({
         where: {AND:[{OR:[{role: 'plumber'}, {role:'tank cleaner'}]},{role: {contains:type}}]}
     })
 
-    const ordersDelivered = async (userid: number) => {
+    const ordersDelivered = async (userid: string) => {
       const total = await prisma.transactions.aggregate({
-        where: {driverid: userid},
+        where: {driverid: userid.toString()},
         _sum: {amount: true}
       })
     
       return total. _sum.amount || '-'
     }
     
-    const totalCommissions = async (userid: number) => {
+    const totalCommissions = async (userid: string) => {
       const total = await prisma.transactions.aggregate({
-        where: {driverid: userid},
+        where: {driverid: userid.toString()},
         _sum: {commission: true}
       })
     
@@ -77,14 +77,14 @@ return outstaningBox
         return total. _sum.dpayoutstanding || '-'
       }
 
-      const outstandingCommission = async (userid: number) => {
+      const outstandingCommission = async (userid: string) => {
 
         const commissionTotal = await prisma.transactions.aggregate({
-          where: {driverid: userid},
+          where: {driverid: userid.toString()},
           _sum: {commission: true}
         })
         const paidTotal = await prisma.driver_payments.aggregate({
-          where: {dpaydriver: userid},
+          where: {dpaydriver: parseInt(userid)},
           _sum: {dpayoutstanding: true}
         })
 
@@ -122,7 +122,7 @@ return outstaningBox
             <td>{++i}</td>
             <td>{getVendorDetails(parseInt(item.id))}</td>
             <td className='capitalize'>{item.role}</td>
-            <td>{totalCommissions(parseInt(item.id))}</td>
+            <td>{totalCommissions(item.id)}</td>
             <td>{paidCommission(parseInt(item.id))}</td>
             <td className='flex justify-end'><DeleteUser id={id} /></td>
           </tr>

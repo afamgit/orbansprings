@@ -57,7 +57,21 @@ export function UserNumbersCardSingle({
           alt={name}
           className="text-sm text-red-300"
         />
-    ) : name === "vendor" ? (
+      ) : name === "total driver" ? (
+        <Image
+          src="/drivers_icon.png"
+          height={72}
+          width={72}
+          alt={name}
+          className="text-sm text-red-300"
+        />      ) : name === "total truck" ? (
+        <Image
+          src="/trucks_icon.png"
+          height={72}
+          width={72}
+          alt={name}
+          className="text-sm text-red-300"
+        />    ) : name === "vendor" ? (
         <Image
           src="/vendors_icon.png"
           height={72}
@@ -76,7 +90,9 @@ export function UserNumbersCardSingle({
     )
 
     const cardColor = name === "total user" ? 'bg-sky-100'
-        : name === "customer" ? 'bg-lime-100' 
+    : name === "total driver" ? 'bg-sky-100' 
+    : name === "total truck" ? 'bg-lime-100' 
+    : name === "customer" ? 'bg-lime-100' 
         : name === "driver" ? 'bg-sky-100' 
         : name === "vendor" ? 'bg-orange-100' 
         : name === "merchant" ? 'bg-red-100' 
@@ -86,11 +102,11 @@ export function UserNumbersCardSingle({
   return (
 
     <div
-      className={`w-[200px] h-[120px] flex flex-col justify-between items-between m-2 py-4 px-3 rounded-lg ${cardColor}`}
+      className={`${(name === 'total driver' || name === 'total truck') ? 'w-[350px] h-[150px] px-8  m-2 justify-between items-between' : 'w-[200px] h-[120px] px-3 m-2 justify-between items-center'} flex flex-col justify-between items-between py-4 rounded-lg ${cardColor}`}
     >
-      <div className="text-xl capitalize">{name}s</div>
-      <div className="w-full flex justify-around items-center">
-        <h3 className="text-4xl font-bold">{num}</h3>
+      <div className="text-2xl capitalize font-bold">{name}s</div>
+      <div className={`${(name === 'total driver' || name === 'total truck') ? "w-full flex justify-between px-20 items-center" : "w-full flex justify-center items-center"}`}>
+        <h3 className="text-4xl font-bold mr-3">{num}</h3>
         {iconImage}
       </div>
     </div>

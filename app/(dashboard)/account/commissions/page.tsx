@@ -61,17 +61,17 @@ export default async function Page({
 
 
   const totalCommissions = await prisma?.transactions.aggregate({
-    where: {AND:{AND:[{req_type: 'Water packages'}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: 0}},
+    where: {AND:{AND:[{req_type: 'Water packages'}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: '0'}},
     _sum: {commission: true}
   })
 
   const totalPaid = await prisma?.transactions.aggregate({
-    where: {AND:{AND:[{req_type: 'Water packages'}, {paymentstatus: 'Paid'}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: 0}},
+    where: {AND:{AND:[{req_type: 'Water packages'}, {paymentstatus: 'Paid'}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: '0'}},
     _sum: {commission: true}
   })
 
   const totalOutstaniding = await prisma?.transactions.aggregate({
-    where: {AND:{AND:[{req_type: 'Water packages'}, {paymentstatus: 'Unpaid'}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: 0}},
+    where: {AND:{AND:[{req_type: 'Water packages'}, {paymentstatus: 'Unpaid'}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: '0'}},
     _sum: {commission: true}
   })
 

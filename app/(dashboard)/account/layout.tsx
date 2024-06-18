@@ -43,18 +43,18 @@ export default async function AdminLayout({
 
   const profile = await getProfileUser(usrEmail)
   
-  const profileImg = profile?.photo?.includes('profile') ? `https://orbansprings.com/${profile.photo}` : `${profile?.photo}`
+  const profileImg = profile?.photo?.includes('profile') ? `https://orbansprings.com/${profile.photo}` : profile?.photo?.includes('noimage') ? `https://support.orbansprings.com/${profile.photo}` : `/${profile?.photo}`
 
 
   return (
-    <div className="w-full min-h-screen">
+    <div className="w-full min-h-screen bg-white">
       <div className="md:hidden bg-black text-white py-2 flex flex-col justify-between items-center">
         <div className="w-full">
           {profile?.role === "admin" ? <AdminTopBar /> : profile?.role === "fleetownerdriver" ? <VendorMerchantTopBar /> : profile?.role === "fleetownermeter" ? <WaterMerchantTopBar /> : redirect('/login')}
         </div>
       </div>
       <div className="flex justify-start items-start">
-        <div className="h-screen sticky top-0 bottom-0 hidden md:h-screen flex flex-shrink-0 md:block w-full md:w-1/5 bg-sky-400 text-white">
+        <div className={`h-screen sticky top-0 bottom-0 hidden md:h-screen flex flex-shrink-0 md:block w-full md:w-1/5 ${profile?.role === "admin" ? 'bg-sky-400' : 'bg-neutral-800'} text-white`}>
           <div className="w-full flex flex-col justify-start items-start p-2 md:px-5 md:py-1">
             <div className="flex justify-center items-center my-1 py-1 text-xl">
               <Image
