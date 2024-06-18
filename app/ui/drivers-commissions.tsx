@@ -40,17 +40,6 @@ export default async function DriversComissions({
 
 }
 
-const getDriverOutstanding = async (userid: number) => {
-  const driver = await prisma.users.findUnique({
-  where: {id: userid},
-  select: {id:true, commissions_outstanding:true}
-})
-const driverBox = <div className='flex flex-col'>
-<div className='text-xl'>{driver?.commissions_outstanding}</div>
-</div>
-return driverBox
-
-}
 
 const volumeSold = async (pid: number) => {
   const total = await prisma.products.findFirst({
@@ -60,24 +49,6 @@ const volumeSold = async (pid: number) => {
 
   return total?.size.split(' ')[0] || '-'
 }
-    const totalCommission = async (userid: number) => {
-        const total = await prisma.transactions.aggregate({
-          where: {driverid: userid},
-          _sum: {commission: true}
-        })
-      
-        return total. _sum.commission || null
-      }
-   
-      const paidCommission = async (userid: number) => {
-        const total = await prisma.driver_payments.aggregate({
-          where: {dpaydriver: userid},
-          _sum: {dpayoutstanding: true}
-        })
-      
-        return total. _sum.dpayoutstanding || '-'
-      }
-
 
       return (
         <main className='w-full md:w-[1100px] mx-auto flex flex-col justify-start items-start'>
