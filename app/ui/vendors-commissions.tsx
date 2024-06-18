@@ -24,25 +24,6 @@ export default async function VendorsCommissions({
 
     const allVendors = JSON.parse(JSON.stringify(getVendors))
 
-
-    const ordersDelivered = async (userid: number) => {
-      const total = await prisma.transactions.aggregate({
-        where: {driverid: userid},
-        _sum: {amount: true}
-      })
-    
-      return total. _sum.amount || '-'
-    }
-    
-    const totalCommissions = async (userid: number) => {
-      const total = await prisma.transactions.aggregate({
-        where: {driverid: userid},
-        _sum: {commission: true}
-      })
-    
-      return total. _sum.commission || '-'
-    }
-
     const getVendorDetails = async (userid: number) => {
       const vendor = await prisma.users.findUnique({
       where: {id: userid},
@@ -58,44 +39,7 @@ export default async function VendorsCommissions({
   return vendorBox
 
 }
-const getVendorOutstanding = async (userid: number) => {
-  const driver = await prisma.users.findUnique({
-  where: {id: userid},
-  select: {id:true, commissions_outstanding:true}
-})
-const outstaningBox = <div className='flex flex-col'>
-<div className='text-xl'>{driver?.commissions_outstanding}</div>
-</div>
-return outstaningBox
 
-}
-
-
-      const paidCommission = async (userid: number) => {
-        const total = await prisma.driver_payments.aggregate({
-          where: {dpaydriver: userid},
-          _sum: {dpayoutstanding: true}
-        })
-      
-        return total. _sum.dpayoutstanding || '-'
-      }
-
-      const outstandingCommission = async (userid: number) => {
-
-        const commissionTotal = await prisma.transactions.aggregate({
-          where: {driverid: userid},
-          _sum: {commission: true}
-        })
-        const paidTotal = await prisma.driver_payments.aggregate({
-          where: {dpaydriver: userid},
-          _sum: {dpayoutstanding: true}
-        })
-
-
-        // const outstanding = (parseFloat(commissionTotal. _sum.commission) - parseFloat(paidTotal. _sum.dpayoutstanding))
-      
-        return '-'
-      }
 
       return (
         <main className='w-full md:w-[1100px] mx-auto flex flex-col justify-start items-start'>
