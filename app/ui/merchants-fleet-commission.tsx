@@ -21,7 +21,7 @@ export default async function MerchantsFleetCommissions({
 
     const allMerchants = JSON.parse(JSON.stringify(getMerchants))
 
-    const volumeBought = async (userid: number) => {
+    const volumeBought = async (userid: string) => {
         const totalBought = await prisma.transactions.aggregate({
           where: {customerid: userid},
           _sum: {qty: true}
