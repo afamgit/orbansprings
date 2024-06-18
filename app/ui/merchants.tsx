@@ -20,15 +20,6 @@ export default async function Drivers({
     const total = await prisma.users.count({
         where: {OR: [{role: 'fleetownerdriver'}, {role: 'fleetownerplumber'}]}
     })
-
-    const volumeBought = async (userid: number) => {
-        const totalBought = await prisma.transactions.aggregate({
-          where: {customerid: userid},
-          _sum: {qty: true}
-        })
-      
-        return totalBought. _sum.qty || '-'
-      }
    
 
 

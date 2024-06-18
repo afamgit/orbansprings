@@ -30,6 +30,7 @@ export default async function MerchantDrivers({
       where: {id: userid},
       select: {id:true, name:true, area:true, areagroup: true, drv_vehicle_license_plate_no:true}
   })
+
   const driverBox = <div className='flex flex-col'>
       <Link className='font-bold' href={`/account/users/${userid}/driver-detail?showDialog=y`}>
         <div className='flex'>
@@ -41,15 +42,6 @@ export default async function MerchantDrivers({
 
 }
 
-const volumeSold = async (userid: number) => {
-  let drvid = userid.toString()
-  const total = await prisma.meter_tanker_entries.aggregate({
-    where: {mt_tankerid: drvid},
-    _sum: {mt_volume_delivered: true}
-  })
-
-  return total. _sum.mt_volume_delivered || '-'
-}
 
       return (
         <main className='w-full md:w-[1100px] mx-auto flex flex-col justify-start items-start my-5'>
