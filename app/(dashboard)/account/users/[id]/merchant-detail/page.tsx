@@ -84,11 +84,11 @@ export default async function Page({
   const total = await fetchDriverOrders(query, product, id);
 
   const ordersCompleted = await prisma?.transactions.count({
-    where: { customerid: parseInt(id), status: "Completed" },
+    where: { customerid: id, status: "Completed" },
   });
 
   const ordersCancelled = await prisma?.transactions.count({
-    where: { customerid: parseInt(id), status: "Cancelled" },
+    where: { customerid: id, status: "Cancelled" },
   });
 
   return (
