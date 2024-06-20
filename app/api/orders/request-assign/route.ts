@@ -104,19 +104,22 @@ export async function POST(req: Request) {
         }
       })
 
+      const title = `Order #${transid} assigned`
+      const message = `Your order #${transid} has been assigned to driver ${user?.name}`
+
       const doUserMessages = await prisma.usermessages.create({
        
         data: {
           umsg_user: userCustomer?.name || '',
-          umsg_body: `Your order #${transid} has been assigned to driver ${user?.name}`,
+          umsg_body: message,
           umsg_cat: 'Notification',
-          umsg_title: `Order #${transid} assigned`,
+          umsg_title: title,
           umsg_sender: 'Orban Springs',
           umsg_time: new Date()
         }
       })
 
-    return NextResponse.json({status: 200, token: userCustomer?.expotoken, message: `Order status successfully updated`})
+    return NextResponse.json({status: 200, token: userCustomer?.expotoken, pushTitle: title, pushBody: message, pushOrd: transid, message: `Order status successfully updated`})
 
    } catch(error) {
 
