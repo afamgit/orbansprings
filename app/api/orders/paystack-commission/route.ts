@@ -30,7 +30,7 @@ export async function POST(req: Request) {
     const updateUser = await prisma.users.update({
         data: {
             commissions_outstanding: 0,
-            isavailable: false,
+            isavailable: true,
             isavailable_by: '',
             isavailable_reason: '',
             updatedAt: new Date(),

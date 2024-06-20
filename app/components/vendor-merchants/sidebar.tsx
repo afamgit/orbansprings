@@ -11,7 +11,7 @@ export function VendorMerchantSideBar () {
 
      return (
     <div className="bg-neutral-800 text-white mt-3">    
-          <Link className='p-3' href='/account/dashboard'>
+          <Link className='p-3' href='/account/vendor-merchants'>
                 <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${(pathname?.endsWith('dashboard') || pathname?.endsWith('account')) && 'bg-slate-100 text-black'}`}>
                     <FaSquareFull className='h-8 w-8 mr-2' /> Dashboard
                 </div>
@@ -21,8 +21,13 @@ export function VendorMerchantSideBar () {
                     <FaSquareFull className='h-8 w-8 mr-2' /> Drivers
                 </div>
             </Link>
+            <Link className='p-3' href='/account/vendor-merchants/requests'>
+                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${(pathname?.endsWith('requests') || pathname?.endsWith('request-detail')) && 'bg-slate-100 text-black'}`}>
+                    <FaSquareFull className='h-8 w-8 mr-2' /> Requests
+                </div>
+            </Link>
             <Link className='p-3' href='/account/vendor-merchants/orders'>
-                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${pathname?.endsWith('orders') && 'bg-slate-100 text-black'}`}>
+                <div className={`w-full flex justify-start items-center md:px-8 text-xl py-1 ${(pathname?.endsWith('orders') || pathname?.endsWith('order-detail')) && 'bg-slate-100 text-black'}`}>
                     <FaSquareFull className='h-8 w-8 mr-2' /> Orders
                 </div>
             </Link>

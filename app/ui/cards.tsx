@@ -141,6 +141,80 @@ export function UserNumbersCardPlain({
   );
 }
 
+export function DriverNumbersCard({
+  num,
+  name,
+  percent
+}: {
+  num: number;
+  name: string;
+  percent: string
+}) {
+
+  const iconImage = name === "your drivers" ? (
+    <Image
+      src="/users_icon.png"
+      height={72}
+      width={72}
+      alt={name}
+      className="text-sm"
+    />
+) : (
+    <Image
+      src="/person_available.png"
+      height={72}
+      width={72}
+      alt={name}
+      className="text-sm"
+    />
+)
+
+const cardColor = name === "your drivers" ? 'bg-sky-100'
+: name === "available drivers" ? 'bg-lime-100' 
+    : name === "unavailable drivers" ? 'bg-red-100' : ''
+
+    const cardColorInner = name === "your drivers" ? 'bg-sky-300 flex justify-between items-center'
+    : name === "available drivers" ? 'bg-lime-300 flex justify-start items-center' 
+        : name === "unavailable drivers" ? 'bg-red-300 flex justify-start items-center' : ''
+
+
+  return (
+    <div
+      className={`w-[350px] flex flex-col justify-between items-start m-3 py-4 px-6 rounded-lg ${cardColor} border-1 border-slate-300 shadow-lg`}
+    >
+      <div className={`w-full py-2 px-6 rounded-lg ${cardColorInner} `}>
+      {name === "your drivers" ? (
+    <Image
+      src="/drivers.png"
+      height={48}
+      width={48}
+      alt={name}
+      className="text-sm rounded-lg"
+    />
+) : (
+    <Image
+      src="/person_available.png"
+      height={48}
+      width={48}
+      alt={name}
+      className="text-sm rounded-lg mr-2"
+    />
+)}
+      <div className={`${name !== 'your drivers' && 'w-[90%]'}`}>
+        <div className="flex items-center justify-start">
+        <div className="capitalize">{name}</div>
+      </div>
+      <div className={`w-full flex justify-between items-center`}>
+        <h3 className={`text-3xl font-bold`}>{num}</h3>
+        {name !== 'your drivers' && <p>{`${percent}%`}</p>}
+      </div>
+      </div>
+      </div>
+    </div>
+  );
+}
+
+
 export function ExpectedCommission({
   title,
   amount,

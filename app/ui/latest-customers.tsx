@@ -12,6 +12,7 @@ export default async function LatestCustomers() {
     })
 
 
+
       return (
         <main className='w-full mx-auto flex flex-col justify-start items-start'>
 
@@ -20,18 +21,18 @@ export default async function LatestCustomers() {
          <table cellPadding={10} className="w-full table-auto p-3 md:p-5">
   <tbody>
     {customers.length > 0 && customers.map((item,i) => {
+          const profileImg = item?.photo?.includes('https') ? `${item?.photo}` : `https://support.orbansprings.com/${item?.photo}`
+
         return (
             <tr key={i} className='border-b-slate-100 border-b-2 p-2'>
-            <td><div className='w-8 h-8 rounded-full'>
-                 {item.photo === 'images/noimage.png' ? <div className='w-8 h-8 bg-slate-300 flex justify-center items-center rounded-full'>
-                  <FaUser className='text-gray-600 text-2xl' />
-                  </div> : <Image
-                src={`/${item.photo}`}
-                height={16}
-                width={16}
+            <td><div className='rounded-full'>
+                 <Image
+                src={`${profileImg}`}
+                height={32}
+                width={32}
                 alt={item.name}
-                className='rounded-lg'
-                />}
+                className='rounded-full h-[40px] w-[40px]'
+                />
                 </div></td>
             <td>{item.name}
             <p className='text-sm text-gray-500'>{item.area}</p></td>

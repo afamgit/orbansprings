@@ -466,6 +466,70 @@ export async function updateTruck(id: string, prevState: any, formData: FormData
   redirect('/account/vendor-merchants/fleet')
 }
 
+export async function updateRequest(id: string, prevState: any, formData: FormData) {
+
+  const schema = z.object({
+    driver: z.coerce.number(),
+    fleet: z.string(),
+    status: z.string(),
+    transid: z.coerce.number(),
+  })
+  const parsedData = schema.parse({
+    driver: formData.get('driver'),
+    fleet: formData.get('fleet'),
+    status: formData.get('status'),
+    transid: formData.get('transid'),
+  })
+
+
+  console.log(`${id} - ${parsedData.driver} - ${parsedData.fleet} - ${parsedData.status} - ${parsedData.transid}`)
+
+  try {
+
+    const user = await prisma.users.findUnique({
+      where: {id: parsedData.driver}
+    })
+   
+
+    const doUpdateRequest = await prisma.requests.update({
+      where: {
+        id: parseInt(id), status: parsedData.status
+      },
+      data: {
+        driverid: user?.id,
+        drivername: user?.name,
+        driverphone: user?.phone,
+        driveremail: user?.email,
+        drivervehicleplateno: user?.drv_vehicle_license_plate_no,
+        status: 'accepted',
+        updatedAt: new Date()
+      }
+    })
+
+    const doUpdateOrder = await prisma.transactions.update({
+      where: {
+        id: parsedData.transid
+      },
+      data: {
+        driverid: user?.id.toString(),
+        drivername: user?.name,
+        driverphone: user?.phone || '',
+        driveremail: user?.email,
+        driverphoto: user?.photo || '',
+        drivervehicleplateno: user?.drv_vehicle_license_plate_no || '',
+        fleetid: parsedData.fleet,
+        status: 'Accepted',
+        updatedAt: new Date()
+      }
+    })
+
+  } catch (e) {
+    return { message: 'Failed to update request' }
+  }
+
+  revalidatePath(`/account/vendor-merchants/requests/${id}/request-detail`)
+  redirect(`/account/vendor-merchants/requests/${id}/request-detail`)
+}
 
 export async function deleteAccount(id: string) {
 

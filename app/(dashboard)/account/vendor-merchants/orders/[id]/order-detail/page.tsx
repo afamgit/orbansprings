@@ -8,6 +8,11 @@ import moment from "moment";
 import { statusBg } from "@/app/utils/snippets";
 import { formatAmount } from "@/app/utils/utils";
 import VendorOrderModal from "@/app/components/vendor-order-modal";
+import { CompleteOrderForm } from "@/app/components/complete-order";
+import { auth } from "@/auth";
+import { getProfileUser } from "@/app/utils/data";
+import Link from "next/link";
+import MessageModal from "@/app/components/message-modal";
 
 export const metadata: Metadata = {
   title: "Orders",
@@ -39,18 +44,35 @@ export default async function Page({
 
   const order = JSON.parse(JSON.stringify(orderDb))
 
+  const getOrder = await prisma.transactions.findFirst({
+    where: {
+      orderref: order?.orderref,
+    },
+    select: {orderref:true, id:true, customerid:true, driverid:true, drivername:true}
+  });
+
+
+  const userInfo = await auth()
+  
+  const profile = await getProfileUser(userInfo?.user.email || "")
+
+  const userid = profile?.id || 1000
+
 
   return (
     <main className="w-full md:w-[1100px] flex flex-col justify-center items-center">
+      <MessageModal>
+      <div className="w-[450px] p-5 rounded-xl p-3">
+          <h3 className="text-4xl py-2">Order Completed!</h3>
+          <p className="my-3 py-3">This order has been completed by driver {order?.drivername}. Click continue to exit this page</p>
+          <Link className="w-full flex justify-center bg-sky-400 text-white p-4 rounded-xl text-xl" href={`/account/vendor-merchants/orders/${id}/order-detail`}>Continue</Link>
+        </div>
+      </MessageModal>
       <VendorOrderModal>
       <div className="w-[400px] px-2 rounded-xl p-3">
          
             <h2 className="text-2xl">User Info</h2>
 
-            <div className="w-[400px] px-2 flex justify-start items-start my-2">
-  <div className="w-2/5">UserID</div>
-  <div className="w-3/5">{order?.id}</div>
-  </div>
   <div className="w-[400px] px-2 flex justify-start items-start my-2">
   <div className="w-2/5">Username</div>
   <div className="w-3/5">{order?.customername}</div>
@@ -71,10 +93,6 @@ export default async function Page({
 
 <h2 className="text-2xl">Order Info</h2>
 
-<div className="w-[400px] px-2 flex justify-start items-start my-2">
-  <div className="w-2/5">Order ID</div>
-  <div className="w-3/5">{order?.id}</div>
-  </div>
   <div className="w-[400px] px-2 flex justify-start items-start my-2">
   <div className="w-2/5">Order Reference</div>
   <div className="w-3/5">{order?.orderref}</div>
@@ -93,8 +111,15 @@ export default async function Page({
   </div>
   <div className="w-[400px] px-2 flex justify-start items-start my-2">
   <div className="w-2/5">Status</div>
-  <div className="w-3/5"><span className={`${statusBg(order?.status || '')} px-2 py-1`}>{order?.status}</span></div>
+  <div className="w-3/5"><span className={`${statusBg(order?.status || '')} px-2 py-1`}>{order?.status}</span>
   </div>
+  </div>
+  {order?.status === 'Accepted' && <div className="w-[400px] px-2 flex justify-start items-center my-2">
+  <div className="w-2/5">Order Complete?</div>
+  <div className="w-3/5">
+  <CompleteOrderForm req={order?.id} driver={getOrder?.driverid?.toString() || ''} transid={getOrder?.orderref || ''} fleet={userid.toString()} status='Completed' customer={getOrder?.customerid?.toString() || ''} drivername={getOrder?.drivername || ''} />
+  </div>
+  </div>}
   <div className="w-[400px] px-2 flex justify-start items-start my-2">
   <div className="w-2/5">Agent</div>
   <div className="w-3/5">{order?.drivername}</div>
@@ -128,14 +153,6 @@ export default async function Page({
          
             <h2 className="text-2xl">User Info</h2>
 
-            <div className="w-full w-[400px] px-2 flex justify-start items-start my-2">
-  <div className="w-2/5">UserID</div>
-  <div className="w-3/5">{order?.id}</div>
-  </div>
-  <div className="w-full w-[400px] px-2 flex justify-start items-start my-2">
-  <div className="w-2/5">Order Reference</div>
-  <div className="w-3/5">{order?.orderref}</div>
-  </div>
   <div className="w-full w-[400px] px-2 flex justify-start items-start my-2">
   <div className="w-2/5">Username</div>
   <div className="w-3/5">{order?.customername}</div>
@@ -156,9 +173,9 @@ export default async function Page({
 
 <h2 className="text-2xl">Order Info</h2>
 
-<div className="w-full w-[400px] px-2 flex justify-start items-start my-2">
-  <div className="w-2/5">Order ID</div>
-  <div className="w-3/5">{order?.id}</div>
+  <div className="w-full w-[400px] px-2 flex justify-start items-start my-2">
+  <div className="w-2/5">Order Reference</div>
+  <div className="w-3/5">{order?.orderref}</div>
   </div>
   <div className="w-full w-[400px] px-2 flex justify-start items-start my-2">
   <div className="w-2/5">Product</div>
@@ -174,8 +191,15 @@ export default async function Page({
   </div>
   <div className="w-full w-[400px] px-2 flex justify-start items-start my-2">
   <div className="w-2/5">Status</div>
-  <div className="w-3/5"><span className={`${statusBg(order?.status || '')} px-2 py-1`}>{order?.status}</span></div>
+  <div className="w-3/5"><span className={`${statusBg(order?.status || '')} px-2 py-1`}>{order?.status}</span>
   </div>
+  </div>
+  {order?.status === 'Accepted' && <div className="w-full w-[400px] px-2 flex justify-start items-start my-2">
+  <div className="w-2/5">Order complete?</div>
+  <div className="w-3/5">
+  <CompleteOrderForm req={order?.id} driver={getOrder?.driverid?.toString() || ''} transid={getOrder?.orderref || ''} fleet={userid.toString()} status='Completed' customer={getOrder?.customerid?.toString() || ''} drivername={getOrder?.drivername || ''} />
+  </div>
+  </div>}
   <div className="w-full w-[400px] px-2 flex justify-start items-start my-2">
   <div className="w-2/5">Agent</div>
   <div className="w-3/5">{order?.drivername}</div>

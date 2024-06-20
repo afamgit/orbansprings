@@ -23,9 +23,9 @@ export async function getProfileUser(email: string) {
 
   try {
     const user = await prisma.users.findFirst({
-      where: {email: email},
+      where: { email: email },
       select: {
-        name:true, username: true, photo:true, address: true, phone: true, role:true, email:true, enable2fa:true, id:true
+        name: true, username: true, photo: true, address: true, phone: true, role: true, email: true, enable2fa: true, id: true
       }
     });
 
@@ -40,9 +40,9 @@ export async function getProfileFromUser(username: string) {
 
   try {
     const user = await prisma.users.findFirst({
-      where: {username: username},
+      where: { username: username },
       select: {
-        name:true, username: true, email:true, enable2fa:true, id:true
+        name: true, username: true, email: true, enable2fa: true, id: true
       }
     });
 
@@ -57,9 +57,9 @@ export async function getProfilePassword(email: string) {
 
   try {
     const user = await prisma.users.findFirst({
-      where: {email: email},
+      where: { email: email },
       select: {
-        name:true, username: true, role:true, email:true, id:true, password:true
+        name: true, username: true, role: true, email: true, id: true, password: true
       }
     });
 
@@ -74,9 +74,11 @@ export async function getProfilePassword(email: string) {
 export async function fetchCustomers() {
   try {
     const allCustomers = await prisma.users.findMany({
-      where: {NOT:[{
-        role: 'admin'
-      }]},
+      where: {
+        NOT: [{
+          role: 'admin'
+        }]
+      },
       select: {
         username: true,
         name: true
@@ -185,11 +187,11 @@ export async function fetchFilteredMeters(
   status: string
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-const type = usertype === 'Customer' ? 'Domestic Use' : usertype === 'Driver' ? 'Tanker' : usertype
+  const type = usertype === 'Customer' ? 'Domestic Use' : usertype === 'Driver' ? 'Tanker' : usertype
   try {
     const meters = await prisma.meters.findMany({
       where: {
-        m_for: {contains: type}, m_status: {startsWith: status}
+        m_for: { contains: type }, m_status: { startsWith: status }
       },
       skip: offset,
       take: ITEMS_PER_PAGE
@@ -207,7 +209,7 @@ export async function fetchMeters(query: string, usertype: string, status: strin
   try {
     const meters = await prisma.meters.count({
       where: {
-        m_for: {contains: type}, m_status: {startsWith: status}
+        m_for: { contains: type }, m_status: { startsWith: status }
       }
     })
     const totalPages = Math.ceil(Number(meters) / ITEMS_PER_PAGE);
@@ -342,7 +344,7 @@ export async function fetchFilteredNewsletters(
 
   try {
     const newsletters = await prisma.newsletter_body.findMany({
-      orderBy: {createdAt: 'desc'},
+      orderBy: { createdAt: 'desc' },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -433,7 +435,7 @@ export async function fetchFilteredUsers(
 
   try {
     const users = await prisma.users.findMany({
-      where: {AND:[{AND:[{role: 'customer' }, {subscription_plan: subType}, {area: {contains:location}}]}, {OR:[{name: {contains:query}},{email:{contains: query}}, {phone: {contains: query}},{username:{contains:query}}]}]},
+      where: { AND: [{ AND: [{ role: 'customer' }, { subscription_plan: subType }, { area: { contains: location } }] }, { OR: [{ name: { contains: query } }, { email: { contains: query } }, { phone: { contains: query } }, { username: { contains: query } }] }] },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -448,10 +450,10 @@ export async function fetchUsers(
   query: string,
   subType: string,
   location: string,
-  ) {
+) {
   try {
     const users = await prisma.users.count({
-      where: {AND:[{ role: 'customer' }, {subscription_plan: subType}, {area: {contains:location}}]}
+      where: { AND: [{ role: 'customer' }, { subscription_plan: subType }, { area: { contains: location } }] }
     })
     const totalPages = Math.ceil(Number(users) / ITEMS_PER_PAGE);
     return totalPages;
@@ -472,7 +474,7 @@ export async function fetchFilteredDrivers(
 
   try {
     const users = await prisma.users.findMany({
-      where: {AND:[{AND:[{role: 'driver' }, {subscription_plan: subType}, {area: {contains:location}}]}, {OR:[{name: {contains:query}},{email:{contains: query}}, {phone: {contains: query}},{username:{contains:query}}]}]},
+      where: { AND: [{ AND: [{ role: 'driver' }, { subscription_plan: subType }, { area: { contains: location } }] }, { OR: [{ name: { contains: query } }, { email: { contains: query } }, { phone: { contains: query } }, { username: { contains: query } }] }] },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -490,7 +492,7 @@ export async function fetchUserDrivers(
 ) {
   try {
     const users = await prisma.users.count({
-      where: {AND:[{ role: 'driver' }, {subscription_plan: subType}, {area: {contains:location}}]}
+      where: { AND: [{ role: 'driver' }, { subscription_plan: subType }, { area: { contains: location } }] }
     })
     const totalPages = Math.ceil(Number(users) / ITEMS_PER_PAGE);
     return totalPages;
@@ -508,11 +510,11 @@ export async function fetchFilteredMerchantDrivers(
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
-  const available = availability === 'Available' ? true : availability === 'Unavailable' ? false : availability === '' ? undefined : null 
+  const available = availability === 'Available' ? true : availability === 'Unavailable' ? false : availability === '' ? undefined : null
 
   try {
     const users = await prisma.users.findMany({
-      where: {AND:[{AND:[{role: 'driver'}, {fleetid: id}, {OR:[{isavailable: available}]}]}, {OR:[{name: {contains:query}},{email:{contains: query}}, {phone: {contains: query}},{username:{contains:query}}]}]},
+      where: { AND: [{ AND: [{ role: 'driver' }, { fleetid: id }, { OR: [{ isavailable: available }] }] }, { OR: [{ name: { contains: query } }, { email: { contains: query } }, { phone: { contains: query } }, { username: { contains: query } }] }] },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -529,11 +531,11 @@ export async function fetchMerchantDrivers(
   availability: string,
 ) {
 
-  const available = availability === 'Available' ? true : false 
+  const available = availability === 'Available' ? true : false
 
   try {
     const users = await prisma.users.count({
-      where: {AND:[{ role: 'driver' }, {fleetid:id}, {isavailable: available}]}
+      where: { AND: [{ role: 'driver' }, { fleetid: id }, { isavailable: available }] }
     })
     const totalPages = Math.ceil(Number(users) / ITEMS_PER_PAGE);
     return totalPages;
@@ -551,11 +553,11 @@ export async function fetchFilteredMerchantTrucks(
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
-  const t_status = status === 'Active' ? 'Active' : status === 'Inactive' ? 'Inactive' : undefined 
+  const t_status = status === 'Active' ? 'Active' : status === 'Inactive' ? 'Inactive' : undefined
 
   try {
     const trucks = await prisma.trucks.findMany({
-      where: {AND:[{AND:[{truck_fleetowner: id}, {OR:[{truck_status: t_status}]}]}, {OR:[{truck_make: {contains:query}},{truck_plateno:{contains: query}}, {truck_driver: {contains: query}}]}]},
+      where: { AND: [{ AND: [{ truck_fleetowner: id }, { OR: [{ truck_status: t_status }] }] }, { OR: [{ truck_make: { contains: query } }, { truck_plateno: { contains: query } }, { truck_driver: { contains: query } }] }] },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -575,7 +577,7 @@ export async function fetchMerchantTrucks(
 
   try {
     const trucks = await prisma.trucks.count({
-      where: {AND:[{truck_fleetowner:id}, {truck_status: status}]}
+      where: { AND: [{ truck_fleetowner: id }, { truck_status: status }] }
     })
     const totalPages = Math.ceil(Number(trucks) / ITEMS_PER_PAGE);
     return totalPages;
@@ -594,7 +596,7 @@ export async function fetchFilteredVendors(
 
   try {
     const vendors = await prisma.users.findMany({
-      where: {AND: [{OR:[{role: 'plumber' }, {role: 'tank cleaner'}]}, {role: {contains: type}}, {OR:[{name: {contains:query}},{email:{contains: query}}, {phone: {contains: query}},{username:{contains:query}}]}]},
+      where: { AND: [{ OR: [{ role: 'plumber' }, { role: 'tank cleaner' }] }, { role: { contains: type } }, { OR: [{ name: { contains: query } }, { email: { contains: query } }, { phone: { contains: query } }, { username: { contains: query } }] }] },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -609,7 +611,7 @@ export async function fetchFilteredVendors(
 export async function fetchVendors(query: string) {
   try {
     const vendors = await prisma.users.count({
-      where: {OR:[{role: 'plumber'}, {role: 'tank cleaner'}]}
+      where: { OR: [{ role: 'plumber' }, { role: 'tank cleaner' }] }
     })
     const totalPages = Math.ceil(Number(vendors) / ITEMS_PER_PAGE);
     return totalPages;
@@ -622,7 +624,7 @@ export async function fetchVendors(query: string) {
 export async function fetchUserVendors(query: string, type: string) {
   try {
     const vendors = await prisma.users.count({
-      where: {AND:[{OR:[{role: 'plumber'}, {role: 'tank cleaner'}]}, {role: {contains:type}}]}
+      where: { AND: [{ OR: [{ role: 'plumber' }, { role: 'tank cleaner' }] }, { role: { contains: type } }] }
     })
     const totalPages = Math.ceil(Number(vendors) / ITEMS_PER_PAGE);
     return totalPages;
@@ -640,7 +642,7 @@ export async function fetchFilteredMerchants(
 
   try {
     const users = await prisma.users.findMany({
-      where: {AND: [{OR:[{ role: 'fleetownerdriver' }, { role: 'fleetownerplumber' }]}, {OR:[{name: {contains:query}},{email:{contains: query}}, {phone: {contains: query}},{username:{contains:query}}]}]},
+      where: { AND: [{ OR: [{ role: 'fleetownerdriver' }, { role: 'fleetownerplumber' }] }, { OR: [{ name: { contains: query } }, { email: { contains: query } }, { phone: { contains: query } }, { username: { contains: query } }] }] },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -702,12 +704,12 @@ export async function fetchFilteredDriversCommissions(
   fsubtype: string,
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-  
+
 
   let month, year, nextyear
 
 
-  if(ftype === 'monthly') {
+  if (ftype === 'monthly') {
 
     month = getMonthsFromMap(fsubtype)
     const nextMonthNumber = month === "12" ? "12" : incrementNumber(month)
@@ -715,7 +717,7 @@ export async function fetchFilteredDriversCommissions(
     year = JSON.stringify(`${fyear}-${month}-01`)
     nextyear = JSON.stringify(`${fyear}-${nextMonthNumber}-01`)
 
-  } else if(ftype === 'weekly') {
+  } else if (ftype === 'weekly') {
 
     const week = getMonthsFromWeekMap(fsubtype)
 
@@ -726,7 +728,7 @@ export async function fetchFilteredDriversCommissions(
     let thisyearNext = "2025"
 
     year = (fyear !== '' && fyear !== null && fyear !== 'undefined') ? JSON.stringify(`${fyear}-01-01`) : JSON.stringify("2021-01-01")
-    const followingYear = (fyear !== '' && fyear !== null && fyear !== 'undefined') ? incrementNumber(fyear)  : thisyearNext
+    const followingYear = (fyear !== '' && fyear !== null && fyear !== 'undefined') ? incrementNumber(fyear) : thisyearNext
 
     nextyear = JSON.stringify(`${followingYear}-01-01`)
   }
@@ -734,8 +736,8 @@ export async function fetchFilteredDriversCommissions(
 
   try {
     const drvcommissions = await prisma.transactions.findMany({
-      where: {AND:{AND:[{req_type: 'Water packages'}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: '0'}},
-      select: {id:true, req_type:true, productid:true, driverid:true, commission:true, commission_paid:true, status:true, paymentstatus:true, createdAt:true},
+      where: { AND: { AND: [{ req_type: 'Water packages' }, { createdAt: { gte: new Date(year), lt: new Date(nextyear) } }] }, NOT: { driverid: '0' } },
+      select: { id: true, req_type: true, productid: true, driverid: true, commission: true, commission_paid: true, status: true, paymentstatus: true, createdAt: true },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -755,16 +757,16 @@ export async function fetchDriversCommissions(query: string, fyear: string, ftyp
   let month, year, nextyear
 
 
-  if(ftype === 'monthly') {
+  if (ftype === 'monthly') {
 
     month = getMonthsFromMap(fsubtype)
     const incrementYear = incrementNumber(fyear)
     const nextMonthNumber = month === "12" ? "01" : incrementNumber(month)
-    
+
     year = JSON.stringify(`${fyear}-${month}-01`)
     nextyear = month === "12" ? JSON.stringify(`${incrementYear}-01-01`) : JSON.stringify(`${fyear}-${nextMonthNumber}-01`)
 
-  } else if(ftype === 'weekly') {
+  } else if (ftype === 'weekly') {
 
     const week = getMonthsFromWeekMap(fsubtype)
     year = JSON.stringify(`${fyear}-${week[0]}`)
@@ -773,14 +775,14 @@ export async function fetchDriversCommissions(query: string, fyear: string, ftyp
   } else {
     let thisyearNext = "2025"
     year = (fyear !== '' && fyear !== null && fyear !== 'undefined') ? JSON.stringify(`${fyear}-01-01`) : JSON.stringify("2021-01-01")
-    const followingYear = (fyear !== '' && fyear !== null && fyear !== 'undefined') ? incrementNumber(fyear)  : thisyearNext
+    const followingYear = (fyear !== '' && fyear !== null && fyear !== 'undefined') ? incrementNumber(fyear) : thisyearNext
 
     nextyear = JSON.stringify(`${followingYear}-01-01`)
   }
 
   try {
     const drvcommissions = await prisma.transactions.count({
-      where: {AND:{AND:[{req_type: 'Water packages'}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: '0'}},
+      where: { AND: { AND: [{ req_type: 'Water packages' }, { createdAt: { gte: new Date(year), lt: new Date(nextyear) } }] }, NOT: { driverid: '0' } },
     })
     const totalPages = Math.ceil(Number(drvcommissions) / ITEMS_PER_PAGE);
     return totalPages;
@@ -802,7 +804,7 @@ export async function fetchFilteredVendorsCommissions(
   let month, year, nextyear
 
 
-  if(ftype === 'monthly') {
+  if (ftype === 'monthly') {
 
     month = getMonthsFromMap(fsubtype)
     const nextMonthNumber = month === "12" ? "12" : incrementNumber(month)
@@ -810,7 +812,7 @@ export async function fetchFilteredVendorsCommissions(
     year = JSON.stringify(`${fyear}-${month}-01`)
     nextyear = JSON.stringify(`${fyear}-${nextMonthNumber}-01`)
 
-  } else if(ftype === 'weekly') {
+  } else if (ftype === 'weekly') {
 
     const week = getMonthsFromWeekMap(fsubtype)
 
@@ -821,7 +823,7 @@ export async function fetchFilteredVendorsCommissions(
     let thisyearNext = "2025"
 
     year = (fyear !== '' && fyear !== null && fyear !== 'undefined') ? JSON.stringify(`${fyear}-01-01`) : JSON.stringify("2021-01-01")
-    const followingYear = (fyear !== '' && fyear !== null && fyear !== 'undefined') ? incrementNumber(fyear)  : thisyearNext
+    const followingYear = (fyear !== '' && fyear !== null && fyear !== 'undefined') ? incrementNumber(fyear) : thisyearNext
 
     nextyear = JSON.stringify(`${followingYear}-01-01`)
   }
@@ -829,8 +831,8 @@ export async function fetchFilteredVendorsCommissions(
 
   try {
     const vendcommissions = await prisma.transactions.findMany({
-      where: {AND:{AND:[{OR:[{req_type: 'Plumbing'}, {req_type: 'Tank cleaning'}]}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: '0'}},
-      select: {id:true, req_type:true, productid:true, driverid:true, commission:true, commission_paid:true, status:true, paymentstatus:true, createdAt:true},
+      where: { AND: { AND: [{ OR: [{ req_type: 'Plumbing' }, { req_type: 'Tank cleaning' }] }, { createdAt: { gte: new Date(year), lt: new Date(nextyear) } }] }, NOT: { driverid: '0' } },
+      select: { id: true, req_type: true, productid: true, driverid: true, commission: true, commission_paid: true, status: true, paymentstatus: true, createdAt: true },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -848,16 +850,16 @@ export async function fetchVendorsCommissions(query: string, fyear: string, ftyp
   let month, year, nextyear
 
 
-  if(ftype === 'monthly') {
+  if (ftype === 'monthly') {
 
     month = getMonthsFromMap(fsubtype)
     const incrementYear = incrementNumber(fyear)
     const nextMonthNumber = month === "12" ? "01" : incrementNumber(month)
-    
+
     year = JSON.stringify(`${fyear}-${month}-01`)
     nextyear = month === "12" ? JSON.stringify(`${incrementYear}-01-01`) : JSON.stringify(`${fyear}-${nextMonthNumber}-01`)
 
-  } else if(ftype === 'weekly') {
+  } else if (ftype === 'weekly') {
 
     const week = getMonthsFromWeekMap(fsubtype)
     year = JSON.stringify(`${fyear}-${week[0]}`)
@@ -866,14 +868,14 @@ export async function fetchVendorsCommissions(query: string, fyear: string, ftyp
   } else {
     let thisyearNext = "2025"
     year = (fyear !== '' && fyear !== null && fyear !== 'undefined') ? JSON.stringify(`${fyear}-01-01`) : JSON.stringify("2021-01-01")
-    const followingYear = (fyear !== '' && fyear !== null && fyear !== 'undefined') ? incrementNumber(fyear)  : thisyearNext
+    const followingYear = (fyear !== '' && fyear !== null && fyear !== 'undefined') ? incrementNumber(fyear) : thisyearNext
 
     nextyear = JSON.stringify(`${followingYear}-01-01`)
   }
 
   try {
     const vendcommissions = await prisma.transactions.count({
-      where: {AND:{AND:[{OR:[{req_type: 'Plumbing'}, {req_type: 'Tank cleaning'}]}, {createdAt: {gte: new Date(year), lt: new Date(nextyear)}}]}, NOT:{driverid: '0'}},
+      where: { AND: { AND: [{ OR: [{ req_type: 'Plumbing' }, { req_type: 'Tank cleaning' }] }, { createdAt: { gte: new Date(year), lt: new Date(nextyear) } }] }, NOT: { driverid: '0' } },
     })
     const totalPages = Math.ceil(Number(vendcommissions) / ITEMS_PER_PAGE);
     return totalPages;
@@ -893,8 +895,8 @@ export async function fetchFilteredMerchantsFleetCommissions(
 
   try {
     const mfleetcommissions = await prisma.transactions.findMany({
-      where: {OR:[{req_type: 'Plumbing'}, {req_type: 'Tank cleaning'}]},
-      select: {id:true, req_type:true, fleetid:true, driverid:true, commission:true, commission_paid:true, status:true, paymentstatus:true, createdAt:true},
+      where: { OR: [{ req_type: 'Plumbing' }, { req_type: 'Tank cleaning' }] },
+      select: { id: true, req_type: true, fleetid: true, driverid: true, commission: true, commission_paid: true, status: true, paymentstatus: true, createdAt: true },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -905,12 +907,12 @@ export async function fetchFilteredMerchantsFleetCommissions(
   }
 }
 
-export async function fetchMerchantsFleetCommissions(query: string,  fType: string,
+export async function fetchMerchantsFleetCommissions(query: string, fType: string,
   fSubType: string,
 ) {
   try {
     const mfleetcommissions = await prisma.transactions.count({
-      where: {OR:[{req_type: 'Plumbing'}, {req_type: 'Tank cleaning'}]},
+      where: { OR: [{ req_type: 'Plumbing' }, { req_type: 'Tank cleaning' }] },
     })
     const totalPages = Math.ceil(Number(mfleetcommissions) / ITEMS_PER_PAGE);
     return totalPages;
@@ -930,8 +932,8 @@ export async function fetchFilteredMerchantsWaterCommissions(
 
   try {
     const mwatercommissions = await prisma.transactions.findMany({
-      where: {OR:[{req_type: 'Plumbing'}, {req_type: 'Tank cleaning'}]},
-      select: {id:true, req_type:true, fleetid:true, driverid:true, commission:true, commission_paid:true, status:true, paymentstatus:true, createdAt:true},
+      where: { OR: [{ req_type: 'Plumbing' }, { req_type: 'Tank cleaning' }] },
+      select: { id: true, req_type: true, fleetid: true, driverid: true, commission: true, commission_paid: true, status: true, paymentstatus: true, createdAt: true },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -942,12 +944,12 @@ export async function fetchFilteredMerchantsWaterCommissions(
   }
 }
 
-export async function fetchMerchantsWaterCommissions(query: string,  fType: string,
+export async function fetchMerchantsWaterCommissions(query: string, fType: string,
   fSubType: string,
 ) {
   try {
     const mwatercommissions = await prisma.transactions.count({
-      where: {OR:[{req_type: 'Plumbing'}, {req_type: 'Tank cleaning'}]},
+      where: { OR: [{ req_type: 'Plumbing' }, { req_type: 'Tank cleaning' }] },
     })
     const totalPages = Math.ceil(Number(mwatercommissions) / ITEMS_PER_PAGE);
     return totalPages;
@@ -967,10 +969,10 @@ export async function fetchFilteredCustomerOrders(
 
   try {
     const orders = await prisma.transactions.findMany({
-      where: {AND:[{customerid: id}, {OR:[{productname:{contains: product}}]}]},
-      select: {id: true, productname: true, createdAt: true, status:true, orderref:true, drivername:true, driverdeliverystatus:true},
-       orderBy: {createdAt: 'desc'},
-     skip: offset,
+      where: { AND: [{ customerid: id }, { OR: [{ productname: { contains: product } }] }] },
+      select: { id: true, productname: true, createdAt: true, status: true, orderref: true, drivername: true, driverdeliverystatus: true },
+      orderBy: { createdAt: 'desc' },
+      skip: offset,
       take: ITEMS_PER_PAGE
     })
     return orders;
@@ -983,7 +985,7 @@ export async function fetchFilteredCustomerOrders(
 export async function fetchCustomerOrders(query: string, product: string, id: string) {
   try {
     const orders = await prisma.transactions.count({
-      where: {AND:[{customerid: id}, {OR:[{productname: {contains:product}}]}]},
+      where: { AND: [{ customerid: id }, { OR: [{ productname: { contains: product } }] }] },
     })
     const totalPages = Math.ceil(Number(orders) / ITEMS_PER_PAGE);
     return totalPages;
@@ -1004,9 +1006,9 @@ export async function fetchFilteredDriverOrders(
 
   try {
     const orders = await prisma.transactions.findMany({
-      where: {AND:[{driverid: id }, {OR:[{productname:{contains: product}}]}]},
-      select: {id: true, productname: true, createdAt: true, status:true, orderref:true, drivername:true, driverdeliverystatus:true},
-      orderBy: {createdAt: 'desc'},
+      where: { AND: [{ driverid: id }, { OR: [{ productname: { contains: product } }] }] },
+      select: { id: true, productname: true, createdAt: true, status: true, orderref: true, drivername: true, driverdeliverystatus: true },
+      orderBy: { createdAt: 'desc' },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -1020,7 +1022,7 @@ export async function fetchFilteredDriverOrders(
 export async function fetchDriverOrders(query: string, product: string, id: string) {
   try {
     const orders = await prisma.transactions.count({
-      where: {AND:[{driverid: id}, {OR:[{productname: {contains:product}}]}]},
+      where: { AND: [{ driverid: id }, { OR: [{ productname: { contains: product } }] }] },
     })
     const totalPages = Math.ceil(Number(orders) / ITEMS_PER_PAGE);
     return totalPages;
@@ -1041,10 +1043,10 @@ export async function fetchFilteredOrders(
 
   try {
     const orders = await prisma.transactions.findMany({
-      where: {AND:[{req_type: 'Water packages' }, {OR: [{productname: {contains:product}}]}, {OR: [{product_subscription: {contains:subscription}}]}, {OR: [{customerarea: {contains:location}}]}]},
-      select: {id: true, productname: true, req_type:true, createdAt: true, status:true, orderref:true, customername:true, customerareagroup:true, customerarea:true, amount:true},
-       orderBy: {createdAt: 'desc'},
-     skip: offset,
+      where: { AND: [{ req_type: 'Water packages' }, { OR: [{ productname: { contains: product } }] }, { OR: [{ product_subscription: { contains: subscription } }] }, { OR: [{ customerarea: { contains: location } }] }] },
+      select: { id: true, productname: true, req_type: true, createdAt: true, status: true, orderref: true, customername: true, customerareagroup: true, customerarea: true, amount: true },
+      orderBy: { createdAt: 'desc' },
+      skip: offset,
       take: ITEMS_PER_PAGE
     })
     return orders;
@@ -1057,7 +1059,7 @@ export async function fetchFilteredOrders(
 export async function fetchOrders(query: string, product: string, subscription: string, location: string) {
   try {
     const orders = await prisma.transactions.count({
-      where: {AND:[{req_type: 'Water packages' }, {OR: [{productname: {contains:product}}]}, {OR: [{product_subscription: {contains:subscription}}]}, {OR: [{customerarea: {contains:location}}]}]}
+      where: { AND: [{ req_type: 'Water packages' }, { OR: [{ productname: { contains: product } }] }, { OR: [{ product_subscription: { contains: subscription } }] }, { OR: [{ customerarea: { contains: location } }] }] }
     })
     const totalPages = Math.ceil(Number(orders) / ITEMS_PER_PAGE);
     return totalPages;
@@ -1078,10 +1080,10 @@ export async function fetchFilteredOrdersTank(
 
   try {
     const orders = await prisma.transactions.findMany({
-      where: {AND:[{req_type: 'Tank cleaning' }, {OR: [{productname: {contains:product}}]}, {OR: [{product_subscription: {contains:subscription}}]}, {OR: [{customerarea: {contains:location}}]}]},
-      select: {id: true, productname: true, req_type:true, createdAt: true, status:true, orderref:true, customername:true, customerareagroup:true, customerarea:true, amount:true},
-       orderBy: {createdAt: 'desc'},
-     skip: offset,
+      where: { AND: [{ req_type: 'Tank cleaning' }, { OR: [{ productname: { contains: product } }] }, { OR: [{ product_subscription: { contains: subscription } }] }, { OR: [{ customerarea: { contains: location } }] }] },
+      select: { id: true, productname: true, req_type: true, createdAt: true, status: true, orderref: true, customername: true, customerareagroup: true, customerarea: true, amount: true },
+      orderBy: { createdAt: 'desc' },
+      skip: offset,
       take: ITEMS_PER_PAGE
     })
     return orders;
@@ -1094,7 +1096,7 @@ export async function fetchFilteredOrdersTank(
 export async function fetchOrdersTank(query: string, product: string, subscription: string, location: string) {
   try {
     const orders = await prisma.transactions.count({
-      where: {AND:[{req_type: 'Tank cleaning' }, {OR: [{productname: {contains:product}}]}, {OR: [{product_subscription: {contains:subscription}}]}, {OR: [{customerarea: {contains:location}}]}]}
+      where: { AND: [{ req_type: 'Tank cleaning' }, { OR: [{ productname: { contains: product } }] }, { OR: [{ product_subscription: { contains: subscription } }] }, { OR: [{ customerarea: { contains: location } }] }] }
     })
     const totalPages = Math.ceil(Number(orders) / ITEMS_PER_PAGE);
     return totalPages;
@@ -1115,10 +1117,10 @@ export async function fetchFilteredOrdersPlumbing(
 
   try {
     const orders = await prisma.transactions.findMany({
-      where: {AND:[{req_type: 'Plumbing' }, {OR: [{productname: {contains:product}}]}, {OR: [{product_subscription: {contains:subscription}}]}, {OR: [{customerarea: {contains:location}}]}]},
-      select: {id: true, productname: true, req_type:true, createdAt: true, status:true, orderref:true, customername:true, customerareagroup:true, customerarea:true, amount:true},
-       orderBy: {createdAt: 'desc'},
-     skip: offset,
+      where: { AND: [{ req_type: 'Plumbing' }, { OR: [{ productname: { contains: product } }] }, { OR: [{ product_subscription: { contains: subscription } }] }, { OR: [{ customerarea: { contains: location } }] }] },
+      select: { id: true, productname: true, req_type: true, createdAt: true, status: true, orderref: true, customername: true, customerareagroup: true, customerarea: true, amount: true },
+      orderBy: { createdAt: 'desc' },
+      skip: offset,
       take: ITEMS_PER_PAGE
     })
     return orders;
@@ -1131,7 +1133,7 @@ export async function fetchFilteredOrdersPlumbing(
 export async function fetchOrdersPlumbing(query: string, product: string, subscription: string, location: string) {
   try {
     const orders = await prisma.transactions.count({
-      where: {AND:[{req_type: 'Plumbing' }, {OR: [{productname: {contains:product}}]}, {OR: [{product_subscription: {contains:subscription}}]}, {OR: [{customerarea: {contains:location}}]}]}
+      where: { AND: [{ req_type: 'Plumbing' }, { OR: [{ productname: { contains: product } }] }, { OR: [{ product_subscription: { contains: subscription } }] }, { OR: [{ customerarea: { contains: location } }] }] }
     })
     const totalPages = Math.ceil(Number(orders) / ITEMS_PER_PAGE);
     return totalPages;
@@ -1150,9 +1152,9 @@ export async function fetchFilteredVendorOrders(
 
   try {
     const orders = await prisma.transactions.findMany({
-      where: {AND:[{req_type: 'Water packages', fleetid: fleet }]},
-      select: {id: true, productname: true, req_type:true, createdAt: true, status:true, orderref:true, customername:true, customerphone:true, drivername:true, drivervehicleplateno:true, customerareagroup:true, customerarea:true, amount:true},
-      orderBy: {createdAt: 'desc'},
+      where: { AND: [{ req_type: 'Water packages', fleetid: fleet }] },
+      select: { id: true, productname: true, req_type: true, createdAt: true, status: true, orderref: true, customername: true, customerphone: true, drivername: true, drivervehicleplateno: true, customerareagroup: true, customerarea: true, amount: true },
+      orderBy: { createdAt: 'desc' },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -1166,7 +1168,7 @@ export async function fetchFilteredVendorOrders(
 export async function fetchVendorOrders(query: string, fleet: string) {
   try {
     const orders = await prisma.transactions.count({
-      where: {AND:[{req_type: 'Water packages', fleetid: fleet }]}
+      where: { AND: [{ req_type: 'Water packages', fleetid: fleet }] }
     })
     const totalPages = Math.ceil(Number(orders) / ITEMS_PER_PAGE);
     return totalPages;
@@ -1188,8 +1190,9 @@ export async function fetchFilteredRequests(
 
   try {
     const requests = await prisma.requests.findMany({
-      where: {AND:[{req_type: 'Water packages' }, {OR: [{productname: {contains:product}}]}, {OR: [{status: {contains:status}}]}, {OR: [{customerarea: {contains:location}}]}]},
-      select: {id: true, productname: true, req_type:true, createdAt: true, status:true, orderref:true, customername:true, customerareagroup:true, customerarea:true,},
+      where: { AND: [{ req_type: 'Water packages' }, { OR: [{ productname: { contains: product } }] }, { OR: [{ status: { contains: status } }] }, { OR: [{ customerarea: { contains: location } }] }] },
+      select: { id: true, productname: true, req_type: true, createdAt: true, status: true, orderref: true, customername: true, customerareagroup: true, customerarea: true, },
+      orderBy: { createdAt: 'desc' },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -1203,7 +1206,7 @@ export async function fetchFilteredRequests(
 export async function fetchRequests(query: string, product: string, status: string, location: string) {
   try {
     const requests = await prisma.transactions.count({
-      where: {AND:[{req_type: 'Water packages' }, {OR: [{productname: {contains:product}}]}, {OR: [{status: {contains:status}}]}, {OR: [{customerarea: {contains:location}}]}]}
+      where: { AND: [{ req_type: 'Water packages' }, { OR: [{ productname: { contains: product } }] }, { OR: [{ status: { contains: status } }] }, { OR: [{ customerarea: { contains: location } }] }] }
     })
     const totalPages = Math.ceil(Number(requests) / ITEMS_PER_PAGE);
     return totalPages;
@@ -1224,9 +1227,9 @@ export async function fetchFilteredRequestsTank(
 
   try {
     const requests = await prisma.requests.findMany({
-      where: {AND:[{req_type: 'Tank cleaning' }, {OR: [{productname: {contains:product}}]}, {OR: [{status: {contains:status}}]}, {OR: [{customerarea: {contains:location}}]}]},
-      select: {id: true, productname: true, req_type:true, createdAt: true, status:true, orderref:true, customername:true, customerareagroup:true, customerarea:true,},
-      skip: offset,
+      where: { AND: [{ req_type: 'Tank cleaning' }, { OR: [{ productname: { contains: product } }] }, { OR: [{ status: { contains: status } }] }, { OR: [{ customerarea: { contains: location } }] }] },
+      select: { id: true, productname: true, req_type: true, createdAt: true, status: true, orderref: true, customername: true, customerareagroup: true, customerarea: true, },
+      orderBy: { createdAt: 'desc' }, skip: offset,
       take: ITEMS_PER_PAGE
     })
     return requests;
@@ -1239,7 +1242,7 @@ export async function fetchFilteredRequestsTank(
 export async function fetchRequestsTank(query: string, product: string, status: string, location: string) {
   try {
     const requests = await prisma.requests.count({
-      where: {AND:[{req_type: 'Tank cleaning' }, {OR: [{productname: {contains:product}}]}, {OR: [{status: {contains:status}}]}, {OR: [{customerarea: {contains:location}}]}]}
+      where: { AND: [{ req_type: 'Tank cleaning' }, { OR: [{ productname: { contains: product } }] }, { OR: [{ status: { contains: status } }] }, { OR: [{ customerarea: { contains: location } }] }] }
     })
     const totalPages = Math.ceil(Number(requests) / ITEMS_PER_PAGE);
     return totalPages;
@@ -1260,9 +1263,9 @@ export async function fetchFilteredRequestsPlumbing(
 
   try {
     const requests = await prisma.requests.findMany({
-      where: {AND:[{req_type: 'Plumbing' }, {OR: [{productname: {contains:product}}]}, {OR: [{status: {contains:status}}]}, {OR: [{customerarea: {contains:location}}]}]},
-      select: {id: true, productname: true, req_type:true, createdAt: true, status:true, orderref:true, customername:true, customerareagroup:true, customerarea:true,},
-      skip: offset,
+      where: { AND: [{ req_type: 'Plumbing' }, { OR: [{ productname: { contains: product } }] }, { OR: [{ status: { contains: status } }] }, { OR: [{ customerarea: { contains: location } }] }] },
+      select: { id: true, productname: true, req_type: true, createdAt: true, status: true, orderref: true, customername: true, customerareagroup: true, customerarea: true, },
+      orderBy: { createdAt: 'desc' }, skip: offset,
       take: ITEMS_PER_PAGE
     })
     return requests;
@@ -1275,7 +1278,7 @@ export async function fetchFilteredRequestsPlumbing(
 export async function fetchRequestsPlumbing(query: string, product: string, status: string, location: string) {
   try {
     const requests = await prisma.requests.count({
-      where: {AND:[{req_type: 'Plumbing' }, {OR: [{productname: {contains:product}}]}, {OR: [{status: {contains:status}}]}, {OR: [{customerarea: {contains:location}}]}]}
+      where: { AND: [{ req_type: 'Plumbing' }, { OR: [{ productname: { contains: product } }] }, { OR: [{ status: { contains: status } }] }, { OR: [{ customerarea: { contains: location } }] }] }
     })
     const totalPages = Math.ceil(Number(requests) / ITEMS_PER_PAGE);
     return totalPages;
@@ -1295,7 +1298,7 @@ export async function fetchFilteredComplaints(
 
   try {
     const complaints = await prisma.contact_messages.findMany({
-      orderBy: {createdAt: 'desc'},
+      orderBy: { createdAt: 'desc' },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -1327,8 +1330,8 @@ export async function fetchFilteredNotifications(
 
   try {
     const notifications = await prisma.usermessages.findMany({
-      where: {NOT:{umsg_cat: 'Announcement'}},
-      orderBy: {umsg_time: 'desc'},
+      where: { NOT: { umsg_cat: 'Announcement' } },
+      orderBy: { umsg_time: 'desc' },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -1475,12 +1478,12 @@ export async function fetchAreaInfo() {
       let areaArr = item.md_area?.split(' ')
       let initials = `${areaArr?.[0].charAt(0)}${areaArr?.[1].charAt(0)}`
 
-      let legend = {"abb":initials, "name":item.md_area}
+      let legend = { "abb": initials, "name": item.md_area }
 
       arrLegend.push(legend)
     })
 
-    return [arr,arrLegend]
+    return [arr, arrLegend]
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch area data.');
@@ -1490,7 +1493,7 @@ export async function fetchAreaInfo() {
 
 export async function fetchAverageDeliveryTime() {
   try {
-    const aveArr:any = []
+    const aveArr: any = []
     const arrLegend: any = []
 
 
@@ -1505,24 +1508,24 @@ export async function fetchAverageDeliveryTime() {
     const aveWaitingTime = await prisma.transactions.groupBy({
       by: ['customerarea'],
       _avg: { customerwaittime: true },
-      where: {AND:[{ customerdeliverystatus: 'delivered' }, { driverdeliverystatus: 'delivered'}]}
+      where: { AND: [{ customerdeliverystatus: 'delivered' }, { driverdeliverystatus: 'delivered' }] }
     })
 
-    aveWaitingTime.map((item,i) => {
-      
-      let newObj = {"name": item.customerarea, "customerWait": item._avg.customerwaittime}
+    aveWaitingTime.map((item, i) => {
+
+      let newObj = { "name": item.customerarea, "customerWait": item._avg.customerwaittime }
       aveArr.push(newObj)
     })
 
     const aveDeliveryTime = await prisma.transactions.groupBy({
       by: ['customerarea'],
       _avg: { driverdeliverytime: true },
-      where: {AND:[{ customerdeliverystatus: 'delivered' }, { driverdeliverystatus: 'delivered'}]}
+      where: { AND: [{ customerdeliverystatus: 'delivered' }, { driverdeliverystatus: 'delivered' }] }
     })
 
-   aveDeliveryTime.map((item,i) => {
+    aveDeliveryTime.map((item, i) => {
 
-      if(aveArr[i].name === item.customerarea) {
+      if (aveArr[i].name === item.customerarea) {
         aveArr[i]["driverDelivery"] = item._avg.driverdeliverytime
 
         let areaArr = item.customerarea?.split(' ')
@@ -1532,11 +1535,11 @@ export async function fetchAverageDeliveryTime() {
 
         aveArr[i]["name"] = initials
 
-  
-        let legend = {"abb":initials, "name":item.customerarea}
-  
+
+        let legend = { "abb": initials, "name": item.customerarea }
+
         arrLegend.push(legend)
-  
+
       }
 
     })

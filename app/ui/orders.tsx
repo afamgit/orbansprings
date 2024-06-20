@@ -53,7 +53,7 @@ export default async function Orders({
             <tr key={i} className='border-b-slate-100 border-b-2'>
             <td>{++i}</td>
             <td className='font-bold'><Link href={`/account/orders/${item.id}/order-detail?showDialog=y`}>{item.orderref}</Link><br /><span className='text-gray-400'>{item.customername}</span></td>
-            <td>{item.customerarea}</td>
+            <td>{item.customerareagroup}</td>
             <td>{item.productname}<br /><span className='text-gray-400'>{moment(item.createdAt).format('DD/MM/YYYY H:mma')}</span></td>
             <td className='text-center'>{formatCurrency(item.amount)}</td>
             <td><p className={statusBg(item.status)}>{item.status}</p></td>

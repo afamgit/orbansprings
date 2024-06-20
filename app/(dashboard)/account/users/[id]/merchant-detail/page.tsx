@@ -53,7 +53,7 @@ export default async function Page({
     where: {
       id: parseInt(id),
     },
-    select: {id:true, name:true, createdAt:true, isavailable: true, drv_vehicle_license_plate_no:true, subscription_plan:true}
+    select: {id:true, name:true, createdAt:true, isavailable: true, photo:true, drv_vehicle_license_plate_no:true, subscription_plan:true}
   });
 
   const driverName = user?.name || ''
@@ -91,6 +91,9 @@ export default async function Page({
     where: { customerid: id, status: "Cancelled" },
   });
 
+  const profileImg = user?.photo?.includes('https') ? `${user?.photo}` : `https://support.orbansprings.com/${user?.photo}`
+
+
   return (
     <main className="w-full md:w-[1100px] flex flex-col justify-center items-center">
       <UserModal>
@@ -101,7 +104,7 @@ export default async function Page({
               <FaChevronLeft size={24} className='outline-0' />
             </Link>
             <Image 
-              src='/noimage.png'
+              src={`${profileImg}`}
               height={80}
               width={80}
               alt="photo"

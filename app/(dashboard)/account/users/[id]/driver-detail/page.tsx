@@ -70,7 +70,7 @@ export default async function Page({
 
   const driverName = user?.name || "";
 
-  const profileImg = user?.photo?.includes('profile') ? `https://orbansprings.com/${user.photo}` : user?.photo?.includes('noimage') ? `https://support.orbansprings.com/${user.photo}` : `/${user?.photo}`
+  const profileImg = user?.photo?.includes('https') ? `${user?.photo}` : `https://support.orbansprings.com/${user?.photo}`
 
 
   const meterNumber = async (id: string) => {

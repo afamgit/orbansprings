@@ -33,6 +33,7 @@ export function StatusRequests () {
         >
             <option value=''>Status</option>
             <option value='Pending'>Pending</option>
+            <option value='Request'>Request</option>
             <option value='Accepted'>Accepted</option>
             <option value='Cancelled'>Cancelled</option>
             </select>

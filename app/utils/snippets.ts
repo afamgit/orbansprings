@@ -23,7 +23,7 @@ export const slugify = (string: string) => {
 }
 
 export const statusBg = (status: string) => {
-  const bg = status.toLowerCase() === 'new' ? 'bg-gray-300' : status.toLowerCase() === 'completed' ? 'bg-green-400' : status.toLowerCase() === 'pending' ? 'bg-gray-300' : status.toLowerCase() === 'accepted' ? 'bg-green-200' : status.toLowerCase() === 'cancelled' ? 'bg-red-300' : 'bg-red-600'
+  const bg = status.toLowerCase() === 'new' ? 'bg-gray-300' : status.toLowerCase() === 'completed' ? 'bg-green-400' : status.toLowerCase() === 'pending' ? 'bg-gray-300' : status.toLowerCase() === 'accepted' ? 'bg-green-200' : status.toLowerCase() === 'cancelled' ? 'bg-red-300' : status.toLowerCase() === 'request' ? 'bg-red-400' : 'bg-gray-300'
 
   return  `px-3 py-1 text-gray-900 rounded text-center ${bg}`
 }

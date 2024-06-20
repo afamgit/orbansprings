@@ -364,7 +364,7 @@ export function UpdateDriverForm({
 
           <div className="my-4">
             <h2 className="text-2xl">Basic Details</h2>
-            <p>Input basic details of the driver you would like to add</p>
+            <p>Input basic details of the driver you would like to update</p>
           </div>
           
 

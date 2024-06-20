@@ -7,10 +7,12 @@ import { SubscriptionType } from "@/app/components/subscrription-type";
 import { Location } from "@/app/components/location";
 import Orders from "@/app/ui/orders";
 import { Product } from "@/app/components/product";
-import { fetchOrders } from "@/app/utils/data";
+import { fetchOrders, fetchRequests } from "@/app/utils/data";
+import { StatusRequests } from "@/app/components/status-requests";
+import VendorRequests from "@/app/ui/vendor-merchants-requests";
 
 export const metadata: Metadata = {
-  title: "Orders | Water Delivery",
+  title: "Vendor Merchants | Requests | Drivers",
 };
 
 export default async function Page({
@@ -19,14 +21,14 @@ export default async function Page({
   searchParams?: {
     query?: string;
     page?: string;
-    subscription?: string;
+    status?: string;
     location?: string;
     product?: string;
   };
 }) {
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
-  const subscription = searchParams?.subscription || "Basic";
+  const status = searchParams?.status || "Pending";
   const location = searchParams?.location || "";
   const product = searchParams?.product || "";
 
@@ -36,46 +38,27 @@ export default async function Page({
     select: { id: true, name: true },
   });
 
-  const total = await fetchOrders(query, product, subscription, location);
+  const total = await fetchRequests(query, product, status, location);
 
   return (
-    <div className="w-full md:w-[1100px] flex flex-col justify-center items-center">
+    <main className="w-full md:w-[1100px] flex flex-col justify-center items-center">
       <div className="w-full flex justify-end items-start">
         <Breadcrumbs
           breadcrumbs={[
             { label: "Account", href: "/account" },
-            { label: "Orders", href: "/account/orders", active: true },
+            { label: "Requests", href: "/account/requests", active: true },
           ]}
         />
       </div>
 
       <div className="w-full md:flex justify-between items-center my-3">
-        <div className="p-2">
-          <Link
-            className="text-3xl text-gray-900 font-medium pr-2"
-            href="/account/orders"
-          >
-            Water Delivery
-          </Link>
-          <Link
-            className="text-3xl text-gray-400 font-medium px-2"
-            href="/account/orders/tank"
-          >
-            Tank Cleaning
-          </Link>
-          <Link
-            className="text-3xl text-gray-400 font-medium px-2"
-            href="/account/orders/plumbing"
-          >
-            Plumbing
-          </Link>
-        </div>
+
         <div className="flex justify-end items-end">
         <div>
                 <Product allproducts={allProducts} />
               </div>
         <div className="mx-1 bg-white border-2 border-bg-sky-300">
-              <SubscriptionType />
+              <StatusRequests />
             </div>
             <div>
               <Location />
@@ -84,17 +67,17 @@ export default async function Page({
       </div>
 
 
-      <Orders
+      <VendorRequests
         query={query}
         currentPage={currentPage}
         product={product}
-        subscription={subscription}
+        status={status}
         location={location}
       />
 
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={total} />
       </div>
-    </div>
+    </main>
   );
 }

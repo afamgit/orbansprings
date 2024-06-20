@@ -4,7 +4,7 @@ import { useSearchParams, usePathname, useRouter } from "next/navigation"
 import { useEffect, useRef } from "react"
 
 
-export default function VendorOrderModal({children}: {children: React.ReactNode}) {
+export default function VendorRequestModal({children}: {children: React.ReactNode}) {
 
 const searchParams = useSearchParams()
 const pathname = usePathname()
@@ -14,6 +14,8 @@ const dialogRef = useRef<null | HTMLDialogElement>(null)
 const showDialog = searchParams.get('showDialog')
 const params = new URLSearchParams(searchParams)
 
+
+
 useEffect(() => {
     if(showDialog === 'y') {
         dialogRef.current?.showModal()
@@ -22,12 +24,13 @@ useEffect(() => {
     }
 },[showDialog])
 
+
 const closeDialog = () => {
     dialogRef.current?.close()
     params.delete('showDialog')
     replace(`${pathname}?${params.toString()}`)
 
-    // router.push('/account/vendor-merchants/orders')
+    // router.push('/account/vendor-merchants/requests')
 }
 
 const clickOk = () => {

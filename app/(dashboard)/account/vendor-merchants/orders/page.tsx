@@ -5,6 +5,7 @@ import Pagination from "@/app/ui/pagination";
 import { fetchVendorOrders, getProfileUser } from "@/app/utils/data";
 import { auth } from "@/auth";
 import VendorOrders from "@/app/ui/vendor-orders";
+import { DriverNumbersCard } from "@/app/ui/cards";
 
 export const metadata: Metadata = {
   title: "Vendor Merchant Orders",
@@ -28,11 +29,20 @@ export default async function Page({
   const fleet = profile?.id.toString() || ''
 
 
-  const allProducts = await prisma.products.findMany({
-    where: {category: 'Water packages'},
-    orderBy: { name: "asc" },
-    select: { id: true, name: true },
+  const allDrivers = await prisma.users.count({
+    where: {fleetid: parseInt(fleet)},
   });
+
+  const available = await prisma.users.count({
+    where: {fleetid: parseInt(fleet), isavailable: true},
+  });
+
+  const unavailable = await prisma.users.count({
+    where: {fleetid: parseInt(fleet), isavailable: false},
+  });
+
+  const availablePercent = available > 0 ? (available * 100) / allDrivers : 0
+  const unavailablePercent = unavailable > 0 ? (unavailable * 100) / allDrivers : 0
 
   const total = await fetchVendorOrders(query, fleet);
 
@@ -48,8 +58,10 @@ export default async function Page({
         />
       </div>
 
-      <div className="flex justify-between items-center my-2 py-3">
-        
+      <div className="flex justify-around items-center my-2 py-3">
+        <DriverNumbersCard name="your drivers" num={allDrivers} percent={''} />
+        <DriverNumbersCard name="available drivers" num={available} percent={availablePercent.toString()} />
+        <DriverNumbersCard name="unavailable drivers" num={unavailable} percent={unavailablePercent.toString()} />
       </div>
 
 

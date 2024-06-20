@@ -4,7 +4,7 @@ import moment from 'moment';
 import { statusBg } from '../utils/snippets';
 import Link from 'next/link';
 
-export default async function Requests({
+export default async function VendorRequests({
     query,
     currentPage,
     product,
@@ -41,7 +41,6 @@ export default async function Requests({
       <th className='text-start'>User ID</th>
       <th className='text-start'>Location</th>
       <th className='text-start'>Order Info</th>
-      <th className='text-start'>Type</th>
       <th className='text-start'>Status</th>
     </tr>
   </thead>
@@ -51,10 +50,9 @@ export default async function Requests({
         return (
             <tr key={i} className='border-b-slate-100 border-b-2'>
             <td>{++i}</td>
-            <td className='font-bold'><Link href={`/account/requests/${item.id}/request-detail?showDialog=y`}>{item.orderref}</Link><br /><span className='text-gray-400'>{item.customername}</span></td>
+            <td className='font-bold'><Link href={`/account/vendor-merchants/requests/${item.orderref}/request-detail?showDialog=y`}>{item.orderref}</Link><br /><span className='text-gray-400'>{item.customername}</span></td>
             <td>{item.customerareagroup}</td>
             <td>{item.productname}<br /><span className='text-gray-400'>{moment(item.createdAt).format('DD/MM/YYYY H:mma')}</span></td>
-            <td>{item.req_type}</td>
             <td><p className={statusBg(item.status)}>{item.status}</p></td>
           </tr>
         )
