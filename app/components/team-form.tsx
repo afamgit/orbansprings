@@ -324,7 +324,7 @@ export function AddTeamForm() {
         {blob && <Image
               height={200}
               width={200}
-              src={`${blob?.url}}`}
+              src={`${blob?.url}`}
               alt={team?.tmember}
               className='rounded-lg h-[100px] mb-4'
             />}
