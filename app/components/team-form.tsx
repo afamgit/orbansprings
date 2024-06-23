@@ -166,8 +166,8 @@ export function AddTeamForm() {
         }}
       >
         {blob && <Image
-              height={550}
-              width={400}
+              height={200}
+              width={200}
               src={`${blob?.url}`}
               alt={''}
               className='rounded-lg h-[100px] mb-4'
@@ -323,7 +323,7 @@ export function AddTeamForm() {
         {blob && <Image
               height={200}
               width={200}
-              src={`${photoImg}`}
+              src={`${blob?.url}}`}
               alt={team?.tmember}
               className='rounded-lg h-[100px] mb-4'
             />}
@@ -335,7 +335,7 @@ export function AddTeamForm() {
       <Image
               height={220}
               width={200}
-              src={`${team?.tmemberphoto}`}
+              src={`${photoImg}`}
               alt={team?.tmember}
               className='rounded-lg h-[200px] mt-4'
             />

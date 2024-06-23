@@ -165,8 +165,8 @@ export function AddTestimonialForm() {
         }}
       >
         {blob && <Image
-              height={550}
-              width={400}
+              height={200}
+              width={200}
               src={`${blob?.url}`}
               alt={''}
               className='rounded-lg h-[100px] mb-4'
