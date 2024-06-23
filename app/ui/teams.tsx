@@ -41,17 +41,18 @@ export default async function Teams({
   <tbody>
     {allTeams.length > 0 && allTeams.map((item,i) => {
         const id = item.tmemberid.toString()
+        const photoImg = item?.tmemberphoto.includes('https') ? `${item?.tmemberphoto}` : item?.tmemberphoto.includes('images') ? `https://support.orbansprings.com/${item?.tmemberphoto}` : `/${item?.tmemberphoto}`
+
         return (
             <tr key={i} className='border-b-slate-100 border-b-2'>
             <td>{++i}</td>
             <td className='hidden md:block'>
             <div className='w-32 h-32'>
-            <OptimizedImageWithFallback
-                src={`/${item.tmemberphoto}`}
+            <Image
+                src={`${photoImg}`}
                 height={96}
                 width={96}
                 alt={item.tmember}
-                classname='rounded-lg'
                 />
                 </div></td>
             <td>{item.tmember}</td>

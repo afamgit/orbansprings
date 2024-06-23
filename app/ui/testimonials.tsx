@@ -41,17 +41,18 @@ export default async function Testimonials({
   <tbody>
     {allTestimonials.length > 0 && allTestimonials.map((item,i) => {
         const id = item.tid.toString()
+        const photoImg = item?.tphoto.includes('https') ? `${item?.tphoto}` : item?.tphoto.includes('images') ? `https://support.orbansprings.com/${item?.tphoto}` : `/${item?.tphoto}`
+
         return (
           <tr key={i} className='border-b-2 border-b-slate-100'>
           <td>{++i}</td>
             <td className='hidden md:block'>
             <div className='w-32 h-32'>
-                  <OptimizedImageWithFallback
-                src={`/${item.tphoto}`}
+                  <Image
+                src={`${photoImg}`}
                 height={96}
                 width={96}
                 alt={item.tcustomer}
-                classname='rounded-lg'
                 />
                 </div></td>        
                 <td>{item.tcustomer}</td>

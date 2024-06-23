@@ -43,14 +43,14 @@ export default async function AdminLayout({
 
   const profile = await getProfileUser(usrEmail)
   
-  const profileImg = profile?.photo?.includes('profile') ? `https://orbansprings.com/${profile.photo}` : profile?.photo?.includes('noimage') ? `https://support.orbansprings.com/${profile.photo}` : `/${profile?.photo}`
+  const profileImg = profile?.photo?.includes('https') ? `${profile.photo}` : profile?.photo?.includes('noimage') ? `https://support.orbansprings.com/${profile.photo}` : `/${profile?.photo}`
 
 
   return (
     <div className="w-full min-h-screen bg-white">
       <div className="md:hidden bg-black text-white py-2 flex flex-col justify-between items-center">
         <div className="w-full">
-          {profile?.role === "admin" ? <AdminTopBar /> : profile?.role === "fleetownerdriver" ? <VendorMerchantTopBar /> : profile?.role === "fleetownermeter" ? <WaterMerchantTopBar /> : redirect('/login')}
+          {profile?.role === "admin" ? <AdminTopBar /> : profile?.role === "fleetownerdriver" ? <VendorMerchantTopBar /> : profile?.role === "watermerchant" ? <WaterMerchantTopBar /> : redirect('/login')}
         </div>
       </div>
       <div className="flex justify-start items-start">
@@ -69,7 +69,7 @@ export default async function AdminLayout({
           </div>
           <div className="pt-1">
             <div className="w-full h-full overflow-y-auto md: h-[750px]">
-            {profile?.role === "admin" ? <AdminSideBar /> : profile?.role === "fleetownerdriver" ? <VendorMerchantSideBar /> : profile?.role === "fleetownermeter" ? <WaterMerchantSideBar /> : redirect('/login') }
+            {profile?.role === "admin" ? <AdminSideBar /> : profile?.role === "fleetownerdriver" ? <VendorMerchantSideBar /> : profile?.role === "watermerchant" ? <WaterMerchantSideBar /> : redirect('/login') }
             </div>
           </div>
         </div>

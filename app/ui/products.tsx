@@ -10,7 +10,7 @@ export default async function Products() {
 
     const allProducts = await prisma.products.findMany({
       orderBy: {name: 'asc'},
-      select: {id:true, name:true, description:true}
+      select: {id:true, name:true, description:true, picture:true}
     })
 
 
@@ -58,6 +58,7 @@ export default async function Products() {
   </thead>
   <tbody>
     {allProducts.length > 0 && allProducts.map((item,i) => {
+
         return (
             <tr key={i} className='border-b-slate-100 border-b-2'>
             <td>{++i}</td>

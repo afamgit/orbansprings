@@ -23,7 +23,7 @@ export default async function Page() {
 
       {profile?.role === 'admin' && <AdminDashboard />}
         {profile?.role === 'fleetownerdriver' && <VendorMerchantDashboard />}
-        {profile?.role === 'meterowner' && <WaterMerchantDashboard />}
+        {profile?.role === 'watermerchant' && <WaterMerchantDashboard />}
 
     </main>
   );

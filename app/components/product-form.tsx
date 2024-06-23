@@ -1,8 +1,13 @@
 'use client'
  
+import { PutBlobResult } from '@vercel/blob';
 import { useFormState } from 'react-dom'
 import { useFormStatus } from 'react-dom'
+import { useState, useRef } from 'react'
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { createProduct, updateProduct, deletePage } from '../utils/actions'
+import Link from 'next/link';
  
 const initialState = {
   message: null,
@@ -13,7 +18,7 @@ function SubmitButton() {
  
   return (
     <button type="submit" aria-disabled={pending} className='p-2 bg-blue-300 rounded'>
-      Add
+      {pending ? 'Adding...' : 'Add'}
     </button>
   )
 }
@@ -23,7 +28,7 @@ function EditButton() {
  
   return (
     <button type="submit" aria-disabled={pending} className='p-2 bg-blue-300 rounded'>
-      Update
+      {pending ? 'Updating...' : 'Update'}
     </button>
   )
 }
@@ -39,56 +44,32 @@ function DeleteButton() {
 }
 
  
-export function DeleteAllButton() {
-  const { pending } = useFormStatus()
- 
-  return (
-    <button onClick={() => deleteAllTodos} aria-disabled={pending}>
-      Delete
-    </button>
-  )
-}
-
-export function AddForm() {
-  const [state, formAction] = useFormState(createTodo, initialState)
- 
-  return (
-    <form action={formAction}>
-      <label htmlFor="fullname">Full name</label>
-      <input type="text" id="fullname" name="fullname" required />
-      <label htmlFor="email">Email</label>
-      <input type="text" id="email" name="email" required />
-      <label htmlFor="phone">Phone</label>
-      <input type="text" id="phone" name="phone" required />
-      <SubmitButton />
-      <p aria-live="polite" className="sr-only">
-        {state?.message}
-      </p>
-    </form>
-  )
-}
-
 export function AddProductForm() {
+  const router = useRouter();
+
+  const inputFileRef = useRef<HTMLInputElement>(null);
+  const [blob, setBlob] = useState<PutBlobResult | null>(null);
+
     const [state, formAction] = useFormState(createProduct, initialState)
    
     return (
       <>
 
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="flex min-h-full md:w-[1000px] flex-1 flex-col justify-center px-6 py-12 lg:px-8">
     <div className="sm:mx-auto sm:w-full sm:max-w-sm">
      
-      <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+      <h2 className="mt-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
         Add product
       </h2>
     </div>
 
-    <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-    <form action={formAction}>
+    <div className="w-full md:flex mt-6 mx-auto">
+    <div className='w-3/5 px-4'>
+        <form action={formAction}>
         <div>
         <label htmlFor="category" className="block text-sm font-medium leading-6 text-gray-900">Category</label>
           <div className="mt-2">
           <select 
-            type="text" 
             id="category" 
             name="category" 
             required
@@ -119,7 +100,6 @@ export function AddProductForm() {
         <label htmlFor="desc" className="block text-sm font-medium leading-6 text-gray-900">Description</label>
           <div className="mt-2">
           <textarea 
-            type="text" 
             rows={4}
             id="desc" 
             name="desc" 
@@ -228,27 +208,60 @@ export function AddProductForm() {
           </div>
         </div>
 
-
-        <div>
-        <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">Photo</label>
-          <div className="mt-2">
-          <input 
-            type="file" 
-            id="photo" 
-            name="photo" 
-            required
-            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
-          />
-          </div>
-        </div>
-
-        <input type="hidden" id="picture" name="picture"/>
     
-        <SubmitButton />
+        <div className='flex my-2 py-2'>
+        <Link className='mr-2 px-3 py-1 rounded bg-gray-200 text-gray-800' href='/account/products'>Cancel</Link>
+                  <SubmitButton /> 
+                  </div>
 <p aria-live="polite" className="sr-only">
 {state?.message}
 </p>
       </form>
+      </div>
+      <div className='w-2/5'>
+      <div>
+        <form
+        onSubmit={async (event) => {
+          event.preventDefault();
+ 
+          if (!inputFileRef.current?.files) {
+            throw new Error('No file selected');
+          }
+ 
+          const file = inputFileRef.current.files[0];
+ 
+          const formData = new FormData();
+
+          formData.append("file", file)
+          formData.append("action", 'upload')
+ 
+          const response = await fetch(
+            'https://support.orbansprings.com/api/upload_file.php',
+            {
+              method: 'POST',
+              body: formData,
+            },
+          );
+ 
+          // const newBlob = (await response.json()) as PutBlobResult;
+          const newBlob = await response.json();
+          setBlob(newBlob);
+        }}
+      >
+        {blob && <Image
+              height={550}
+              width={400}
+              src={`${blob?.url}`}
+              alt={''}
+              className='rounded-lg h-[100px] mb-4'
+            /> }
+
+        <input name="file" ref={inputFileRef} type="file" required />
+        <button className='mt-3 bg-gray-600 text-white rounded px-3 py-1' type="submit">Upload</button>
+      </form>
+      </div>
+      </div>
+
 
     </div>
   </div>
@@ -258,29 +271,36 @@ export function AddProductForm() {
 )
   }
   
-  export function UpdateProductForm({product}) {
+  export function UpdateProductForm({product}: {product:any}) {
+    const router = useRouter();
+
+    const inputFileRef = useRef<HTMLInputElement>(null);
+    const [blob, setBlob] = useState<PutBlobResult | null>(null);
+
 
    const updateProductWithId = updateProduct.bind(null, product.id)
    const [state, formAction] = useFormState(updateProductWithId, initialState)
 
+   const photoImg = product?.picture.includes('https') ? `${product?.picture}` : product?.picture.includes('images') ? `https://support.orbansprings.com/${product?.picture}` : `/${product?.picture}`
+
    return (
     <>
 
-                <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+                <div className="flex min-h-full md:w-[1000px] flex-1 flex-col justify-center px-6 py-12 lg:px-8">
               <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                
-                <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+                <h2 className="mt-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
                   Update product
                 </h2>
               </div>
       
-              <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+              <div className="w-full md:flex mt-6 mx-auto">
+                <div className='w-3/5 px-4'>
               <form action={formAction}>
               <div>
         <label htmlFor="category" className="block text-sm font-medium leading-6 text-gray-900">Category</label>
           <div className="mt-2">
           <select 
-            type="text" 
             id="category" 
             name="category" 
             defaultValue={product.category}
@@ -313,7 +333,6 @@ export function AddProductForm() {
         <label htmlFor="desc" className="block text-sm font-medium leading-6 text-gray-900">Description</label>
           <div className="mt-2">
           <textarea 
-            type="text" 
             rows={4}
             id="desc" 
             name="desc" 
@@ -429,28 +448,74 @@ export function AddProductForm() {
           />
           </div>
         </div>
+        <input type="hidden" id="photourl" name="photourl" defaultValue={product?.picture}/>
+        <input type="hidden" id="uploadedpic" name="uploadedpic" defaultValue={blob?.url}/>
 
 
-        <div>
-        <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">Photo</label>
-          <div className="mt-2">
-          <input 
-            type="file" 
-            id="photo" 
-            name="photo" 
-            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
-          />
-          </div>
-        </div>
-
-
-                  <input type="hidden" id="picture" name="picture" defaultValue={product.picture} />
               
-                  <EditButton />
+        <div className='flex my-2 py-2'>
+        <Link className='mr-2 px-3 py-1 rounded bg-gray-200 text-gray-800' href='/account/products'>Cancel</Link>
+        <EditButton /> 
+                  </div>
         <p aria-live="polite" className="sr-only">
           {state?.message}
         </p>
                 </form>
+                </div>
+                <div className='w-2/5'>
+                <div>
+        <form
+        onSubmit={async (event) => {
+          event.preventDefault();
+ 
+          if (!inputFileRef.current?.files) {
+            throw new Error('No file selected');
+          }
+ 
+          const file = inputFileRef.current.files[0];
+ 
+          const formData = new FormData();
+
+          formData.append("file", file)
+          formData.append("action", 'upload')
+ 
+          const response = await fetch(
+            'https://support.orbansprings.com/api/upload_file.php',
+            {
+              method: 'POST',
+              body: formData,
+            },
+          );
+ 
+          // const newBlob = (await response.json()) as PutBlobResult;
+          const newBlob = await response.json();
+
+          setBlob(newBlob);
+        }}
+      >
+        {blob && <Image
+              height={200}
+              width={200}
+              src={`${blob?.url}`}
+              alt={product?.name}
+              className='rounded-lg h-[100px] mb-4'
+            />}
+
+        <input name="file" ref={inputFileRef} type="file" />
+        <button className='mt-3 bg-gray-600 text-white rounded px-3 py-1' type="submit">Upload</button>
+      </form>
+
+      <Image
+              height={220}
+              width={200}
+              src={`${photoImg}`}
+              alt={product?.name}
+              className='rounded-lg h-[200px] mt-4'
+            />
+
+        </div>
+
+                </div>
       
               </div>
             </div>

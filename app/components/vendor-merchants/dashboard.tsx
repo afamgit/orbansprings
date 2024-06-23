@@ -31,20 +31,6 @@ export default async function VendorMerchantDashboard() {
         </div>
       </div>
 
-      <div className="w-full flex flex-col md:flex-row mx-2">
-        <div className="w-full md:w-2/3 p-2 rounded-lg">
-          <h2 className="text-3xl font-bold my-3 py-3">
-            Orders
-          </h2>
-          {/* Orders */}
-          <Products />
-        </div>
-        <div className="w-full md:w-1/3 p-2 rounded-lg">
-          <h2 className="text-3xl font-bold my-3 py-3">Recent Drivers</h2>
-          {/* Latest drivers */}
-          <LatestCustomers />
-        </div>
-      </div>
     </main>
   );
 }

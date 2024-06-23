@@ -675,6 +675,7 @@ export async function createProduct(prevState: any, formData: FormData) {
     responsetime: z.string(),
     status: z.string().transform((value) => value === "1" ? true : false),
     paymentaccount: z.string(),
+    photourl: z.string(),
   })
   const parsedData = schema.parse({
     category: formData.get('category'),
@@ -686,25 +687,10 @@ export async function createProduct(prevState: any, formData: FormData) {
     responsetime: formData.get('responsetime'),
     status: formData.get('status'),
     paymentaccount: formData.get('paymentaccount'),
+    photourl: formData.get('photourl'),
   })
 
   try {
-    const file: File | null = formData.get('photo') as unknown as File
-    if (!file) {
-      throw new Error('No file uploaded')
-    }
-
-
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
-
-    // With the file data in the buffer, you can do whatever you want with it.
-    // For this, we'll just write it to the filesystem in a new location
-    // /Users/afamnnaji/Desktop/next-apps/orban-springs/public
-    console.log("Current working directory: ",
-      process.cwd());
-    const path = join(process.cwd(), 'public', file.name)
-    const doUpload = await writeFile(path, buffer)
 
     const doInsert = await prisma.products.create({
       data: {
@@ -715,7 +701,7 @@ export async function createProduct(prevState: any, formData: FormData) {
         nameslug: slugify(parsedData.name),
         sku: parsedData.sku,
         description: parsedData.desc,
-        picture: file.name,
+        picture: parsedData.photourl,
         price: parsedData.price,
         size: parsedData.size,
         response_time: parsedData.responsetime,
@@ -746,7 +732,9 @@ export async function updateProduct(id: string, prevState: any, formData: FormDa
     responsetime: z.string(),
     status: z.string().transform((value) => value === "1" ? true : false),
     paymentaccount: z.string(),
-    picture: z.string()
+    photourl: z.string(),
+    uploadedpic: z.string(),
+
   })
   const parsedData = schema.parse({
     category: formData.get('category'),
@@ -758,23 +746,12 @@ export async function updateProduct(id: string, prevState: any, formData: FormDa
     responsetime: formData.get('responsetime'),
     status: formData.get('status'),
     paymentaccount: formData.get('paymentaccount'),
-    picture: formData.get('picture')
+    photourl: formData.get('photourl'),
+    uploadedpic: formData.get('uploadedpic'),
   })
 
   try {
-    const file: File | null = formData.get('photo') as unknown as File
-    if (file) {
-
-      const bytes = await file.arrayBuffer()
-      const buffer = Buffer.from(bytes)
-
-      // With the file data in the buffer, you can do whatever you want with it.
-      // For this, we'll just write it to the filesystem in a new location
-      // /Users/afamnnaji/Desktop/next-apps/orban-springs/public
-
-      const path = join(process.cwd(), 'public', file.name)
-      const doUpload = await writeFile(path, buffer)
-    }
+    
 
     const doUpdate = await prisma.products.update({
       where: {
@@ -788,7 +765,7 @@ export async function updateProduct(id: string, prevState: any, formData: FormDa
         nameslug: slugify(parsedData.name),
         sku: parsedData.sku,
         description: parsedData.desc,
-        picture: file.name !== '' && file.name !== null && file.name !== 'undefined' ? file.name : parsedData.picture,
+        picture: parsedData.uploadedpic || parsedData.photourl,
         price: parsedData.price,
         size: parsedData.size,
         response_time: parsedData.responsetime,
@@ -908,37 +885,23 @@ export async function createTestimonial(prevState: any, formData: FormData) {
     name: z.string(),
     desc: z.string(),
     profession: z.string(),
+    photourl: z.string(),
   })
   const parsedData = schema.parse({
     rating: formData.get('stars'),
     name: formData.get('name'),
     desc: formData.get('desc'),
     profession: formData.get('profession'),
+    photourl: formData.get('photourl'),
   })
 
   try {
-    const file: File | null = formData.get('photo') as unknown as File
-    if (!file) {
-      throw new Error('No file uploaded')
-    }
-
-
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
-
-    // With the file data in the buffer, you can do whatever you want with it.
-    // For this, we'll just write it to the filesystem in a new location
-    // /Users/afamnnaji/Desktop/next-apps/orban-springs/public
-    console.log("Current working directory: ",
-      process.cwd());
-    const path = join(process.cwd(), 'public', file.name)
-    const doUpload = await writeFile(path, buffer)
 
     const doInsert = await prisma.testimonials.create({
       data: {
         tcustomer: parsedData.name,
         tmessage: parsedData.desc,
-        tphoto: file.name,
+        tphoto: parsedData.photourl,
         trole: parsedData.profession,
         tstars: parseInt(parsedData.rating),
         tdate: new Date(),
@@ -962,31 +925,22 @@ export async function updateTestimonial(id: string, prevState: any, formData: Fo
     name: z.string(),
     desc: z.string(),
     profession: z.string(),
-    picture: z.string(),
+    photourl: z.string(),
+    uploadedpic: z.string(),
+
   })
   const parsedData = schema.parse({
     rating: formData.get('stars'),
     name: formData.get('name'),
     desc: formData.get('desc'),
     profession: formData.get('profession'),
-    picture: formData.get('picture'),
+    photourl: formData.get('photourl'),
+    uploadedpic: formData.get('uploadedpic'),
+
   })
 
   try {
-    const file: File | null = formData.get('photo') as unknown as File
-    if (file) {
-
-      const bytes = await file.arrayBuffer()
-      const buffer = Buffer.from(bytes)
-
-      // With the file data in the buffer, you can do whatever you want with it.
-      // For this, we'll just write it to the filesystem in a new location
-      // /Users/afamnnaji/Desktop/next-apps/orban-springs/public
-
-      const path = join(process.cwd(), 'public', file.name)
-      const doUpload = await writeFile(path, buffer)
-    }
-
+    
     const doUpdate = await prisma.testimonials.update({
       where: {
         tid: parseInt(id)
@@ -994,7 +948,7 @@ export async function updateTestimonial(id: string, prevState: any, formData: Fo
       data: {
         tcustomer: parsedData.name,
         tmessage: parsedData.desc,
-        tphoto: file.name !== '' && file.name !== null && file.name !== 'undefined' ? file.name : parsedData.picture,
+        tphoto: parsedData.uploadedpic || parsedData.photourl,
         trole: parsedData.profession,
         tstars: parseInt(parsedData.rating),
         tdate: new Date(),
@@ -1034,31 +988,17 @@ export async function createTeam(prevState: any, formData: FormData) {
     name: z.string(),
     profile: z.string(),
     position: z.string(),
+    photourl: z.string(),
   })
   const parsedData = schema.parse({
     ranking: formData.get('ranking'),
     name: formData.get('name'),
     profile: formData.get('profile'),
     position: formData.get('position'),
+    photourl: formData.get('photourl'),
   })
 
   try {
-    const file: File | null = formData.get('photo') as unknown as File
-    if (!file) {
-      throw new Error('No file uploaded')
-    }
-
-
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
-
-    // With the file data in the buffer, you can do whatever you want with it.
-    // For this, we'll just write it to the filesystem in a new location
-    // /Users/afamnnaji/Desktop/next-apps/orban-springs/public
-    console.log("Current working directory: ",
-      process.cwd());
-    const path = join(process.cwd(), 'public', file.name)
-    const doUpload = await writeFile(path, buffer)
 
     const doInsert = await prisma.team_members.create({
       data: {
@@ -1066,7 +1006,7 @@ export async function createTeam(prevState: any, formData: FormData) {
         tmember: parsedData.name,
         tmember_slug: slugify(parsedData.name),
         tmemberprofile: parsedData.profile,
-        tmemberphoto: file.name,
+        tmemberphoto: parsedData.photourl,
         tmemberposition: parsedData.position,
         tmemberrank: parseInt(parsedData.ranking),
         tmemberdateadded: new Date(),
@@ -1098,7 +1038,9 @@ export async function updateTeam(id: string, prevState: any, formData: FormData)
     name: z.string(),
     profile: z.string(),
     position: z.string(),
-    picture: z.string(),
+    photourl: z.string(),
+    uploadedpic: z.string(),
+
   })
   const parsedData = schema.parse({
     ranking: formData.get('ranking'),
@@ -1108,19 +1050,7 @@ export async function updateTeam(id: string, prevState: any, formData: FormData)
     picture: formData.get('picture'),
   })
   try {
-    const file: File | null = formData.get('photo') as unknown as File
-    if (file) {
 
-      const bytes = await file.arrayBuffer()
-      const buffer = Buffer.from(bytes)
-
-      // With the file data in the buffer, you can do whatever you want with it.
-      // For this, we'll just write it to the filesystem in a new location
-      // /Users/afamnnaji/Desktop/next-apps/orban-springs/public
-
-      const path = join(process.cwd(), 'public', file.name)
-      const doUpload = await writeFile(path, buffer)
-    }
     const doUpdate = await prisma.team_members.update({
       where: {
         tmemberid: parseInt(id)
@@ -1129,7 +1059,7 @@ export async function updateTeam(id: string, prevState: any, formData: FormData)
         tmember: parsedData.name,
         tmember_slug: slugify(parsedData.name),
         tmemberprofile: parsedData.profile,
-        tmemberphoto: file.name !== '' && file.name !== null && file.name !== 'undefined' ? file.name : parsedData.picture,
+        tmemberphoto: parsedData.uploadedpic || parsedData.photourl,
         tmemberposition: parsedData.position,
         tmemberrank: parseInt(parsedData.ranking),
       }
@@ -1190,19 +1120,6 @@ export async function createArticle(story: string, prevState: any, formData: For
   })
 
   try {
-    //   const file: File | null = formData.get('photo') as unknown as File
-    //   if (file) {
-
-    //   const bytes = await file.arrayBuffer()
-    //   const buffer = Buffer.from(bytes)
-
-    //   // With the file data in the buffer, you can do whatever you want with it.
-    //   // For this, we'll just write it to the filesystem in a new location
-    //   // /Users/afamnnaji/Desktop/next-apps/orban-springs/public
-
-    //   const path = join(process.cwd(), 'public/blog', file.name)
-    //   const doUpload = await writeFile(path, buffer)
-    // }
 
     let cleanText = removeTags(story) || ''
 
@@ -1272,19 +1189,6 @@ export async function updateArticle(id: string, story: string, prevState: any, f
     date_published: formData.get('date_published')
   })
   try {
-    // const file: File | null = formData.get('photo') as unknown as File
-    // if (file) {
-
-    // const bytes = await file.arrayBuffer()
-    // const buffer = Buffer.from(bytes)
-
-    // // With the file data in the buffer, you can do whatever you want with it.
-    // // For this, we'll just write it to the filesystem in a new location
-    // // /Users/afamnnaji/Desktop/next-apps/orban-springs/public
-
-    // const path = join(process.cwd(), 'public/blog', file.name)
-    // const doUpload = await writeFile(path, buffer)
-    // }
 
     let cleanText = removeTags(story) || ''
 

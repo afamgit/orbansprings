@@ -8,7 +8,7 @@ import Link from "next/link";
 import Breadcrumbs from "@/app/ui/breadcrumbs";
 import { Metadata } from "next";
 import Pagination from "@/app/ui/pagination";
-import { fetchUsers } from "@/app/utils/data";
+import { fetchUsers, getProfileUser } from "@/app/utils/data";
 import Teams from "@/app/ui/teams";
 import Users from "@/app/ui/users";
 import {
@@ -20,6 +20,8 @@ import {
 import UsersByNumbers from "@/app/components/users-by-numbers";
 import { SubscriptionType } from "@/app/components/subscrription-type";
 import { Location } from "@/app/components/location";
+import WaterMerchantQrCode from "@/app/components/water-merchant-qr-code";
+import { auth } from "@/auth";
 
 export const metadata: Metadata = {
   title: "Vendor Merchants",
@@ -40,6 +42,7 @@ export default async function Page({
   const subscription = searchParams?.subscription || "Basic";
   const location = searchParams?.location || "";
 
+  
   const total = await fetchUsers(query, subscription, location);
 
   const totalSubscription = await prisma.users.count({
