@@ -1,6 +1,6 @@
 import Breadcrumbs from "@/app/ui/breadcrumbs";
 import { Metadata } from "next";
-import { fetchUsers, getProfileUser } from "@/app/utils/data";
+import { getProfileUser } from "@/app/utils/data";
 import { auth } from "@/auth";
 import WaterMerchantQrCode from "@/app/components/water-merchant-qr-code";
 
