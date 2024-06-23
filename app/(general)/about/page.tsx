@@ -146,7 +146,7 @@ export default async function Page() {
                     >
                       <div className="w-64 h-64">
                         <Image
-                          src={`/${photoImg}`}
+                          src={`${photoImg}`}
                           height={300}
                           width={300}
                           alt={item.tmember}
