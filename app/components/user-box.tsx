@@ -1,6 +1,4 @@
 import '@/app/globals.css'
-import {AdminSideBar} from '@/app/components/admin-sidebar'
-import { PowerIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import { auth, getUserFromEmail } from '@/auth'
 import { ErrorBoundary } from "react-error-boundary";
