@@ -124,6 +124,7 @@ export function AddTeamForm() {
           />
           </div>
         </div>
+        <input type="hidden" id="photourl" name="photourl" value={blob?.url}/>
 
     
         <div className='flex my-2 py-2'>

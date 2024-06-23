@@ -1047,7 +1047,8 @@ export async function updateTeam(id: string, prevState: any, formData: FormData)
     name: formData.get('name'),
     profile: formData.get('profile'),
     position: formData.get('position'),
-    picture: formData.get('picture'),
+    photourl: formData.get('photourl'),
+    uploadedpic: formData.get('uploadedpic'),
   })
   try {
 
