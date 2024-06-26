@@ -54,6 +54,11 @@ export function AdminSideBar () {
                 {(pathname?.endsWith('products')) ? <MeterIcon /> : <MeterIconWhite />} <span className="ml-2">Products</span> 
                 </div>
             </Link>
+            <Link className='px-1' href='/account/subscriptions'>
+                <div className={`w-full flex justify-start items-center md:px-8 text-xl ${pathname?.endsWith('subscriptions') && 'bg-slate-100 text-sky-400 py-1'}`}>
+                {pathname?.endsWith('subscriptions') ? <ComplaintsIcon /> : <ComplaintsIconWhite />} <span className="ml-2">Subscription Plans</span> 
+                </div>
+            </Link>
             <Link className='px-1' href='/account/areagroups'>
                 <div className={`w-full flex justify-start items-center md:px-8 text-xl ${(pathname?.endsWith('areagroups')) && 'bg-slate-100 text-sky-400 py-1'}`}>
                 {(pathname?.endsWith('areagroups')) ? <MeterIcon /> : <MeterIconWhite />} <span className="ml-2">Area Groups</span> 

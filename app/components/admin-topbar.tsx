@@ -42,6 +42,11 @@ export async function AdminTopBar () {
                     Products
                 </li>
             </Link>
+            <Link className='p-3' href='/account/subscriptions'>
+                <li className={`px-1`}>
+                    Subscription Plans
+                </li>
+            </Link>
             <Link className='p-3' href='/account/areagroups'>
                 <li className={`px-1`}>
                     Area Groups

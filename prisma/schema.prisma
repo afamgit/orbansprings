@@ -162,36 +162,40 @@ model products {
 }
 
 model requests {
-  id                   Int      @id @default(autoincrement())
-  uuid                 String?  @db.Char(36)
-  orderid              Int
-  orderref             String   @db.VarChar(25)
-  orderdetails         String   @db.Text
-  req_type             String   @db.VarChar(30)
-  task                 String?  @db.Text
-  howmany              Int?     @db.TinyInt
-  productid            Int
-  productname          String   @db.VarChar(75)
-  amount               Float    @db.Float
-  commission           Float    @db.Float
-  customerid           Int
-  customername         String   @db.VarChar(75)
-  customerphone        String   @db.VarChar(50)
-  customeraddress      String   @db.VarChar(100)
-  customerarea         String   @db.VarChar(75)
-  customerareagroup    String?  @db.VarChar(30)
-  third_party_delivery String   @db.VarChar(5)
-  customerlatitude     Decimal  @db.Decimal(8, 6)
-  customerlongitude    Decimal  @db.Decimal(9, 6)
-  address              String?  @db.VarChar(255)
-  driverid             Int?
-  drivername           String?  @db.VarChar(75)
-  driverphone          String?  @db.VarChar(50)
-  driveremail          String?  @db.VarChar(100)
-  drivervehicleplateno String?  @db.VarChar(50)
-  status               String   @default(dbgenerated("(pending)")) @db.VarChar(255)
-  createdAt            DateTime @db.DateTime(0)
-  updatedAt            DateTime @updatedAt @db.DateTime(0)
+  id                    Int      @id @default(autoincrement())
+  uuid                  String?  @db.Char(36)
+  orderid               Int
+  orderref              String   @db.VarChar(25)
+  orderdetails          String   @db.Text
+  req_type              String   @db.VarChar(30)
+  task                  String?  @db.Text
+  howmany               Int?     @db.TinyInt
+  productid             Int
+  productname           String   @db.VarChar(75)
+  amount                Float    @db.Float
+  commission            Float    @db.Float
+  customerid            Int
+  customername          String   @db.VarChar(75)
+  customerphone         String   @db.VarChar(50)
+  customeraddress       String   @db.VarChar(100)
+  customerarea          String   @db.VarChar(75)
+  customerareagroup     String?  @db.VarChar(30)
+  third_party_delivery  String   @db.VarChar(5)
+  third_party_name      String?  @db.VarChar(100)
+  third_party_phone     String?  @db.VarChar(25)
+  third_party_areagroup String?  @db.VarChar(30)
+  third_party_address   String?  @db.VarChar(200)
+  customerlatitude      Decimal  @db.Decimal(8, 6)
+  customerlongitude     Decimal  @db.Decimal(9, 6)
+  address               String?  @db.VarChar(255)
+  driverid              Int?
+  drivername            String?  @db.VarChar(75)
+  driverphone           String?  @db.VarChar(50)
+  driveremail           String?  @db.VarChar(100)
+  drivervehicleplateno  String?  @db.VarChar(50)
+  status                String   @default(dbgenerated("(pending)")) @db.VarChar(255)
+  createdAt             DateTime @db.DateTime(0)
+  updatedAt             DateTime @updatedAt @db.DateTime(0)
 }
 
 model shopinfo {
@@ -318,6 +322,10 @@ model transactions {
   customerarea               String   @db.VarChar(75)
   customerareagroup          String?  @db.VarChar(30)
   third_party_delivery       String   @db.VarChar(5)
+  third_party_name           String?  @db.VarChar(75)
+  third_party_phone          String?  @db.VarChar(30)
+  third_party_areagroup      String?  @db.VarChar(30)
+  third_party_address        String?  @db.VarChar(250)
   customerlatitude           Decimal  @db.Decimal(8, 6)
   customerlongitude          Decimal  @db.Decimal(9, 6)
   status                     String   @default(dbgenerated("(New)")) @db.VarChar(255)
@@ -461,16 +469,20 @@ model meter_tanker_entries {
 }
 
 model meters {
-  meterid       Int      @id @default(autoincrement())
-  m_unique_id   String   @unique(map: "m_unique_id") @db.VarChar(100)
-  m_for         String   @default(dbgenerated("(Domestic Use)")) @db.VarChar(100)
-  m_assigned    String   @default(dbgenerated("(No)")) @db.VarChar(25)
-  m_assigned_to String?  @db.VarChar(100)
-  m_area        String?  @db.VarChar(75)
-  m_status      String   @default(dbgenerated("(Inactive)")) @db.VarChar(15)
-  m_valve_state String   @default(dbgenerated("(Closed)")) @db.VarChar(15)
-  createdAt     DateTime @db.DateTime(0)
-  updatedAt     DateTime @updatedAt @db.DateTime(0)
+  meterid            Int      @id @default(autoincrement())
+  m_account_number   String?  @db.VarChar(30)
+  m_unique_id        String   @unique(map: "m_unique_id") @db.VarChar(100)
+  m_for              String   @default(dbgenerated("(Domestic Use)")) @db.VarChar(100)
+  m_assigned         String   @default(dbgenerated("(No)")) @db.VarChar(25)
+  m_assigned_to      String?  @db.VarChar(100)
+  m_assigned_name    String?  @db.VarChar(100)
+  m_assigned_phone   String?  @db.VarChar(30)
+  m_assigned_address String?  @db.VarChar(200)
+  m_area             String?  @db.VarChar(75)
+  m_status           String   @default(dbgenerated("(Inactive)")) @db.VarChar(15)
+  m_valve_state      String   @default(dbgenerated("(Closed)")) @db.VarChar(15)
+  createdAt          DateTime @db.DateTime(0)
+  updatedAt          DateTime @updatedAt @db.DateTime(0)
 }
 
 model contact_messages {
@@ -654,6 +666,18 @@ model articles {
   artstatus       String   @default(dbgenerated("(Published)")) @db.VarChar(20)
   views           Int      @default(3)
   published_date  String   @db.VarChar(20)
+  createdAt       DateTime @db.DateTime(0)
+  updatedAt       DateTime @db.DateTime(0)
+}
+
+model subscription_plans {
+  subplanid       Int      @id @default(autoincrement())
+  subplan_cat     String   @default(dbgenerated("(Premium)")) @db.VarChar(30)
+  subplan         String   @db.VarChar(150)
+  subplan_amount  Float    @default(0.00) @db.Float
+  subplan_months  String   @db.VarChar(5)
+  subplan_include String   @db.VarChar(200)
+  subplan_exclude String   @db.VarChar(200)
   createdAt       DateTime @db.DateTime(0)
   updatedAt       DateTime @db.DateTime(0)
 }

@@ -1092,6 +1092,111 @@ export async function deleteTeam(id: string) {
   }
 }
 
+export async function createSubscription(prevState: any, formData: FormData) {
+  const schema = z.object({
+    cat: z.string(),
+    name: z.string(),
+    amount: z.coerce.number(),
+    months: z.string(),
+    includes: z.string(),
+    excludes: z.string(),
+  })
+  const parsedData = schema.parse({
+    cat: formData.get('cat'),
+    name: formData.get('spname'),
+    amount: formData.get('amount'),
+    months: formData.get('months'),
+    includes: formData.get('includes'),
+    excludes: formData.get('excludes'),
+  })
+
+  try {
+
+    const doInsert = await prisma.subscription_plans.create({
+      data: {
+        subplan_cat: parsedData.cat,
+        subplan: parsedData.name,
+        subplan_amount: parsedData.amount,
+        subplan_months: parsedData.months,
+        subplan_include: parsedData.includes,
+        subplan_exclude: parsedData.excludes,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+    })
+
+
+  } catch (e) {
+    return { message: 'Failed to create subscription' }
+  }
+
+  revalidatePath('/account/subscriptions')
+  redirect('/account/subscriptions')
+
+}
+
+export async function updateSubscription(id: string, prevState: any, formData: FormData) {
+
+  const schema = z.object({
+    cat: z.string(),
+    name: z.string(),
+    amount: z.coerce.number(),
+    months: z.string(),
+    includes: z.string(),
+    excludes: z.string(),
+  })
+  const parsedData = schema.parse({
+    cat: formData.get('cat'),
+    name: formData.get('spname'),
+    amount: formData.get('amount'),
+    months: formData.get('months'),
+    includes: formData.get('includes'),
+    excludes: formData.get('excludes'),
+  })
+
+  try {
+
+    const doUpdate = await prisma.subscription_plans.update({
+      where: {
+        subplanid: parseInt(id)
+      },
+      data: {
+        subplan_cat: parsedData.cat,
+        subplan: parsedData.name,
+        subplan_amount: parsedData.amount,
+        subplan_months: parsedData.months,
+        subplan_include: parsedData.includes,
+        subplan_exclude: parsedData.excludes,
+        updatedAt: new Date()
+      }
+    })
+
+  } catch (e) {
+    return { message: 'Failed to update subscription' }
+  }
+
+  revalidatePath('/account/subscriptions')
+  redirect('/account/subscriptions')
+}
+
+export async function deleteSubscription(id: string) {
+
+  try {
+    await prisma.subscription_plans.delete({
+      where: {
+        subplanid: parseInt(id)
+      }
+    })
+
+    revalidatePath('/account/subscriptions')
+
+    return { message: 'Deleted subscription plan' }
+
+  } catch (e) {
+    return { message: 'Failed to delete subscription plan' }
+  }
+}
+
 export async function createArticle(story: string, prevState: any, formData: FormData) {
   const schema = z.object({
     category: z.string(),

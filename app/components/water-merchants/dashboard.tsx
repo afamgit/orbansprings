@@ -26,7 +26,7 @@ export default async function WaterMerchantDashboard() {
         <h1 className="font-bold text-2xl">Water Merchant Dashboard</h1>
       </div>
 
-      <div className="w-full flex justify-start items-start"><WaterMerchantQrCode id={profile?.id.toString() || ''} name={profile?.name.toString() || ''} type="" /></div>
+      <div className="w-full flex justify-start items-start"><WaterMerchantQrCode id={profile?.id.toString() || ''} name={profile?.username.toString() || ''} type="" /></div>
 
 
     </div>
