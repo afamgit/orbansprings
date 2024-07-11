@@ -3,9 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { NewsletterSignup } from './newsletter-sign-up-form'
-import {FaEnvelope, FaFacebook, FaInstagram, FaTwitter} from 'react-icons/fa'
+import {FaCopyright, FaEnvelope, FaFacebook, FaInstagram, FaTwitter} from 'react-icons/fa'
 import {AiFillPhone} from 'react-icons/ai'
 import Image from 'next/image'
+import moment from "moment";
 
 const Footer = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -58,6 +59,14 @@ const Footer = () => {
           </div>
       </div>
       <hr className='max-w-[1200px] mx-auto py-3' />
+      <div className="w-[1200px] mx-auto flex justify-between">
+        <div className="flex items-center mb-2">
+        <div className='flex items-center mx-2'>Copyright <FaCopyright className="pl-2" size={24} /> {moment().format('YYYY')}</div>
+            <Link href='/page/terms-of-service'><div className='flex items-center mx-2 py-1'>Terms of service</div></Link>
+            <Link href='/page/privacy-policy'><div className='flex items-center mx-2 py-1'>Privacy policy</div></Link>
+        </div>
+            <a href="https://justwebservices.com" target="_blank"><div className='flex items-center my-1 py-1'>Developed by Just Web Services</div></a>
+          </div>
     </div>
   );
 };
