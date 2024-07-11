@@ -3,7 +3,8 @@ import Image from 'next/image';
 import moment from 'moment';
 import { BsEyeFill } from 'react-icons/bs';
 import type { Metadata, ResolvingMetadata } from 'next'
- 
+import { unstable_noStore as noStore } from 'next/cache';
+
 type Props = {
   params: { content: string }
   searchParams: { [key: string]: string | string[] | undefined }
@@ -44,6 +45,7 @@ type Props = {
 
 export default async function Page({params}: {params: {content: string}}) {
     const {content} = params;
+    noStore()
 
     const post = await prisma.contentpages.findFirst({
         where: {
