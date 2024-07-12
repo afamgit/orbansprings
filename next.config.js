@@ -31,6 +31,12 @@ const nextConfig = {
             hostname: 'aretywrh7vrc3oul.public.blob.vercel-storage.com',
             port: '',
             pathname: '/**',
+          },
+          {
+            protocol: 'https',
+            hostname: 'app.orbansprings.com',
+            port: '',
+            pathname: '/**',
           }
         ],
       },

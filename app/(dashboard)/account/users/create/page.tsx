@@ -1,5 +1,6 @@
 import {AddUserForm} from '@/app/components/user-form'
 import Breadcrumbs from '@/app/ui/breadcrumbs'
+import { fetchAllAreaGroups } from '@/app/utils/data';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -7,6 +8,8 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
+
+  const areagroups = await fetchAllAreaGroups();
 
       return (
         <main className='w-full md:w-[1100px] flex flex-col justify-center items-center'>
@@ -26,7 +29,7 @@ export default async function Page() {
             ]}
             />
             </div>
-         <AddUserForm />
+         <AddUserForm areagroup={areagroups} />
         </main>
       )
 }

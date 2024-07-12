@@ -2,6 +2,7 @@ import { prisma } from '@/scripts';
 import { UpdateUserForm } from '@/app/components/user-form';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 import { Metadata } from 'next';
+import { fetchAllAreaGroups } from '@/app/utils/data';
 
 export const metadata: Metadata = {
     title: 'Edit user',
@@ -10,11 +11,16 @@ export const metadata: Metadata = {
 export default async function User({params}: {params: {id: string}}) {
     const id = parseInt(params.id);
 
-    const user = await prisma.users.findUnique({
+    const userFind = await prisma.users.findUnique({
         where: {
             id: id
         }
     })
+
+    const user = JSON.parse(JSON.stringify(userFind))
+
+    const areagroups = await fetchAllAreaGroups();
+
 
 
     return (
@@ -35,6 +41,6 @@ export default async function User({params}: {params: {id: string}}) {
         ]}
         />
         </div>
-<UpdateUserForm user={user} />
+<UpdateUserForm user={user} areagroup={areagroups} />
 </main>)
 }

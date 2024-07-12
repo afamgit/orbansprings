@@ -7,10 +7,11 @@ import { prisma } from '@/scripts'
 import { z } from 'zod'
 import process from 'process'
 import { slugify, removeTags } from "./snippets"
-import { signIn, signOut } from "../../auth"
+import { auth, signIn, signOut } from "../../auth"
 import { AuthError } from "next-auth"
 import bcrypt from 'bcrypt'
 import { v4 as uuidv4 } from 'uuid';
+import { getProfileUser } from "./data"
 
 
 const arrayRange = (start: number, stop: number, step: number) =>
@@ -1766,117 +1767,138 @@ export async function replyComplaint(id: string, prevState: any, formData: FormD
 
 export async function createUser(prevState: any, formData: FormData) {
   const schema = z.object({
-    ranking: z.string(),
-    name: z.string(),
-    profile: z.string(),
-    position: z.string(),
+    first_name: z.string(),
+    last_name: z.string(),
+    email: z.string().email(),
+    phone: z.string(),
+    address: z.string(),
+    areagroup: z.string(),
+    latitude: z.coerce.number() || 0,
+    longitude: z.coerce.number() || 0,
+    username: z.string(),
+    password: z.string(),
+    userrole: z.string(),
+    photourl: z.string(),
   })
   const parsedData = schema.parse({
-    ranking: formData.get('ranking'),
-    name: formData.get('name'),
-    profile: formData.get('profile'),
-    position: formData.get('position'),
+    first_name: formData.get('first_name'),
+    last_name: formData.get('last_name'),
+    email: formData.get('email'),
+    phone: formData.get('phone'),
+    address: formData.get('address'),
+    areagroup: formData.get('areagroup'),
+    latitude: formData.get('latitude'),
+    longitude: formData.get('longitude'),
+    username: formData.get('username'),
+    password: formData.get('password'),
+    userrole: formData.get('userrole'),
+    photourl: formData.get('photourl'),
   })
 
+  const userInfo = await auth()
+
+  const usrEmail = userInfo?.user.email || ''
+
+  const profile = await getProfileUser(usrEmail)
+
   try {
-    const file: File | null = formData.get('photo') as unknown as File
-    if (!file) {
-      throw new Error('No file uploaded')
-    }
+    const name = `${parsedData.first_name} ${parsedData.last_name}`
+    const hashedPassword = await bcrypt.hash(parsedData.password,10)
 
-
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
-
-    // With the file data in the buffer, you can do whatever you want with it.
-    // For this, we'll just write it to the filesystem in a new location
-    // /Users/afamnnaji/Desktop/next-apps/orban-springs/public
-    console.log("Current working directory: ",
-      process.cwd());
-    const path = join(process.cwd(), 'public', file.name)
-    const doUpload = await writeFile(path, buffer)
-
-    const doInsert = await prisma.team_members.create({
+    const doInsert = await prisma.users.create({
       data: {
-        tmcategory: 'Staff',
-        tmember: parsedData.name,
-        tmember_slug: slugify(parsedData.name),
-        tmemberprofile: parsedData.profile,
-        tmemberphoto: file.name,
-        tmemberposition: parsedData.position,
-        tmemberrank: parseInt(parsedData.ranking),
-        tmemberdateadded: new Date(),
-        tmembersummary: parsedData.profile,
-        tmemberpostedby: 'Admin',
-        tmember_email: '',
-        tmember_facebook: '',
-        tmember_instagram: '',
-        tmember_linkedin: '',
-        tmember_phone: '',
-        tmember_twitter: '',
+        name: name,
+        first_name: parsedData.first_name,
+        last_name: parsedData.last_name,
+        fleetid: 0,
+        username: name,
+        password: hashedPassword,
+        email: parsedData.email,
+        phone: parsedData.phone,
+        address: parsedData.address,
+        subscription_plan: 'Basic',
+        role: parsedData.userrole,
+        photo: parsedData.photourl,
+        latitude: parsedData.latitude,
+        longitude: parsedData.longitude,
+        areagroup: parsedData.areagroup,
+        isactive: true,
+        isverified: true,
+        verifiedby: profile?.name,
+        terms: true,
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     })
 
 
   } catch (e) {
-    return { message: 'Failed to create user' }
+    console.log(e)
+    return { message: 'Failed to create merchant' }
   }
 
-  revalidatePath('/account/users')
-  redirect('/account/users')
+  revalidatePath('/account/users/merchants')
+  redirect('/account/users/merchants')
 
 }
 
 export async function updateUser(id: string, prevState: any, formData: FormData) {
 
   const schema = z.object({
-    ranking: z.string(),
-    name: z.string(),
-    profile: z.string(),
-    position: z.string(),
-    picture: z.string(),
+    first_name: z.string(),
+    last_name: z.string(),
+    email: z.string().email(),
+    phone: z.string(),
+    address: z.string(),
+    areagroup: z.string(),
+    latitude: z.coerce.number() || 0,
+    longitude: z.coerce.number() || 0,
+    userrole: z.string(),
+    photourl: z.string(),
+    uploadedpic: z.string(),
   })
   const parsedData = schema.parse({
-    ranking: formData.get('ranking'),
-    name: formData.get('name'),
-    profile: formData.get('profile'),
-    position: formData.get('position'),
-    picture: formData.get('picture'),
+    first_name: formData.get('first_name'),
+    last_name: formData.get('last_name'),
+    email: formData.get('email'),
+    phone: formData.get('phone'),
+    address: formData.get('address'),
+    areagroup: formData.get('areagroup'),
+    latitude: formData.get('latitude'),
+    longitude: formData.get('longitude'),
+    userrole: formData.get('userrole'),
+    photourl: formData.get('photourl'),
+    uploadedpic: formData.get('uploadedpic'),
   })
-  try {
-    const file: File | null = formData.get('photo') as unknown as File
-    if (file) {
-
-      const bytes = await file.arrayBuffer()
-      const buffer = Buffer.from(bytes)
-
-      // With the file data in the buffer, you can do whatever you want with it.
-      // For this, we'll just write it to the filesystem in a new location
-      // /Users/afamnnaji/Desktop/next-apps/orban-springs/public
-
-      const path = join(process.cwd(), 'public', file.name)
-      const doUpload = await writeFile(path, buffer)
-    }
-    const doUpdate = await prisma.team_members.update({
+    try {
+      const name = `${parsedData.first_name} ${parsedData.last_name}`
+    
+      const doUpdate = await prisma.users.update({
       where: {
-        tmemberid: parseInt(id)
+        id: parseInt(id)
       },
       data: {
-        tmember: parsedData.name,
-        tmember_slug: slugify(parsedData.name),
-        tmemberprofile: parsedData.profile,
-        tmemberphoto: file.name !== '' && file.name !== null && file.name !== 'undefined' ? file.name : parsedData.picture,
-        tmemberposition: parsedData.position,
-        tmemberrank: parseInt(parsedData.ranking),
+        name: name,
+        first_name: parsedData.first_name,
+        last_name: parsedData.last_name,
+        email: parsedData.email,
+        phone: parsedData.phone,
+        address: parsedData.address,
+        role: parsedData.userrole,
+        photo: parsedData.uploadedpic || parsedData.photourl,
+        areagroup: parsedData.areagroup,
+        latitude: parsedData.latitude,
+        longitude: parsedData.longitude,
+        updatedAt: new Date()
       }
     })
 
   } catch (e) {
-    return { message: 'Failed to update user' }
+    return { message: 'Failed to update merchant' }
   }
 
-  revalidatePath('/account/users')
-  redirect('/account/users')
+  revalidatePath('/account/users/merchants')
+  redirect('/account/users/merchants')
 }
 
 export async function deleteUser(id: string) {

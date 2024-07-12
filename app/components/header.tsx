@@ -43,7 +43,12 @@ const NavBar = () => {
               <Link href="/press" className={pathname === '/press' ? "border-b-2 border-gray-700" : 'text-gray-600'}> Press</Link>
             </li>
             <li className="py-2 px-2 text-xl rounded bg-blue-800 text-white">
+            <Link
+              className="py-3 px-6 my-4 rounded bg-blue-800 text-white"
+              href="/#downloadapp"
+            >
               Download App
+            </Link>
             </li>
           </ul>
         </div>

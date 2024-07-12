@@ -27,7 +27,9 @@ export default async function Drivers({
         <main className='w-full flex flex-col justify-start items-start'>
 
 <div className='w-full flex justify-between iteams-center my-2 py-2'>
-             <h1 className='font-bold text-2xl'>Merchants ({total})</h1>         
+             <h1 className='font-bold text-2xl'>Merchants ({total})</h1>  
+             <Link className='rounded-lg w-[200px] text-center px-3 py-2 bg-gray-800 text-white' href='/account/users/create'>Add new merchant</Link>
+       
          </div> 
 
          
@@ -53,7 +55,7 @@ export default async function Drivers({
             <td>No of fleets</td>
             <td>Paid Sub</td>
             <td>Outstanding bal</td>
-            <td className='flex justify-end'><DeleteUser id={id} /></td>
+            <td className='flex justify-end'><UpdateUser user={item} /> <DeleteUser id={id} /></td>
           </tr>
         )
     }

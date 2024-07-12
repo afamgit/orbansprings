@@ -55,9 +55,13 @@ noStore()
         <h1 className='text-3xl md:text-5xl text-white'>Clean & Affordable Water</h1>
         <h1 className='text-3xl md:text-5xl  py-1'>At Your Finger Tips</h1>
         <p className='text-sm md:text-xl py-2'>Get water, when you need it! Efficient potable water delivery service at your fingertips.</p>
-        <button className="py-3 px-6 my-4 rounded bg-blue-800 text-white">
-          Download App
-        </button>
+        
+        <Link
+              className="py-3 px-6 my-4 rounded bg-blue-800 text-white"
+              href="#downloadapp"
+            >
+              Download App
+            </Link>
       </div>
     </div>
   </div>
@@ -103,17 +107,17 @@ noStore()
 
           return (
             <Link href={`/press/${item.titleslug}`} key={i} className='w-full md:flex gap-2 p-3'>
-                <div className='w-full md:w-2/5'>
+                <div className='w-full md:w-1/5'>
                 <Image
             key={i}
-              height={400}
-              width={500}
+              height={200}
+              width={300}
               src={`${imgSrc}`}
               alt={item.title}
               className='rounded-lg'
             />
                 </div>
-                <div className='w-full md:w-3/5 mt-2 p-2 md:p-5'>
+                <div className='w-full md:w-4/5 mt-2 p-2 md:p-5'>
                 <h3 className='text-xl text-gray-800 md:text-3xl'>{item.title}</h3>
 
             <div className='my-1 py-2 flex justify-start items-start'>
@@ -122,7 +126,7 @@ noStore()
                 </div>
             </div>
 
-            <div dangerouslySetInnerHTML={{__html: `${item.fullcontent.split(' ',200).join(' ')}`}} />
+            <div dangerouslySetInnerHTML={{__html: `${item.fullcontent.split(' ',75).join(' ')}`}} />
 
             <p className='text-sky-400 font-bold text-xl flex items-center'>Read more <BsArrowUpRight size={18} className='text-sm' /></p>
 
@@ -143,7 +147,7 @@ noStore()
       </div>
       </div>
 
-<div className='my-5'>
+<div className='my-5' id='downloadapp'>
   <BottomAppBanner />
   </div>
 

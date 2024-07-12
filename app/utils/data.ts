@@ -367,6 +367,19 @@ export async function fetchNewsletters(query: string) {
 }
 
 
+export async function fetchAllAreaGroups() {
+
+  try {
+    const areagroups = await prisma.area_groups.findMany({
+      orderBy: {agname:'asc'},
+    })
+    return areagroups;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch area groups.');
+  }
+}
+
 export async function fetchFilteredAreaGroups(
   query: string,
   currentPage: number,
@@ -642,7 +655,7 @@ export async function fetchFilteredMerchants(
 
   try {
     const users = await prisma.users.findMany({
-      where: { AND: [{ OR: [{ role: 'fleetownerdriver' }, { role: 'fleetownerplumber' }] }, { OR: [{ name: { contains: query } }, { email: { contains: query } }, { phone: { contains: query } }, { username: { contains: query } }] }] },
+      where: { AND: [{ OR: [{ role: 'fleetownerdriver' }, { role: 'fleetownerplumber' }, { role: 'watermerchant' }] }, { OR: [{ name: { contains: query } }, { email: { contains: query } }, { phone: { contains: query } }, { username: { contains: query } }] }] },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -656,7 +669,7 @@ export async function fetchFilteredMerchants(
 export async function fetchUserMerchants(query: string) {
   try {
     const users = await prisma.users.count({
-      where: { OR: [{ role: 'fleetownerdrivers' }, { role: 'fleetownerplumber' }] }
+      where: { OR: [{ role: 'fleetownerdriver' }, { role: 'fleetownerplumber' }, { role: 'watermerchant' }] }
     })
     const totalPages = Math.ceil(Number(users) / ITEMS_PER_PAGE);
     return totalPages;

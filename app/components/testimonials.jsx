@@ -72,13 +72,14 @@ const [filteredData, setFilteredData] = useState([]);
           <div className="flex flex-col justify-center items-center rounded px-2 py-4 md:p-5">
             <div className="flex flex-col md:flex-row justify-content items-center w-full h-full md:w-[1200px] mx-auto py-5 md:h-[500px] overflow-y-scroll">
               {filteredData.length > 0 && filteredData.map((item,i) => {
+                const imgUrl = item?.tphoto.includes('https') ? `${item?.tphoto}` : `/${item?.tphoto}`
                 return (
                     <div key={i} className="relative h-full md:h-[400px] flex flex-col w-full md:w-2/5 mx-auto justify-between items-center bg-white rounded-xl px-10 py-5 my-6 transition duration-700 ease-in-out">
                     
                   <div className='p-3 absolute -top-[50px]'>
                       {item.tphoto !== "" && (
                         <Image
-                          src={`/${item.tphoto}`}
+                          src={`${imgUrl}`}
                           alt={item.tcustomer}
                           height={120}
                           width={120}

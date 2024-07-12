@@ -58,7 +58,7 @@ export default async function Users({
             <td>{volumeBought(item.id)}</td>
             <td>{item.subscription_plan}</td>
             <td>{moment(item.createdAt).format('DD/MM/YYYY')}</td>
-            <td className='flex justify-end'><DeleteUser id={id} /></td>
+            <td className='flex justify-end'><UpdateUser user={item} /> <DeleteUser id={id} /></td>
           </tr>
         )
     }

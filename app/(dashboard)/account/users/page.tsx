@@ -8,7 +8,7 @@ import Link from "next/link";
 import Breadcrumbs from "@/app/ui/breadcrumbs";
 import { Metadata } from "next";
 import Pagination from "@/app/ui/pagination";
-import { fetchUsers } from "@/app/utils/data";
+import { fetchFilteredAreaGroups, fetchUsers } from "@/app/utils/data";
 import Teams from "@/app/ui/teams";
 import Users from "@/app/ui/users";
 import {
@@ -79,7 +79,8 @@ export default async function Page({
 
       <UsersByNumbers />
 
-      <div className="w-full flex justofy-start items-center m-2 p-3">
+      <div className="w-full flex justify-between items-center my-2">
+        <div className="w-full flex justofy-start items-center m-2 p-3">
         <Link
           className="text-4xl text-gray-900 font-medium"
           href="/account/users"
@@ -104,6 +105,8 @@ export default async function Page({
         >
           Merchants
         </Link>
+      </div>
+
       </div>
 
       <div className="w-full rounded-lg border-2 border-gray-200 p-3">
