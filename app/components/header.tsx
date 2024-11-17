@@ -15,7 +15,7 @@ const NavBar = () => {
 
   return (
     <div className="sticky top-0 bg-white text-dark border-b-2 border-gray-300 z-10">
-      <div className="max-w-[1200px] mx-auto flex justify-between items-center text-dark h-[100px] px-3">
+      <div className="w-full md:max-w-[1200px] mx-auto flex justify-between items-center text-dark h-[100px] px-3">
         <div
           style={{ height: "90px", width: "300px", objectFit: "cover" }}
           className="flex justify-start content-center"

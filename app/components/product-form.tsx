@@ -75,7 +75,7 @@ export function AddProductForm() {
             required
             className="block w-full p-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
           >
-            <option value='Water package'>Water package</option>
+            <option value='Water packages'>Water packages</option>
             <option value='Tank cleaning'>Tank cleaning</option>
             <option value='Plumbing'>Plumbing</option>
             <option value='Grid water'>Grid water</option>
@@ -308,7 +308,7 @@ export function AddProductForm() {
             required
             className="block w-full p-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
           >
-            <option value='Water package'>Water package</option>
+            <option value='Water packages'>Water packages</option>
             <option value='Tank cleaning'>Tank cleaning</option>
             <option value='Plumbing'>Plumbing</option>
             <option value='Grid water'>Grid water</option>

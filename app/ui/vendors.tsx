@@ -48,7 +48,7 @@ export default async function Vendors({
   })
   const vendorBox = <div className='flex flex-col'>
     <div className='flex'>
-      <h4 className='mr-2 text-2xl'>{vendor?.name} </h4>
+      <Link className='text-2xl' href={`/account/users/${vendor?.id}/vendor-detail?showDialog=y`}>{vendor?.name}</Link>
     </div>
     <div className='text-gray-400 text-xl'>{vendor?.area}</div>
   </div>

@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import { getProfileUser } from "@/app/utils/data";
 import { auth } from "@/auth";
 import WaterMerchantQrCode from "@/app/components/water-merchant-qr-code";
+import { slugify } from "@/app/utils/snippets";
 
 export const metadata: Metadata = {
   title: "Customers",
@@ -27,6 +28,7 @@ export default async function Page({
   
   const profile = await getProfileUser(userInfo?.user.email || "")
   
+  const wmname = slugify(profile?.name ||'')
 
   return (
     <main className="w-full md:w-[1100px] flex flex-col justify-center items-center">
@@ -44,7 +46,7 @@ export default async function Page({
       </div>
 
       <div>
-      <div><WaterMerchantQrCode id={profile?.id.toString() || ''} name={profile?.name.toString() || ''} type="" /></div>
+      <div><WaterMerchantQrCode id={profile?.id.toString() || ''} name={wmname.toString()} type="" /></div>
 
       </div>
     </main>

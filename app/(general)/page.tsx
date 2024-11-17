@@ -46,7 +46,7 @@ noStore()
 
 
   return (
-    <div className="bg-gray-100">
+    <div className="bg-gray-100 w-full">
         <div
     className="bg-[url('/running_water_bg.jpg')] bg-center h-[500px] md:h-screen w-full" style={{backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}}
   >
@@ -70,11 +70,11 @@ noStore()
       </div>
 
       <div className='py-3 md:p-6 bg-white'>
-        <div className='py-3 bg-white w-full max-w-[1200px] mx-auto'>
+        <div className='py-3 bg-white w-full md:max-w-[1200px] mx-auto'>
         <h1 className='my-4 py-3 text-gray-800  text-center text-3xl md:text-5xl'>How to get started</h1>
 
         <div className='flex justify-center items-center'>
-        <div className='md:flex'>
+        <div className='md:flex md:grid md:grid-cols-4'>
 
         {gettingStarted.map((item,i) => {
           return (
@@ -101,7 +101,7 @@ noStore()
 
       <div className='bg-gray-200 p-8 text-gray-900'>
         <h1 className='text-5xl text-center text-gray-800 my-3 py-3'>Press</h1>
-        <div className='w-full md:w-[1200px] mx-auto flex justify-start items-center flex-wrap'>
+        <div className='w-full md:max-w-[1200px] mx-auto flex justify-start items-center flex-wrap'>
         {blogs.map((item,i) => {
             let imgSrc = item.artphoto?.includes('images') ? `https://orbansprings.com/${item.artphoto}` : `${item.artphoto}`
 
@@ -138,7 +138,7 @@ noStore()
 
       <div className='p-3 md:p-5'>
         <h1 className='text-5xl text-center my-3 py-3 text-gray-800'>Our Partners</h1>
-        <div className='w-full md:w-[1200px] mx-auto flex justify-center items-center flex-wrap'>
+        <div className='w-full md:max-w-[1200px] mx-auto flex justify-center items-center flex-wrap'>
         {partners.map((item,i) => {          
           return <div className='p-1 m-1 flex flex-col justify-center items-center md:p-3 md:m-3 bg-blue-900 rounded-lg' key={i}>
             <h3 className='font-bold text-white'>{item.cpagename}</h3>

@@ -31,7 +31,7 @@ export async function HomeServices() {
                 <h1 className='text-3xl md:text-4xl text-gray-800 font-medium text-center my-2 py-2'>What We Offer</h1>
                 <h3 className='text-center text-2xl text-gray-800 mb-3'>We deliver technology-backed solutions for efficient water accessibility, water distribution and water management</h3>
 
-        <div className='w-full md:w-[1300px] mx-auto flex justify-center items-center flex-wrap bg-gray-100'>
+        <div className='w-full md:max-w-[1300px] mx-auto flex justify-center items-center flex-wrap bg-gray-100'>
         {services.map((item,i) => {
           return <div className='px-1 py-3 flex flex-col justify-center items-center w-[350px] h-[400px] mx-7 my-3 rounded' key={i}>
             <div className="w-64 h-64">

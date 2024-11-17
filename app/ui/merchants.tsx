@@ -51,7 +51,7 @@ export default async function Drivers({
         return (
             <tr key={i} className='border-b-slate-100 border-b-2'>
             <td>{++i}</td>
-            <td>{item.name}<br />{item.role}</td>
+            <td><Link className='text-xl' href={`/account/users/${item.id}/merchant-detail?showDialog=y`}>{item.name}</Link><br />{item.role}</td>
             <td>No of fleets</td>
             <td>Paid Sub</td>
             <td>Outstanding bal</td>

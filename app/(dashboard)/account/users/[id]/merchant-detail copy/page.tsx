@@ -26,9 +26,10 @@ import { FaEllipsis, FaEllipsisVertical } from "react-icons/fa6";
 import { CustomerDropdown } from "@/app/components/customer-dropdown";
 import DriverOrders from "@/app/ui/driver-orders";
 import { DriverDropdown } from "@/app/components/driver-dropdown";
+import VendorOrders from "@/app/ui/vendor-orders";
 
 export const metadata: Metadata = {
-  title: "Users",
+  title: "Users | Vendors",
 };
 
 export default async function Page({
@@ -100,7 +101,7 @@ export default async function Page({
         <div className="w-full rounded-lg border-2 border-gray-200 p-3">
           <div className="w-full flex justify-between items-center">
           <div className="flex justify-start items-center">
-            <Link className="text-gray-900 mr-2" href="/account/users/merchants">
+            <Link className="text-gray-900 mr-2" href="/account/users/vendors">
               <FaChevronLeft size={24} className='outline-0' />
             </Link>
             <Image 
@@ -155,11 +156,10 @@ export default async function Page({
               />
             </div>
           </div>
-          <DriverOrders
+          <VendorOrders
             query={query}
             currentPage={currentPage}
-            product={product}
-            id={id}
+            fleet={id}
           />
           <div className="mt-5 flex w-full justify-center">
             <Pagination totalPages={total} />
@@ -176,8 +176,8 @@ export default async function Page({
               href: "/account/users",
             },
             {
-              label: "Driver Detail",
-              href: `/account/users/${id}/driver-detail`,
+              label: "Vendor Detail",
+              href: `/account/users/${id}/vendor-detail`,
               active: true,
             },
           ]}
@@ -187,7 +187,7 @@ export default async function Page({
       <div className="w-full rounded-lg border-2 border-gray-200 p-3">
           <div className="w-full flex justify-between items-center">
           <div className="flex justify-start items-center">
-            <Link className="text-gray-900 mr-2" href="/account/users/merchants">
+            <Link className="text-gray-900 mr-2" href="/account/users/vendors">
               <FaChevronLeft size={24} className='outline-0' />
             </Link>
             <Image 
@@ -234,11 +234,10 @@ export default async function Page({
               />
             </div>
           </div>
-          <DriverOrders
+          <VendorOrders
             query={query}
             currentPage={currentPage}
-            product={product}
-            id={id}
+            fleet={id}
           />
           <div className="mt-5 flex w-full justify-center">
             <Pagination totalPages={total} />

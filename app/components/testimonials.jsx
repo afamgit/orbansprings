@@ -62,22 +62,30 @@ const [filteredData, setFilteredData] = useState([]);
   (value, index) => start + index * step
   );
 
+  const getNameInitials = (name) => {
+    const arr = name.split(' ')
+    const first = arr[0]
+    const second = arr[1]
+
+    return `${first[0]}${second[0]}`
+  }
+
   return (
     <div
-      className="w-full rounded p-3 my-3"
-      style={{ maxWidth: "1300px" }}
+      className="w-full md:max-w-[1200px] mx-auto rounded p-3 my-3"
     >
         <div>
 
           <div className="flex flex-col justify-center items-center rounded px-2 py-4 md:p-5">
-            <div className="flex flex-col md:flex-row justify-content items-center w-full h-full md:w-[1200px] mx-auto py-5 md:h-[500px] overflow-y-scroll">
+            <div className="flex flex-col md:flex-row justify-center items-center w-full h-full md:max-w-[1200px] mx-auto py-5 md:h-[500px] bg-sky-500">
               {filteredData.length > 0 && filteredData.map((item,i) => {
-                const imgUrl = item?.tphoto.includes('https') ? `${item?.tphoto}` : `/${item?.tphoto}`
+                // const imgUrl = item?.tphoto.includes('https') ? `${item?.tphoto}` : `/${item?.tphoto}`
+                const imgUrl = item?.tphoto.includes('https') ? `${item?.tphoto}` : ""
                 return (
-                    <div key={i} className="relative h-full md:h-[400px] flex flex-col w-full md:w-2/5 mx-auto justify-between items-center bg-white rounded-xl px-10 py-5 my-6 transition duration-700 ease-in-out">
+                    <div key={i} className="relative h-full md:h-[400px] flex flex-col w-full md:w-2/5 mx-auto justify-between items-center bg-white rounded-xl px-6 py-5 my-6 transition duration-700 ease-in-out">
                     
                   <div className='p-3 absolute -top-[50px]'>
-                      {item.tphoto !== "" && (
+                      {imgUrl !== "" ? (
                         <Image
                           src={`${imgUrl}`}
                           alt={item.tcustomer}
@@ -85,6 +93,11 @@ const [filteredData, setFilteredData] = useState([]);
                           width={120}
                           className='rounded-full mb-4'
                         />
+                      ) : 
+                      (
+                        <div className='rounded-full bg-gray-200 h-32 w-32 flex justify-center items-center'>
+                          <h2 className='text-6xl justify-center text-gray-600'>{getNameInitials(item?.tcustomer)}</h2>
+                        </div>
                       )}
                       
 

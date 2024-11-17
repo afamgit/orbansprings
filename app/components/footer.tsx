@@ -13,7 +13,7 @@ const Footer = () => {
 
   return (
     <div className="bg-black text-white">
-      <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row p-5">
+      <div className="w-full max-w-[1200px] mx-auto flex flex-col md:flex-row p-5">
         <div className="basis-2/5">
         <div
           className="p-1"
@@ -58,8 +58,8 @@ const Footer = () => {
             <Link href='/'><div className='flex items-center my-1 py-1'><FaTwitter className='mr-1 text-2xl' />Twitter</div></Link>
           </div>
       </div>
-      <hr className='max-w-[1200px] mx-auto py-3' />
-      <div className="w-[1200px] mx-auto flex justify-between">
+      <hr className='w-full md: max-w-[1200px] mx-auto py-3' />
+      <div className="w-full md:max-w-[1200px] mx-auto flex justify-between pw-3">
         <div className="flex items-center mb-2">
         <div className='flex items-center mx-2'>Copyright <FaCopyright className="pl-2" size={24} /> {moment().format('YYYY')}</div>
             <Link href='/page/terms-of-service'><div className='flex items-center mx-2 py-1'>Terms of service</div></Link>
