@@ -6,7 +6,7 @@ import WaterMerchantQrCode from "@/app/components/water-merchant-qr-code";
 import { slugify } from "@/app/utils/snippets";
 
 export const metadata: Metadata = {
-  title: "Customers",
+  title: "Water Merchants",
 };
 
 export default async function Page({
@@ -37,8 +37,8 @@ export default async function Page({
           breadcrumbs={[
             { label: "Account", href: "/account" },
             {
-              label: "Users",
-              href: "/account/users",
+              label: "Water Merchants",
+              href: "/account/water-merchants",
               active: true,
             },
           ]}
