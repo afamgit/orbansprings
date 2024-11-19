@@ -65,7 +65,6 @@ const Footer = () => {
             <Link href='/page/terms-of-service'><div className='flex items-center mx-2 py-1'>Terms of service</div></Link>
             <Link href='/page/privacy-policy'><div className='flex items-center mx-2 py-1'>Privacy policy</div></Link>
         </div>
-            <a href="https://justwebservices.com" target="_blank"><div className='flex items-center my-1 py-1'>Developed by Just Web Services</div></a>
           </div>
     </div>
   );
