@@ -48,7 +48,7 @@ function WaterMerchantQrCode({id, name, type}: {id:string, name:string, type:str
   }
 
 
-  const qrUrl = type === 'exp' ? `exp://192.168.1.4:19000/--/wm/?id=${id}&username=${name}` : `orban://wm/?id=${id}&username=${name}`
+  const qrUrl = type === 'exp' ? `exp://192.168.1.4:19000/--/wm/?id=${id}&username=${name}` : `${id}`
 
   return (
     <>
