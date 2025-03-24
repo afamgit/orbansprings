@@ -127,7 +127,7 @@ export function AddUserForm({
         </div>
 
         <div>
-        <label htmlFor="ranking" className="block text-sm font-medium leading-6 text-gray-900">Ranking</label>
+        <label htmlFor="areagroup" className="block text-sm font-medium leading-6 text-gray-900">Area group</label>
           <div className="mt-2">
           <select
                   id="areagroup"

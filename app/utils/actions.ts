@@ -1518,7 +1518,7 @@ export async function updateMeter(id: string, prevState: any, formData: FormData
     if (file) {
 
       const bytes = await file.arrayBuffer()
-      const buffer = Buffer.from(bytes)
+      const buffer:any = Buffer.from(bytes)
 
       // With the file data in the buffer, you can do whatever you want with it.
       // For this, we'll just write it to the filesystem in a new location
