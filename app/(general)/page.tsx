@@ -9,6 +9,10 @@ import { unstable_noStore as noStore } from 'next/cache';
 import { Metadata } from 'next'
 import { BsArrowUpRight, BsEyeFill } from 'react-icons/bs'
 import moment from 'moment'
+import gettingStarted1 from '../../public/get_started_1.jpeg'
+import gettingStarted2 from '../../public/get_started_2.jpeg'
+import gettingStarted3 from '../../public/get_started_3.jpeg'
+import gettingStarted4 from '../../public/get_started_4.jpeg'
 
 export const metadata: Metadata = {
   title: 'Home',
@@ -16,16 +20,16 @@ export const metadata: Metadata = {
 
 const gettingStarted = [
   {name: 'Download our app',
-  image: '/get_started_1.jpeg'
+  image: {gettingStarted1}
 },
 {name: 'Set up app',
-image: '/get_started_2.jpeg'
+image: {gettingStarted2}
 },
 {name: 'Start making orders',
-image: '/get_started_3.jpeg'
+image: {gettingStarted3}
 },
 {name: 'Get our meter',
-image: '/get_started_4.jpeg'
+image: {gettingStarted4}
 },
 ]
 
@@ -83,7 +87,7 @@ noStore()
             key={i}
               height={300}
               width={300}
-              src={item.image}
+              src={`${item.image}`}
               alt={item.name}
             />
           )
