@@ -9,6 +9,7 @@ import { unstable_noStore as noStore } from 'next/cache';
 import { Metadata } from 'next'
 import { BsArrowUpRight, BsEyeFill } from 'react-icons/bs'
 import moment from 'moment'
+import { siteUrl } from '../utils/utils'
 
 export const metadata: Metadata = {
   title: 'Home',
@@ -17,16 +18,16 @@ export const metadata: Metadata = {
 
 const gettingStarted = [
   {name: 'Download our app',
-  image: '/get_started_1.jpeg'
+  image: `${siteUrl}/get_started_1.jpeg`
 },
 {name: 'Set up app',
-image: '/get_started_2.jpeg'
+image: `${siteUrl}/get_started_2.jpeg`
 },
 {name: 'Start making orders',
-image: '/get_started_3.jpeg'
+image: `${siteUrl}/get_started_3.jpeg`
 },
 {name: 'Get our meter',
-image: '/get_started_4.jpeg'
+image: `${siteUrl}/get_started_4.jpeg`
 },
 ]
 
@@ -56,12 +57,14 @@ noStore()
         <h1 className='text-3xl md:text-5xl  py-1'>At Your Finger Tips</h1>
         <p className='text-sm md:text-xl py-2'>Get water, when you need it! Efficient potable water delivery service at your fingertips.</p>
         
-        <Link
+        <div className='mt-3'>
+          <Link
               className="py-3 px-6 my-4 rounded bg-blue-800 text-white"
               href="#downloadapp"
             >
               Download App
             </Link>
+            </div>
       </div>
     </div>
   </div>

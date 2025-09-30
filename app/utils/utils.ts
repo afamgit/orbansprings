@@ -17,6 +17,8 @@ export const formatAmount = (amount: number) => {
   }
 };
 
+export const siteUrl = 'https://orbansprings.com'
+
 export const getPhotoUrl = (imgUrl: string) => {
   const imageUrl = imgUrl.includes('https') ? `${imgUrl}` : `/${imgUrl}`
 return imageUrl

@@ -17,13 +17,13 @@ const NavBar = () => {
     <div className="sticky top-0 bg-white text-dark border-b-2 border-gray-300 z-10">
       <div className="w-full md:max-w-[1200px] mx-auto flex justify-between items-center text-dark h-[100px] px-3">
         <div
-          style={{ height: "90px", width: "300px", objectFit: "cover" }}
-          className="flex justify-start content-center"
+          style={{ height: "90px" }}
+          className="flex flex-shrink-0 justify-start content-center"
         >
           <Link href='/'><Image src='/logo_full.png' height={60} width={90} alt="logo" /></Link>
         </div>
         <div className="hidden sm:block">
-          <ul className="list-none flex gap-2 md:gap-8 text-2xl font-bold">
+          <ul className="list-none flex gap-2 md:gap-8 text-xl font-bold">
           <li className={pathname === '/' ? "text-gray-900 p-1 md:p-2" : 'text-gray-600 p-1 md:p-2'}>
               <Link href='/' className={pathname === '/' ? "border-b-2 border-gray-700" : 'text-gray-600'}>Home</Link>
               </li>
@@ -44,7 +44,7 @@ const NavBar = () => {
             </li>
             <li className="py-2 px-2 text-xl rounded bg-blue-800 text-white">
             <Link
-              className="py-3 px-6 my-4 rounded bg-blue-800 text-white"
+              className="py-3 px-2 text-nowrap "
               href="/#downloadapp"
             >
               Download App

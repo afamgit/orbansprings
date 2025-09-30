@@ -15,7 +15,7 @@ export const BottomAppBanner = () => {
               width={300}
               height={100}
               alt='playstore'
-              className='rounded my-3'
+              className='rounded-lg my-3'
             /></a>
                           <a href="https://apps.apple.com/ng/app/orban-springs/id1621725479" target={"_blank"}>
 
@@ -24,7 +24,7 @@ export const BottomAppBanner = () => {
               width={300}
               height={100}
               alt='playstore'
-              className='rounded my-3'
+              className='rounded-lg my-3'
             /></a>
             </div>
           </div>
