@@ -9,25 +9,23 @@ import { unstable_noStore as noStore } from 'next/cache';
 import { Metadata } from 'next'
 import { BsArrowUpRight, BsEyeFill } from 'react-icons/bs'
 import moment from 'moment'
-import { siteUrl } from '../utils/utils'
 
 export const metadata: Metadata = {
   title: 'Home',
 };
 
-
 const gettingStarted = [
   {name: 'Download our app',
-  image: `${siteUrl}/get_started_1.jpeg`
+  image: '/get_started_1.jpeg'
 },
 {name: 'Set up app',
-image: `${siteUrl}/get_started_2.jpeg`
+image: '/get_started_2.jpeg'
 },
 {name: 'Start making orders',
-image: `${siteUrl}/get_started_3.jpeg`
+image: '/get_started_3.jpeg'
 },
 {name: 'Get our meter',
-image: `${siteUrl}/get_started_4.jpeg`
+image: '/get_started_4.jpeg'
 },
 ]
 

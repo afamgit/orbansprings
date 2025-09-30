@@ -1,31 +1,30 @@
 import Link from "next/link"
 import Image from 'next/image'
-import { siteUrl } from "../utils/utils";
 
 const services = [
   {
     name: 'Orban Springs Mobile App',
-    img: `${siteUrl}/orban_springs_mobile_app.jpeg`,
+    img: '/orban_springs_mobile_app.jpeg',
     desc: 'Easily connect with providers and vendors, find water artisans and plumbers on the Orban Springs app.',
   },
   {
     name: 'Water Distribution',
-    img: `${siteUrl}/truck_icon.jpeg`,
+    img: '/truck_icon.jpeg',
     desc: 'We provide channels for efficient delivery of essential water supply services to communities, individuals and corporate entities through a network of partners and vendors.',
   },
   {
     name: 'Water Analysis',
-    img: `${siteUrl}/water_analysis_icon.jpeg`,
+    img: '/water_analysis_icon.jpeg',
     desc: 'Gain accurate insights into your water quality with real-time water analysis',
   },
   {
     name: 'Vendor Platform',
-    img: `${siteUrl}/vendor_platform_icon.jpeg`,
+    img: '/vendor_platform_icon.jpeg',
     desc: 'Leverage technology to efficiently manage your water distribution business. Our vendor platform offers real-time analysis, interactive dashboards, fleet management tools and accurate insights into all aspects of your business',
   },
   {
     name: 'IoT Smart Meter',
-    img: `${siteUrl}/iot_smart_meter.jpeg`,
+    img: '/iot_smart_meter.jpeg',
     desc: 'Remotely monitor, control and optimize your water systems. Our IoT smart meters provide real-time updates and tools for efficient water management, water accounting, billing and flow monitoring.',
   },
 ]
