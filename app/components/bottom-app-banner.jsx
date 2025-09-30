@@ -28,22 +28,20 @@ export const BottomAppBanner = () => {
             /></a>
             </div>
           </div>
-          <div className='static block basis-1/3 flex justify-end'>
+          <div className='basis-1/3'>
           <Image
               src='/mobile_app1.png'
               width={350}
               height={400}
               alt='mobile app'
-              className="block"
             />
           </div>
-          <div className='static block basis-1/3 flex justify-start'>
+          <div className='basis-1/3'>
           <Image
               src='/mobile_app2.png'
               width={350}
               height={400}
               alt='mobile app 2'
-              className="block"
             />
           </div>
           </div>
