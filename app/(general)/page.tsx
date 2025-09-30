@@ -20,16 +20,16 @@ export const metadata: Metadata = {
 
 const gettingStarted = [
   {name: 'Download our app',
-  image: {gettingStarted1}
+  image: '/get_started_1.png'
 },
 {name: 'Set up app',
-image: {gettingStarted2}
+image: '/get_started_2.png'
 },
 {name: 'Start making orders',
-image: {gettingStarted3}
+image: '/get_started_3.png'
 },
 {name: 'Get our meter',
-image: {gettingStarted4}
+image: '/get_started_4.png'
 },
 ]
 
@@ -87,7 +87,7 @@ noStore()
             key={i}
               height={300}
               width={300}
-              src={`${item.image}`}
+              src={item.image}
               alt={item.name}
             />
           )

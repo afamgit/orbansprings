@@ -31,7 +31,7 @@ export default async function Page() {
         <div className='w-full md:w-2/5 flex flex-col justify-center items-center p-5'>
             <div className='w-[350px] my-2 px-4 py-2 flex justify-start items-center bg-white shadow-md rounded'>
                 <Image
-                    src={`/phone_icon.jpeg`}
+                    src={`/phone_icon.png`}
                     height={100}
                     width={100}
                     alt='phone'
@@ -43,7 +43,7 @@ export default async function Page() {
             </div>
             <div className='w-[350px] my-2 px-4 py-2 flex justify-start items-center bg-white shadow-md rounded'>
                 <Image
-                    src={`/email_icon.jpeg`}
+                    src={`/email_icon.png`}
                     height={100}
                     width={100}
                     alt='phone'
