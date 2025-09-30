@@ -18,7 +18,7 @@ const Footer = () => {
         <div
           className="p-1"
         >
-          <Image src='/logo_dark_bg.jpeg' height={100} width={200} alt="logo" />
+          <Image src='/logo_full.png' height={100} width={200} alt="logo" />
         </div>
 
         <p>About Orban Springs</p>
