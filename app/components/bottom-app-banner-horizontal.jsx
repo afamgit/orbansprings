@@ -13,7 +13,7 @@ export const BottomAppBannerHorizontal = () => {
           <div className='basis-1/3 px-2 pb-6 flex flex-col justify-center items-center'>
           <a href="https://play.google.com/store/apps/details?id=com.orbansprings.app" target={"_blank"}>
             <Image
-              src='/playstore.jpeg'
+              src='/playstore.png'
               width={250}
               height={80}
               alt='playstore'
@@ -21,7 +21,7 @@ export const BottomAppBannerHorizontal = () => {
             /></a>
            <a href="https://apps.apple.com/ng/app/orban-springs/id1621725479" target={"_blank"}>
                 <Image
-              src='/appstore.jpeg'
+              src='/appstore.png'
               width={250}
               height={80}
               alt='playstore'
