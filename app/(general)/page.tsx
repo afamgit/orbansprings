@@ -9,10 +9,6 @@ import { unstable_noStore as noStore } from 'next/cache';
 import { Metadata } from 'next'
 import { BsArrowUpRight, BsEyeFill } from 'react-icons/bs'
 import moment from 'moment'
-import gettingStarted1 from '../../public/get_started_1.jpeg'
-import gettingStarted2 from '../../public/get_started_2.jpeg'
-import gettingStarted3 from '../../public/get_started_3.jpeg'
-import gettingStarted4 from '../../public/get_started_4.jpeg'
 
 export const metadata: Metadata = {
   title: 'Home',
