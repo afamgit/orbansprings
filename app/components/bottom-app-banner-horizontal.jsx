@@ -34,6 +34,7 @@ export const BottomAppBannerHorizontal = () => {
               width={350}
               height={450}
               alt='worker'
+              className="block"
             />
           </div>
           </div>

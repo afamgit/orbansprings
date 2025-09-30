@@ -34,6 +34,7 @@ export const BottomAppBanner = () => {
               width={350}
               height={400}
               alt='mobile app'
+              className="block"
             />
           </div>
           <div className='static basis-1/3 flex justify-start'>
@@ -41,7 +42,8 @@ export const BottomAppBanner = () => {
               src='/mobile_app2.png'
               width={350}
               height={400}
-              alt='mobile app'
+              alt='mobile app 2'
+              className="block"
             />
           </div>
           </div>
