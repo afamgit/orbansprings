@@ -28,7 +28,7 @@ export const BottomAppBannerHorizontal = () => {
               className='rounded my-3'
             /></a>
           </div>
-          <div className='basis-1/3 flex justify-end items-end mb-[-10px] pb-0'>
+          <div className='block basis-1/3 flex justify-end items-end mb-[-10px] pb-0'>
           <Image
               src='/worker_2.png'
               width={350}
