@@ -136,10 +136,11 @@ export default async function Page({
               </div>
 
               <div className="w-full flex justify-between items-center">
-                <p className="text-gray-600 text-xl">
-                  {user?.drv_vehicle_license_plate_no}
-                </p>
-                <p className="text-gray-600 text-xl">|</p>
+          {user?.drv_vehicle_license_plate_no !== '' ? user?.drv_vehicle_license_plate_no : 'N/A' }
+                      {user?.drv_vehicle_license_plate_no !== '' && 
+                      <div><WaterTankerPlateNumberQrCode platenumber={user?.drv_vehicle_license_plate_no || ''} /></div>}
+
+                      <p className="text-gray-600 text-xl">|</p>
                 <p className="text-gray-600 text-xl">
                   Joined Since {moment(user?.createdAt).format("MMM YYYY")}
                 </p>
