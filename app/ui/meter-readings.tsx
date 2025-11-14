@@ -116,7 +116,7 @@ export default async function MeterReadings({
                 </td>
                 <td className='px-2 py-1'>
                   <Link href={`${basePath}/meter-readings/${id}/edit`} className="text-blue-500 mr-4">Edit</Link>
-                  <DeleteMeterReading id={id} />
+                  {!userId && <DeleteMeterReading id={id} />}
                 </td>
               </tr>
             )
