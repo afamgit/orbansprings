@@ -1463,7 +1463,7 @@ export async function createMeter(prevState: any, formData: FormData) {
     area: z.string(),
     status: z.string(),
     valvestate: z.string(),
-    waterUnitPrice: z.coerce.number(), // New field
+    waterunitprice: z.coerce.number(),
   })
   const parsedData = schema.parse({
     uniqueid: formData.get('uniqueid'),
@@ -1473,7 +1473,7 @@ export async function createMeter(prevState: any, formData: FormData) {
     area: formData.get('area'),
     status: formData.get('status'),
     valvestate: formData.get('valvestate'),
-    waterUnitPrice: formData.get('waterUnitPrice'), // New field
+    waterunitprice: formData.get('waterUnitPrice'),
   })
 
   try {
@@ -1486,7 +1486,7 @@ export async function createMeter(prevState: any, formData: FormData) {
         m_area: parsedData.area,
         m_status: parsedData.status,
         m_valve_state: parsedData.valvestate,
-        m_water_unit_price: parsedData.waterUnitPrice, // New field
+        m_water_unit_price: parsedData.waterunitprice,
         createdAt: new Date(),
         updatedAt: new Date()
       }
@@ -1512,7 +1512,7 @@ export async function updateMeter(id: string, prevState: any, formData: FormData
     area: z.string(),
     status: z.string(),
     valvestate: z.string(),
-    waterUnitPrice: z.coerce.number(), // New field
+    waterunitprice: z.coerce.number(),
   })
   const parsedData = schema.parse({
     uniqueid: formData.get('uniqueid'),
@@ -1522,7 +1522,7 @@ export async function updateMeter(id: string, prevState: any, formData: FormData
     area: formData.get('area'),
     status: formData.get('status'),
     valvestate: formData.get('valvestate'),
-    waterUnitPrice: formData.get('waterUnitPrice'), // New field
+    waterunitprice: formData.get('waterUnitPrice'),
   })
 
   try {
@@ -1552,7 +1552,7 @@ export async function updateMeter(id: string, prevState: any, formData: FormData
         m_area: parsedData.area,
         m_status: parsedData.status,
         m_valve_state: parsedData.valvestate,
-        m_water_unit_price: parsedData.waterUnitPrice, // New field
+        m_water_unit_price: parsedData.waterunitprice,
         updatedAt: new Date()
       }
     })
@@ -1626,6 +1626,7 @@ export async function createMeterNumber(prevState: any, formData: FormData) {
           m_area: '',
           m_status: 'Inactive',
           m_valve_state: 'Closed',
+          m_water_unit_price: 0.50,
           createdAt: new Date(),
           updatedAt: new Date()
         }
@@ -2044,7 +2045,8 @@ export async function saveMeterReading(prevState: any, formData: FormData) {
     return { message: 'User not authenticated.' };
   }
 
-  const readingDate = new Date(`${parsedData.reading_date}T00:00:00.000Z`);
+  const readingDate = new Date(parsedData.reading_date);
+  readingDate.setHours(0, 0, 0, 0); // Normalize to start of day
 
   try {
     let meterReading = await prisma.meterReadings.findUnique({
@@ -2063,16 +2065,15 @@ export async function saveMeterReading(prevState: any, formData: FormData) {
       const currentMinutes = now.getMinutes();
 
       // Check if current time is between 12:00 PM and 2:00 PM
-      // if (currentHour < 12 || currentHour > 14 || (currentHour === 14 && currentMinutes > 0)) {
+      if (currentHour < 12 || currentHour > 14 || (currentHour === 14 && currentMinutes > 0)) {
       // if (currentHour < 12) {
-      //   return { message: 'Afternoon reading can only be entered between 12:00 PM and 2:00 PM.' };
-      // }
+        return { message: 'Afternoon reading can only be entered between 12:00 PM and 2:00 PM.' };
+      }
     }
 
     if (!meterReading) {
       // No record for today, create a new one
       if (parsedData.readingType !== 'first') {
-        console.log('First reading must be entered before afternoon or last reading.');
         return { message: 'First reading must be entered before afternoon or last reading.' };
       }
 
@@ -2257,4 +2258,3 @@ export async function saveMeterReading(prevState: any, formData: FormData) {
         return { message: 'Failed to delete meter reading' }
       }
     }
-
