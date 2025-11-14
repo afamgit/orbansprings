@@ -11,6 +11,10 @@ import { useFormState, useFormStatus } from 'react-dom';
 import { authenticate, checkUser } from '@/app/utils/actions';
 import { getProfileFromUser } from '../utils/data';
 
+const initialState = {
+  message: '',
+};
+
 export default function LoginForm() {
 
   const router = useRouter()
@@ -19,7 +23,7 @@ export default function LoginForm() {
     const [showCredentials, setShowCredentials] = useState('block')
     const [uname, setUname] = useState(null)
 
-  const [errorMessage, dispatch] = useActionState(authenticate, '');
+  const [errorMessage, dispatch] = useActionState(authenticate, initialState);
  
   useEffect(() => {
     if(errorMessage === 'require 2fa code') {

@@ -7,7 +7,7 @@ import { areas } from "../utils/data";
 import { useActionState } from "react";
 
 const initialState = {
-  message: null,
+  message: '',
 };
 
 function SubmitButton() {

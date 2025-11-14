@@ -1,4 +1,3 @@
-import { headers } from 'next/headers';
 import LoginForm from '@/app/components/login-form';
 import { getProfileUser } from '@/app/utils/data';
 import { auth } from '@/auth';
