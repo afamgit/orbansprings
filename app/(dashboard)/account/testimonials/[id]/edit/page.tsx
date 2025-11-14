@@ -7,12 +7,12 @@ export const metadata: Metadata = {
     title: 'Edit testimonial',
   };
 
-export default async function Testimonial({params}: {params: {id: string}}) {
-    const id = parseInt(params.id);
+export default async function Testimonial({params}: {params: any}) {
+    const {id} = await params;
 
     const testimonial = await prisma.testimonials.findUnique({
         where: {
-            tid: id
+            tid: parseInt(id)
         }
     })
 

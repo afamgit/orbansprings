@@ -1,7 +1,7 @@
 'use client'
 
+import React, { useEffect, useRef } from "react"
 import { useSearchParams, usePathname, useRouter } from "next/navigation"
-import { useEffect, useRef } from "react"
 
 
 export default function DriverModal({children}: {children: React.ReactNode}) {
@@ -30,7 +30,7 @@ const clickOk = () => {
     closeDialog()
 }
 
-const dialog: JSX.Element | null = showDialog === 'y' 
+const dialog = showDialog === 'y' 
 ? (
 <dialog ref={dialogRef} className="fixed top-50 left-50 translate-x-50 translate-y-50 z-10 backdrop:bg-gray-800/50">
     

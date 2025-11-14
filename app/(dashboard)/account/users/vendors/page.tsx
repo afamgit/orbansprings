@@ -24,15 +24,13 @@ export const metadata: Metadata = {
 export default async function Page({
   searchParams,
 }: {
-  searchParams?: {
-    query?: string;
-    page?: string;
-    type?: string;
-  };
-}) {
-  const query = searchParams?.query || '';
-  const currentPage = Number(searchParams?.page) || 1;
-  const type = searchParams?.type || '';
+  searchParams?: any;
+}) 
+ {
+  const {query:queryParams,page, type: typeParams} = await searchParams;
+  const query = queryParams || "";
+  const currentPage = Number(page) || 1;
+  const type = typeParams || "";
 
       
     const total = await fetchUserVendors(query,type)

@@ -14,21 +14,10 @@ export const metadata: Metadata = {
 
 export default async function Page({
   params,
-  searchParams,
 }: {
-  params: {
-    reference: string;
-  };
-  searchParams?: {
-    query?: string;
-    page?: string;
-    product?: string;
-  };
+  params: any;
 }) {
-  const reference = params.reference;
-  const query = searchParams?.query || "";
-  const currentPage = Number(searchParams?.page) || 1;
-  const product = searchParams?.product || "";
+  const {reference} = await params;
 
   const orderDb = await prisma.transactions.findFirst({
     where: {

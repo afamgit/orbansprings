@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   title: "Message",
 };
 
-export default async function Message({ params }: { params: { id: string } }) {
-  const id = parseInt(params.id);
+export default async function Message({ params }: { params: any }) {
+  const {id} = await params;
   const userInfo = await auth()
 
   const usremail = userInfo?.user.email || ''
@@ -35,12 +35,12 @@ export default async function Message({ params }: { params: { id: string } }) {
 
   const message = await prisma.contact_messages.findUnique({
     where: {
-      cid: id,
+      cid: parseInt(id),
     },
   });
 
   const replies = await prisma.complaints_replies.findMany({
-    where: {complaintid: id},
+    where: {complaintid: parseInt(id)},
     orderBy: {'createdAt': 'desc'}
   })
 

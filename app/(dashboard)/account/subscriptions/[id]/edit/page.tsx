@@ -7,12 +7,12 @@ export const metadata: Metadata = {
     title: 'Update subscription plan',
   };
 
-export default async function Page({params}: {params: {id: string}}) {
-    const id = parseInt(params.id);
+export default async function Page({params}: {params: any}) {
+    const {id} = await params;
 
     const plan = await prisma.subscription_plans.findUnique({
         where: {
-            subplanid: id
+            subplanid: parseInt(id)
         }
     })
 

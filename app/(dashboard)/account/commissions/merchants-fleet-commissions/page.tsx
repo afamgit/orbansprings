@@ -19,18 +19,13 @@ export const metadata: Metadata = {
 export default async function Page({
   searchParams,
 }: {
-  searchParams?: {
-    query?: string;
-    page?: string;
-    ftype?: string;
-    fsubtype?: string;
-  };
+  searchParams?: any;
 }) {
-  const query = searchParams?.query || '';
-  const currentPage = Number(searchParams?.page) || 1;
-  const fType = searchParams?.ftype || '';
-  const fSubType = searchParams?.fsubtype || '';
-
+  const {query:queryParams,page, ftype:ftypeParams, fsubtype:fsubtypeParams} = await searchParams;
+  const query = queryParams || "";
+  const currentPage = Number(page) || 1;
+  const fType = ftypeParams || "";
+  const fSubType = fsubtypeParams || "";
       
     const total = await fetchMerchantsFleetCommissions(query, fType, fSubType)  
 

@@ -3,14 +3,14 @@
 import { PutBlobResult } from '@vercel/blob';
 import { useFormState } from 'react-dom'
 import { useFormStatus } from 'react-dom'
-import { useState, useRef } from 'react'
+import { useState, useRef, useActionState } from 'react'
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { createSubscription, updateSubscription, deletePage } from '../utils/actions'
 import Link from 'next/link';
  
 const initialState = {
-  message: null,
+  message: '',
 }
  
 function SubmitButton() {
@@ -38,7 +38,7 @@ export function AddSubscriptionForm() {
   const router = useRouter();
 
 
-    const [state, formAction] = useFormState(createSubscription, initialState)
+    const [state, formAction] = useActionState(createSubscription, initialState)
    
     return (
       <>

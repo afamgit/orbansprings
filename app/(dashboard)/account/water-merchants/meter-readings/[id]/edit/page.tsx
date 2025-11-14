@@ -10,8 +10,8 @@ export const metadata: Metadata = {
     title: 'Update meter reading',
   };
 
-export default async function Page({params}: {params: {id: string}}) {
-    const id = parseInt(params.id);
+export default async function Page({params}: {params: any}) {
+    const {id} = await params;
 
     const userInfo = await auth()
     const profile = await getProfileUser(userInfo?.user.email || '')
@@ -19,7 +19,7 @@ export default async function Page({params}: {params: {id: string}}) {
 
     const reading = await prisma.meterReadings.findUnique({
         where: {
-            id: id
+            id: parseInt(id)
         },
         include: {
             meter: true

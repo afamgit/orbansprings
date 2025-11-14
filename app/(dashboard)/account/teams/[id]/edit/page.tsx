@@ -7,12 +7,12 @@ export const metadata: Metadata = {
     title: 'Edit team member',
   };
 
-export default async function Team({params}: {params: {id: string}}) {
-    const id = parseInt(params.id);
+export default async function Team({params}: {params: any}) {
+    const {id} = await params;
 
     const team = await prisma.team_members.findUnique({
         where: {
-            tmemberid: id
+            tmemberid: parseInt(id)
         }
     })
 

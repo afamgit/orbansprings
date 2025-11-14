@@ -7,12 +7,12 @@ export const metadata: Metadata = {
     title: 'Update Area Group',
   };
 
-export default async function Page({params}: {params: {id: string}}) {
-    const id = parseInt(params.id);
+export default async function Page({params}: {params: any}) {
+    const {id} = await params;
 
     const areagroup = await prisma.area_groups.findUnique({
         where: {
-            agid: id
+            agid: parseInt(id)
         }
     })
 

@@ -3,10 +3,11 @@
 import { useFormState } from 'react-dom'
 import { useFormStatus } from 'react-dom'
 import { createTodo, deleteTodo } from '../utils/actions'
+import { useActionState } from 'react'
 
 
 const initialState = {
-  message: null,
+  message: '',
 }
  
 function DeleteButton() {
@@ -22,7 +23,7 @@ function DeleteButton() {
 
 export function DeleteTodo ({email}) {
 
-  const [state, formAction] = useFormState(deleteTodo, initialState)
+  const [state, formAction] = useActionState(deleteTodo, initialState)
 
   return (
     <form action={formAction}>

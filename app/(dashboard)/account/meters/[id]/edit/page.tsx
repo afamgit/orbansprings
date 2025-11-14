@@ -8,12 +8,12 @@ export const metadata: Metadata = {
     title: 'Update meter',
   };
 
-export default async function Team({params}: {params: {id: string}}) {
-    const id = parseInt(params.id);
+export default async function Team({params}: {params: any}) {
+    const {id} = await params;
 
     const meter = await prisma.meters.findUnique({
         where: {
-            meterid: id
+            meterid: parseInt(id)
         }
     })
 

@@ -26,7 +26,7 @@ useEffect(() => {
 
 
 
-const dialog: JSX.Element | null = showMessage === 'y' 
+const dialog = showMessage === 'y' 
 ? (
 <dialog ref={messageRef} className="fixed top-50 left-50 translate-x-50 translate-y-50 z-10 backdrop:bg-gray-800/50 rounded-xl">
     

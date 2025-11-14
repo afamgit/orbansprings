@@ -5,14 +5,10 @@ import {PayOrderButtonApp} from '@/app/components/pay-order-button-app'
 import moment from 'moment';
 import { formatAmount } from '@/app/utils/utils';
 
-type Props = {
-  params: { slug: string }
-  searchParams: { [key: string]: string | string[] | undefined }
-}
 
 
-export default async function Page({params}: {params: {refpay: string}}) {
-    const {refpay} = params;
+export default async function Page({params}: {params: any}) {
+    const {refpay} = await params;
 
     const order = await prisma.transactions.findFirst({
       where: {orderref: refpay},

@@ -7,12 +7,12 @@ export const metadata: Metadata = {
   title: 'Edit newsletter',
 };
 
-export default async function Newsletter({params}: {params: {id: string}}) {
-  const id = parseInt(params.id);
+export default async function Newsletter({params}: {params: any}) {
+  const {id} = await params;
 
   const newsletterItem = await prisma?.newsletter_body.findUnique({
       where: {
-          nlb_id: id
+          nlb_id: parseInt(id)
       }
   })
 

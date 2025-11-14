@@ -1,6 +1,6 @@
 'use client'
  
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useActionState } from 'react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useFormState } from 'react-dom'
@@ -9,7 +9,7 @@ import { changePassword } from '../utils/actions'
 import Link from 'next/link';
  
 const initialState = {
-  message: null,
+  message: '',
 }
  
  
@@ -28,7 +28,7 @@ function EditButton() {
 
 
    const updateProfileWithId = changePassword.bind(null, profile?.id)
-   const [state, formAction] = useFormState(updateProfileWithId, initialState)
+   const [state, formAction] = useActionState(updateProfileWithId, initialState)
  
 
    return (

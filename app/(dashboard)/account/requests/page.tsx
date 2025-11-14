@@ -17,20 +17,16 @@ export const metadata: Metadata = {
 
 export default async function Page({
   searchParams,
-}: {
-  searchParams?: {
-    query?: string;
-    page?: string;
-    status?: string;
-    location?: string;
-    product?: string;
-  };
+}:
+{ 
+  searchParams?: any;
 }) {
-  const query = searchParams?.query || "";
-  const currentPage = Number(searchParams?.page) || 1;
-  const status = searchParams?.status || "Pending";
-  const location = searchParams?.location || "";
-  const product = searchParams?.product || "";
+  const {query:queryParams,page, status:statusParams, location: locationParams, product: productParams} = await searchParams;
+  const query = queryParams || "";
+  const currentPage = Number(page) || 1;
+  const status = statusParams || "";
+  const location = locationParams || "";
+  const product = productParams || "";
 
   const allProducts = await prisma.products.findMany({
     where: {category: 'Water packages'},

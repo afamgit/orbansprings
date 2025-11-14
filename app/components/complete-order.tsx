@@ -3,11 +3,11 @@
 import { useFormState } from "react-dom";
 import { useFormStatus } from "react-dom";
 import { updateRequest } from "../utils/actions";
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const initialState = {
-  message: null,
+  message: '',
 };
 
 function SubmitButton() {
@@ -44,7 +44,7 @@ export function CompleteOrderForm({
 }) {
   const router = useRouter()
   const updateRequestWithId = updateRequest.bind(null, req.id);
-  const [state, formAction] = useFormState(updateRequestWithId, initialState);
+  const [state, formAction] = useActionState(updateRequestWithId, initialState);
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState(null)
 

@@ -3,13 +3,13 @@
 import { useFormState } from 'react-dom'
 import { useFormStatus } from 'react-dom'
 import { createPage, updatePage, deletePage } from '../utils/actions'
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useActionState } from 'react';
 import Image from 'next/image';
 import { getPhotoUrl } from '../utils/utils';
 import Link from 'next/link';
 
 const initialState = {
-  message: null,
+  message: '',
 }
  
 function SubmitButton() {
@@ -73,7 +73,7 @@ export function AddForm() {
 }
 
 export function AddPageForm() {
-    const [state, formAction] = useFormState(createPage, initialState)
+    const [state, formAction] = useActionState(createPage, initialState)
     const inputFileRef = useRef(null);
     const [blob, setBlob] = useState(null);
       const [loading, setLoading] = useState(false);
@@ -240,7 +240,7 @@ export function AddPageForm() {
   export function UpdatePageForm({page}) {
 
    const updatePageWithId = updatePage.bind(null, page.cpageid)
-   const [state, formAction] = useFormState(updatePageWithId, initialState)
+   const [state, formAction] = useActionState(updatePageWithId, initialState)
    const inputFileRef = useRef(null);
    const [blob, setBlob] = useState(null);
     const [loading, setLoading] = useState(false);

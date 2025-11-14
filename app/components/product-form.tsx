@@ -3,14 +3,14 @@
 import { PutBlobResult } from '@vercel/blob';
 import { useFormState } from 'react-dom'
 import { useFormStatus } from 'react-dom'
-import { useState, useRef } from 'react'
+import { useState, useRef, useActionState } from 'react'
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { createProduct, updateProduct, deletePage } from '../utils/actions'
 import Link from 'next/link';
  
 const initialState = {
-  message: null,
+  message: '',
 }
  
 function SubmitButton() {
@@ -50,7 +50,7 @@ export function AddProductForm() {
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [blob, setBlob] = useState<PutBlobResult | null>(null);
 
-    const [state, formAction] = useFormState(createProduct, initialState)
+    const [state, formAction] = useActionState(createProduct, initialState)
    
     return (
       <>
@@ -280,7 +280,7 @@ export function AddProductForm() {
 
 
    const updateProductWithId = updateProduct.bind(null, product.id)
-   const [state, formAction] = useFormState(updateProductWithId, initialState)
+   const [state, formAction] = useActionState(updateProductWithId, initialState)
 
    const photoImg = product?.picture.includes('https') ? `${product?.picture}` : product?.picture.includes('images') ? `https://support.orbansprings.com/${product?.picture}` : `/${product?.picture}`
 

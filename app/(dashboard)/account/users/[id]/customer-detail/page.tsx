@@ -33,19 +33,15 @@ export default async function Page({
   params,
   searchParams,
 }: {
-  params: {
-    id: string;
-  };
-  searchParams?: {
-    query?: string;
-    page?: string;
-    product?: string;
-  };
-}) {
-  const id = params.id;
-  const query = searchParams?.query || "";
-  const currentPage = Number(searchParams?.page) || 1;
-  const product = searchParams?.product || "";
+  params: any;
+  searchParams?: any;
+}) 
+ {
+  const {id} = await params;
+  const {query:queryParams,page, product: productParams} = await searchParams;
+  const query = queryParams || "";
+  const currentPage = Number(page) || 1;
+  const product = productParams || "";
 
   const user = await prisma.users.findUnique({
     where: {

@@ -2,14 +2,9 @@ import { prisma} from '@/scripts'
 import Link from 'next/link';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 
-type Props = {
-  params: { slug: string }
-  searchParams: { [key: string]: string | string[] | undefined }
-}
 
-
-export default async function Page({params}: {params: {email: string, id: number}}) {
-    const {email, id} = params;
+export default async function Page({params}: {params: any}) {
+    const {email, id} = await params;
 
     const decodedEmail = decodeURIComponent(email)
 

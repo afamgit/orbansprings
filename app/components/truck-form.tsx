@@ -5,9 +5,10 @@ import { useFormStatus } from "react-dom";
 import { updateTruck, createTruck } from "../utils/actions";
 import Link from "next/link";
 import { FaChevronLeft } from "react-icons/fa";
+import { useActionState } from "react";
 
 const initialState = {
-  message: null,
+  message: '',
 };
 
 function SubmitButton() {
@@ -45,7 +46,7 @@ export function AddTruckForm({
   fleet:number
 }) {
 
-  const [state, formAction] = useFormState(createTruck, initialState);
+  const [state, formAction] = useActionState(createTruck, initialState);
 
 
   return (
@@ -158,7 +159,7 @@ export function UpdateTruckForm({
 }) {
 
   const updateTruckWithId = updateTruck.bind(null, truck?.truckid);
-  const [state, formAction] = useFormState(updateTruckWithId, initialState);
+  const [state, formAction] = useActionState(updateTruckWithId, initialState);
 
   
   return (

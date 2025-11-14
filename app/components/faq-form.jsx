@@ -3,9 +3,10 @@
 import { useFormState } from 'react-dom'
 import { useFormStatus } from 'react-dom'
 import { createFaq, updateFaq, deletePage } from '../utils/actions'
+import { useActionState } from 'react'
  
 const initialState = {
-  message: null,
+  message: '',
 }
  
 function SubmitButton() {
@@ -40,7 +41,7 @@ function DeleteButton() {
 
  
 export function AddFaqForm() {
-    const [state, formAction] = useFormState(createFaq, initialState)
+    const [state, formAction] = useActionState(createFaq, initialState)
    
     return (
       <>

@@ -5,8 +5,8 @@ import { BsEyeFill } from 'react-icons/bs';
 import type { Metadata, ResolvingMetadata } from 'next'
  
 type Props = {
-  params: { content: string }
-  searchParams: { [key: string]: string | string[] | undefined }
+  params: any
+  searchParams: any
 }
 
   export async function generateMetadata(
@@ -14,7 +14,7 @@ type Props = {
     parent: ResolvingMetadata
   ): Promise<Metadata> {
     // read route params
-    const {content} = params;
+    const {content} = await params;
 
     const thepage = await prisma.contentpages.findFirst({
         where: {
@@ -42,8 +42,8 @@ type Props = {
     return [allcontents ]
   }
 
-export default async function Page({params}: {params: {content: string}}) {
-    const {content} = params;
+export default async function Page({params}: {params: any}) {
+    const {content} = await params;
 
     const post = await prisma.contentpages.findFirst({
         where: {

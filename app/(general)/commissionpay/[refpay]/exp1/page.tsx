@@ -5,14 +5,8 @@ import {PayCommissionButtonApp} from '@/app/components/pay-commission-button-app
 import moment from 'moment';
 import { formatAmount } from '@/app/utils/utils';
 
-type Props = {
-  params: { slug: string }
-  searchParams: { [key: string]: string | string[] | undefined }
-}
-
-
-export default async function Page({params}: {params: {refpay: string}}) {
-    const {refpay} = params;
+export default async function Page({params}: {params: any}) {
+    const {refpay} = await params;
 
     const customer = await prisma.users.findFirst({
         where: {

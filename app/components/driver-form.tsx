@@ -3,14 +3,14 @@
 import { useFormState } from "react-dom";
 import { useFormStatus } from "react-dom";
 import { updateDriver, createDriver } from "../utils/actions";
-import { useRef, useState } from "react";
+import { useActionState, useRef, useState } from "react";
 import { PutBlobResult } from "@vercel/blob";
 import Image from "next/image";
 import Link from "next/link";
 import { FaChevronLeft } from "react-icons/fa";
 
 const initialState = {
-  message: null,
+  message: '',
 };
 
 function SubmitButton() {
@@ -52,7 +52,7 @@ export function AddDriverForm({
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [blob, setBlob] = useState<PutBlobResult | null>(null);
 
-  const [state, formAction] = useFormState(createDriver, initialState);
+  const [state, formAction] = useActionState(createDriver, initialState);
 
 
   return (
@@ -280,7 +280,7 @@ export function UpdateDriverForm({
   const [blob, setBlob] = useState<PutBlobResult | null>(null);
 
   const updateDriverWithId = updateDriver.bind(null, driver?.id);
-  const [state, formAction] = useFormState(updateDriverWithId, initialState);
+  const [state, formAction] = useActionState(updateDriverWithId, initialState);
 
   const driverImg = driver?.photo?.includes("https")
     ? driver.photo

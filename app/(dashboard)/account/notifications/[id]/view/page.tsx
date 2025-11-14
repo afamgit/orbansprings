@@ -17,12 +17,12 @@ export const metadata: Metadata = {
   title: "Notification",
 };
 
-export default async function Message({ params }: { params: { id: string } }) {
-  const id = parseInt(params.id);
+export default async function Message({ params }: { params: any }) {
+  const {id} = await params;
 
   const message = await prisma.usermessages.findUnique({
     where: {
-      umsgid: id,
+      umsgid: parseInt(id),
     },
   });
 

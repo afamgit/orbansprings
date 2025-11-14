@@ -13,21 +13,9 @@ export const metadata: Metadata = {
 
 export default async function Page({
   params,
-  searchParams,
 }: {
-  params: {
-    id: string;
-  };
-  searchParams?: {
-    query?: string;
-    page?: string;
-    product?: string;
-  };
-}) {
-  const id = params.id;
-  const query = searchParams?.query || "";
-  const currentPage = Number(searchParams?.page) || 1;
-  const product = searchParams?.product || "";
+  params: any;}) {
+  const {id} = await params;
 
   const order = await prisma.transactions.findUnique({
     where: {

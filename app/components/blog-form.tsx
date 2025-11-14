@@ -1,7 +1,7 @@
 'use client'
  
 import { PutBlobResult } from '@vercel/blob';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useActionState } from 'react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
@@ -12,7 +12,7 @@ import { updateArticle, createArticle } from '../utils/actions'
 const QuillEditor = dynamic(() => import('react-quill'), { ssr: false });
 
 const initialState = {
-  message: null,
+  message: '',
 }
  
 function SubmitButton() {
@@ -45,7 +45,7 @@ export function AddBlogForm() {
 
   const createArticleWithContent = createArticle.bind(null, content)
 
-    const [state, formAction] = useFormState(createArticleWithContent, initialState)
+    const [state, formAction] = useActionState(createArticleWithContent, initialState)
 
 
   const quillModules = {
@@ -365,7 +365,7 @@ export function AddBlogForm() {
   
 
    const updateArticleWithId = updateArticle.bind(null, blog?.artid, content)
-   const [state, formAction] = useFormState(updateArticleWithId, initialState)
+   const [state, formAction] = useActionState(updateArticleWithId, initialState)
 
 
 

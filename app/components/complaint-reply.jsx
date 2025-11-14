@@ -3,9 +3,10 @@
 import { useFormState } from 'react-dom'
 import { useFormStatus } from 'react-dom'
 import { replyComplaint } from '../utils/actions'
+import { useActionState } from 'react'
  
 const initialState = {
-  message: null,
+  message: '',
 }
  
 function SubmitButton() {
@@ -22,7 +23,7 @@ function SubmitButton() {
 export function ComplaintReplyForm({message, name, phone}) {
   const updateComplaintWithId = replyComplaint.bind(null, message.cid)
 
-    const [state, formAction] = useFormState(updateComplaintWithId, initialState)
+    const [state, formAction] = useActionState(updateComplaintWithId, initialState)
    
     return (
       <>

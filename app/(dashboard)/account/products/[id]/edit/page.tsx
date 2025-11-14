@@ -7,12 +7,12 @@ export const metadata: Metadata = {
     title: 'Update Product',
   };
 
-export default async function Page({params}: {params: {id: string}}) {
-    const id = parseInt(params.id);
+export default async function Page({params}: {params: any}) {
+    const {id} = await params;
 
     const product = await prisma.products.findUnique({
         where: {
-            id: id
+            id: parseInt(id)
         }
     })
 

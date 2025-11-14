@@ -2,12 +2,12 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/scripts";
 import { z } from "zod";
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(req: Request, { params }: { params: any }) {
   try {
-    const id = parseInt(params.id);
+    const {id} = await params;
     const meterReading = await prisma.meterReadings.findUnique({
       where: {
-        id: id,
+        id: parseInt(id),
       },
       include: {
         meter: true,
@@ -19,18 +19,18 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
   }
 }
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: Request, { params }: { params: any }) {
   try {
-    const id = parseInt(params.id);
+    const {id} = await params;
     const body = await req.json();
 
-    const { reading_morning, reading_afternoon, reading_evening } = body;
+    const { first_reading, afternoon_reading, last_reading } = body;
 
     const parsedCredentials = z
       .object({
-        reading_morning: z.number(),
-        reading_afternoon: z.number(),
-        reading_evening: z.number(),
+        first_reading: z.number(),
+        afternoon_reading: z.number(),
+        last_reading: z.number(),
       })
       .safeParse(body);
 
@@ -40,12 +40,12 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
 
     const updatedMeterReading = await prisma.meterReadings.update({
       where: {
-        id: id,
+        id: parseInt(id),
       },
       data: {
-        reading_morning: reading_morning,
-        reading_afternoon: reading_afternoon,
-        reading_evening: reading_evening,
+        first_reading: first_reading,
+        afternoon_reading: afternoon_reading,
+        last_reading: last_reading,
       },
     });
 
@@ -55,12 +55,12 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
   }
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, { params }: { params: any }) {
   try {
-    const id = parseInt(params.id);
+    const {id} = await params;
     await prisma.meterReadings.delete({
       where: {
-        id: id,
+        id: parseInt(id),
       },
     });
     return NextResponse.json({ message: 'Meter reading successfully deleted' });

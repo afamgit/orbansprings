@@ -18,7 +18,7 @@ export async function POST(req: Request) {
 
     const userExist = await prisma.users.findUnique({
         where: {
-            username: username, role: 'admin' || 'iot'
+            username: username, role: 'admin'
         }
     })
 

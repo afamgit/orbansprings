@@ -9,20 +9,7 @@ export const metadata: Metadata = {
   title: "Water Merchants",
 };
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams?: {
-    query?: string;
-    page?: string;
-    subscription?: string;
-    location?: string;
-  };
-}) {
-  const query = searchParams?.query || "";
-  const currentPage = Number(searchParams?.page) || 1;
-  const subscription = searchParams?.subscription || "Basic";
-  const location = searchParams?.location || "";
+export default async function Page() {
 
   const userInfo = await auth()
   

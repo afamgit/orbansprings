@@ -6,14 +6,14 @@ export async function POST(req: Request) {
    try {
     const body = await req.json()
 
-    const { meterId, reading_morning, reading_afternoon, reading_evening, reading_date } = body
+    const { meterId, first_reading, afternoon_reading, last_reading, reading_date } = body
 
     const parsedCredentials = z
           .object({ 
             meterId: z.number(), 
-            reading_morning: z.number(), 
-            reading_afternoon: z.number(), 
-            reading_evening: z.number(), 
+            first_reading: z.number(), 
+            afternoon_reading: z.number(), 
+            last_reading: z.number(), 
             reading_date: z.string() 
           })
           .safeParse(body);
@@ -45,9 +45,9 @@ export async function POST(req: Request) {
           id: readingExist.id
         },
         data: {
-          reading_morning: reading_morning,
-          reading_afternoon: reading_afternoon,
-          reading_evening: reading_evening,
+          first_reading: first_reading,
+          afternoon_reading: afternoon_reading,
+          last_reading: last_reading,
         }
       })
       return NextResponse.json({meter_reading: updateMeterReading, message: `Meter reading successfully updated for meter with ID ${meterId}`})
@@ -56,9 +56,9 @@ export async function POST(req: Request) {
     const postMeterReading = await prisma.meterReadings.create({
         data: {
             meterId: meterId,
-            reading_morning: reading_morning,
-            reading_afternoon: reading_afternoon,
-            reading_evening: reading_evening,
+            first_reading: first_reading,
+            afternoon_reading: afternoon_reading,
+            last_reading: last_reading,
             reading_date: new Date(reading_date),
             createdAt: new Date(),
         }

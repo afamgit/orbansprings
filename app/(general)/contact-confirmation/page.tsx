@@ -8,9 +8,9 @@ export const metadata: Metadata = {
     title: 'Contact form confirmation',
   };
 
-export default async function Page({searchParams}: {searchParams:{msg: string}}) {
+export default async function Page({searchParams}: {searchParams:any}) {
 
-  const msg = searchParams.msg
+  const {msg} = await searchParams
 
   return (
     <div className="bg-gray-100 text-gray-900">

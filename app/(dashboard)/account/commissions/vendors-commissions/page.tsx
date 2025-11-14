@@ -19,19 +19,14 @@ export const metadata: Metadata = {
 export default async function Page({
   searchParams,
 }: {
-  searchParams?: {
-    query?: string;
-    page?: string;
-    fyear: string;
-    ftype?: string;
-    fsubtype?: string;
-  };
+  searchParams?: any;
 }) {
-  const query = searchParams?.query || '';
-  const currentPage = Number(searchParams?.page) || 1;
-  const fyear = searchParams?.fyear || '';
-  const ftype = searchParams?.ftype || '';
-  const fsubtype = searchParams?.fsubtype || '';
+  const {query:queryParams,page, ftype:ftypeParams, fsubtype:fsubtypeParams, fyear:fyearParams} = await searchParams;
+  const query = queryParams || "";
+  const currentPage = Number(page) || 1;
+  const ftype = ftypeParams || "";
+  const fsubtype = fsubtypeParams || "";
+  const fyear = fyearParams || "";
 
   let month, year, nextyear
 

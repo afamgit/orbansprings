@@ -4,9 +4,10 @@ import { useFormState } from "react-dom";
 import { useFormStatus } from "react-dom";
 import { createProductPrices, updateProductPrice } from "../utils/actions";
 import { areas } from "../utils/data";
+import { useActionState } from "react";
 
 const initialState = {
-  message: null,
+  message: '',
 };
 
 function SubmitButton() {
@@ -54,7 +55,7 @@ function EditButton() {
 
 export function UpdateProductPriceForm({ productid, ppriceid, amount }) {
   const updateProductPriceWithId = updateProductPrice.bind(null, ppriceid);
-  const [state, formAction] = useFormState(updateProductPriceWithId, initialState);
+  const [state, formAction] = useActionState(updateProductPriceWithId, initialState);
 
   return (
     <>

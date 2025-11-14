@@ -10,12 +10,12 @@ export const metadata: Metadata = {
     title: 'Edit truck',
   };
 
-export default async function Page({params}: {params: {id: string}}) {
-    const id = parseInt(params.id);
+export default async function Page({params}: {params: any}) {
+    const {id} = await params;
 
     const truck = await prisma.trucks.findUnique({
         where: {
-            truckid: id
+            truckid: parseInt(id)
         }
     })
 

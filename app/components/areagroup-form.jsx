@@ -3,6 +3,7 @@
 import { useFormState } from 'react-dom'
 import { useFormStatus } from 'react-dom'
 import { createAreaGroup, updateAreaGroup, deletePage } from '../utils/actions'
+import { useActionState } from 'react'
  
 const initialState = {
   message: null,
@@ -40,7 +41,7 @@ function DeleteButton() {
 
  
 export function AddAreaGroupForm() {
-    const [state, formAction] = useFormState(createAreaGroup, initialState)
+    const [state, formAction] = useActionState(createAreaGroup, initialState)
    
     return (
       <>

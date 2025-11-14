@@ -3,14 +3,14 @@
 import { PutBlobResult } from '@vercel/blob';
 import { useFormState } from 'react-dom'
 import { useFormStatus } from 'react-dom'
-import { useState, useRef } from 'react'
+import { useState, useRef, useActionState } from 'react'
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { createPage, updateTestimonial, deletePage, createTestimonial } from '../utils/actions'
 import Link from 'next/link';
  
 const initialState = {
-  message: null,
+  message: '',
 }
  
 function SubmitButton() {
@@ -50,7 +50,7 @@ export function AddTestimonialForm() {
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [blob, setBlob] = useState<PutBlobResult | null>(null);
 
-    const [state, formAction] = useFormState(createTestimonial, initialState)
+    const [state, formAction] = useActionState(createTestimonial, initialState)
    
     return (
       <>
@@ -196,7 +196,7 @@ export function AddTestimonialForm() {
 
 
    const updateTestimonialWithId = updateTestimonial.bind(null, testimonial.tid)
-   const [state, formAction] = useFormState(updateTestimonialWithId, initialState)
+   const [state, formAction] = useActionState(updateTestimonialWithId, initialState)
 
    const photoImg = testimonial?.tphoto.includes('https') ? `${testimonial?.tphoto}` : testimonial?.tphoto.includes('images') ? `https://support.orbansprings.com/${testimonial?.tphoto}` : `/${testimonial?.tphoto}`
 

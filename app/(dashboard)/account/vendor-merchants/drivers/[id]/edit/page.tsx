@@ -9,12 +9,12 @@ export const metadata: Metadata = {
     title: 'Edit driver',
   };
 
-export default async function Page({params}: {params: {id: string}}) {
-    const id = parseInt(params.id);
+export default async function Page({params}: {params: any}) {
+    const {id} = await params;
 
     const driver = await prisma.users.findUnique({
         where: {
-            id: id
+            id: parseInt(id)
         }
     })
 

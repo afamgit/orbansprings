@@ -7,12 +7,12 @@ export const metadata: Metadata = {
   title: 'Edit article',
 };
 
-export default async function Blog({params}: {params: {id: string}}) {
-  const id = parseInt(params.id);
+export default async function Blog({params}: {params: any}) {
+  const {id} = params;
 
   const blogItem = await prisma?.articles.findUnique({
       where: {
-          artid: id
+          artid: parseInt(id)
       }
   })
 

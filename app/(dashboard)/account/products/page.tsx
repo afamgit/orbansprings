@@ -17,13 +17,11 @@ export const metadata: Metadata = {
 export default async function Page({
   searchParams,
 }: {
-  searchParams?: {
-    query?: string;
-    page?: string;
-  };
+  searchParams?: any;
 }) {
-  const query = searchParams?.query || '';
-  const currentPage = Number(searchParams?.page) || 1;
+  const {query:queryParams,page} = await searchParams;
+  const query = queryParams || "";
+  const currentPage = Number(page) || 1;
   
 const total = await fetchAllProducts(query)
 

@@ -28,17 +28,14 @@ export const metadata: Metadata = {
 export default async function Page({
   searchParams,
 }: {
-  searchParams?: {
-    query?: string;
-    page?: string;
-    subscription?: string;
-    location?: string;
-  };
-}) {
-  const query = searchParams?.query || "";
-  const currentPage = Number(searchParams?.page) || 1;
-  const subscription = searchParams?.subscription || "Basic";
-  const location = searchParams?.location || "";
+  searchParams?: any;
+}) 
+ {
+  const {query:queryParams,page, subscription:subscriptionParams, location:locationParams, product: productParams} = await searchParams;
+  const query = queryParams || "";
+  const currentPage = Number(page) || 1;
+  const subscription = subscriptionParams || "Basic";
+  const location = locationParams || "";
 
   const total = await fetchUsers(query, subscription, location);
 

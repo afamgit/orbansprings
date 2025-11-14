@@ -1,7 +1,7 @@
 'use client'
  
 import { PutBlobResult } from '@vercel/blob';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useActionState } from 'react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
@@ -12,7 +12,7 @@ import { updateArticle, createArticle, createNewsletter, updateNewsletter } from
 const QuillEditor = dynamic(() => import('react-quill'), { ssr: false });
 
 const initialState = {
-  message: null,
+  message: '',
 }
  
 function SubmitButton() {
@@ -43,7 +43,7 @@ export function AddNewsletterForm({username}: {username: string}) {
 
   const createNewsletterWithContent = createNewsletter.bind(null, content)
 
-    const [state, formAction] = useFormState(createNewsletterWithContent, initialState)
+    const [state, formAction] = useActionState(createNewsletterWithContent, initialState)
 
 
   const quillModules = {

@@ -34,15 +34,13 @@ export const metadata: Metadata = {
 export default async function Page({
   searchParams,
 }: {
-  searchParams?: {
-    query?: string;
-    page?: string;
-    availability?: string;
-  };
-}) {
-  const query = searchParams?.query || "";
-  const currentPage = Number(searchParams?.page) || 1;
-  const availability = searchParams?.availability || "";
+  searchParams?: any;
+}) 
+ {
+  const {query:queryParams,page, availability: availabilityParams} = await searchParams;
+  const query = queryParams || "";
+  const currentPage = Number(page) || 1;
+  const availability = availabilityParams || "";
 
   const userInfo = await auth()
   

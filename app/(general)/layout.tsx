@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     default: 'Orban Springs',
   },
   description: 'Orban Springs website.',
-  metadataBase: new URL('https://next-learn-dashboard.vercel.sh'),
+  metadataBase: new URL('https://orbansprings.com'),
 };
 
 export default async function RootLayout({

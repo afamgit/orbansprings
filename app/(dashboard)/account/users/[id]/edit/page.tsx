@@ -8,12 +8,12 @@ export const metadata: Metadata = {
     title: 'Edit user',
   };
 
-export default async function User({params}: {params: {id: string}}) {
-    const id = parseInt(params.id);
+export default async function User({params}: {params: any}) {
+    const {id} = await params;
 
     const userFind = await prisma.users.findUnique({
         where: {
-            id: id
+            id: parseInt(id)
         }
     })
 

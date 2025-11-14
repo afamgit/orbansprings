@@ -19,22 +19,11 @@ export const metadata: Metadata = {
 
 export default async function Page({
   params,
-  searchParams,
 }: {
-  params: {
-    id: string;
-  };
-  searchParams?: {
-    query?: string;
-    page?: string;
-    product?: string;
-  };
+  params: any;
 }) {
-  const id = params.id;
-  const query = searchParams?.query || "";
-  const currentPage = Number(searchParams?.page) || 1;
-  const product = searchParams?.product || "";
-
+  const {id} = await params;
+  
   const getRequest = await prisma.requests.findFirst({
     where: {
       orderref: id,

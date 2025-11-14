@@ -32,7 +32,7 @@ const clickOk = () => {
     closeDialog()
 }
 
-const dialog: JSX.Element | null = showDialog === 'y' 
+const dialog = showDialog === 'y' 
 ? (
 <dialog ref={dialogRef} className="fixed top-50 left-50 translate-x-50 translate-y-50 z-10 backdrop:bg-gray-800/50">
     <div className="w-full flex justify-between items-center bg-yellow-500 p-1">

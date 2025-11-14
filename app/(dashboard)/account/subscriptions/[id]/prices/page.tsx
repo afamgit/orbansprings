@@ -8,18 +8,18 @@ export const metadata: Metadata = {
     title: 'Product Prices',
   };
 
-export default async function Page({params}: {params: {id: string}}) {
-    const id = parseInt(params.id);
+export default async function Page({params}: {params: any}) {
+    const {id} = await params;
 
     const product = await prisma.products.findUnique({
         where: {
-            id: id
+            id: parseInt(id)
         }
     })
 
     const productPrices = await prisma.product_prices_areas.findMany({
         where: {
-            ppa_pid: id
+            ppa_pid: parseInt(id)
         }
     })
 
