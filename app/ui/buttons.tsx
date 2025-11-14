@@ -1,6 +1,6 @@
 'use client'
 
-import { deletePage, deleteNewsletter, deleteSubscription, deleteArticle, deleteAccount, deleteProduct, deleteAreaGroup, deleteTestimonial, deleteTeam, deleteMeter, deleteUser, deleteFaq } from '@/app/utils/actions';
+import { deletePage, deleteNewsletter, deleteSubscription, deleteArticle, deleteAccount, deleteProduct, deleteAreaGroup, deleteTestimonial, deleteTeam, deleteMeter, deleteUser, deleteFaq, deleteMeterReading } from '@/app/utils/actions';
 import Link from 'next/link';
 import { BsTrash2Fill, BsPencilSquare } from 'react-icons/bs';
 
@@ -342,4 +342,15 @@ export function DeletePage({ id }: { id: string }) {
       </Link>
     );
   }
-  
+
+  export function DeleteMeterReading({ id }: { id: string }) {
+   
+    return (
+      <button onClick={() => {
+        if(confirm('Confirm you want to delete this meter reading. This action is irreversible') === true) {
+          deleteMeterReading(id)}
+       }} className="rounded-md border p-2 hover:bg-gray-100">
+          <span className="sr-only">Delete</span> <BsTrash2Fill className='text-2xl text-red-600' />
+        </button>
+    );
+  }

@@ -1,13 +1,12 @@
 "use client";
 
-import { useFormState } from "react-dom";
 import { useFormStatus } from "react-dom";
 import { updateRequest } from "../utils/actions";
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const initialState = {
-  message: null,
+  message: '',
 };
 
 function AssignButton() {
@@ -44,7 +43,7 @@ export function AssignDriverForm({
 }) {
   const router = useRouter();
   const updateRequestWithId = updateRequest.bind(null, req);
-  const [state, formAction] = useFormState(updateRequestWithId, initialState);
+  const [state, formAction] = useActionState(updateRequestWithId, initialState);
   const [driver, setDriver] = useState("");
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState(null);

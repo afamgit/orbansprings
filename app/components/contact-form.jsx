@@ -3,7 +3,7 @@
 import { useFormState } from "react-dom";
 import { useFormStatus } from "react-dom";
 import { sendMessage } from "../utils/actions";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useActionState } from "react";
 import { useRouter } from "next/navigation";
 import z from "zod";
 import { v4 as uuidv4 } from "uuid";
@@ -19,7 +19,7 @@ const messageSchema = z.object({
 
 
 const initialState = {
-  message: null,
+  message: '',
 };
 
 function SubmitButton() {
@@ -39,7 +39,7 @@ function SubmitButton() {
 export function ContactForm() {
   const router = useRouter();
 
-  const [state, formAction] = useFormState(sendMessage, initialState);
+  const [state, formAction] = useActionState(sendMessage, initialState);
 
   const [data, setData] = useState({});
   const [msg, setMsg] = useState("");

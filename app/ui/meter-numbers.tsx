@@ -23,7 +23,8 @@ export default async function MeterNumbers({
         </div>
 
         <div className='w-full flex justify-end items-end p-3 my-3'>
-        <Link className='rounded-full px-3 py-2 bg-gray-800 text-white' href='/account/meters/meter-numbers/create'>Add New</Link>
+        <Link className='rounded-full px-3 py-2 bg-gray-800 text-white mr-3' href='/account/meters/create'>Add Single meter</Link>
+                <Link className='rounded-full px-3 py-2 bg-gray-800 text-white' href='/account/meters/meter-numbers/create'>Generate Meter Numbers</Link>
 
         </div>
 

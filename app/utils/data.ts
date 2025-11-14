@@ -21,6 +21,10 @@ export async function getUser(email: string) {
 
 export async function getProfileUser(email: string) {
 
+  if (!email) {
+    return null;
+  }
+
   try {
     const user = await prisma.users.findFirst({
       where: { email: email },
@@ -46,6 +50,10 @@ export async function getProfileFromUser(username: string) {
       }
     });
 
+    if(!user) {
+      return null 
+    }
+
     return user;
   } catch (error: any) {
     console.error('Failed to fetch user:', error);
@@ -62,6 +70,10 @@ export async function getProfilePassword(email: string) {
         name: true, username: true, role: true, email: true, id: true, password: true
       }
     });
+
+    if(!user) {
+      return null
+    }
 
     return user;
   } catch (error: any) {
@@ -184,15 +196,23 @@ export async function fetchFilteredMeters(
   query: string,
   currentPage: number,
   usertype: string,
-  status: string
+  status: string,
+  userId?: string,
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   const type = usertype === 'Customer' ? 'Domestic Use' : usertype === 'Driver' ? 'Tanker' : usertype
   try {
+
+    const whereClause: any = { 
+      m_for: { contains: type }, m_status: { startsWith: status }
+    };
+
+    if (userId) {
+      whereClause.m_assigned_to = userId;
+    }
+
     const meters = await prisma.meters.findMany({
-      where: {
-        m_for: { contains: type }, m_status: { startsWith: status }
-      },
+      where: whereClause,
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -203,14 +223,21 @@ export async function fetchFilteredMeters(
   }
 }
 
-export async function fetchMeters(query: string, usertype: string, status: string) {
+export async function fetchMeters(query: string, usertype: string, status: string, userId?: string) {
   const type = usertype === 'Customer' ? 'Domestic Use' : usertype === 'Driver' ? 'Tanker' : usertype
 
   try {
+
+    const whereClause: any = { 
+      m_for: { contains: type }, m_status: { startsWith: status }
+    };
+
+    if (userId) {
+      whereClause.m_assigned_to = userId;
+    }
+
     const meters = await prisma.meters.count({
-      where: {
-        m_for: { contains: type }, m_status: { startsWith: status }
-      }
+      where: whereClause
     })
     const totalPages = Math.ceil(Number(meters) / ITEMS_PER_PAGE);
     return totalPages;
@@ -1558,9 +1585,159 @@ export async function fetchAverageDeliveryTime() {
     })
 
 
-    return [aveArr, arrLegend];
+    
+
+
+        return [aveArr, arrLegend];
+
+
+      } catch (error) {
+
+
+        console.error('Database Error:', error);
+
+
+        throw new Error('Failed to fetch average delivery time.');
+
+
+      }
+
+
+    }
+
+
+    
+
+
+export async function fetchMeterReadings(meterId: string, date: string, month: string, year: string, userId?: string) {
+  try {
+    const whereClause: any = { AND: [] };
+
+    if (meterId) {
+      whereClause.AND.push({ meterId: parseInt(meterId, 10) });
+    }
+
+    if (date) {
+      whereClause.AND.push({ reading_date: new Date(`${date}T00:00:00.000Z`) });
+    } else if (year && month) {
+      const startDate = new Date(parseInt(year), parseInt(month) - 1, 1);
+      const endDate = new Date(parseInt(year), parseInt(month), 0);
+      whereClause.AND.push({ reading_date: { gte: startDate, lte: endDate } });
+    } else if (year) {
+      const startDate = new Date(parseInt(year), 0, 1);
+      const endDate = new Date(parseInt(year), 11, 31);
+      whereClause.AND.push({ reading_date: { gte: startDate, lte: endDate } });
+    }
+
+    if (userId) {
+      whereClause.AND.push({
+        meter: {
+          m_assigned_to: userId,
+        },
+      });
+    }
+
+    const meterReadings = await prisma.meterReadings.count({
+      where: whereClause.AND.length ? whereClause : undefined,
+    });
+    const totalPages = Math.ceil(Number(meterReadings) / ITEMS_PER_PAGE);
+    return totalPages;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch average delivery time.');
+    throw new Error('Failed to fetch meter readings.');
   }
 }
+
+export async function fetchFilteredMeterReadings(
+  meterId: string,
+  date: string,
+  month: string,
+  year: string,
+  currentPage: number,
+  userId?: string
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const whereClause: any = { AND: [] };
+
+    if (meterId) {
+      whereClause.AND.push({ meterId: parseInt(meterId, 10) });
+    }
+
+    if (date) {
+      whereClause.AND.push({ reading_date: new Date(`${date}T00:00:00.000Z`) });
+    } else if (year && month) {
+      const startDate = new Date(parseInt(year), parseInt(month) - 1, 1);
+      const endDate = new Date(parseInt(year), parseInt(month), 0);
+      whereClause.AND.push({ reading_date: { gte: startDate, lte: endDate } });
+    } else if (year) {
+      const startDate = new Date(parseInt(year), 0, 1);
+      const endDate = new Date(parseInt(year), 11, 31);
+      whereClause.AND.push({ reading_date: { gte: startDate, lte: endDate } });
+    }
+
+    if (userId) {
+      whereClause.AND.push({
+        meter: {
+          m_assigned_to: userId,
+        },
+      });
+    }
+
+    const meterReadings = await prisma.meterReadings.findMany({
+      where: whereClause.AND.length ? whereClause : undefined,
+      include: {
+        meter: true,
+        first_reading_user: {
+          select: { name: true }
+        },
+        afternoon_reading_user: {
+          select: { name: true }
+        },
+        last_reading_user: {
+          select: { name: true }
+        }
+      },
+      orderBy: {
+        reading_date: 'desc',
+      },
+      skip: offset,
+      take: ITEMS_PER_PAGE,
+    });
+    return meterReadings;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch meter readings.');
+  }
+}
+
+export async function fetchLastReadingOfPreviousDay(meterId: number, date: Date) {
+  try {
+    const previousReading = await prisma.meterReadings.findFirst({
+      where: {
+        meterId: meterId,
+        reading_date: {
+          lt: date // Less than the current date
+        },
+        last_reading: {
+          not: null // Ensure there was a last reading recorded
+        }
+      },
+      orderBy: {
+        reading_date: 'desc' // Get the most recent one
+      },
+      select: {
+        last_reading: true
+      }
+    });
+
+    return previousReading?.last_reading || null;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch last reading of previous day.');
+  }
+}
+
+
+    

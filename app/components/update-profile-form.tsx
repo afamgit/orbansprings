@@ -1,7 +1,7 @@
 'use client'
  
 import { PutBlobResult } from '@vercel/blob';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useActionState } from 'react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
@@ -10,7 +10,7 @@ import { useFormStatus } from 'react-dom'
 import { updateProfile, createArticle } from '../utils/actions'
  
 const initialState = {
-  message: null,
+  message: '',
 }
  
  
@@ -30,7 +30,7 @@ function EditButton() {
     const [blob, setBlob] = useState<PutBlobResult | null>(null);
   
  const updateProfileWithId = updateProfile.bind(null, profile?.id)
-   const [state, formAction] = useFormState(updateProfileWithId, initialState)
+   const [state, formAction] = useActionState(updateProfileWithId, initialState)
  
    const profileImg = profile?.photo?.includes('profile') ? `https://orbansprings.com/${profile.photo}` : profile?.photo?.includes('noimage') ? `https://support.orbansprings.com/${profile.photo}` : `/${profile?.photo}`
 
@@ -94,7 +94,7 @@ function EditButton() {
               height={300}
               width={300}
               src={`${profileImg}`}
-              alt={profile?.title}
+              alt={profile?.title || 'Profile Image'}
               className='rounded-full h-[200px] w-[200px] mt-6'
             />
 

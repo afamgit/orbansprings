@@ -1,9 +1,8 @@
 'use client'
  
-import { useFormState } from 'react-dom'
 import { useFormStatus } from 'react-dom'
 import { newsletterSignup } from '../utils/actions'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useActionState } from 'react'
 
 
 const initialState = {
@@ -23,7 +22,7 @@ function SignUpButton() {
 
 export function NewsletterSignup () {
 
-  const [state, formAction] = useFormState(newsletterSignup, initialState)
+  const [state, formAction] = useActionState(newsletterSignup, initialState)
 
   const [showMsg, setShowMsg] = useState(false)
 

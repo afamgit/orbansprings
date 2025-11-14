@@ -5,9 +5,11 @@ import { fetchMeters } from '@/app/utils/data'
 import Pagination from '@/app/ui/pagination';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 import { Metadata } from 'next';
-import CircularProgressBar from '../../../ui/charts/circular-progress-bar';
+import CircularProgressBar from '@/app/ui/charts/circular-progress-bar';
 import { UserType } from '@/app/components/user-type';
 import { Status } from '@/app/components/status';
+import { auth } from '@/auth';
+import { getProfileUser } from '@/app/utils/data';
 
 export const metadata: Metadata = {
   title: 'Meters',
@@ -25,19 +27,23 @@ export default async function Page({
   const usertype = usertypeParams || '';
   const status = statusParams || '';
 
+  const userInfo = await auth()
+  const profile = await getProfileUser(userInfo?.user.email || '')
+  const userId = profile?.username.toString() || ''
+
   const installedMeters = await prisma.meters.count({
-    where: {m_assigned: 'Yes'}
+    where: {m_assigned: 'Yes', m_assigned_to: userId}
   })
 
   const activeMeters = await prisma.meters.count({
-    where: {m_status: 'Active'}
+    where: {m_status: 'Active', m_assigned_to: userId}
   })
 
   const inactiveMeters = await prisma.meters.count({
-    where: {m_status: 'Inactive'}
+    where: {m_status: 'Inactive', m_assigned_to: userId}
   })
 
-    const total = await fetchMeters(query, usertype, status)
+    const total = await fetchMeters(query, usertype, status, userId)
 
       return (
         <main className='w-full md:w-[1100px] flex flex-col justify-center items-center'>
@@ -46,8 +52,12 @@ export default async function Page({
             breadcrumbs={[
               { label: 'Account', href: '/account' },
               {
+                label: 'Water Merchants',
+                href: '/account/water-merchants',
+              },
+              {
                 label: 'Meters',
-                href: '/account/meters',
+                href: '/account/water-merchants/meters',
                 active: true,
               },
             ]}
@@ -82,7 +92,7 @@ export default async function Page({
           </div>
         </div>
 
-    <Meters query={query} currentPage={currentPage} usertype={usertype} status={status} />
+    <Meters query={query} currentPage={currentPage} usertype={usertype} status={status} userId={userId} />
 
     <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={total} />

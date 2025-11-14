@@ -7,21 +7,28 @@ export default async function Meters({
     query,
     currentPage,
     usertype,
-    status
+    status,
+    userId
   }: {
     query: string;
     currentPage: number;
     usertype: string;
-    status: string
+    status: string;
+    userId?: string;
   }) { 
 
-    const allMeters = await fetchFilteredMeters(query, currentPage, usertype, status);
+    const allMeters = await fetchFilteredMeters(query, currentPage, usertype, status, userId);
 
-    const total = await prisma.meters.count()
+    const whereClause: any = {};
+    if (userId) {
+      whereClause.m_assigned_to = userId;
+    }
+    const total = await prisma.meters.count({ where: whereClause });
 
     const groupMeters = await prisma.meters.groupBy({
     by: ['m_status'],
-    _count: {meterid: true} 
+    _count: {meterid: true},
+    where: whereClause
     })
         
     const volumeSoldTanker = async (mid: string) => {
@@ -59,8 +66,8 @@ export default async function Meters({
             <main className='w-full flex flex-col justify-start items-center'>
     
                 <div className='w-full flex justify-between items-center my-3 py-3'>
-              <h2 className='font-bold text-2xl'>Meters {total}</h2>
-             <Link className='rounded-full px-3 py-2 bg-gray-800 text-white' href='/account/meters/meter-numbers'>Meter numbers</Link>
+              <h2 className='font-bold text-2xl'>Meters {total} {!userId ? <Link href={'/account/meter-readings'} className='ml-5 bg-gray-700 text-gray-100 rounded-lg px-4 py-1'>Meter Readings</Link> : <Link href={'/account/water-merchants/meter-readings'} className='ml-5 bg-gray-700 text-gray-100 rounded-lg px-4 py-1'>Meter Readings</Link>}</h2>
+              {!userId && <Link className='rounded-full px-3 py-2 bg-gray-800 text-white' href='/account/meters/meter-numbers'>Meter numbers</Link>}
              </div>
     
               {/* <MetersChart /> */}

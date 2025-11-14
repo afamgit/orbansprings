@@ -33,7 +33,23 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "scripts.ts", "app/components/header.jsx", "app/ui/charts/pie-chart.js", "app/api/auth/[...nextauth]/route.js", "app/api/auth/[...nextauth]/route.js", "app/api/auth/[...nextauth]/route.js", "app/ui/charts/water-analysis.jsx", "app/ui/charts/water-analysis.js", "app/ui/charts/drivers-per-area.js", "app/ui/charts/customers-per-area.js", "app/ui/charts/circular-progress-bar.jsx", "app/ui/charts/circular-progress-bar.jsx", "app/components/blog-form.tsx", "app/api/images/route.js", "app/(general)/commissionpay/refpay/exp1/page.jsx"  ],
+    "scripts.ts",
+    "app/components/header.jsx",
+    "app/ui/charts/pie-chart.js",
+    "app/api/auth/[...nextauth]/route.js",
+    "app/api/auth/[...nextauth]/route.js",
+    "app/api/auth/[...nextauth]/route.js",
+    "app/ui/charts/water-analysis.jsx",
+    "app/ui/charts/water-analysis.js",
+    "app/ui/charts/drivers-per-area.js",
+    "app/ui/charts/customers-per-area.js",
+    "app/ui/charts/circular-progress-bar.jsx",
+    "app/ui/charts/circular-progress-bar.jsx",
+    "app/components/blog-form.tsx",
+    "app/api/images/route.js",
+    "app/(general)/commissionpay/refpay/exp1/page.jsx",
+    ".next/dev/types/**/*.ts"
+  ],
   "exclude": [
     "node_modules"
   ]

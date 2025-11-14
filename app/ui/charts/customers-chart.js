@@ -32,12 +32,12 @@ import Chart from 'chart.js/auto'
             },
             options: {
                 scales: {
-                    xAxes: [{
+                    x: {
                         display: false,
-                    }],
-                    yAxes: [{
+                    },
+                    y: {
                         display: false,
-                    }],
+                    },
                 }
             },
 

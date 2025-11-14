@@ -28,12 +28,12 @@ import { fetchCustomersPerArea } from "../../utils/data"
             },
             options: {
                 scales: {
-                    xAxes: [{
+                    x: {
                         display: false,
-                    }],
-                    yAxes: [{
+                    },
+                    y: {
                         display: false,
-                    }],
+                    },
                 }
             },
 

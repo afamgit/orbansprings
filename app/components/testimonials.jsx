@@ -107,10 +107,10 @@ const [filteredData, setFilteredData] = useState([]);
                     <div className="flex flex-col justify-center items-center text-lg py-5 my-5">
                     <div className='my-3 py-3'>
                         <div className='relative flex top-[10px]'>
-                          {arrayRange(1,5,1).map((item,i) => <BsStarFill className='text-gray-300 font-bold' />)}
+                          {arrayRange(1,5,1).map((item,i) => <BsStarFill key={i} className='text-gray-300 font-bold' />)}
 
                           <div className='absolute flex'>
-                            {arrayRange(1,item.tstars,1).map((item,i) => <BsStarFill className='text-yellow-500 font-bold' />)}
+                            {arrayRange(1,item.tstars,1).map((item,i) => <BsStarFill key={i} className='text-yellow-500 font-bold' />)}
                           </div>
                         </div>
                        </div>

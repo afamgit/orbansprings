@@ -1,5 +1,5 @@
 'use client';
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useActionState} from 'react'
 import {
   AtSymbolIcon,
   KeyIcon,
@@ -19,7 +19,7 @@ export default function LoginForm() {
     const [showCredentials, setShowCredentials] = useState('block')
     const [uname, setUname] = useState(null)
 
-  const [errorMessage, dispatch] = useFormState(authenticate, '');
+  const [errorMessage, dispatch] = useActionState(authenticate, '');
  
   useEffect(() => {
     if(errorMessage === 'require 2fa code') {
@@ -55,7 +55,6 @@ export default function LoginForm() {
 
     const resultResponse = await result.json();
 
-    console.log(resultResponse)
 
   }
 
@@ -103,7 +102,7 @@ export default function LoginForm() {
               className="mb-3 mt-5 block text-xs font-medium text-gray-900"
               htmlFor="username"
             >
-              Username
+              Username or email address
             </label>
             <div className="relative">
               <input
@@ -112,7 +111,7 @@ export default function LoginForm() {
                 type="text"
                 name="username"
                 onChange={(e) => setUname(e.target.value)}
-                placeholder="Enter your username"
+                placeholder="Enter your username or email address"
                 required
               />
               <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
