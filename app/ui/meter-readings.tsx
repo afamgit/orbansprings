@@ -73,7 +73,7 @@ export default async function MeterReadings({
           <th className='text-start'>Afternoon</th>
           <th className='text-start'>Last</th>
           <th className='text-start'>Total Diff</th>
-          <th className='text-start'>Actions</th>
+          {!userId && <th className='text-start'>Actions</th>}
         </tr>
       </thead>
       <tbody>
@@ -84,7 +84,7 @@ export default async function MeterReadings({
             const firstToPrevDayDiff = item.first_reading && previousDayLastReading ? item.first_reading - previousDayLastReading : 0;
             const firstToAfternoonDiff = item.afternoon_reading && item.first_reading ? item.afternoon_reading - item.first_reading : 0;
             const afternoonToLastDiff = item.last_reading && item.afternoon_reading ? item.last_reading - item.afternoon_reading : 0;
-            const totalDiff = (item.last_reading || 0) - (previousDayLastReading || 0);
+            const totalDiff = (item.last_reading || 0) - (previousDayLastReading ? previousDayLastReading : item.first_reading || 0);
             const monetaryValue = totalDiff * (item.meter.m_water_unit_price || 0.50);
     
             return (
@@ -94,30 +94,32 @@ export default async function MeterReadings({
                   <p>{new Date(item.reading_date).toDateString()}</p>
                 </td>
                 <td className='px-2 py-1'>
-                  {item.first_reading}
+                  <p className='font-bold'>{item.first_reading}</p>
                   <p>{firstToPrevDayDiff}</p>
                   {item.first_reading_user?.name && <div className="text-xs text-gray-500">by {item.first_reading_user.name}</div>}
                   {item.first_reading_at && <div className="text-xs text-gray-500">{new Date(item.first_reading_at).toLocaleTimeString()}</div>}
                 </td>
                 <td className='px-2 py-1'>
-                  {item.afternoon_reading}
+                  <p className='font-bold'>{item.afternoon_reading}</p>
                   <p>{firstToAfternoonDiff}</p>
                   {item.afternoon_reading_user?.name && <div className="text-xs text-gray-500">by {item.afternoon_reading_user.name}</div>}
                   {item.afternoon_reading_at && <div className="text-xs text-gray-500">{new Date(item.afternoon_reading_at).toLocaleTimeString()}</div>}
                 </td>
                 <td className='px-2 py-1'>
-                  {item.last_reading}
+                  <p className='font-bold'>{item.last_reading}</p>
                   <p>{afternoonToLastDiff}</p>
                   {item.last_reading_user?.name && <div className="text-xs text-gray-500">by {item.last_reading_user.name}</div>}
                   {item.last_reading_at && <div className="text-xs text-gray-500">{new Date(item.last_reading_at).toLocaleTimeString()}</div>}
                 </td>
-                <td className='px-2 py-1'>{totalDiff} - ({item.meter.m_water_unit_price})
-                  <p>N{monetaryValue.toFixed(2)}</p>
-                </td>
                 <td className='px-2 py-1'>
-                  <Link href={`${basePath}/meter-readings/${id}/edit`} className="text-blue-500 mr-4">Edit</Link>
-                  {!userId && <DeleteMeterReading id={id} />}
+                  {totalDiff > 0 ? <div>{totalDiff} - ({item.meter.m_water_unit_price})
+                  <p>N{monetaryValue.toLocaleString()}</p>
+                  </div> : 'N/A'}
                 </td>
+                {!userId && <td className='px-2 py-1'>
+                  <Link href={`${basePath}/meter-readings/${id}/edit`} className="text-blue-500 mr-4">Edit</Link>
+                  <DeleteMeterReading id={id} />
+                </td>}
               </tr>
             )
         }
