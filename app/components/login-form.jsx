@@ -26,12 +26,12 @@ export default function LoginForm() {
   const [errorMessage, dispatch] = useActionState(authenticate, initialState);
  
   useEffect(() => {
-    if(errorMessage === 'require 2fa code') {
+    if(errorMessage?.message === 'require 2fa code') {
       setShowCode('block')
       setShowCredentials('hidden')
       send2faEmail()
     }
-  },[errorMessage])
+  },[errorMessage]);
 
 
   const send2faEmail = async () => {
@@ -70,14 +70,14 @@ export default function LoginForm() {
         </h1>
 
         
-          {errorMessage && errorMessage !== 'require 2fa code' && (
+          {errorMessage?.message && errorMessage?.message !== 'require 2fa code' && (
             <div
             className="flex h-12 items-end space-x-1"
             aria-live="polite"
             aria-atomic="true"
           >
               <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
-              <p className="text-sm text-red-500">{errorMessage}</p>
+              <p className="text-sm text-red-500">{errorMessage.message}</p>
               </div>
           )}
         
