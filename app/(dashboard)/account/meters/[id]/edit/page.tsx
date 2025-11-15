@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     title: 'Update meter',
   };
 
-export default async function Team({params}: {params: any}) {
+export default async function Meters({params}: {params: any}) {
     const {id} = await params;
 
     const meter = await prisma.meters.findUnique({
@@ -17,7 +17,15 @@ export default async function Team({params}: {params: any}) {
         }
     })
 
-    const customers = await fetchCustomers()
+    const customers = await prisma.users.findMany({
+      where : {
+          role: 'watermerchant'
+      },
+      select: {
+          username: true,
+          name: true
+      }
+  });
 
     return (
       <main className='w-full md:w-[1100px] flex flex-col justify-center items-center'>

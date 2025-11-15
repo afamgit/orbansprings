@@ -83,7 +83,7 @@ export default async function Meters({
           <th className='text-start'>Total vol sold(gl)</th>
           <th className='text-start'>Volume Purchased(gl)</th>
           <th className='text-start'>Status</th>
-          <th></th>
+          {!userId && <th></th>}
         </tr>
       </thead>
       <tbody>
@@ -98,7 +98,7 @@ export default async function Meters({
                 <td className='px-2 py-1 text-center'>{item.m_for === 'Tanker' ? volumeSoldTanker(item.m_unique_id) : volumeSoldSupply(item.m_unique_id)}</td>
                 <td className='px-2 py-1 text-center'>{volumePurchased(item.m_unique_id,item.m_for)}</td>
                 <td className='px-2 py-1 text-center'><span className={`px-2 py-1 rounded w-full ${item.m_status === 'Active' ? 'bg-green-100' : 'bg-red-100'}`}>{item.m_status}</span></td>
-                <td className='px-2 py-1'><UpdateMeter meter={item} /> </td>
+                {!userId && <td className='px-2 py-1'><UpdateMeter meter={item} /> </td>}
               </tr>
             )
         }
