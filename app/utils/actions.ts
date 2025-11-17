@@ -2031,19 +2031,20 @@ export async function saveMeterReading(prevState: any, formData: FormData) {
     reading_date: z.string(),
   });
 
-  let parsedData;
-  try {
-    parsedData = schema.parse({
-      meterId: formData.get('meterId'),
-      readingValue: formData.get('readingValue'),
-      readingType: formData.get('readingType'),
-      reading_date: formData.get('reading_date'),
-    });
-    console.log('1. Parsed form data:', parsedData);
-  } catch (e) {
-    console.error('Error parsing form data:', e);
-    return { message: 'Invalid form data.' };
+  const validationResult = schema.safeParse({
+    meterId: formData.get('meterId'),
+    readingValue: formData.get('readingValue'),
+    readingType: formData.get('readingType'),
+    reading_date: formData.get('reading_date'),
+  });
+
+  if (!validationResult.success) {
+    console.error('Error parsing form data:', validationResult.error.flatten().fieldErrors);
+    return { message: 'Invalid form data. Please check your inputs.' };
   }
+
+  const parsedData = validationResult.data;
+  console.log('1. Parsed form data:', parsedData);
 
   const session = await auth();
   const user = await getProfileUser(session?.user?.email || '');
@@ -2091,14 +2092,15 @@ export async function saveMeterReading(prevState: any, formData: FormData) {
       await prisma.meterReadings.create({
         data: {
           meterId: parsedData.meterId,
-          reading_date: parsedData.reading_date,
+          reading_date: utcReadingDate,
           first_reading: parsedData.readingValue as any,
           first_reading_user_id: userId,
           first_reading_at: new Date(),
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
       });
       console.log('9a. First reading created successfully.');
-      return { message: 'DEBUG: CREATE call was executed.' }; // DEBUG
     } else if (parsedData.readingType === 'afternoon') {
       console.log('7b. Handling "afternoon" reading.');
       if (!meterReading || meterReading.first_reading == null) {
@@ -2116,10 +2118,10 @@ export async function saveMeterReading(prevState: any, formData: FormData) {
           afternoon_reading: parsedData.readingValue as any,
           afternoon_reading_user_id: userId,
           afternoon_reading_at: new Date(),
+          updatedAt: new Date(),
         },
       });
       console.log('9b. Afternoon reading updated successfully.');
-      return { message: 'DEBUG: UPDATE (afternoon) call was executed.' }; // DEBUG
     } else if (parsedData.readingType === 'last') {
       console.log('7c. Handling "last" reading.');
       if (!meterReading || meterReading.first_reading == null || meterReading.afternoon_reading == null) {
@@ -2137,13 +2139,12 @@ export async function saveMeterReading(prevState: any, formData: FormData) {
           last_reading: parsedData.readingValue as any,
           last_reading_user_id: userId,
           last_reading_at: new Date(),
+          updatedAt: new Date(),
         },
       });
       console.log('9c. Last reading updated successfully.');
-      return { message: 'DEBUG: UPDATE (last) call was executed.' }; // DEBUG
     }
 
-    // This part should not be reached if the debug messages are returned.
     console.log('10. Revalidating path:', rolePath);
     revalidatePath(rolePath);
     console.log('--- saveMeterReading: Action finished successfully ---');
