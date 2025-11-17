@@ -743,17 +743,17 @@ model MeterReadings {
   meterId                 Int
   reading_date            DateTime  @db.Date
 
-  first_reading           Float?
+  first_reading           String?    @db.VarChar(20)
   first_reading_user_id   Int?
   first_reading_user      users?    @relation("FirstMeterReadingUser", fields: [first_reading_user_id], references: [id])
   first_reading_at        DateTime?
 
-  afternoon_reading       Float?
+  afternoon_reading       String?    @db.VarChar(20)
   afternoon_reading_user_id Int?
   afternoon_reading_user  users?    @relation("AfternoonMeterReadingUser", fields: [afternoon_reading_user_id], references: [id])
   afternoon_reading_at    DateTime?
 
-  last_reading            Float?
+  last_reading            String?    @db.VarChar(20)
   last_reading_user_id    Int?
   last_reading_user       users?    @relation("LastMeterReadingUser", fields: [last_reading_user_id], references: [id])
   last_reading_at         DateTime?

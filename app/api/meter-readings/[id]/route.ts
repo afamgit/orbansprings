@@ -28,9 +28,9 @@ export async function PUT(req: Request, { params }: { params: any }) {
 
     const parsedCredentials = z
       .object({
-        first_reading: z.number(),
-        afternoon_reading: z.number(),
-        last_reading: z.number(),
+        first_reading: z.string(),
+        afternoon_reading: z.string(),
+        last_reading: z.string(),
       })
       .safeParse(body);
 

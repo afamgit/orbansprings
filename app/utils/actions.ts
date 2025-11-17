@@ -2025,7 +2025,7 @@ export async function deleteFaq(id: string) {
 export async function saveMeterReading(prevState: any, formData: FormData) {
   const schema = z.object({
     meterId: z.coerce.number(),
-    readingValue: z.coerce.number(),
+    readingValue: z.string(),
     readingType: z.enum(['first', 'afternoon', 'last']),
     reading_date: z.string(),
   });
@@ -2040,90 +2040,78 @@ export async function saveMeterReading(prevState: any, formData: FormData) {
   const session = await auth();
   const user = await getProfileUser(session?.user?.email || '');
   const userId = user?.id ? user?.id : null;
+  const rolePath = user?.role === 'admin' ? '/account/meter-readings' : '/account/water-merchants/meter-readings';
 
   if (!userId) {
     return { message: 'User not authenticated.' };
   }
 
   const readingDate = new Date(parsedData.reading_date);
-  readingDate.setHours(0, 0, 0, 0); // Normalize to start of day
+  const utcReadingDate = new Date(Date.UTC(readingDate.getUTCFullYear(), readingDate.getUTCMonth(), readingDate.getUTCDate()));
+
+  const now = new Date();
+  const utcNow = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+
+  if (utcReadingDate > utcNow) {
+    return { message: "You cannot enter a reading for a future date." };
+  }
 
   try {
-    let meterReading = await prisma.meterReadings.findUnique({
+    const meterReading = await prisma.meterReadings.findUnique({
       where: {
         meterId_reading_date: {
           meterId: parsedData.meterId,
-          reading_date: readingDate,
+          reading_date: utcReadingDate,
         },
       },
     });
 
-    // Time validation for afternoon reading
-    if (parsedData.readingType === 'afternoon') {
-      const now = new Date();
-      const currentHour = now.getHours();
-      const currentMinutes = now.getMinutes();
-
-      // Check if current time is between 12:00 PM and 2:00 PM
-      if (currentHour < 12 || currentHour > 14 || (currentHour === 14 && currentMinutes > 0)) {
-      // if (currentHour < 12) {
-        return { message: 'Afternoon reading can only be entered between 12:00 PM and 2:00 PM.' };
+    if (parsedData.readingType === 'first') {
+      if (meterReading) {
+        return { message: 'First reading for today has already been entered.' };
       }
-    }
-
-    if (!meterReading) {
-      // No record for today, create a new one
-      if (parsedData.readingType !== 'first') {
-        return { message: 'First reading must be entered before afternoon or last reading.' };
-      }
-
-      meterReading = await prisma.meterReadings.create({
+      await prisma.meterReadings.create({
         data: {
           meterId: parsedData.meterId,
-          reading_date: readingDate,
+          reading_date: utcReadingDate,
           first_reading: parsedData.readingValue,
           first_reading_user_id: userId,
           first_reading_at: new Date(),
         },
       });
-    } else {
-      // Record for today exists, update it
-      if (parsedData.readingType === 'first') {
-        return { message: 'First reading for today has already been entered.' };
-      } else if (parsedData.readingType === 'afternoon') {
-        if (!meterReading.first_reading) {
-          return { message: 'First reading must be entered before afternoon reading.' };
-        }
-        if (meterReading.afternoon_reading) {
-          return { message: 'Afternoon reading for today has already been entered.' };
-        }
-        meterReading = await prisma.meterReadings.update({
-          where: { id: meterReading.id },
-          data: {
-            afternoon_reading: parsedData.readingValue,
-            afternoon_reading_user_id: userId,
-            afternoon_reading_at: new Date(),
-          },
-        });
-      } else if (parsedData.readingType === 'last') {
-        if (!meterReading.first_reading || !meterReading.afternoon_reading) {
-          return { message: 'First and afternoon readings must be entered before last reading.' };
-        }
-        if (meterReading.last_reading) {
-          return { message: 'Last reading for today has already been entered.' };
-        }
-        meterReading = await prisma.meterReadings.update({
-          where: { id: meterReading.id },
-          data: {
-            last_reading: parsedData.readingValue,
-            last_reading_user_id: userId,
-            last_reading_at: new Date(),
-          },
-        });
+    } else if (parsedData.readingType === 'afternoon') {
+      if (!meterReading || meterReading.first_reading == null) {
+        return { message: 'First reading must be entered before afternoon reading.' };
       }
+      if (meterReading.afternoon_reading != null) {
+        return { message: 'Afternoon reading for today has already been entered.' };
+      }
+      await prisma.meterReadings.update({
+        where: { id: meterReading.id },
+        data: {
+          afternoon_reading: parsedData.readingValue,
+          afternoon_reading_user_id: userId,
+          afternoon_reading_at: new Date(),
+        },
+      });
+    } else if (parsedData.readingType === 'last') {
+      if (!meterReading || meterReading.first_reading == null || meterReading.afternoon_reading == null) {
+        return { message: 'First and afternoon readings must be entered before last reading.' };
+      }
+      if (meterReading.last_reading != null) {
+        return { message: 'Last reading for today has already been entered.' };
+      }
+      await prisma.meterReadings.update({
+        where: { id: meterReading.id },
+        data: {
+          last_reading: parsedData.readingValue,
+          last_reading_user_id: userId,
+          last_reading_at: new Date(),
+        },
+      });
     }
 
-    revalidatePath('/account/meter-readings');
+    revalidatePath(rolePath);
     return { message: 'Meter reading saved successfully.' };
   } catch (e) {
     console.error('Failed to save meter reading:', e);

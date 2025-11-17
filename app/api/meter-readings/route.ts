@@ -11,9 +11,9 @@ export async function POST(req: Request) {
     const parsedCredentials = z
           .object({ 
             meterId: z.number(), 
-            first_reading: z.number(), 
-            afternoon_reading: z.number(), 
-            last_reading: z.number(), 
+            first_reading: z.string(), 
+            afternoon_reading: z.string(), 
+            last_reading: z.string(), 
             reading_date: z.string() 
           })
           .safeParse(body);

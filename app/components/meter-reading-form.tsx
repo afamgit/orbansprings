@@ -47,6 +47,11 @@ export function AddMeterReadingForm({meters}: {meters: any[]}) {
       <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
         Add meter reading
       </h2>
+
+                        {state?.message && <p className='bg-green-700 text-white rounded-lg px-10 py-1 mt-4' aria-live="polite">
+          {state?.message}
+        </p>}
+
     </div>
 
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -92,7 +97,7 @@ export function AddMeterReadingForm({meters}: {meters: any[]}) {
           <label htmlFor="readingValue" className="block text-sm font-medium leading-6 text-gray-900">Reading Value</label>
           <div className="mt-2">
             <input
-              type="number"
+              type="text"
               id="readingValue"
               name="readingValue"
               required
@@ -128,9 +133,6 @@ export function AddMeterReadingForm({meters}: {meters: any[]}) {
     </button>
     </div>
 
-<p aria-live="polite">
-{state?.message}
-</p>
 </form>
 
     </div>
@@ -171,6 +173,11 @@ export function AddMeterReadingForm({meters}: {meters: any[]}) {
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Update meter reading
           </h2>
+
+                        {state?.message && <p className='bg-green-700 text-white rounded-lg px-10 py-1 mt-4' aria-live="polite">
+          {state?.message}
+        </p>}
+
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -219,7 +226,7 @@ export function AddMeterReadingForm({meters}: {meters: any[]}) {
           <label htmlFor="readingValue" className="block text-sm font-medium leading-6 text-gray-900">Reading Value</label>
           <div className="mt-2">
             <input
-              type="number"
+              type="text"
               id="readingValue"
               name="readingValue"
               required
@@ -254,9 +261,6 @@ export function AddMeterReadingForm({meters}: {meters: any[]}) {
       Go Back
     </button>
     </div>
-        <p aria-live="polite">
-          {state?.message}
-        </p>
         </form>
       
               </div>
