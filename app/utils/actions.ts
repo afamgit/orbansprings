@@ -2066,51 +2066,50 @@ export async function saveMeterReading(prevState: any, formData: FormData) {
       },
     });
 
-    if (parsedData.readingType === 'first') {
-      if (meterReading) {
-        return { message: 'First reading for today has already been entered.' };
-      }
-      await prisma.meterReadings.create({
-        data: {
-          meterId: parsedData.meterId,
-          reading_date: utcReadingDate,
-          first_reading: parsedData.readingValue,
-          first_reading_user_id: userId,
-          first_reading_at: new Date(),
-        },
-      });
-    } else if (parsedData.readingType === 'afternoon') {
-      if (!meterReading || meterReading.first_reading == null) {
-        return { message: 'First reading must be entered before afternoon reading.' };
-      }
-      if (meterReading.afternoon_reading != null) {
-        return { message: 'Afternoon reading for today has already been entered.' };
-      }
-      await prisma.meterReadings.update({
-        where: { id: meterReading.id },
-        data: {
-          afternoon_reading: parsedData.readingValue,
-          afternoon_reading_user_id: userId,
-          afternoon_reading_at: new Date(),
-        },
-      });
-    } else if (parsedData.readingType === 'last') {
-      if (!meterReading || meterReading.first_reading == null || meterReading.afternoon_reading == null) {
-        return { message: 'First and afternoon readings must be entered before last reading.' };
-      }
-      if (meterReading.last_reading != null) {
-        return { message: 'Last reading for today has already been entered.' };
-      }
-      await prisma.meterReadings.update({
-        where: { id: meterReading.id },
-        data: {
-          last_reading: parsedData.readingValue,
-          last_reading_user_id: userId,
-          last_reading_at: new Date(),
-        },
-      });
-    }
-
+            if (parsedData.readingType === 'first') {
+              if (meterReading) {
+                return { message: 'First reading for today has already been entered.' };
+              }
+              await prisma.meterReadings.create({
+                data: {
+                  meterId: parsedData.meterId,
+                  reading_date: utcReadingDate,
+                  first_reading: parsedData.readingValue as any,
+                  first_reading_user_id: userId,
+                  first_reading_at: new Date(),
+                },
+              });
+            } else if (parsedData.readingType === 'afternoon') {
+              if (!meterReading || meterReading.first_reading == null) {
+                return { message: 'First reading must be entered before afternoon reading.' };
+              }
+              if (meterReading.afternoon_reading != null) {
+                return { message: 'Afternoon reading for today has already been entered.' };
+              }
+              await prisma.meterReadings.update({
+                where: { id: meterReading.id },
+                data: {
+                  afternoon_reading: parsedData.readingValue as any,
+                  afternoon_reading_user_id: userId,
+                  afternoon_reading_at: new Date(),
+                },
+              });
+            } else if (parsedData.readingType === 'last') {
+              if (!meterReading || meterReading.first_reading == null || meterReading.afternoon_reading == null) {
+                return { message: 'First and afternoon readings must be entered before last reading.' };
+              }
+              if (meterReading.last_reading != null) {
+                return { message: 'Last reading for today has already been entered.' };
+              }
+              await prisma.meterReadings.update({
+                where: { id: meterReading.id },
+                data: {
+                  last_reading: parsedData.readingValue as any,
+                  last_reading_user_id: userId,
+                  last_reading_at: new Date(),
+                },
+              });
+            }
     revalidatePath(rolePath);
     return { message: 'Meter reading saved successfully.' };
   } catch (e) {
