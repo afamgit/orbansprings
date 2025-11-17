@@ -55,7 +55,7 @@ export function AddMeterReadingForm({meters}: {meters: any[]}) {
     </div>
 
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-    <form action={formAction} encType="application/x-www-form-urlencoded">
+    <form action={formAction}>
 
         <div>
           <label htmlFor="meterId" className="block text-sm font-medium leading-6 text-gray-900">Meter</label>
@@ -181,7 +181,7 @@ export function AddMeterReadingForm({meters}: {meters: any[]}) {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form action={formAction} encType="application/x-www-form-urlencoded">
+        <form action={formAction}>
         <input type="hidden" name="meterId" value={meterId} />
         <input type="hidden" name="reading_date" value={readingDate} />
         <div>
