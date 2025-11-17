@@ -2051,7 +2051,6 @@ export async function saveMeterReading(prevState: any, formData: FormData) {
   const userId = user?.id ? user?.id : null;
   console.log('2. Authenticated user ID:', userId);
 
-  const rolePath = user?.role === 'admin' ? '/account/meter-readings' : '/account/water-merchants/meter-readings';
 
   if (!userId) {
     console.log('Action aborted: User not authenticated.');
@@ -2145,8 +2144,7 @@ export async function saveMeterReading(prevState: any, formData: FormData) {
       console.log('9c. Last reading updated successfully.');
     }
 
-    console.log('10. Revalidating path:', rolePath);
-    revalidatePath(rolePath);
+    revalidatePath('/account/meter-readings');
     console.log('--- saveMeterReading: Action finished successfully ---');
     return { message: 'Meter reading saved successfully.' };
   } catch (e) {
