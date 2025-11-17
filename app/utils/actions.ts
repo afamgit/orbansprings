@@ -2023,7 +2023,6 @@ export async function deleteFaq(id: string) {
 }
 
 export async function saveMeterReading(prevState: any, formData: FormData) {
-  console.log('--- saveMeterReading: Action started ---');
   const schema = z.object({
     meterId: z.coerce.number(),
     readingValue: z.string(),
@@ -2039,38 +2038,30 @@ export async function saveMeterReading(prevState: any, formData: FormData) {
   });
 
   if (!validationResult.success) {
-    console.error('Error parsing form data:', validationResult.error.flatten().fieldErrors);
     return { message: 'Invalid form data. Please check your inputs.' };
   }
 
   const parsedData = validationResult.data;
-  console.log('1. Parsed form data:', parsedData);
 
   const session = await auth();
   const user = await getProfileUser(session?.user?.email || '');
   const userId = user?.id ? user?.id : null;
-  console.log('2. Authenticated user ID:', userId);
 
 
   if (!userId) {
-    console.log('Action aborted: User not authenticated.');
     return { message: 'User not authenticated.' };
   }
 
   const utcReadingDate = new Date(`${parsedData.reading_date}T00:00:00.000Z`);
-  console.log('3. UTC Reading Date:', utcReadingDate.toISOString());
 
   const now = new Date();
   const utcNow = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
-  console.log('4. UTC Now (start of day):', utcNow.toISOString());
 
   if (utcReadingDate > utcNow) {
-    console.log('Action aborted: Future date detected.');
     return { message: "You cannot enter a reading for a future date." };
   }
 
   try {
-    console.log('5. Searching for existing meter reading...');
     const meterReading = await prisma.meterReadings.findUnique({
       where: {
         meterId_reading_date: {
@@ -2079,15 +2070,11 @@ export async function saveMeterReading(prevState: any, formData: FormData) {
         },
       },
     });
-    console.log('6. Found meter reading:', meterReading);
 
     if (parsedData.readingType === 'first') {
-      console.log('7a. Handling "first" reading.');
       if (meterReading) {
-        console.log('Action aborted: First reading already exists.');
         return { message: 'First reading for today has already been entered.' };
       }
-      console.log('8a. Creating new first reading...');
       await prisma.meterReadings.create({
         data: {
           meterId: parsedData.meterId,
@@ -2099,18 +2086,13 @@ export async function saveMeterReading(prevState: any, formData: FormData) {
           updatedAt: new Date(),
         },
       });
-      console.log('9a. First reading created successfully.');
     } else if (parsedData.readingType === 'afternoon') {
-      console.log('7b. Handling "afternoon" reading.');
       if (!meterReading || meterReading.first_reading == null) {
-        console.log('Action aborted: First reading does not exist.');
         return { message: 'First reading must be entered before afternoon reading.' };
       }
       if (meterReading.afternoon_reading != null) {
-        console.log('Action aborted: Afternoon reading already exists.');
         return { message: 'Afternoon reading for today has already been entered.' };
       }
-      console.log('8b. Updating with afternoon reading...');
       await prisma.meterReadings.update({
         where: { id: meterReading.id },
         data: {
@@ -2120,18 +2102,13 @@ export async function saveMeterReading(prevState: any, formData: FormData) {
           updatedAt: new Date(),
         },
       });
-      console.log('9b. Afternoon reading updated successfully.');
     } else if (parsedData.readingType === 'last') {
-      console.log('7c. Handling "last" reading.');
       if (!meterReading || meterReading.first_reading == null || meterReading.afternoon_reading == null) {
-        console.log('Action aborted: Prerequisite readings are missing.');
         return { message: 'First and afternoon readings must be entered before last reading.' };
       }
       if (meterReading.last_reading != null) {
-        console.log('Action aborted: Last reading already exists.');
         return { message: 'Last reading for today has already been entered.' };
       }
-      console.log('8c. Updating with last reading...');
       await prisma.meterReadings.update({
         where: { id: meterReading.id },
         data: {
@@ -2141,128 +2118,16 @@ export async function saveMeterReading(prevState: any, formData: FormData) {
           updatedAt: new Date(),
         },
       });
-      console.log('9c. Last reading updated successfully.');
     }
 
     revalidatePath('/account/meter-readings');
-    console.log('--- saveMeterReading: Action finished successfully ---');
     return { message: 'Meter reading saved successfully.' };
   } catch (e:any) {
-    console.error('--- saveMeterReading: CRITICAL ERROR ---');
     console.error('Failed to save meter reading:', e);
-    return { message: `Failed to save meter reading. - ${e.message}` };
+    return { message: 'Failed to save meter reading.' };
   }
 }
 
-// export async function createMeterReading(prevState: any, formData: FormData) {
-//   const schema = z.object({
-//     meterId: z.coerce.number(),
-//     reading_morning: z.coerce.number(),
-//     reading_afternoon: z.coerce.number(),
-//     reading_evening: z.coerce.number(),
-//     reading_date: z.string(),
-//   })
-//   const parsedData = schema.parse({
-//     meterId: formData.get('meterId'),
-//     reading_morning: formData.get('reading_morning'),
-//     reading_afternoon: formData.get('reading_afternoon'),
-//     reading_evening: formData.get('reading_evening'),
-//     reading_date: formData.get('reading_date'),
-//   })
-
-//   try {
-
-//     const meterExist = await prisma.meters.findUnique({
-//         where: {
-//             meterid: parsedData.meterId,
-//         }
-//     })
-
-//     if(!meterExist) {
-//       return { message: 'Meter ID not found in the database' }
-//     }
-
-//     const readingExist = await prisma.meterReadings.findFirst({
-//       where: {
-//         meterId: parsedData.meterId,
-//         reading_date: new Date(parsedData.reading_date)
-//       }
-//     })
-
-//     if(readingExist) {
-//       const updateMeterReading = await prisma.meterReadings.update({
-//         where: {
-//           id: readingExist.id
-//         },
-//         data: {
-//           reading_morning: parsedData.reading_morning,
-//           reading_afternoon: parsedData.reading_afternoon,
-//           reading_evening: parsedData.reading_evening,
-//         }
-//       })
-//       revalidatePath('/account/meter-readings')
-//       redirect('/account/meter-readings')
-//     }
-
-
-//     const doInsert = await prisma.meterReadings.create({
-//       data: {
-//         meterId: parsedData.meterId,
-//         reading_morning: parsedData.reading_morning,
-//         reading_afternoon: parsedData.reading_afternoon,
-//         reading_evening: parsedData.reading_evening,
-//         reading_date: new Date(parsedData.reading_date),
-//         createdAt: new Date(),
-//         updatedAt: new Date()
-//       }
-//     })
-
-//   } catch (e) {
-//     return { message: 'Failed to create meter reading' }
-//   }
-//   revalidatePath('/account/meter-readings')
-//   redirect('/account/meter-readings')
-// }
-
-// export async function updateMeterReading(id: string, prevState: any, formData: FormData) {
-  
-//     const schema = z.object({
-//       meterId: z.coerce.number(),
-//       reading_morning: z.coerce.number(),
-//       reading_afternoon: z.coerce.number(),
-//       reading_evening: z.coerce.number(),
-//       reading_date: z.string(),
-//     })
-//     const parsedData = schema.parse({
-//       meterId: formData.get('meterId'),
-//       reading_morning: formData.get('reading_morning'),
-//       reading_afternoon: formData.get('reading_afternoon'),
-//       reading_evening: formData.get('reading_evening'),
-//       reading_date: formData.get('reading_date'),
-//     })
-  
-//     try {
-  
-//       const doUpdate = await prisma.meterReadings.update({
-//         where: {
-//           id: parseInt(id)
-//         },
-//         data: {
-//           meterId: parsedData.meterId,
-//           reading_morning: parsedData.reading_morning,
-//           reading_afternoon: parsedData.reading_afternoon,
-//           reading_evening: parsedData.reading_evening,
-//           reading_date: new Date(parsedData.reading_date),
-//           updatedAt: new Date()
-//         }
-//       })
-  
-//     } catch (e) {
-//       return { message: 'Failed to update meter reading' }
-//     }
-//     revalidatePath('/account/meter-readings')
-//     redirect('/account/meter-readings')
-//   }
   
   export async function deleteMeterReading(id: string) {
       
