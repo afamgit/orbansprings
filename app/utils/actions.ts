@@ -2092,7 +2092,7 @@ export async function saveMeterReading(prevState: any, formData: FormData) {
         data: {
           meterId: parsedData.meterId,
           reading_date: parsedData.reading_date,
-          first_reading: parsedData.readingValue as string,
+          first_reading: parsedData.readingValue as any,
           first_reading_user_id: userId,
           first_reading_at: new Date(),
         },
