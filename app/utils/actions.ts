@@ -2046,8 +2046,7 @@ export async function saveMeterReading(prevState: any, formData: FormData) {
     return { message: 'User not authenticated.' };
   }
 
-  const readingDate = new Date(parsedData.reading_date);
-  const utcReadingDate = new Date(Date.UTC(readingDate.getUTCFullYear(), readingDate.getUTCMonth(), readingDate.getUTCDate()));
+  const utcReadingDate = new Date(`${parsedData.reading_date}T00:00:00.000Z`);
 
   const now = new Date();
   const utcNow = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
