@@ -2147,10 +2147,10 @@ export async function saveMeterReading(prevState: any, formData: FormData) {
     revalidatePath('/account/meter-readings');
     console.log('--- saveMeterReading: Action finished successfully ---');
     return { message: 'Meter reading saved successfully.' };
-  } catch (e) {
+  } catch (e:any) {
     console.error('--- saveMeterReading: CRITICAL ERROR ---');
     console.error('Failed to save meter reading:', e);
-    return { message: 'Failed to save meter reading.' };
+    return { message: `Failed to save meter reading. - ${e.message}` };
   }
 }
 
