@@ -88,7 +88,7 @@ export default async function MeterReadings({
             const firstReading = item.first_reading ? parseFloat(String(item.first_reading)) : 0;
             const afternoonReading = item.afternoon_reading ? parseFloat(String(item.afternoon_reading)) : 0;
             const lastReading = item.last_reading ? parseFloat(String(item.last_reading)) : 0;
-            const prevDayLastReading = previousDayLastReading ? parseFloat(previousDayLastReading) : 0;
+            const prevDayLastReading = previousDayLastReading ? parseFloat(String(previousDayLastReading)) : 0;
 
             const firstToPrevDayDiff = firstReading && prevDayLastReading ? firstReading - prevDayLastReading : 0;
             const firstToAfternoonDiff = afternoonReading && firstReading ? afternoonReading - firstReading : 0;
