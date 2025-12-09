@@ -1,6 +1,4 @@
-import {prisma} from '@/scripts'
 import Image from 'next/image'
-import { ContactForm } from '@/app/components/contact-form'
 import { BottomAppBannerHorizontal } from '@/app/components/bottom-app-banner-horizontal'
 import { Metadata } from 'next';
 

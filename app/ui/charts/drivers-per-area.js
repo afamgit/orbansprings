@@ -3,10 +3,9 @@
 
 import { useState, useEffect } from "react"
 
-import z from 'zod'
-import {areas} from '../../utils/data'
+import {areas}from '../../utils/snippets'
 import DriversChart from "./customers-chart";
-import {FaSquareFull} from 'react-icons/fa'
+import {FaSquareFull}from 'react-icons/fa'
 
 
  function DriversPerArea() {

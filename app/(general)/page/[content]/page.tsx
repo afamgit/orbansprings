@@ -1,7 +1,5 @@
-import { prisma} from '@/scripts'
+import { prisma}from '@/scripts'
 import Image from 'next/image';
-import moment from 'moment';
-import { BsEyeFill } from 'react-icons/bs';
 import type { Metadata, ResolvingMetadata } from 'next'
  
 type Props = {

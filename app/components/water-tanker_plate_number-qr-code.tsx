@@ -1,7 +1,7 @@
 'use client'
 
-import {QRCodeCanvas, QRCodeSVG} from 'qrcode.react';
-import React, {useRef} from 'react';
+import {QRCodeSVG} from 'qrcode.react';
+import {useRef} from 'react';
 
 function downloadStringAsFile(data: string, filename: string) {
   let a = document.createElement('a');

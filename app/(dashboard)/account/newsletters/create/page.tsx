@@ -1,6 +1,6 @@
 import { AddNewsletterForm } from '@/app/components/newsletter-form';
 import Breadcrumbs from '@/app/ui/breadcrumbs'
-import { getProfileFromUser, getProfileUser } from '@/app/utils/data';
+import { getProfileFromUser } from '@/app/utils/data';
 import { auth } from '@/auth';
 import { Metadata } from 'next';
 

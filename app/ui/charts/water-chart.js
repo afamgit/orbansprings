@@ -3,8 +3,6 @@
 
 import { useState, useEffect, useRef } from "react"
 import Chart from 'chart.js/auto'
-import {areas} from '../../utils/data'
-import { fetchCustomersPerArea } from "../../utils/data"
 
 
  function WaterChart({dataLabels, dataValues}) {

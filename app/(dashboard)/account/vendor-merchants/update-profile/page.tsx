@@ -1,10 +1,8 @@
 import Image from 'next/image'
-import {prisma} from '@/scripts'
-import { BottomAppBannerHorizontal } from '@/app/components/bottom-app-banner-horizontal'
+import {prisma}from '@/scripts'
 import { Metadata } from 'next';
 import { getProfileUser } from '@/app/utils/data';
 import { auth } from '@/auth';
-import SignOut from '@/app/ui/signout';
 import { UpdateProfileForm } from '@/app/components/update-profile-form';
 import { DeleteAccount } from '@/app/ui/buttons';
 import Link from 'next/link';

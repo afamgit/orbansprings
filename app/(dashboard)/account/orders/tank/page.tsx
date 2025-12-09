@@ -5,9 +5,8 @@ import { Metadata } from "next";
 import Pagination from "@/app/ui/pagination";
 import { SubscriptionType } from "@/app/components/subscrription-type";
 import { Location } from "@/app/components/location";
-import Orders from "@/app/ui/orders";
 import { Product } from "@/app/components/product";
-import { fetchOrders, fetchOrdersTank } from "@/app/utils/data";
+import { fetchOrdersTank } from "@/app/utils/data";
 import OrdersTank from "@/app/ui/orders-tank";
 
 export const metadata: Metadata = {

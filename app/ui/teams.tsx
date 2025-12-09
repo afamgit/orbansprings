@@ -1,9 +1,8 @@
 import { prisma } from '@/scripts'
 import Image from 'next/image';
-import Link from 'next/link';
 import { fetchFilteredTeams } from '../utils/data';
 import { UpdateTeam, DeleteTeam } from '@/app/ui/buttons'
-import OptimizedImageWithFallback from '../components/fallback-image';
+import Link from 'next/link';
 
 export default async function Teams({
     query,

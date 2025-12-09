@@ -1,11 +1,8 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import { barlow_semi_sondensed } from '@/app/ui/fonts'
 import '../globals.css'
 import NavBar from '../components/header'
 import Footer from '../components/footer'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: {

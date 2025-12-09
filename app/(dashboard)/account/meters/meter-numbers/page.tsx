@@ -1,8 +1,5 @@
 import { prisma } from '@/scripts'
-import {useRouter} from 'next/navigation'
 import Link from 'next/link'
-import {AddMeterGenerateForm} from '@/app/components/meter-form'
-import moment from 'moment'
 import Pagination from '../../../../ui/pagination'
 import MeterNumbers from '@/app/ui/meter-numbers'
 import { fetchMeterNumbers } from '@/app/utils/data'

@@ -1,6 +1,5 @@
 "use client";
 
-import { useFormState } from "react-dom";
 import { useFormStatus } from "react-dom";
 import { sendMessage } from "../utils/actions";
 import { useState, useEffect, useActionState } from "react";

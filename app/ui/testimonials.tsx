@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { fetchFilteredTestimonials } from "../utils/data";
 import { UpdateTestimonial, DeleteTestimonial } from "@/app/ui/buttons";
-import OptimizedImageWithFallback from "../components/fallback-image";
 
 export default async function Testimonials({
   query,

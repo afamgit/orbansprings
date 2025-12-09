@@ -1,14 +1,9 @@
 'use client'
 
 import Link from "next/link"
-import Image from "next/image";
-import { FaBook, FaSquareFull } from "react-icons/fa"
-import { CiGrid42 } from "react-icons/ci";
-import { BiTachometer, BiMessageDetail } from "react-icons/bi";
-import { FaUsers } from "react-icons/fa6";
+import { FaBook } from "react-icons/fa"
+import {BiMessageDetail} from "react-icons/bi"
 import { RiPagesLine, RiQuestionAnswerFill, RiTeamLine } from "react-icons/ri";
-import { MdBusinessCenter } from "react-icons/md";
-import { TbBriefcase2, TbCurrencyDollar } from "react-icons/tb";
 import { usePathname } from "next/navigation";
 import { CommissionIcon, CommissionIconWhite, ComplaintsIcon, ComplaintsIconWhite, DashboardIcon, DashboardIconWhite, MeterIcon, MeterIconWhite, Users, UsersWhite } from "./svgicons";
 

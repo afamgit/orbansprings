@@ -1,11 +1,9 @@
-import Modal from "@/app/components/modal";
 import { prisma } from "@/scripts";
-import UserModal from "@/app/components/user-modal";
-import OrderModal from "@/app/components/order-modal";
 import Breadcrumbs from "@/app/ui/breadcrumbs";
 import { Metadata } from "next";
 import moment from "moment";
 import { statusBg } from "@/app/utils/snippets";
+import OrderModal from "@/app/components/order-modal";
 
 export const metadata: Metadata = {
   title: "Requests",

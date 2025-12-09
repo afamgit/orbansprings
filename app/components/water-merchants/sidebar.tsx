@@ -1,9 +1,8 @@
 'use client'
 
 import Link from "next/link"
-import { FaClock, FaDashcube, FaReadme, FaSquareFull, FaUser } from "react-icons/fa"
+import { FaClock, FaDashcube, FaReadme, FaUser } from "react-icons/fa"
 import { usePathname } from "next/navigation";
-import { RiQuestionAnswerFill } from "react-icons/ri";
 
 export function WaterMerchantSideBar () {
 

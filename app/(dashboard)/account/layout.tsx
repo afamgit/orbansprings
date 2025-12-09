@@ -1,30 +1,21 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "@/app/globals.css";
 import { AdminSideBar } from "@/app/components/admin-sidebar";
 import { AdminTopBar } from "@/app/components/admin-topbar";
-import { PowerIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { auth } from "@/auth";
-import { ErrorBoundary } from "react-error-boundary";
-import UserBox from "@/app/components/user-box";
 import SignOut from "../../ui/signout";
 import { IotTopBar } from "@/app/components/iot-topbar";
 import { IotSideBar } from "@/app/components/iot-sidebar";
 import Link from "next/link";
-import { TopBar } from "@/app/components/topbar";
 import { SearchBar } from "@/app/components/search-bar";
-import { FaBell } from "react-icons/fa";
 import { Bell } from "@/app/components/svgicons";
-import { prisma } from "@/scripts";
 import { VendorMerchantSideBar } from "@/app/components/vendor-merchants/sidebar";
 import { VendorMerchantTopBar } from "@/app/components/vendor-merchants/topbar";
 import { WaterMerchantSideBar } from "@/app/components/water-merchants/sidebar";
 import { WaterMerchantTopBar } from "@/app/components/water-merchants/topbar";
 import { getProfileUser } from "@/app/utils/data";
 import { redirect } from "next/navigation";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Orban Springs",

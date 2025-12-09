@@ -28,15 +28,6 @@ export const statusBg = (status: string) => {
   return  `px-3 py-1 text-gray-900 rounded text-center ${bg}`
 }
 
-  export type User = {
-    id: number;
-    name: string;
-    username: string;
-    email: string;
-    password: string;
-    role: string
-  };
-
   export function storeUserInLocalStorage(user: string) {
     localStorage.setItem('userInfo', user);
     
@@ -65,3 +56,30 @@ export const statusBg = (status: string) => {
       return defaultReturnObject;
     }
   }
+
+
+export const pageCategories = [
+  'General', 'About', 'Top', 'Partners', 'Services'
+]
+
+export const areas = [
+  "New Heaven",
+  "Independence Layout",
+  "Thinkers Corner",
+  "Uwani", "Maryland",
+  "Old GRA", "New GRA",
+  "Golf Centenary",
+  "Ugwuaji",
+  "Okpara Avenue",
+  "New Layout",
+  "Trans Ekulu",
+  "Emene",
+  "Abakpa",
+  "Achara Layout",
+  "Coal Camp",
+  "Premier Layout",
+  "Amechi/Topland",
+  "Agbani Road/Garriki"
+
+]
+

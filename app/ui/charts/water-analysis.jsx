@@ -2,8 +2,7 @@
 
 
 import { useState, useEffect } from "react"
-import Chart from 'chart.js/auto'
-import {FaSquareFull} from 'react-icons/fa'
+import {FaSquareFull}from 'react-icons/fa'
 import WaterChart from './water-chart'
 
  function WaterAnalysis() {

@@ -1,8 +1,7 @@
 import { prisma } from '@/scripts'
-import Image from 'next/image';
-import Link from 'next/link';
 import { fetchFilteredPages } from '../utils/data';
 import { UpdatePage, DeletePage } from '@/app/ui/buttons'
+import Link from 'next/link';
 
 export default async function ContentPages({
     query,

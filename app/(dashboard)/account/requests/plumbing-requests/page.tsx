@@ -3,13 +3,10 @@ import { prisma } from "@/scripts";
 import Breadcrumbs from "@/app/ui/breadcrumbs";
 import { Metadata } from "next";
 import Pagination from "@/app/ui/pagination";
-import { SubscriptionType } from "@/app/components/subscrription-type";
 import { Location } from "@/app/components/location";
-import Orders from "@/app/ui/orders";
 import { Product } from "@/app/components/product";
-import { fetchOrders, fetchRequests, fetchRequestsPlumbing } from "@/app/utils/data";
+import { fetchRequestsPlumbing } from "@/app/utils/data";
 import { StatusRequests } from "@/app/components/status-requests";
-import Requests from "@/app/ui/requests";
 import RequestsPlumbing from "@/app/ui/requests-plumbing";
 
 export const metadata: Metadata = {

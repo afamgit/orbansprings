@@ -1,9 +1,7 @@
 import { prisma } from '@/scripts'
-import Image from 'next/image';
 import Link from 'next/link';
-import { fetchFilteredDrivers, fetchFilteredMerchantDrivers, fetchFilteredUsers } from '../utils/data';
 import { UpdateDriver } from '@/app/ui/buttons'
-import moment from 'moment';
+import { fetchFilteredMerchantDrivers } from '../utils/data';
 
 export default async function MerchantDrivers({
   id,

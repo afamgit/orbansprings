@@ -1,7 +1,7 @@
 import '@/app/globals.css'
 import Image from 'next/image';
-import { auth, getUserFromEmail } from '@/auth'
-import { ErrorBoundary } from "react-error-boundary";
+import { auth } from '@/auth'
+
 import SignOut from '../ui/signout';
 
 export default async function UserBox() {

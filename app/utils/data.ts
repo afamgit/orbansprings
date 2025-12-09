@@ -1,8 +1,6 @@
+'use server'
 import { prisma } from '@/scripts'
-import { createHash } from "crypto";
 import { getMonthsFromMap, getMonthsFromWeekMap, incrementNumber, monthsMap } from './utils';
-import { any } from 'zod';
-import moment from 'moment';
 import { auth } from '@/auth';
 
 export async function getUser(email: string) {
@@ -134,32 +132,6 @@ export async function fetchFleetDrivers() {
     throw new Error('Failed to fetch fleet owner drivers.');
   }
 }
-
-
-export const pageCategories = [
-  'General', 'About', 'Top', 'Partners', 'Services'
-]
-
-export const areas = [
-  "New Heaven",
-  "Independence Layout",
-  "Thinkers Corner",
-  "Uwani", "Maryland",
-  "Old GRA", "New GRA",
-  "Golf Centenary",
-  "Ugwuaji",
-  "Okpara Avenue",
-  "New Layout",
-  "Trans Ekulu",
-  "Emene",
-  "Abakpa",
-  "Achara Layout",
-  "Coal Camp",
-  "Premier Layout",
-  "Amechi/Topland",
-  "Agbani Road/Garriki"
-
-]
 
 const ITEMS_PER_PAGE = 15
 

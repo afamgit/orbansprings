@@ -1,5 +1,4 @@
 import { prisma } from "@/scripts";
-import Image from "next/image";
 import Link from "next/link";
 import { fetchFilteredComplaints } from "../utils/data";
 import moment from "moment";

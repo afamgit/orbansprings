@@ -1,11 +1,9 @@
 'use client'
 
 
-import { useState, useEffect, useRef } from "react"
-import Chart from 'chart.js/auto'
-import {areas} from '../../utils/data'
+import { useState, useEffect } from "react"
+import {areas} from '../../utils/snippets'
 import CustomersChart from './customers-chart'
-import { fetchCustomersPerArea } from "../../utils/data"
 import {FaSquareFull} from 'react-icons/fa'
 
 

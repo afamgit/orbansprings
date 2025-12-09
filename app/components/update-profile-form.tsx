@@ -1,13 +1,10 @@
 'use client'
  
 import { PutBlobResult } from '@vercel/blob';
-import React, { useState, useRef, useActionState } from 'react';
-import dynamic from 'next/dynamic';
+import { useState, useRef, useActionState } from 'react';
 import Image from 'next/image';
-import 'react-quill/dist/quill.snow.css'; // Import Quill styles
-import { useFormState } from 'react-dom'
 import { useFormStatus } from 'react-dom'
-import { updateProfile, createArticle } from '../utils/actions'
+import { updateProfile } from '../utils/actions'
  
 const initialState = {
   message: '',

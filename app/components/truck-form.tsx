@@ -1,6 +1,5 @@
 "use client";
 
-import { useFormState } from "react-dom";
 import { useFormStatus } from "react-dom";
 import { updateTruck, createTruck } from "../utils/actions";
 import Link from "next/link";

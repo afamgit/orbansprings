@@ -1,6 +1,6 @@
 'use client'
 
-import { areas } from "../utils/data";
+import { areas } from "../utils/snippets";
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 
 export function Location () {

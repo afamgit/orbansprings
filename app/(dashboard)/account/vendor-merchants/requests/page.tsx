@@ -1,13 +1,10 @@
-import Link from "next/link";
 import { prisma } from "@/scripts";
 import Breadcrumbs from "@/app/ui/breadcrumbs";
 import { Metadata } from "next";
 import Pagination from "@/app/ui/pagination";
-import { SubscriptionType } from "@/app/components/subscrription-type";
 import { Location } from "@/app/components/location";
-import Orders from "@/app/ui/orders";
 import { Product } from "@/app/components/product";
-import { fetchOrders, fetchRequests } from "@/app/utils/data";
+import { fetchRequests } from "@/app/utils/data";
 import { StatusRequests } from "@/app/components/status-requests";
 import VendorRequests from "@/app/ui/vendor-merchants-requests";
 

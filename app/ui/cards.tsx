@@ -1,9 +1,6 @@
-import { FaRedhat } from "react-icons/fa";
-import { FaShapes } from "react-icons/fa";
-import { BsFront } from "react-icons/bs";
-import { FaUsers } from "react-icons/fa6";
 import Image from "next/image";
 import { formatCurrency } from "../utils/utils";
+import { BsFront } from "react-icons/bs";
 
 export function UserNumbersCard({ num, name }: { num: any; name: string }) {
   return (

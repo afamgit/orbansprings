@@ -1,6 +1,5 @@
 import Breadcrumbs from '@/app/ui/breadcrumbs'
 import { Metadata } from 'next';
-import { prisma } from '@/scripts';
 import { auth } from '@/auth';
 import { getProfileUser } from '@/app/utils/data';
 import { AddTruckForm } from '@/app/components/truck-form';

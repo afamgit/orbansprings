@@ -1,10 +1,5 @@
-import Link from "next/link";
 import { Metadata } from "next";
-import Products from "@/app/ui/products";
-import LatestCustomers from "@/app/ui/latest-customers";
-import DashboardCards from "@/app/ui/dashboard-cards";
 import AreaWaterChart from "../../ui/charts/area-water-chart";
-import BarDeliveryDisplay from "../../ui/charts/bar-delivery-time-chart";
 
 export const metadata: Metadata = {
   title: "Vendor Merchant Dashboard",

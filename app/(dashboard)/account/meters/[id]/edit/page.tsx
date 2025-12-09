@@ -1,6 +1,5 @@
 import { prisma } from '@/scripts';
 import { UpdateMeterForm } from '@/app/components/meter-form';
-import { fetchCustomers } from '@/app/utils/data';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 import { Metadata } from 'next';
 

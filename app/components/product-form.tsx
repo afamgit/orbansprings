@@ -1,12 +1,11 @@
 'use client'
  
 import { PutBlobResult } from '@vercel/blob';
-import { useFormState } from 'react-dom'
 import { useFormStatus } from 'react-dom'
 import { useState, useRef, useActionState } from 'react'
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { createProduct, updateProduct, deletePage } from '../utils/actions'
+import { createProduct, updateProduct } from '../utils/actions'
 import Link from 'next/link';
  
 const initialState = {

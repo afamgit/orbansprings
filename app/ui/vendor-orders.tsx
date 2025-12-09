@@ -1,7 +1,6 @@
 import { prisma } from '@/scripts'
 import { fetchFilteredVendorOrders } from '../utils/data';
 import moment from 'moment';
-import { formatCurrency } from '../utils/utils';
 import { statusBg } from '../utils/snippets';
 import Link from 'next/link';
 import { FaEllipsisV } from 'react-icons/fa';

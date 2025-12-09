@@ -1,6 +1,5 @@
 'use client'
 
-import { FaChevronDown, FaSearch } from "react-icons/fa";
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 
 export function SubscriptionType () {

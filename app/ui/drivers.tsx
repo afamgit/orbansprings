@@ -1,8 +1,7 @@
 import { prisma } from '@/scripts'
-import Image from 'next/image';
 import Link from 'next/link';
-import { fetchFilteredDrivers, fetchFilteredUsers } from '../utils/data';
-import { UpdateUser, DeleteUser } from '@/app/ui/buttons'
+import { fetchFilteredDrivers } from '../utils/data';
+import { DeleteUser } from '@/app/ui/buttons'
 import moment from 'moment';
 
 export default async function Drivers({

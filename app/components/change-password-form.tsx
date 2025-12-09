@@ -1,9 +1,6 @@
 'use client'
  
-import React, { useState, useRef, useActionState } from 'react';
-import dynamic from 'next/dynamic';
-import Image from 'next/image';
-import { useFormState } from 'react-dom'
+import React, { useState, useActionState } from 'react';
 import { useFormStatus } from 'react-dom'
 import { changePassword } from '../utils/actions'
 import Link from 'next/link';

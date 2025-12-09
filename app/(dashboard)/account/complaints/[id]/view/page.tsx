@@ -1,6 +1,5 @@
 import { prisma } from "@/scripts";
 import { ComplaintReplyForm } from "@/app/components/complaint-reply";
-import { fetchCustomers } from "@/app/utils/data";
 import Breadcrumbs from "@/app/ui/breadcrumbs";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -8,8 +7,6 @@ import Image from "next/image";
 import { auth } from "@/auth";
 import moment from "moment";
 import {
-  FaArrowAltCircleLeft,
-  FaArrowLeft,
   FaChevronLeft,
 } from "react-icons/fa";
 

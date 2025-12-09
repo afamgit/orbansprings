@@ -2,7 +2,7 @@
  
 import { useFormState } from 'react-dom'
 import { useFormStatus } from 'react-dom'
-import { createAreaGroup, updateAreaGroup, deletePage } from '../utils/actions'
+import { createAreaGroup, updateAreaGroup } from '../utils/actions'
 import { useActionState } from 'react'
  
 const initialState = {

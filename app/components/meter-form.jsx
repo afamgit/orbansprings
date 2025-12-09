@@ -3,7 +3,7 @@
 import { useFormState } from "react-dom";
 import { useFormStatus } from "react-dom";
 import { updateMeter, createMeter, createMeterNumber } from "../utils/actions";
-import { areas } from "../utils/data";
+import { areas } from "../utils/snippets";
 import { useActionState } from "react";
 
 const initialState = {

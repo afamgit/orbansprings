@@ -1,36 +1,22 @@
-import Modal from "@/app/components/modal";
 import { prisma } from "@/scripts";
-import UserModal from "@/app/components/user-modal";
 import Breadcrumbs from "@/app/ui/breadcrumbs";
 import { Metadata } from "next";
 import Pagination from "@/app/ui/pagination";
 import {
-  fetchCustomerOrders,
   fetchDriverOrders,
-  fetchUsers,
 } from "@/app/utils/data";
-import Ima from "@/app/ui/teams";
-import Users from "@/app/ui/users";
 import {
-  ExpectedCommission,
-  UserNumbersCard,
   UserNumbersCardPlain,
-  UserNumbersCardSingle,
 } from "@/app/ui/cards";
-import UsersByNumbers from "@/app/components/users-by-numbers";
-import { SubscriptionType } from "@/app/components/subscrription-type";
-import { Location } from "@/app/components/location";
-import CustomerOrders from "@/app/ui/customer-orders";
 import { Product } from "@/app/components/product";
 import { FaChevronLeft } from "react-icons/fa";
 import Link from "next/link";
 import Image from "next/image";
 import moment from "moment";
-import { FaEllipsis, FaEllipsisVertical } from "react-icons/fa6";
-import { CustomerDropdown } from "@/app/components/customer-dropdown";
 import DriverOrders from "@/app/ui/driver-orders";
 import { DriverDropdown } from "@/app/components/driver-dropdown";
 import WaterTankerPlateNumberQrCode from "@/app/components/water-tanker_plate_number-qr-code";
+import UserModal from "@/app/components/user-modal";
 
 export const metadata: Metadata = {
   title: "Users",

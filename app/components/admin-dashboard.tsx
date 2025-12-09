@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Metadata } from "next";
 import Products from "@/app/ui/products";
 import LatestCustomers from "@/app/ui/latest-customers";

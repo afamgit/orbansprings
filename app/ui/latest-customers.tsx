@@ -1,6 +1,5 @@
 import { prisma } from '@/scripts'
 import Image from 'next/image';
-import { FaUser } from 'react-icons/fa';
 
 export default async function LatestCustomers() { 
 

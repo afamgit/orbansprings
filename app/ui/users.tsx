@@ -1,5 +1,4 @@
 import { prisma } from '@/scripts'
-import Image from 'next/image';
 import Link from 'next/link';
 import { fetchFilteredUsers } from '../utils/data';
 import { UpdateUser, DeleteUser } from '@/app/ui/buttons'

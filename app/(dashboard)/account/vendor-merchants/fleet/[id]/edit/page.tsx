@@ -1,5 +1,4 @@
 import { prisma } from '@/scripts';
-import { UpdateDriverForm } from '@/app/components/driver-form';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 import { Metadata } from 'next';
 import { auth } from '@/auth';

@@ -8,7 +8,7 @@ import { z } from 'zod'
 import process from 'process'
 import { slugify, removeTags } from "./snippets"
 import { auth, signIn, signOut } from "../../auth"
-import { AuthError } from "next-auth"
+import {AuthError} from "next-auth"
 import bcrypt from 'bcrypt'
 import { v4 as uuidv4 } from 'uuid';
 import { getProfileUser } from "./data"

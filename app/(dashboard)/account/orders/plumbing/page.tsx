@@ -5,9 +5,8 @@ import { Metadata } from "next";
 import Pagination from "@/app/ui/pagination";
 import { SubscriptionType } from "@/app/components/subscrription-type";
 import { Location } from "@/app/components/location";
-import Orders from "@/app/ui/orders";
 import { Product } from "@/app/components/product";
-import { fetchOrders, fetchOrdersPlumbing } from "@/app/utils/data";
+import { fetchOrdersPlumbing } from "@/app/utils/data";
 import OrdersPlumbing from "@/app/ui/orders-plumbing";
 
 export const metadata: Metadata = {

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { areas } from "../../utils/data";
+import { areas } from "../../utils/snippets";
 import AreaChartDisplay from '../../ui/charts/area-chart'
 
 function AreaWaterChart() {

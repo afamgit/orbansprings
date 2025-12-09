@@ -1,10 +1,6 @@
-import Image from 'next/image'
-import {prisma} from '@/scripts'
-import { BottomAppBannerHorizontal } from '@/app/components/bottom-app-banner-horizontal'
 import { Metadata } from 'next';
 import { getProfilePassword } from '@/app/utils/data';
 import { auth } from '@/auth';
-import { UpdateProfileForm } from '@/app/components/update-profile-form';
 import { ChangePasswordForm } from '@/app/components/change-password-form';
 
 export const metadata: Metadata = {

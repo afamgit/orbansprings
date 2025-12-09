@@ -1,9 +1,7 @@
 import { prisma } from '@/scripts'
-import Image from 'next/image';
 import Link from 'next/link';
-import { fetchFilteredDrivers, fetchFilteredUsers, fetchFilteredVendors } from '../utils/data';
-import { UpdateUser, DeleteUser } from '@/app/ui/buttons'
-import moment from 'moment';
+import { fetchFilteredVendors } from '../utils/data';
+import { DeleteUser } from '@/app/ui/buttons'
 
 export default async function Vendors({
     query,

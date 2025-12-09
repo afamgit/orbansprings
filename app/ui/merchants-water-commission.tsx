@@ -1,9 +1,5 @@
 import { prisma } from '@/scripts'
-import Image from 'next/image';
-import Link from 'next/link';
-import { fetchFilteredDrivers, fetchFilteredMerchants, fetchFilteredMerchantsWaterCommissions, fetchFilteredUsers } from '../utils/data';
-import { UpdateUser, DeleteUser } from '@/app/ui/buttons'
-import moment from 'moment';
+import { fetchFilteredMerchantsWaterCommissions } from '../utils/data';
 
 export default async function MerchantWaterCommissions({
   query,

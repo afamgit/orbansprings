@@ -1,0 +1,764 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/client"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model bannerads {
+  id_ad         Int       @id @default(autoincrement())
+  title_ad      String    @default("") @db.VarChar(255)
+  descr_ad      String    @db.Text
+  adcode        String    @db.Text
+  file_ad       String    @db.VarChar(255)
+  topfile_ad    String?   @db.VarChar(100)
+  url_ad        String    @default("") @db.VarChar(150)
+  banner_rank   Int
+  addedon_ad    DateTime  @default(now()) @db.Timestamp(0)
+  startdate_ad  DateTime  @default(dbgenerated("(0000-00-00)")) @db.Date
+  enddate_ad    DateTime  @default(dbgenerated("(0000-00-00)")) @db.Date
+  daysno_ad     String    @default("") @db.VarChar(32)
+  width_ad      String?   @db.VarChar(32)
+  height_ad     String?   @db.VarChar(32)
+  position_ad   String    @default("") @db.VarChar(32)
+  banner_status String    @db.VarChar(15)
+  visible_ad    Int       @default(0) @db.TinyInt
+  userid_ad     String    @db.VarChar(50)
+  username_ad   String    @db.VarChar(100)
+  paid          Int       @default(0) @db.TinyInt
+  amount        Decimal?  @db.Decimal(30, 2)
+  datepaid      DateTime? @db.Date
+  remark        String?   @db.VarChar(250)
+  views_ad      Int       @default(1)
+  clicks_ad     Int       @default(1)
+}
+
+model blog {
+  artid           Int      @id @default(autoincrement())
+  artcategory     String   @db.VarChar(150)
+  title           String   @db.VarChar(200)
+  titleslug       String   @db.VarChar(50)
+  brief           String   @db.MediumText
+  fullcontent     String   @db.MediumText
+  artphoto        String?  @default("images/noimage.png") @db.VarChar(100)
+  artphotocaption String   @db.VarChar(150)
+  author          String?  @db.VarChar(50)
+  artsource       String?  @db.VarChar(200)
+  artsource_url   String?  @db.VarChar(250)
+  published_date  DateTime @db.DateTime(0)
+  artstatus       String   @default("1") @db.VarChar(10)
+  nstatus         String   @db.VarChar(20)
+  views           Int      @default(3)
+  artsubmit       DateTime @default(now()) @db.Timestamp(0)
+  artusername     String   @db.VarChar(100)
+  youtube_embed   String?  @db.MediumText
+  vidurl          String   @db.VarChar(100)
+  homepage        Int      @default(0) @db.TinyInt
+  createdAt       DateTime @db.DateTime(0)
+  updatedAt       DateTime @updatedAt @db.DateTime(0)
+}
+
+model contentpages {
+  cpageid        Int      @id @default(autoincrement())
+  cpagename      String   @db.VarChar(100)
+  cpagecontent   String   @db.Text
+  cpagephoto     String?  @db.VarChar(100)
+  cpagesbanner   String?  @db.VarChar(100)
+  cpagemenu      String   @default("top") @db.VarChar(10)
+  cpagelinkname  String   @db.VarChar(100)
+  cpage_postedby String   @db.VarChar(100)
+  createdAt      DateTime @db.DateTime(0)
+  updatedAt      DateTime @updatedAt @db.DateTime(0)
+}
+
+model driver_payments {
+  dpayid          Int      @id @default(autoincrement())
+  dpayref         String   @db.VarChar(50)
+  dpaydriver      Int
+  dpayoutstanding Float    @db.Float
+  dpaypaystackref String   @db.VarChar(50)
+  createdAt       DateTime @db.DateTime(0)
+  updatedAt       DateTime @updatedAt @db.DateTime(0)
+}
+
+model faqs {
+  faqid       Int      @id @default(autoincrement())
+  faqcat      String   @db.VarChar(100)
+  faqquestion String   @db.VarChar(200)
+  faqanswer   String   @db.Text
+  faqslug     String   @db.VarChar(100)
+  faqpostedby String   @db.VarChar(100)
+  createdAt   DateTime @db.DateTime(0)
+  updatedAt   DateTime @updatedAt @db.DateTime(0)
+}
+
+model loc_states {
+  stateid Int    @id
+  state   String @db.VarChar(255)
+}
+
+model media_assets {
+  massetid   Int      @id
+  masset     String   @db.VarChar(100)
+  massetdate DateTime @default(now()) @db.Timestamp(0)
+}
+
+model newsletter {
+  nlid        Int    @id @default(autoincrement())
+  nlname      String @db.VarChar(50)
+  nlemail     String @unique(map: "nlemail") @db.VarChar(50)
+  nlstatus    Int    @default(1) @db.TinyInt
+  nl_received Int    @default(0) @db.TinyInt
+  nl_id       Int    @default(0)
+}
+
+model newsletter_body {
+  nlb_id       Int       @id @default(autoincrement())
+  nlb_title    String    @db.VarChar(100)
+  nlb_story    String    @db.Text
+  nlb_finished String    @default("No") @db.VarChar(4)
+  nlb_postedby String    @db.VarChar(100)
+  createdAt    DateTime  @db.DateTime(0)
+  updatedAt    DateTime? @db.DateTime(0)
+}
+
+model paystackresponse {
+  prid         Int      @id @default(autoincrement())
+  prbody       String   @db.Text
+  pracc_number String?  @db.VarChar(50)
+  pracc_bank   String?  @db.VarChar(25)
+  createdAt    DateTime @db.DateTime(0)
+}
+
+model productcategories {
+  pcid        Int      @id @default(autoincrement())
+  pcatname    String   @db.VarChar(100)
+  pcatslug    String   @db.VarChar(50)
+  pcatpicture String   @db.VarChar(100)
+  pcatdesc    String   @db.Text
+  createdAt   DateTime @db.DateTime(0)
+  updatedAt   DateTime @updatedAt @db.DateTime(0)
+}
+
+model products {
+  id              Int      @id @default(autoincrement())
+  category        String   @db.VarChar(50)
+  catslug         String   @db.VarChar(50)
+  uuid            String?  @db.Char(36)
+  name            String   @db.VarChar(255)
+  nameslug        String   @db.VarChar(50)
+  sku             String   @db.VarChar(255)
+  description     String   @db.Text
+  picture         String   @db.VarChar(255)
+  price           Float    @db.Float
+  size            String   @db.VarChar(255)
+  response_time   String?  @db.VarChar(150)
+  status          Boolean  @default(true)
+  payment_account String   @db.VarChar(25)
+  createdAt       DateTime @db.DateTime(0)
+  updatedAt       DateTime @updatedAt @db.DateTime(0)
+}
+
+model requests {
+  id                    Int      @id @default(autoincrement())
+  uuid                  String?  @db.Char(36)
+  orderid               Int
+  orderref              String   @db.VarChar(25)
+  orderdetails          String   @db.Text
+  req_type              String   @db.VarChar(30)
+  task                  String?  @db.Text
+  howmany               Int?     @db.TinyInt
+  productid             Int
+  productname           String   @db.VarChar(75)
+  prod_waittime         Int?     @db.TinyInt
+  amount                Float    @db.Float
+  commission            Float    @db.Float
+  customerid            Int
+  customername          String   @db.VarChar(75)
+  customerphone         String   @db.VarChar(50)
+  customeraddress       String   @db.VarChar(100)
+  customerarea          String   @db.VarChar(75)
+  customerareagroup     String?  @db.VarChar(30)
+  third_party_delivery  String   @db.VarChar(5)
+  third_party_name      String?  @db.VarChar(100)
+  third_party_phone     String?  @db.VarChar(25)
+  third_party_areagroup String?  @db.VarChar(30)
+  third_party_address   String?  @db.VarChar(200)
+  customerlatitude      Decimal  @db.Decimal(8, 6)
+  customerlongitude     Decimal  @db.Decimal(9, 6)
+  address               String?  @db.VarChar(255)
+  driverid              Int?
+  drivername            String?  @db.VarChar(75)
+  driverphone           String?  @db.VarChar(50)
+  driveremail           String?  @db.VarChar(100)
+  drivervehicleplateno  String?  @db.VarChar(50)
+  status                String   @default("pending") @db.VarChar(255)
+  views                 Int      @db.Int
+  createdAt             DateTime @db.DateTime(0)
+  updatedAt             DateTime @updatedAt @db.DateTime(0)
+}
+
+model shopinfo {
+  shopid                    Int      @id
+  shopname                  String   @db.VarChar(100)
+  shopdescription           String   @db.Text
+  driver_commission         Float    @db.Float
+  water_merchant_commission Float    @default(10.00) @db.Float
+  shoplogo                  String?  @db.VarChar(100)
+  shmetakey                 String   @db.VarChar(250)
+  shmetadesc                String   @db.VarChar(150)
+  shopphone                 String   @db.VarChar(50)
+  shopemailname             String   @db.VarChar(50)
+  shopemailaddress          String   @db.VarChar(100)
+  shoporderemail            String?  @db.VarChar(75)
+  shopaddress               String   @db.Text
+  shopcity                  String   @db.VarChar(50)
+  shopstate                 String   @db.VarChar(50)
+  shopcountry               String   @db.VarChar(50)
+  latestonhome              Int      @default(1) @db.TinyInt
+  offline                   Int      @default(0) @db.TinyInt
+  offlinemsg                String   @db.Text
+  shopimage                 String   @db.VarChar(100)
+  total_news                Int
+  slfacebook                String   @db.VarChar(200)
+  sltwitter                 String   @db.VarChar(200)
+  slinstagram               String   @db.VarChar(200)
+  slyoutube                 String   @db.VarChar(200)
+  postedby                  String   @db.VarChar(100)
+  updatedAt                 DateTime @updatedAt @db.DateTime(0)
+}
+
+model sociallinks {
+  slid      Int     @id
+  slimage   String? @db.VarChar(100)
+  sladdress String  @db.VarChar(250)
+}
+
+model subscription {
+  submagid      Int      @id
+  sm_title      String?  @db.VarChar(20)
+  sm_initials   String   @db.VarChar(10)
+  sm_surname    String   @db.VarChar(30)
+  sm_business   String   @db.VarChar(50)
+  sm_address    String   @db.Text
+  sm_postcode   String?  @db.VarChar(10)
+  sm_country    String   @db.VarChar(30)
+  sm_telephone  String   @db.VarChar(30)
+  sm_email      String   @db.VarChar(50)
+  sm_dateposted DateTime @default(now()) @db.Timestamp(0)
+  sm_amount     String   @db.VarChar(30)
+  sm_paid       String   @db.VarChar(5)
+  sm_datepaid   String   @db.VarChar(30)
+  sm_from       String   @db.VarChar(30)
+  sm_to         String   @db.VarChar(30)
+}
+
+model team_category {
+  teamcategoryid Int    @id
+  teamcategory   String @db.VarChar(75)
+  teamcat_slug   String @db.VarChar(75)
+}
+
+model team_members {
+  tmemberid         Int      @id @default(autoincrement())
+  tmcategory        String?  @db.VarChar(100)
+  tmember           String   @db.VarChar(150)
+  tmember_slug      String   @db.VarChar(150)
+  tmemberposition   String   @db.VarChar(100)
+  tmemberphoto      String   @db.VarChar(100)
+  tmemberprofile    String   @db.Text
+  tmembersummary    String?  @db.VarChar(200)
+  tmemberdateadded  DateTime @db.DateTime(0)
+  tmemberpostedby   String?  @db.VarChar(100)
+  tmemberrank       Int      @default(1) @db.TinyInt
+  tmember_email     String?  @db.VarChar(150)
+  tmember_phone     String?  @db.VarChar(100)
+  tmember_facebook  String?  @db.VarChar(150)
+  tmember_twitter   String?  @db.VarChar(150)
+  tmember_linkedin  String?  @db.VarChar(150)
+  tmember_instagram String?  @db.VarChar(150)
+}
+
+model testimonials {
+  tid       Int      @id @default(autoincrement())
+  tcustomer String   @db.VarChar(150)
+  trole     String   @db.VarChar(100)
+  tphoto    String   @db.VarChar(100)
+  tmessage  String   @db.Text
+  tstars    Int      @default(5) @db.TinyInt
+  tdate     DateTime @db.DateTime(0)
+  tstatus   Int      @default(0) @db.TinyInt
+}
+
+model transactions {
+  id                         Int      @id @default(autoincrement())
+  uuid                       String?  @db.Char(36)
+  orderref                   String   @db.VarChar(25)
+  productid                  Int
+  productname                String   @db.VarChar(50)
+  prod_waittime              Int?     @db.TinyInt
+  product_subscription       String   @default("Basic") @db.VarChar(25)
+  qty                        Int      @default(0)
+  orderdetails               String   @db.Text
+  req_type                   String   @db.VarChar(30)
+  task                       String?  @db.Text
+  howmany                    Int?     @db.TinyInt
+  amount                     Float    @db.Float
+  commission                 Float    @db.Float
+  driverfee                  Float    @db.Float
+  driverid                   String?  @db.VarChar(11)
+  drivername                 String   @db.VarChar(100)
+  driverphone                String   @db.VarChar(30)
+  driveremail                String   @db.VarChar(100)
+  drivervehicleplateno       String   @db.VarChar(50)
+  driverphoto                String   @db.VarChar(100)
+  fleetid                    String?  @db.VarChar(50)
+  driverlatitude             Decimal  @db.Decimal(8, 6)
+  driverlongitude            Decimal  @db.Decimal(9, 6)
+  driveraccept               String?  @db.VarChar(30)
+  customerid                 String?  @db.VarChar(11)
+  customername               String   @db.VarChar(100)
+  customeremail              String   @db.VarChar(100)
+  customerphone              String   @db.VarChar(30)
+  customeraddress            String   @db.VarChar(255)
+  customerarea               String   @db.VarChar(75)
+  customerareagroup          String?  @db.VarChar(30)
+  third_party_delivery       String   @db.VarChar(5)
+  third_party_name           String?  @db.VarChar(75)
+  third_party_phone          String?  @db.VarChar(30)
+  third_party_areagroup      String?  @db.VarChar(30)
+  third_party_address        String?  @db.VarChar(250)
+  customerlatitude           Decimal  @db.Decimal(8, 6)
+  customerlongitude          Decimal  @db.Decimal(9, 6)
+  status                     String   @default("New") @db.VarChar(255)
+  paymentstatus              String   @default("Unpaid") @db.VarChar(255)
+  paymentmode                String   @default("Card") @db.VarChar(255)
+  paymenttime                String?  @db.VarChar(30)
+  driverdeliverystatus       String   @db.VarChar(255)
+  driverdeliverystatustime   String?  @db.VarChar(30)
+  driverdeliverytime         Int      @default(0)
+  customerdeliverystatus     String   @default("Waiting") @db.VarChar(255)
+  customerdeliverystatustime String?  @db.VarChar(30)
+  customerwaittime           Int      @default(0)
+  orderprocessed             Boolean
+  commission_paid            Int      @default(0) @db.TinyInt
+  driverrating               Int?     @db.TinyInt
+  driverfeedback             String?  @db.Text
+  notes                      String   @db.VarChar(255)
+  views                      Int      @default(0)
+  createdAt                  DateTime @db.DateTime(0)
+  updatedAt                  DateTime @updatedAt @db.DateTime(0)
+}
+
+model usermessages {
+  umsgid      Int      @id @default(autoincrement())
+  umsg_user   String   @db.VarChar(100)
+  umsg_cat    String   @db.VarChar(50)
+  umsg_title  String   @db.VarChar(200)
+  umsg_body   String   @db.Text
+  umsg_read   Int      @default(0) @db.TinyInt
+  umsg_time   DateTime @db.DateTime(0)
+  umsg_sender String   @db.VarChar(100)
+}
+
+model users {
+  id                           Int       @id @default(autoincrement())
+  uuid                         String?   @db.Char(36)
+  fleetid                      Int?
+  name                         String    @db.VarChar(255)
+  first_name                   String?   @db.VarChar(100)
+  last_name                    String?   @db.VarChar(100)
+  username                     String    @unique(map: "username") @db.VarChar(100)
+  email                        String    @unique(map: "email") @db.VarChar(100)
+  password                     String    @db.VarChar(255)
+  phone                        String?   @db.VarChar(255)
+  dob                          String?   @db.VarChar(25)
+  subscription_plan            String    @default("Basic") @db.VarChar(15)
+  subscription_end             DateTime? @db.DateTime(0)
+  address                      String?   @db.VarChar(255)
+  area                         String?   @db.VarChar(100)
+  areagroup                    String?   @db.VarChar(50)
+  residencestate               String?   @db.VarChar(255)
+  latitude                     Decimal?  @db.Decimal(9, 6)
+  longitude                    Decimal?  @db.Decimal(9, 6)
+  role                         String    @db.VarChar(255)
+  user_type                    String?   @db.VarChar(15)
+  expotoken                    String?   @db.VarChar(255)
+  photo                        String?   @default("images/noimage.png") @db.VarChar(255)
+  identification               String?   @db.VarChar(255)
+  identification_back          String?   @db.VarChar(100)
+  drv_license                  String?   @db.VarChar(100)
+  drv_license_back             String?   @db.VarChar(100)
+  drv_vehicle_license_plate_no String?   @db.VarChar(50)
+  drv_vehicle_capacity         String?   @db.VarChar(100)
+  drv_vehicle_make             String?   @db.VarChar(50)
+  drv_vehicle_meterid          String?   @db.VarChar(25)
+  drv_account_name             String?   @db.VarChar(100)
+  drv_account_no               String?   @db.VarChar(25)
+  drv_bank                     String?   @db.VarChar(100)
+  psv_customer_name            String?   @db.VarChar(75)
+  psv_account_name             String?   @db.VarChar(100)
+  psv_account_number           String?   @db.VarChar(25)
+  psv_bank                     String?   @db.VarChar(50)
+  isverified                   Boolean?  @default(false)
+  verifiedby                   String?   @db.VarChar(255)
+  isavailable                  Boolean?  @default(true)
+  isavailable_by               String?   @db.VarChar(20)
+  isavailable_reason           String?   @db.VarChar(200)
+  commissions_outstanding      Float?    @db.Float
+  commission_payment_ref       String?   @db.VarChar(50)
+  isactive                     Boolean?  @default(true)
+  isadmin                      Boolean?
+  terms                        Boolean?
+  enable2fa                    String    @default("no") @db.VarChar(4)
+  code2fa                      String?   @db.VarChar(10)
+  expiry2fa                    String?   @db.VarChar(25)
+  signupotp                    String?   @db.VarChar(8)
+  wm_wait_list                 Int       @default(0) @db.TinyInt
+  views                        Int       @default(1)
+  createdAt                    DateTime  @db.DateTime(0)
+  updatedAt                    DateTime  @updatedAt @db.DateTime(0)
+
+  first_meter_readings     MeterReadings[] @relation("FirstMeterReadingUser")
+  afternoon_meter_readings MeterReadings[] @relation("AfternoonMeterReadingUser")
+  last_meter_readings      MeterReadings[] @relation("LastMeterReadingUser")
+}
+
+model videocat {
+  vidcatid Int    @id @default(autoincrement())
+  vidcat   String @db.VarChar(50)
+}
+
+model videos {
+  videntryid    Int      @id @default(autoincrement())
+  vcatid        Int
+  vidcategory   String   @db.VarChar(50)
+  vidtitle      String   @db.VarChar(150)
+  viddesc       String   @db.Text
+  vidurl        String   @db.VarChar(100)
+  vidembed      String   @db.VarChar(250)
+  vidpostedby   String   @db.VarChar(100)
+  vidtimeposted DateTime @default(now()) @db.Timestamp(0)
+  vidhits       Int
+  vidextra      String   @db.VarChar(100)
+}
+
+model meter_domestic_entries {
+  mdid                Int      @id @default(autoincrement())
+  md_unique_id        String   @db.VarChar(100)
+  md_userid           String?  @db.VarChar(100)
+  md_area             String?  @db.VarChar(100)
+  md_consumption_rate String   @db.VarChar(50)
+  md_volume_received  Int
+  md_valve_state      String   @db.VarChar(25)
+  createdAt           DateTime @db.DateTime(0)
+}
+
+model meter_supply_entries {
+  msid               Int      @id @default(autoincrement())
+  ms_unique_id       String   @db.VarChar(100)
+  ms_userid          String?  @db.VarChar(100)
+  ms_supply_rate     String   @db.VarChar(50)
+  ms_volume_supplied Int
+  ms_temperature_c   String   @db.VarChar(10)
+  ms_temperature_f   String   @db.VarChar(10)
+  ms_turbidity_level String   @db.VarChar(50)
+  ms_ph_level        String   @db.VarChar(50)
+  ms_valve_state     String   @db.VarChar(25)
+  createdAt          DateTime @db.DateTime(0)
+}
+
+model meter_tanker_entries {
+  mtid                Int      @id @default(autoincrement())
+  mt_unique_id        String   @db.VarChar(50)
+  mt_tankerid         String?  @db.VarChar(100)
+  mt_delivery_rate    String   @db.VarChar(50)
+  mt_volume_delivered Int
+  mt_valve_state      String   @db.VarChar(25)
+  createdAt           DateTime @db.DateTime(0)
+}
+
+model meters {
+  meterid            Int             @id @default(autoincrement())
+  m_account_number   String?         @db.VarChar(30)
+  m_unique_id        String          @unique(map: "m_unique_id") @db.VarChar(100)
+  m_for              String          @default("Domestic Use") @db.VarChar(100)
+  m_assigned         String          @default("No") @db.VarChar(25)
+  m_assigned_to      String?         @db.VarChar(100)
+  m_assigned_name    String?         @db.VarChar(100)
+  m_assigned_phone   String?         @db.VarChar(30)
+  m_assigned_address String?         @db.VarChar(200)
+  m_area             String?         @db.VarChar(75)
+  m_status           String          @default("Inactive") @db.VarChar(15)
+  m_valve_state      String          @default("Closed") @db.VarChar(15)
+  m_water_unit_price Float           @default(0.5)
+  createdAt          DateTime        @db.DateTime(0)
+  updatedAt          DateTime        @updatedAt @db.DateTime(0)
+  meter_readings     MeterReadings[]
+}
+
+model contact_messages {
+  cid       Int      @id @default(autoincrement())
+  cname     String   @db.VarChar(150)
+  cphone    String   @db.VarChar(100)
+  cemail    String   @db.VarChar(100)
+  csubject  String   @db.VarChar(200)
+  cmessage  String   @db.Text
+  cstatus   String   @default("Open") @db.VarChar(10)
+  createdAt DateTime @db.DateTime(0)
+  updatedAt DateTime @updatedAt @db.DateTime(0)
+}
+
+model meter_numbers {
+  meter_uuid_id   Int      @id @default(autoincrement())
+  meter_type      String   @db.VarChar(20)
+  meter_uuid      String   @db.VarChar(50)
+  meter_uuid_used String   @default("No") @db.VarChar(5)
+  meter_assigned  String   @default("No") @db.VarChar(5)
+  createdAt       DateTime @db.DateTime(0)
+}
+
+model driverequests {
+  id         Int      @id
+  uuid       String?  @db.Char(36)
+  orderid    Int
+  customerid Int
+  address    String   @db.VarChar(255)
+  driverid   Int
+  status     String   @default("pending") @db.VarChar(255)
+  createdAt  DateTime @db.DateTime(0)
+  updatedAt  DateTime @db.DateTime(0)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model order_items {
+  order_id     Int
+  o_product_id Int
+  o_options    String? @db.Text
+  o_quantity   Int
+  o_price      Decimal @db.Decimal(30, 2)
+  o_total      Decimal @db.Decimal(30, 2)
+
+  @@ignore
+}
+
+model order_table {
+  order_id            Int                        @id @db.UnsignedInt
+  order_trans_id      String                     @db.VarChar(32)
+  username            String?                    @db.VarChar(50)
+  order_date          DateTime?                  @db.Date
+  order_time          DateTime                   @default(now()) @db.Timestamp(0)
+  status              String                     @default("New") @db.VarChar(25)
+  customercomment     String?                    @db.Text
+  notes               String                     @default("None") @db.VarChar(255)
+  shipping_first_name String                     @default("") @db.VarChar(50)
+  shipping_last_name  String                     @default("") @db.VarChar(50)
+  shipping_address1   String                     @default("") @db.VarChar(100)
+  shipping_address2   String                     @default("") @db.VarChar(100)
+  shipping_phone      String                     @default("") @db.VarChar(32)
+  shipping_email      String?                    @db.VarChar(50)
+  shipping_city       String                     @default("") @db.VarChar(100)
+  shipping_state      String                     @default("") @db.VarChar(32)
+  shipping_country    String                     @db.VarChar(100)
+  order_total         Decimal                    @default(0.00) @db.Decimal(30, 2)
+  delivery_type       String                     @default("Home delivery") @db.VarChar(50)
+  shipping_cost       Decimal                    @default(0.00) @db.Decimal(30, 2)
+  grandtotal          Decimal                    @default(0.00) @db.Decimal(30, 2)
+  gatewayid           Int
+  gwtranxid           Int?
+  gwcustid            String?                    @db.VarChar(50)
+  gwtranxamt          Decimal?                   @db.Decimal(30, 2)
+  gwstatuscode        Int?
+  gwstatusmsg         String?                    @db.VarChar(250)
+  o_sesid             String                     @db.VarChar(32)
+  last_update_by      order_table_last_update_by
+  order_stage         Int                        @default(0) @db.TinyInt
+  shipping_option     String                     @db.VarChar(30)
+  payment_option      String                     @db.VarChar(50)
+  payment_status      String                     @default("Unpaid") @db.VarChar(15)
+}
+
+model packages {
+  id          Int      @id
+  uuid        String?  @db.Char(36)
+  name        String   @db.VarChar(255)
+  sku         String   @db.VarChar(255)
+  description String   @db.VarChar(255)
+  picture     String   @db.VarChar(255)
+  price       Float    @db.Float
+  size        String   @db.VarChar(255)
+  status      Boolean  @default(true)
+  createdAt   DateTime @db.DateTime(0)
+  updatedAt   DateTime @db.DateTime(0)
+}
+
+model ratings {
+  id         Int      @id
+  uuid       String?  @db.Char(36)
+  orderid    String   @db.VarChar(255)
+  driverid   Int
+  stars      Int
+  comment    String   @db.VarChar(255)
+  customerid Int
+  createdAt  DateTime @db.DateTime(0)
+  updatedAt  DateTime @db.DateTime(0)
+}
+
+model usercat {
+  usercatid    Int    @id
+  usercategory String @db.VarChar(100)
+  usercatdesc  String @db.VarChar(250)
+}
+
+model complaints_replies {
+  creplyid      Int      @id @default(autoincrement())
+  complaintid   Int
+  creplysubject String   @db.VarChar(200)
+  creplyname    String   @db.VarChar(100)
+  creplyphone   String   @db.VarChar(50)
+  creplymessage String   @db.Text
+  createdAt     DateTime @db.DateTime(0)
+}
+
+model subscriptions {
+  subplanid          Int      @id @default(autoincrement())
+  subplantype        String   @default("Premium") @db.VarChar(25)
+  subplanusername    String   @db.VarChar(100)
+  subplanamt         Int      @default(5000)
+  subplan_from       DateTime @db.DateTime(0)
+  subplan_to         DateTime @db.DateTime(0)
+  subplan_status     String   @default("Active") @db.VarChar(15)
+  subplan_pay_status String   @default("Paid") @db.VarChar(10)
+  subplan_area       String   @db.VarChar(50)
+  subplan_admin      String   @db.VarChar(100)
+  createdAt          DateTime @db.DateTime(0)
+  updatedAt          DateTime @db.DateTime(0)
+}
+
+model trucks {
+  truckid          Int      @id @default(autoincrement())
+  truck_make       String   @db.VarChar(75)
+  truck_plateno    String   @db.VarChar(20)
+  truck_fleetowner Int?
+  truck_meterid    String?  @db.VarChar(25)
+  truck_driver     String?  @db.VarChar(100)
+  truck_status     String   @default("Active") @db.VarChar(10)
+  createdAt        DateTime @db.DateTime(0)
+  updatedAt        DateTime @db.DateTime(0)
+}
+
+model area_groups {
+  agid    Int    @id @default(autoincrement())
+  agname  String @db.VarChar(75)
+  agareas String @db.Text
+}
+
+model product_prices_areas {
+  ppid            Int    @id @default(autoincrement())
+  ppa_pid         Int
+  pparea          String @db.VarChar(75)
+  pp_subscription String @default("Basic") @db.VarChar(15)
+  pp_rate         Int    @default(1)
+}
+
+model articles {
+  artid           Int      @id @default(autoincrement())
+  artcategory     String   @db.VarChar(150)
+  title           String   @db.VarChar(200)
+  titleslug       String   @db.VarChar(200)
+  fullcontent     String   @db.MediumText
+  mkeys           String   @db.VarChar(150)
+  mdesc           String   @db.Text
+  artsource       String?  @db.VarChar(200)
+  artsource_url   String?  @db.VarChar(250)
+  artphoto        String?  @default("images/noimage.png") @db.VarChar(250)
+  artphotocaption String   @db.VarChar(150)
+  artphotourl     String?  @default("") @db.VarChar(250)
+  author          String?  @db.VarChar(50)
+  artstatus       String   @default("Published") @db.VarChar(20)
+  views           Int      @default(3)
+  published_date  String   @db.VarChar(20)
+  createdAt       DateTime @db.DateTime(0)
+  updatedAt       DateTime @db.DateTime(0)
+}
+
+model subscription_plans {
+  subplanid       Int      @id @default(autoincrement())
+  subplan_cat     String   @default("Premium") @db.VarChar(30)
+  subplan         String   @db.VarChar(150)
+  subplan_amount  Float    @default(0.00) @db.Float
+  subplan_months  String   @db.VarChar(5)
+  subplan_include String   @db.VarChar(200)
+  subplan_exclude String   @db.VarChar(200)
+  createdAt       DateTime @db.DateTime(0)
+  updatedAt       DateTime @db.DateTime(0)
+}
+
+model vendorreports {
+  id           Int      @id @default(autoincrement())
+  customerid   String?  @db.VarChar(10)
+  customername String   @db.VarChar(100)
+  vendorid     String   @db.VarChar(10)
+  plateno      String   @db.VarChar(20)
+  createdAt    DateTime @db.DateTime(0)
+  updatedAt    DateTime @updatedAt @db.DateTime(0)
+}
+
+model water_purchases {
+  wpid                  Int      @id @default(autoincrement())
+  wp_orderref           String?  @db.VarChar(25)
+  wp_type               String   @db.VarChar(50)
+  wp_merchant_id        String   @db.VarChar(10)
+  wp_merchant_name      String   @db.VarChar(100)
+  wp_merchant_address   String   @db.VarChar(200)
+  wp_merchant_latitude  Decimal  @db.Decimal(8, 6)
+  wp_merchant_longitude Decimal  @db.Decimal(9, 6)
+  wp_volume             String   @db.VarChar(10)
+  wp_amount             Float    @db.Float
+  wp_commission         Float    @db.Float
+  wp_owner_amount       Float    @db.Float
+  wp_driver_id          String   @db.VarChar(10)
+  wp_driver_name        String   @db.VarChar(100)
+  wp_driver_latitude    Decimal  @db.Decimal(8, 6)
+  wp_driver_longitude   Decimal  @db.Decimal(9, 6)
+  wp_fleetid            String   @db.VarChar(10)
+  wp_remark             String   @db.VarChar(100)
+  createdAt             DateTime @db.DateTime(0)
+  updatedAt             DateTime @updatedAt @db.DateTime(0)
+}
+
+enum order_table_last_update_by {
+  customer
+  staff
+  gateway
+  admin
+}
+
+model MeterReadings {
+  id           Int      @id @default(autoincrement())
+  meter        meters   @relation(fields: [meterId], references: [meterid])
+  meterId      Int
+  reading_date DateTime @db.Date
+
+  first_reading         String?   @db.VarChar(20)
+  first_reading_user_id Int?
+  first_reading_user    users?    @relation("FirstMeterReadingUser", fields: [first_reading_user_id], references: [id])
+  first_reading_at      DateTime?
+
+  afternoon_reading         String?   @db.VarChar(20)
+  afternoon_reading_user_id Int?
+  afternoon_reading_user    users?    @relation("AfternoonMeterReadingUser", fields: [afternoon_reading_user_id], references: [id])
+  afternoon_reading_at      DateTime?
+
+  last_reading         String?   @db.VarChar(20)
+  last_reading_user_id Int?
+  last_reading_user    users?    @relation("LastMeterReadingUser", fields: [last_reading_user_id], references: [id])
+  last_reading_at      DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([meterId, reading_date])
+}

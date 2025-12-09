@@ -1,8 +1,6 @@
 'use client'
 
 import { Menu, Transition } from "@headlessui/react";
-import { useSearchParams, usePathname, useRouter } from 'next/navigation';
-import ChevronDownIcon from "@heroicons/react/24/outline/ChevronDownIcon";
 import { Fragment, useEffect, useState } from "react";
 import Link from "next/link";
 import { FaEllipsisVertical } from "react-icons/fa6";

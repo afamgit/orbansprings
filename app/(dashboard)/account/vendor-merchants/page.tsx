@@ -1,27 +1,8 @@
-import Modal from "@/app/components/modal";
-import { prisma } from "@/scripts";
-import { useRouter } from "next/navigation";
-import { AddTeamForm } from "@/app/components/team-form";
-import moment from "moment";
-import { UpdateTeam, DeleteTeam } from "@/app/ui/buttons";
 import Link from "next/link";
 import Breadcrumbs from "@/app/ui/breadcrumbs";
 import { Metadata } from "next";
-import Pagination from "@/app/ui/pagination";
-import { fetchUsers, getProfileUser } from "@/app/utils/data";
-import Teams from "@/app/ui/teams";
-import Users from "@/app/ui/users";
-import {
-  ExpectedCommission,
-  UserNumbersCard,
-  UserNumbersCardPlain,
-  UserNumbersCardSingle,
-} from "@/app/ui/cards";
-import UsersByNumbers from "@/app/components/users-by-numbers";
-import { SubscriptionType } from "@/app/components/subscrription-type";
-import { Location } from "@/app/components/location";
-import WaterMerchantQrCode from "@/app/components/water-merchant-qr-code";
-import { auth } from "@/auth";
+import { fetchUsers } from "@/app/utils/data";
+import { prisma } from "@/scripts";
 
 export const metadata: Metadata = {
   title: "Vendor Merchants",

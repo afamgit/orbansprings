@@ -2,7 +2,7 @@
  
 import { useFormState } from 'react-dom'
 import { useFormStatus } from 'react-dom'
-import { createTodo, deleteAllTodos } from '../utils/actions'
+import { createTodo } from '../utils/actions'
  
 const initialState = {
   message: null,

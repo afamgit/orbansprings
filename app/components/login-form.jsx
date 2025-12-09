@@ -7,8 +7,8 @@ import {
 } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
-import { useFormState, useFormStatus } from 'react-dom';
-import { authenticate, checkUser } from '@/app/utils/actions';
+import { useFormStatus } from 'react-dom';
+import { authenticate } from '@/app/utils/actions';
 import { getProfileFromUser } from '../utils/data';
 
 const initialState = {

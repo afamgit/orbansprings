@@ -1,12 +1,12 @@
 'use client'
 
-import { useState } from "react";
 import Link from "next/link";
 import { NewsletterSignup } from './newsletter-sign-up-form'
 import {FaCopyright, FaEnvelope, FaFacebook, FaInstagram, FaTwitter} from 'react-icons/fa'
 import {AiFillPhone} from 'react-icons/ai'
 import Image from 'next/image'
 import moment from "moment";
+import { useState } from "react";
 
 const Footer = () => {
   const [showMenu, setShowMenu] = useState(false);

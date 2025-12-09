@@ -2,7 +2,7 @@
  
 import { useFormState } from 'react-dom'
 import { useFormStatus } from 'react-dom'
-import { createFaq, updateFaq, deletePage } from '../utils/actions'
+import { createFaq, updateFaq } from '../utils/actions'
 import { useActionState } from 'react'
  
 const initialState = {

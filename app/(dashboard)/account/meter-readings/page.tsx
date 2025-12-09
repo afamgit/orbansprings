@@ -1,5 +1,4 @@
 import { prisma } from '@/scripts'
-import Link from 'next/link'
 import Breadcrumbs from '@/app/ui/breadcrumbs'
 import { Metadata } from 'next'
 import { fetchMeterReadings } from '@/app/utils/data'

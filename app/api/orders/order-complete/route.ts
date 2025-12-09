@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/scripts";
-import { z } from "zod";
 import moment from "moment";
 
 export async function POST(req: Request) {

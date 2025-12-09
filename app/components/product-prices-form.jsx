@@ -3,7 +3,6 @@
 import { useFormState } from "react-dom";
 import { useFormStatus } from "react-dom";
 import { createProductPrices, updateProductPrice } from "../utils/actions";
-import { areas } from "../utils/data";
 import { useActionState } from "react";
 
 const initialState = {

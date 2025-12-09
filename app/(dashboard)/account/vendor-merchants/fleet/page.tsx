@@ -1,20 +1,16 @@
 import { prisma } from "@/scripts";
-import { UpdateTeam, DeleteTeam } from "@/app/ui/buttons";
 import Link from "next/link";
 import Breadcrumbs from "@/app/ui/breadcrumbs";
 import { Metadata } from "next";
 import Pagination from "@/app/ui/pagination";
-import { FaPlus, FaShapes } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 import { fetchMerchantDrivers, getProfileUser } from "@/app/utils/data";
 import {
-  ExpectedCommission,
-  UserNumbersCard,
-  UserNumbersCardPlain,
   UserNumbersCardSingle,
 } from "@/app/ui/cards";
-import { Status } from "@/app/components/status";
 import { auth } from "@/auth";
 import MerchantTrucks from "@/app/ui/merchant-trucks";
+import { Status } from "@/app/components/status";
 
 export const metadata: Metadata = {
   title: "Fleet",

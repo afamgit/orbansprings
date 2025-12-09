@@ -1,8 +1,5 @@
-import { prisma } from '@/scripts'
 import { fetchFilteredMerchantTrucks } from '../utils/data';
 import { UpdateTruck } from '@/app/ui/buttons'
-import moment from 'moment';
-import { statusBg } from '../utils/snippets';
 
 export default async function MerchantTrucks({
   id,

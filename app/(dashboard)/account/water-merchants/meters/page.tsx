@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { prisma } from '@/scripts'
 import Meters from '@/app/ui/meters'
 import { fetchMeters } from '@/app/utils/data'
