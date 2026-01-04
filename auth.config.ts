@@ -4,6 +4,10 @@ export const authConfig = {
   pages: {
     signIn: '/login',
   },
+  secret: "XsEZ90UkSqnhHXhGgCpfLManfxsFK1RxOPwjET1WQqw=",
+  session: {
+    strategy: "jwt"
+  },
   trustHost: true,
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {

@@ -3,6 +3,7 @@ import { getProfileUser } from '@/app/utils/data';
 import { auth } from '@/auth';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
  
 export const metadata: Metadata = {
   title: 'Login',
@@ -13,7 +14,7 @@ export default async function LoginPage() {
 
   const profile = await getProfileUser(userInfo?.user.email || '')
 
-  // profile && redirect("/");
+  profile && redirect("/");
 
   console.log('profile', profile)
 
