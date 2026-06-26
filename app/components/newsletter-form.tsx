@@ -2,12 +2,12 @@
  
 import { useState, useActionState } from 'react';
 import dynamic from 'next/dynamic';
-import 'react-quill/dist/quill.snow.css'; // Import Quill styles
+import 'react-quill-new/dist/quill.snow.css'; // Import Quill styles
 import { useFormState } from 'react-dom'
 import { useFormStatus } from 'react-dom'
 import { createNewsletter, updateNewsletter } from '../utils/actions'
  
-const QuillEditor = dynamic(() => import('react-quill'), { ssr: false });
+const QuillEditor = dynamic(() => import('react-quill-new'), { ssr: false });
 
 const initialState = {
   message: '',
