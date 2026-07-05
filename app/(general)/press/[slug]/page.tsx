@@ -3,6 +3,7 @@ import Image from 'next/image';
 import moment from 'moment';
 import { BsEyeFill } from 'react-icons/bs';
 import type { Metadata, ResolvingMetadata } from 'next'
+import { getArticlePhotoUrl } from '@/app/utils/utils'
  
 type Props = {
   params: any
@@ -67,7 +68,7 @@ export default async function Page({params}: {params: any}) {
             <Image
               height={300}
               width={400}
-              src={`${post?.artphoto}`}
+              src={getArticlePhotoUrl(post?.artphoto)}
               alt={`${post?.title}`}
               className='rounded-lg'
             />  

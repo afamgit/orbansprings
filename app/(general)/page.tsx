@@ -5,6 +5,7 @@ import {Testimonials} from '../components/testimonials'
 import {BottomAppBanner} from '../components/bottom-app-banner'
 import Link from 'next/link'
 import { unstable_noStore as noStore } from 'next/cache';
+import { getArticlePhotoUrl } from '@/app/utils/utils'
 
 import { Metadata } from 'next'
 import { BsArrowUpRight, BsEyeFill } from 'react-icons/bs'
@@ -51,10 +52,10 @@ noStore()
       className="absolute inset-0 bg-[url('/running_water_bg.jpg')] bg-cover bg-center opacity-70"
       style={{ backgroundRepeat: 'no-repeat' }}
     />
-    <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/80 to-transparent" />
+    <div className="absolute inset-0 bg-gradient-to-r from-slate-950/70 via-slate-900/40 to-transparent" />
     
     <div className="relative w-full max-w-[1200px] mx-auto px-4 md:px-8 z-10">
-      <div className="max-w-[650px] bg-slate-900/40 backdrop-blur-md border border-white/10 p-8 md:p-12 rounded-2xl shadow-2xl">
+      <div className="max-w-[650px] bg-slate-900/20 backdrop-blur-sm border border-white/10 p-8 md:p-12 rounded-2xl shadow-2xl">
         <span className="inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-500/30 mb-6 uppercase tracking-wider">
           💧 Smart Water Solutions
         </span>
@@ -120,7 +121,7 @@ noStore()
         <h1 className='text-5xl text-center text-gray-800 my-3 py-3'>Press</h1>
         <div className='w-full md:max-w-[1200px] mx-auto flex justify-start items-center flex-wrap'>
         {blogs.map((item,i) => {
-            let imgSrc = item.artphoto?.includes('images') ? `https://orbansprings.com/${item.artphoto}` : `${item.artphoto}`
+            let imgSrc = getArticlePhotoUrl(item.artphoto)
 
           return (
             <Link href={`/press/${item.titleslug}`} key={i} className='w-full md:flex gap-2 p-3'>

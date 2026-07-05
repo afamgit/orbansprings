@@ -8,6 +8,7 @@ import 'react-quill-new/dist/quill.snow.css'; // Import Quill styles
 import { useFormState } from 'react-dom'
 import { useFormStatus } from 'react-dom'
 import { updateArticle, createArticle } from '../utils/actions'
+import { getArticlePhotoUrl } from '../utils/utils'
  
 const QuillEditor = dynamic(() => import('react-quill-new'), { ssr: false });
 
@@ -684,7 +685,7 @@ export function AddBlogForm() {
       <Image
               height={220}
               width={200}
-              src={`${blog?.artphoto}`}
+              src={getArticlePhotoUrl(blog?.artphoto)}
               alt={blog?.title}
               className='rounded-lg h-[200px] mt-4'
             />

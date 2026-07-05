@@ -24,6 +24,22 @@ export const getPhotoUrl = (imgUrl: string) => {
 return imageUrl
 }
 
+export const getArticlePhotoUrl = (artphoto: string | null | undefined) => {
+  if (!artphoto) {
+    return '/noimage.png';
+  }
+  if (artphoto.startsWith('http://') || artphoto.startsWith('https://')) {
+    return artphoto;
+  }
+  if (artphoto.startsWith('images/') || artphoto.startsWith('blog/')) {
+    return `https://orbansprings.com/${artphoto}`;
+  }
+  if (artphoto.startsWith('/')) {
+    return artphoto;
+  }
+  return `/${artphoto}`;
+}
+
 export const monthsMap = [
   {"name":"January", "abbr": "01"},
   {"name":"February", "abbr": "02"},

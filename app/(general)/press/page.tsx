@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Metadata } from 'next';
 import { unstable_noStore as noStore } from 'next/cache';
+import { getArticlePhotoUrl } from '@/app/utils/utils'
 
 export const metadata: Metadata = {
   title: 'Press',
@@ -25,7 +26,7 @@ export default async function Page() {
             key={i}
               height={550}
               width={400}
-              src={`${item.artphoto}`}
+              src={getArticlePhotoUrl(item.artphoto)}
               alt={item.title}
               className='rounded-lg h-[400px]'
             /></div>

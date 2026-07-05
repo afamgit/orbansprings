@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { fetchFilteredBlog } from '../utils/data';
 import { UpdateBlog, DeleteBlog } from '@/app/ui/buttons'
 import moment from 'moment';
+import { getArticlePhotoUrl } from '@/app/utils/utils'
 
 export default async function Blog({
     query,
@@ -47,7 +48,7 @@ export default async function Blog({
             <td className='hidden md:block'>
             <div className='w-16 h-16'>
             <Image
-                src={`${item.artphoto}`}
+                src={getArticlePhotoUrl(item.artphoto)}
                 height={48}
                 width={48}
                 alt={item.title}
