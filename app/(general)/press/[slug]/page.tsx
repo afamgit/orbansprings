@@ -71,6 +71,7 @@ export default async function Page({params}: {params: any}) {
               src={getArticlePhotoUrl(post?.artphoto)}
               alt={`${post?.title}`}
               className='rounded-lg'
+              unoptimized
             />  
                 </div>
 

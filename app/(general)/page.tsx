@@ -133,6 +133,7 @@ noStore()
               src={`${imgSrc}`}
               alt={item.title}
               className='rounded-lg'
+              unoptimized
             />
                 </div>
                 <div className='w-full md:w-4/5 mt-2 p-2 md:p-5'>
