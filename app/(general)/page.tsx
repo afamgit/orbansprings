@@ -46,23 +46,39 @@ noStore()
 
   return (
     <div className="bg-gray-100 w-full">
-        <div
-    className="bg-[url('/running_water_bg.jpg')] bg-center h-[500px] md:h-screen w-full" style={{backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}}
-  >
-    <div className='relative flex justify-center items-center'>
-      <div className='absolute top-[100px] left-[40px] w-4/5 md:top-[200px] md:left-[150px] md:w-[700px] text-white bg-black bg-opacity-20 p-3 md:p-7 rounded'>
-        <h1 className='text-3xl md:text-5xl text-white'>Clean & Affordable Water</h1>
-        <h1 className='text-3xl md:text-5xl  py-1'>At Your Finger Tips</h1>
-        <p className='text-sm md:text-xl py-2'>Get water, when you need it! Efficient potable water delivery service at your fingertips.</p>
+  <div className="relative h-[600px] md:h-[80vh] w-full overflow-hidden flex items-center justify-center bg-slate-900">
+    <div 
+      className="absolute inset-0 bg-[url('/running_water_bg.jpg')] bg-cover bg-center opacity-70"
+      style={{ backgroundRepeat: 'no-repeat' }}
+    />
+    <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/80 to-transparent" />
+    
+    <div className="relative w-full max-w-[1200px] mx-auto px-4 md:px-8 z-10">
+      <div className="max-w-[650px] bg-slate-900/40 backdrop-blur-md border border-white/10 p-8 md:p-12 rounded-2xl shadow-2xl">
+        <span className="inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-semibold bg-sky-500/20 text-sky-300 border border-sky-500/30 mb-6 uppercase tracking-wider">
+          💧 Smart Water Solutions
+        </span>
+        <h1 className="text-4xl md:text-6xl text-white font-extrabold tracking-tight leading-tight mb-4">
+          Clean & Affordable <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-300">Water</span> At Your Fingertips
+        </h1>
+        <p className="text-lg text-slate-200 mb-8 font-light leading-relaxed">
+          Get water, when you need it! Efficient, potable water delivery services powered by real-time IoT technology.
+        </p>
         
-        <div className='mt-3'>
+        <div className="flex flex-wrap gap-4">
           <Link
-              className="py-3 px-6 my-4 rounded bg-blue-800 text-white"
-              href="#downloadapp"
-            >
-              Download App
-            </Link>
-            </div>
+            className="py-4 px-8 rounded-xl bg-gradient-to-r from-blue-700 to-sky-600 hover:from-blue-800 hover:to-sky-700 text-white font-semibold shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5 transition-all duration-200"
+            href="#downloadapp"
+          >
+            Download App
+          </Link>
+          <Link
+            className="py-4 px-8 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold shadow-lg hover:-translate-y-0.5 transition-all duration-200"
+            href="/services"
+          >
+            Our Services
+          </Link>
+        </div>
       </div>
     </div>
   </div>

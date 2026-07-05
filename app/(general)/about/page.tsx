@@ -87,76 +87,78 @@ export default async function Page() {
         </div>
       </div>
 
-      <div className="bg-sky-400 p-3 md:p-5">
-        <div className="w-full md:w-[1200px] mx-auto flex flex-col justify-center items-center text-white">
-          <h1 className="text-5xl my-3 py-3">Our Team</h1>
+      <div className="bg-gradient-to-b from-sky-500 to-blue-700 py-16 px-4 md:px-8">
+        <div className="w-full max-w-[1200px] mx-auto flex flex-col justify-center items-center text-white">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-center mb-12 tracking-tight">Our Team</h1>
 
-          <div className="flex flex-col justify-center items-center my-2 py-2">
-            <div className="flex justify-center items-center">
-              {teamMembers
-                .filter((item) => item.tmemberrank === 1)
-                .map((item, i) => {
-                  const photoImg = item?.tmemberphoto.includes("https")
-                    ? `${item?.tmemberphoto}`
-                    : item?.tmemberphoto.includes("images")
-                    ? `https://support.orbansprings.com/${item?.tmemberphoto}`
-                    : `/${item?.tmemberphoto}`;
+          <div className="flex flex-wrap justify-center items-stretch gap-8 mb-16">
+            {teamMembers
+              .filter((item) => item.tmemberrank === 1)
+              .map((item, i) => {
+                const photoImg = item?.tmemberphoto
+                  ? (item.tmemberphoto.includes("https")
+                    ? item.tmemberphoto
+                    : item.tmemberphoto.startsWith("/")
+                      ? item.tmemberphoto
+                      : `/${item.tmemberphoto}`)
+                  : "/images/noimage.png";
 
-                  return (
-                    <div
-                      key={i}
-                      className="p-3 flex flex-col justify-center items-center text-white"
-                    >
-                      <div className="w-[400px] h[600px]">
-                        <Image
-                          src={`/${photoImg}`}
-                          height={400}
-                          width={400}
-                          alt={item.tmember}
-                          className="rounded-lg"
-                        />
-                      </div>
-                      <h2 className="text-2xl font-bold pt-2 my-1">
-                        {item.tmember}
-                      </h2>
-                      <p className="my-2 text-center px-3">
-                        {item.tmemberposition}
-                      </p>
+                return (
+                  <div
+                    key={i}
+                    className="bg-white/10 backdrop-blur-md border border-white/20 p-6 flex flex-col items-center text-white rounded-3xl shadow-xl w-full sm:w-[360px] hover:scale-[1.02] transition-transform duration-300"
+                  >
+                    <div className="w-full aspect-square relative overflow-hidden rounded-2xl mb-6 shadow-md">
+                      <Image
+                        src={photoImg}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 300px"
+                        alt={item.tmember}
+                        className="object-cover"
+                      />
                     </div>
-                  );
-                })}
-            </div>
+                    <h2 className="text-2xl font-bold mb-1">
+                      {item.tmember}
+                    </h2>
+                    <p className="text-sky-100 text-center text-sm font-medium tracking-wide uppercase">
+                      {item.tmemberposition}
+                    </p>
+                  </div>
+                );
+              })}
           </div>
 
-          <div className="flex flex-col justify-center items-center">
-            <div className="md:flex justify-center items-center">
+          <div className="w-full">
+            <div className="flex flex-wrap justify-center items-stretch gap-6">
               {teamMembers
                 .filter((item) => item.tmemberrank === 2)
                 .map((item, i) => {
-                  const photoImg = item?.tmemberphoto.includes("https")
-                    ? `${item?.tmemberphoto}`
-                    : item?.tmemberphoto.includes("images")
-                    ? `https://support.orbansprings.com/${item?.tmemberphoto}`
-                    : `/${item?.tmemberphoto}`;
+                  const photoImg = item?.tmemberphoto
+                    ? (item.tmemberphoto.includes("https")
+                      ? item.tmemberphoto
+                      : item.tmemberphoto.startsWith("/")
+                        ? item.tmemberphoto
+                        : `/${item.tmemberphoto}`)
+                    : "/images/noimage.png";
 
                   return (
                     <div
                       key={i}
-                      className="p-3 flex flex-col md:h-[400px] justify-center items-center flex-wrap text-white"
+                      className="p-5 flex flex-col items-center text-white bg-slate-950/20 border border-white/5 rounded-2xl w-full sm:w-64 hover:scale-[1.02] transition-transform duration-300"
                     >
-                      <div className="w-64 h-64">
+                      <div className="w-44 h-44 relative overflow-hidden rounded-xl mb-4 shadow-sm">
                         <Image
-                          src={`${photoImg}`}
-                          height={300}
-                          width={300}
+                          src={photoImg}
+                          fill
+                          sizes="176px"
                           alt={item.tmember}
-                          className="rounded-lg"
+                          className="object-cover"
                         />
                       </div>
-                      <h2 className="text-2xl font-bold py-1">
+                      <h2 className="text-lg font-bold mb-1 text-center">
                         {item.tmember}
                       </h2>
-                      <div className="w-[90%] py-2 text-center">
+                      <div className="text-sky-150 text-xs text-center font-light leading-relaxed">
                         {item.tmemberposition}
                       </div>
                     </div>

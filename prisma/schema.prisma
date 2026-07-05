@@ -198,6 +198,11 @@ model requests {
   views                 Int      @db.Int
   createdAt             DateTime @db.DateTime(0)
   updatedAt             DateTime @updatedAt @db.DateTime(0)
+
+  @@index([driverid])
+  @@index([customerid])
+  @@index([req_type])
+  @@index([createdAt])
 }
 
 model shopinfo {
@@ -350,6 +355,11 @@ model transactions {
   views                      Int      @default(0)
   createdAt                  DateTime @db.DateTime(0)
   updatedAt                  DateTime @updatedAt @db.DateTime(0)
+
+  @@index([driverid])
+  @@index([customerid])
+  @@index([req_type])
+  @@index([createdAt])
 }
 
 model usermessages {
@@ -424,6 +434,10 @@ model users {
   first_meter_readings    MeterReadings[] @relation("FirstMeterReadingUser")
   afternoon_meter_readings MeterReadings[] @relation("AfternoonMeterReadingUser")
   last_meter_readings     MeterReadings[] @relation("LastMeterReadingUser")
+
+  @@index([role])
+  @@index([fleetid])
+  @@index([area])
 }
 
 model videocat {
@@ -454,6 +468,9 @@ model meter_domestic_entries {
   md_volume_received  Int
   md_valve_state      String   @db.VarChar(25)
   createdAt           DateTime @db.DateTime(0)
+
+  @@index([md_unique_id])
+  @@index([md_area])
 }
 
 model meter_supply_entries {
@@ -468,6 +485,8 @@ model meter_supply_entries {
   ms_ph_level        String   @db.VarChar(50)
   ms_valve_state     String   @db.VarChar(25)
   createdAt          DateTime @db.DateTime(0)
+
+  @@index([ms_unique_id])
 }
 
 model meter_tanker_entries {
@@ -478,6 +497,9 @@ model meter_tanker_entries {
   mt_volume_delivered Int
   mt_valve_state      String   @db.VarChar(25)
   createdAt           DateTime @db.DateTime(0)
+
+  @@index([mt_unique_id])
+  @@index([mt_tankerid])
 }
 
 model meters {
@@ -497,6 +519,8 @@ model meters {
   createdAt          DateTime @db.DateTime(0)
   updatedAt          DateTime @updatedAt @db.DateTime(0)
   meter_readings     MeterReadings[]
+
+  @@index([m_assigned_to])
 }
 
 model contact_messages {
@@ -647,6 +671,8 @@ model trucks {
   truck_status     String   @default("Active") @db.VarChar(10)
   createdAt        DateTime @db.DateTime(0)
   updatedAt        DateTime @db.DateTime(0)
+
+  @@index([truck_fleetowner])
 }
 
 model area_groups {

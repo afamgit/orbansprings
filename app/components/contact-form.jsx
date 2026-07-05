@@ -133,133 +133,126 @@ export function ContactForm() {
 
   return (
     <>
-      <div className="w-full md:w-4/5 flex min-h-full bg-white rounded-lg p-6 flex-col justify-center shadow-md">
+      <div className="w-full md:w-4/5 flex min-h-full bg-white rounded-2xl p-8 flex-col justify-center shadow-xl border border-slate-100">
         {msg !== "" && (
           <div className="my-3">
-            <span className="bg-sky-200 text-gray-900 rounded-lg p-2">
+            <span className="bg-sky-50 border border-sky-200 text-sky-800 rounded-lg px-3 py-2 text-sm">
               {msg}
             </span>
           </div>
         )}
 
-{errorMsg !== "" && (
+        {errorMsg !== "" && (
           <div className="my-3">
-            <span className="bg-red-500 text-gray-100 rounded-lg p-2">
+            <span className="bg-red-50 border border-red-200 text-red-800 rounded-lg px-3 py-2 text-sm">
               {errorMsg}
             </span>
           </div>
         )}
 
-        <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-2 gap-4 my-3">
-            <div className="rounded">
-              <div className="mt-2 border-2 border-gray-200">
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  placeholder="Name"
-                  onChange={updateData}
-                  required
-                  className="block h-[40px] w-full p-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6"
-                />
-              </div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="name" className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Your name"
+                onChange={updateData}
+                required
+                className="block w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all text-sm"
+              />
             </div>
 
-            <div className="rounded">
-              <div className="mt-2 border-2 border-gray-200">
-                <input
-                  type="text"
-                  id="phone"
-                  name="phone"
-                  placeholder="Phone"
-                  onChange={updateData}
-                  required
-                  className="block h-[40px] w-full p-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6"
-                />
-              </div>
+            <div>
+              <label htmlFor="phone" className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Phone</label>
+              <input
+                type="text"
+                id="phone"
+                name="phone"
+                placeholder="Phone number"
+                onChange={updateData}
+                required
+                className="block w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all text-sm"
+              />
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 my-3">
-            <div className="rounded">
-              <div className="mt-2 border-2 border-gray-200">
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="Email"
-                  onChange={updateData}
-                  required
-                  className="block h-[40px] w-full p-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6"
-                />
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="email" className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Email address"
+                onChange={updateData}
+                required
+                className="block w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all text-sm"
+              />
             </div>
 
-            <div className="rounded">
-              <div className="mt-2 border-2 border-gray-200">
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  placeholder="Subject"
-                  onChange={updateData}
-                  required
-                  className="block h-[40px] w-full p-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6"
-                />
-              </div>
+            <div>
+              <label htmlFor="subject" className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Subject</label>
+              <input
+                type="text"
+                id="subject"
+                name="subject"
+                placeholder="Inquiry subject"
+                onChange={updateData}
+                required
+                className="block w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all text-sm"
+              />
             </div>
           </div>
 
           <div>
-            <div className="mt-2 border-2 border-gray-200">
-              <textarea
-                type="text"
-                rows={10}
-                id="message"
-                name="message"
-                placeholder="Message"
-                onChange={updateData}
-                required
-                className="block w-full p-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
+            <label htmlFor="message" className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Message</label>
+            <textarea
+              rows={6}
+              id="message"
+              name="message"
+              placeholder="How can we help you?"
+              onChange={updateData}
+              required
+              className="block w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all text-sm resize-none"
+            />
           </div>
 
-          <div className={"my-6"}>
+          <div className="my-6 p-4 bg-slate-50 rounded-xl border border-slate-100">
             <div
               style={{ backgroundRepeat: "no-repeat", backgroundSize: "cover" }}
-              className='relative flex justify-center items-center my-3 h-18 w-[100px] bg-[url("https://orbansprings.com/1662869457.png-2.jpeg")] bg-center'
+              className='relative flex justify-center items-center my-2 h-12 w-[110px] bg-[url("https://orbansprings.com/1662869457.png-2.jpeg")] bg-center rounded overflow-hidden shadow-inner'
             >
-              <p className="flex justify-center items-center text-center bg-gray-900 opacity-70 text-white px-3 py-2 font-bold text-2xl tracking-widest">
+              <p className="flex justify-center items-center text-center bg-slate-950/80 text-white w-full h-full font-mono font-bold text-xl tracking-widest">
                 {randomChars?.toUpperCase()}
               </p>
             </div>
             <label
-              className="mb-3 mt-5 block text-xs font-medium text-gray-900"
+              className="mb-2 mt-4 block text-xs font-semibold text-slate-700 uppercase tracking-wider"
               htmlFor="textchar"
             >
               Enter the characters shown above
             </label>
-            <div className="relative">
-              <input
-                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
-                id="textchar"
-                type="text"
-                name="textchar"
-                required
-                onChange={updateData}
-                minLength={5}
-                maxLength={5}
-              />
-            </div>
+            <input
+              className="peer block w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all"
+              id="textchar"
+              type="text"
+              name="textchar"
+              required
+              onChange={updateData}
+              minLength={5}
+              maxLength={5}
+              placeholder="Verification code"
+            />
           </div>
 
           <button
-            className="p-2 bg-blue-800 text-white rounded my-3"
+            className="w-full py-4 px-8 bg-gradient-to-r from-blue-700 to-sky-600 hover:from-blue-800 hover:to-sky-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-blue-500/20 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
             type="submit"
           >
-            {loading ? "Sending..." : "Send"}
+            {loading ? "Sending..." : "Send Message"}
           </button>
 
           <p aria-live="polite" className="sr-only">

@@ -6,7 +6,15 @@ import { auth } from '@/auth';
 export async function getUser(email: string) {
 
   try {
-    const user = await prisma.users.findMany();
+    const user = await prisma.users.findMany({
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        username: true,
+        role: true,
+      }
+    });
 
     return user;
   } catch (error: any) {
@@ -108,6 +116,13 @@ export async function fetchDrivers() {
     const allDrivers = await prisma.users.findMany({
       where: {
         role: 'driver'
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true,
+        drv_vehicle_license_plate_no: true,
       }
     })
     return allDrivers;
@@ -123,6 +138,12 @@ export async function fetchFleetDrivers() {
     const allVendors = await prisma.users.findMany({
       where: {
         role: 'fleetownerdriver'
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true,
       }
     })
     return allVendors;
@@ -143,6 +164,13 @@ export async function fetchFilteredMeterNumbers(
 
   try {
     const meterNums = await prisma.meter_numbers.findMany({
+      select: {
+        meter_uuid_id: true,
+        meter_type: true,
+        meter_uuid: true,
+        meter_uuid_used: true,
+        meter_assigned: true,
+      },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -185,6 +213,14 @@ export async function fetchFilteredMeters(
 
     const meters = await prisma.meters.findMany({
       where: whereClause,
+      select: {
+        meterid: true,
+        m_unique_id: true,
+        m_assigned_to: true,
+        m_area: true,
+        m_for: true,
+        m_status: true,
+      },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -227,6 +263,12 @@ export async function fetchFilteredTeams(
 
   try {
     const meters = await prisma.team_members.findMany({
+      select: {
+        tmemberid: true,
+        tmemberphoto: true,
+        tmember: true,
+        tmemberposition: true,
+      },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -256,6 +298,10 @@ export async function fetchFilteredPages(
 
   try {
     const pages = await prisma.contentpages.findMany({
+      select: {
+        cpageid: true,
+        cpagename: true,
+      },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -285,6 +331,11 @@ export async function fetchFilteredAllProducts(
 
   try {
     const products = await prisma.products.findMany({
+      select: {
+        id: true,
+        name: true,
+        picture: true,
+      },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -314,6 +365,12 @@ export async function fetchFilteredBlog(
 
   try {
     const blog = await prisma.articles.findMany({
+      select: {
+        artid: true,
+        artphoto: true,
+        title: true,
+        createdAt: true,
+      },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -343,6 +400,11 @@ export async function fetchFilteredNewsletters(
 
   try {
     const newsletters = await prisma.newsletter_body.findMany({
+      select: {
+        nlb_id: true,
+        nlb_title: true,
+        createdAt: true,
+      },
       orderBy: { createdAt: 'desc' },
       skip: offset,
       take: ITEMS_PER_PAGE
@@ -387,6 +449,10 @@ export async function fetchFilteredAreaGroups(
 
   try {
     const areagroups = await prisma.area_groups.findMany({
+      select: {
+        agid: true,
+        agname: true,
+      },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -416,6 +482,16 @@ export async function fetchFilteredTestimonials(
 
   try {
     const meters = await prisma.testimonials.findMany({
+      select: {
+        tid: true,
+        tphoto: true,
+        tcustomer: true,
+        trole: true,
+        tmessage: true,
+        tstars: true,
+        tdate: true,
+        tstatus: true,
+      },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -448,6 +524,13 @@ export async function fetchFilteredUsers(
   try {
     const users = await prisma.users.findMany({
       where: { AND: [{ AND: [{ role: 'customer' }, { subscription_plan: subType }, { area: { contains: location } }] }, { OR: [{ name: { contains: query } }, { email: { contains: query } }, { phone: { contains: query } }, { username: { contains: query } }] }] },
+      select: {
+        id: true,
+        name: true,
+        area: true,
+        subscription_plan: true,
+        createdAt: true,
+      },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -487,6 +570,13 @@ export async function fetchFilteredDrivers(
   try {
     const users = await prisma.users.findMany({
       where: { AND: [{ AND: [{ role: 'driver' }, { subscription_plan: subType }, { area: { contains: location } }] }, { OR: [{ name: { contains: query } }, { email: { contains: query } }, { phone: { contains: query } }, { username: { contains: query } }] }] },
+      select: {
+        id: true,
+        name: true,
+        drv_vehicle_license_plate_no: true,
+        subscription_plan: true,
+        createdAt: true,
+      },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -527,6 +617,14 @@ export async function fetchFilteredMerchantDrivers(
   try {
     const users = await prisma.users.findMany({
       where: { AND: [{ AND: [{ role: 'driver' }, { fleetid: id }, { OR: [{ isavailable: available }] }] }, { OR: [{ name: { contains: query } }, { email: { contains: query } }, { phone: { contains: query } }, { username: { contains: query } }] }] },
+      select: {
+        id: true,
+        name: true,
+        drv_vehicle_license_plate_no: true,
+        email: true,
+        phone: true,
+        isavailable: true,
+      },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -570,6 +668,14 @@ export async function fetchFilteredMerchantTrucks(
   try {
     const trucks = await prisma.trucks.findMany({
       where: { AND: [{ AND: [{ truck_fleetowner: id }, { OR: [{ truck_status: t_status }] }] }, { OR: [{ truck_make: { contains: query } }, { truck_plateno: { contains: query } }, { truck_driver: { contains: query } }] }] },
+      select: {
+        truckid: true,
+        truck_make: true,
+        truck_plateno: true,
+        truck_meterid: true,
+        truck_driver: true,
+        truck_status: true,
+      },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -609,6 +715,10 @@ export async function fetchFilteredVendors(
   try {
     const vendors = await prisma.users.findMany({
       where: { AND: [{ OR: [{ role: 'plumber' }, { role: 'tank cleaner' }] }, { role: { contains: type } }, { OR: [{ name: { contains: query } }, { email: { contains: query } }, { phone: { contains: query } }, { username: { contains: query } }] }] },
+      select: {
+        id: true,
+        role: true,
+      },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -655,6 +765,11 @@ export async function fetchFilteredMerchants(
   try {
     const users = await prisma.users.findMany({
       where: { AND: [{ OR: [{ role: 'fleetownerdriver' }, { role: 'fleetownerplumber' }, { role: 'watermerchant' }] }, { OR: [{ name: { contains: query } }, { email: { contains: query } }, { phone: { contains: query } }, { username: { contains: query } }] }] },
+      select: {
+        id: true,
+        name: true,
+        role: true,
+      },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -686,7 +801,22 @@ export async function fetchFilteredCommissions(
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
-    const commissions = await prisma.transactions.findMany({
+    const commissions = await prisma.users.findMany({
+      where: {
+        role: 'driver',
+        OR: [
+          { name: { contains: query } },
+          { email: { contains: query } },
+          { username: { contains: query } },
+        ]
+      },
+      select: {
+        id: true,
+        name: true,
+        area: true,
+        subscription_plan: true,
+        createdAt: true,
+      },
       skip: offset,
       take: ITEMS_PER_PAGE
     })
@@ -699,7 +829,16 @@ export async function fetchFilteredCommissions(
 
 export async function fetchCommissions(query: string) {
   try {
-    const commissions = await prisma.transactions.count()
+    const commissions = await prisma.users.count({
+      where: {
+        role: 'driver',
+        OR: [
+          { name: { contains: query } },
+          { email: { contains: query } },
+          { username: { contains: query } },
+        ]
+      }
+    })
     const totalPages = Math.ceil(Number(commissions) / ITEMS_PER_PAGE);
     return totalPages;
   } catch (error) {
@@ -1310,6 +1449,14 @@ export async function fetchFilteredComplaints(
 
   try {
     const complaints = await prisma.contact_messages.findMany({
+      select: {
+        cid: true,
+        cname: true,
+        cphone: true,
+        csubject: true,
+        cmessage: true,
+        createdAt: true,
+      },
       orderBy: { createdAt: 'desc' },
       skip: offset,
       take: ITEMS_PER_PAGE
@@ -1343,6 +1490,12 @@ export async function fetchFilteredNotifications(
   try {
     const notifications = await prisma.usermessages.findMany({
       where: { NOT: { umsg_cat: 'Announcement' } },
+      select: {
+        umsgid: true,
+        umsg_title: true,
+        umsg_body: true,
+        umsg_time: true,
+      },
       orderBy: { umsg_time: 'desc' },
       skip: offset,
       take: ITEMS_PER_PAGE

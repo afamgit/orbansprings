@@ -29,31 +29,36 @@ const services = [
 ]
 
 export async function HomeServices() {
-
   return (
-    <div className="text-dark">
-      <h1 className='text-3xl md:text-4xl text-gray-800 font-medium text-center my-2 py-2'>What We Offer</h1>
-      <h3 className='text-center text-2xl text-gray-800 mb-3'>We deliver technology-backed solutions for efficient water accessibility, water distribution and water management</h3>
+    <div className="text-dark py-12 bg-slate-50">
+      <div className="max-w-[1200px] mx-auto px-4">
+        <h1 className='text-4xl md:text-5xl text-slate-900 font-extrabold text-center mb-4 tracking-tight'>What We Offer</h1>
+        <h3 className='text-center text-xl text-slate-600 max-w-3xl mx-auto mb-12 font-light leading-relaxed'>
+          We deliver technology-backed solutions for efficient water accessibility, water distribution and water management
+        </h3>
 
-      <div className='w-full md:max-w-[1300px] mx-auto flex justify-center items-center flex-wrap bg-gray-100'>
-        {services.map((item, i) => {
-          return <div className='px-1 py-3 flex flex-col justify-center items-center w-[350px] h-[400px] mx-7 my-3 rounded' key={i}>
-            <div className="w-64 h-64">
-              <Image
-                src={item.img}
-                height={300}
-                width={300}
-                alt={item.name}
-                className='rounded p-2'
-              /></div>
-            <div className='flex flex-col justify-start items-center my-2 h-[300px]'>
-              <h3 className='font-bold text-gray-800 text-2xl my-2 py-2'>{item.name}</h3>
-              <p className='text-xl text-gray-800 text-center'>{item.desc}</p>
-            </div>
-          </div>
-        })}
+        <div className='flex justify-center items-stretch flex-wrap gap-8'>
+          {services.map((item, i) => {
+            return (
+              <div className='bg-white px-6 py-8 flex flex-col justify-between items-center w-[340px] rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300' key={i}>
+                <div className="w-48 h-48 relative flex items-center justify-center bg-sky-50/50 rounded-2xl p-4 mb-4">
+                  <Image
+                    src={item.img}
+                    height={180}
+                    width={180}
+                    alt={item.name}
+                    className='object-contain hover:scale-105 transition-transform duration-300'
+                  />
+                </div>
+                <div className='flex flex-col justify-start items-center text-center flex-grow'>
+                  <h3 className='font-bold text-slate-800 text-xl mb-3'>{item.name}</h3>
+                  <p className='text-sm text-slate-600 leading-relaxed'>{item.desc}</p>
+                </div>
+              </div>
+            )
+          })}
+        </div>
       </div>
-
     </div>
   );
-};
+}

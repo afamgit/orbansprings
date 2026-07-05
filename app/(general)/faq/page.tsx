@@ -11,18 +11,30 @@ export default async function Page() {
   const questions = await prisma.faqs.findMany()
 
   return (
-    <div className="bg-gray-100 text-gray-900">
-      <div className='w-full md:max-w-[1200px] mx-auto flex flex-col justify-center items-center'>
-      <h1 className='mt-3 py-3 text-sky-600 font-bold text-3xl text-center md:text-5xl'>Frequently Asked Questions</h1>
-      <h1 className='my-1 py-1 text-sky-600 font-bold text-3xl text-center md:text-5xl'>{`(FAQs)`}</h1>
-      <h3 className='text-xl md:text-2xl my-3 py-3 font-medium'>You have questions? We are here to help.</h3>
+    <div className="bg-slate-50 min-h-screen">
+      {/* Help Center Hero Header */}
+      <div className="bg-gradient-to-r from-slate-900 to-blue-900 text-white py-16 px-4">
+        <div className="max-w-[1200px] mx-auto text-center">
+          <span className="inline-block px-3 py-1 bg-sky-500/20 text-sky-300 border border-sky-500/30 rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
+            Help Center
+          </span>
+          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
+            Frequently Asked Questions
+          </h1>
+          <p className="text-slate-300 text-lg md:text-xl font-light max-w-xl mx-auto">
+            Find answers to common questions about our smart water meters, billing, and services.
+          </p>
+        </div>
       </div>
 
-      <Faq data={questions} />
+      {/* Accordion and Search Area */}
+      <div className="py-12">
+        <Faq data={questions} />
+      </div>
 
-    
-<BottomAppBannerHorizontal />
-
+      <div className="border-t border-slate-200/60 bg-white">
+        <BottomAppBannerHorizontal />
+      </div>
     </div>
-  )
+  );
 }

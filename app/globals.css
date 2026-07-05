@@ -1,27 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+  --primary: #1e40af;       /* Deep water blue */
+  --primary-hover: #1d4ed8;
+  --secondary: #0ea5e9;     /* Sky blue */
+  --accent: #38bdf8;        /* Soft sky blue */
+  --success: #10b981;       /* Emerald */
+  --danger: #ef4444;        /* Rose */
+  --neutral-50: #f8fafc;
+  --neutral-100: #f1f5f9;
+  --neutral-200: #e2e8f0;
+  --neutral-300: #cbd5e1;
+  --neutral-800: #1e293b;
+  --neutral-900: #0f172a;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--neutral-50);
+  color: var(--neutral-900);
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--neutral-100);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--neutral-300);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary);
+}
+
+/* Global Transition Utilities */
+a, button, input, select, textarea, tr {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.glass-dark {
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* High-end Tables */
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+}
+
+thead th {
+  background-color: var(--neutral-100) !important;
+  color: var(--neutral-800) !important;
+  font-weight: 600 !important;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  padding: 14px 16px !important;
+  border-bottom: 2px solid var(--neutral-200);
+}
+
+tbody tr {
+  background-color: #ffffff;
+}
+
+tbody tr:hover {
+  background-color: var(--neutral-50) !important;
+}
+
+tbody td {
+  padding: 16px !important;
+  border-bottom: 1px solid var(--neutral-200);
+  color: var(--neutral-900);
+  font-size: 0.875rem;
+}
+
+/* Table container styling */
+.w-full.bg-white {
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  border: 1px solid var(--neutral-200);
+  overflow: hidden;
+}
+
+/* High-end Forms & Inputs */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+  border-radius: 8px !important;
+  border: 1px solid var(--neutral-300) !important;
+  padding: 10px 14px !important;
+  background-color: #ffffff !important;
+  color: var(--neutral-900) !important;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+select:focus,
+textarea:focus {
+  outline: none !important;
+  border-color: var(--secondary) !important;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15) !important;
+}
+
+/* Custom premium buttons */
+.btn-primary {
+  background-color: var(--primary);
+  color: #ffffff;
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(30, 64, 175, 0.1);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(30, 64, 175, 0.2);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Navigation Overrides */
+header a, .nav-link {
+  position: relative;
+}
+
+header a::after, .nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: var(--primary);
+  transition: width 0.2s ease;
+}
+
+header a:hover::after, .nav-link:hover::after {
+  width: 100%;
+}
+
+/* Specific overrides for FAQ page search input to prevent global input type override */
+#faq-search-input[type="text"] {
+  padding-left: 4rem !important; /* 64px, equivalent to pl-16 */
+  padding-right: 1rem !important; /* 16px, equivalent to pr-4 */
+  padding-top: 1rem !important; /* 16px, equivalent to py-4 */
+  padding-bottom: 1rem !important; /* 16px, equivalent to py-4 */
+  border-radius: 1rem !important; /* 16px, equivalent to rounded-2xl */
+  border-color: rgb(226, 232, 240) !important; /* equivalent to border-slate-200 */
+}
+
+#faq-search-input[type="text"]:focus {
+  border-color: rgb(14, 165, 233) !important; /* equivalent to border-sky-500 */
+  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.2) !important; /* equivalent to focus:ring-sky-500/20 */
 }
