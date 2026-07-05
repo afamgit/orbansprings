@@ -53,7 +53,6 @@ export default async function Blog({
                 width={48}
                 alt={item.title}
                 className='rounded-lg'
-                unoptimized
                 />
                 </div></td>
             <td>{item.title}</td>

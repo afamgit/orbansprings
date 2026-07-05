@@ -688,7 +688,6 @@ export function AddBlogForm() {
               src={getArticlePhotoUrl(blog?.artphoto)}
               alt={blog?.title}
               className='rounded-lg h-[200px] mt-4'
-              unoptimized
             />
       </div>
 

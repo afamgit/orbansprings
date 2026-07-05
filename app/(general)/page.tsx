@@ -92,7 +92,7 @@ noStore()
         <h1 className='my-4 py-3 text-gray-800  text-center text-3xl md:text-5xl'>How to get started</h1>
 
         <div className='flex justify-center items-center'>
-        <div className='md:flex md:grid md:grid-cols-4'>
+        <div className='md:flex md:grid-cols-4'>
 
         {gettingStarted.map((item,i) => {
           return (
@@ -121,7 +121,6 @@ noStore()
         <h1 className='text-5xl text-center text-gray-800 my-3 py-3'>Press</h1>
         <div className='w-full md:max-w-[1200px] mx-auto flex justify-start items-center flex-wrap'>
         {blogs.map((item,i) => {
-            let imgSrc = getArticlePhotoUrl(item.artphoto)
 
           return (
             <Link href={`/press/${item.titleslug}`} key={i} className='w-full md:flex gap-2 p-3'>
@@ -130,10 +129,9 @@ noStore()
             key={i}
               height={200}
               width={300}
-              src={`${imgSrc}`}
+              src={`${getArticlePhotoUrl(item.artphoto)}`}
               alt={item.title}
               className='rounded-lg'
-              unoptimized
             />
                 </div>
                 <div className='w-full md:w-4/5 mt-2 p-2 md:p-5'>

@@ -32,7 +32,11 @@ export const getArticlePhotoUrl = (artphoto: string | null | undefined) => {
     return artphoto;
   }
   if (artphoto.startsWith('images/') || artphoto.startsWith('blog/')) {
-    return `https://orbansprings.com/${artphoto}`;
+    if (process.env.NODE_ENV === 'development') {
+      return `https://orbansprings.com/${artphoto}`;
+    } else {
+      return `/${artphoto}`;
+    }
   }
   if (artphoto.startsWith('/')) {
     return artphoto;

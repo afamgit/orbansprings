@@ -29,7 +29,6 @@ export default async function Page() {
               src={getArticlePhotoUrl(item.artphoto)}
               alt={item.title}
               className='rounded-lg h-[400px]'
-              unoptimized
             /></div>
             <h3 className='text-2xl my-1 py-2'>{item.title}</h3>
               </Link>
