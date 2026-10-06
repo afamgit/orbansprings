@@ -31,7 +31,7 @@ export function SearchBar () {
         type="text"
         placeholder="Search for users, meters..."
         onChange={(e) => handleSearch(e.target.value)}
-        className="md:hidden px-3 h-[40px] w-full outline-0"
+        className="md:hidden pl-4 pr-12 h-[40px] w-full outline-0"
         defaultValue={searchParams.get('query')?.toString()}
         
         />
@@ -39,7 +39,7 @@ export function SearchBar () {
         type="text"
         placeholder="Search for users, meters, merchants and many more"
         onChange={(e) => handleSearch(e.target.value)}
-        className="hidden md:block px-3 h-[40px] w-full outline-0"
+        className="hidden md:block pl-4 pr-12 h-[40px] w-full outline-0"
         defaultValue={searchParams.get('query')?.toString()}
         
         />

@@ -2,6 +2,7 @@
  
 import React, {useState} from 'react'
 import {
+  UserIcon,
   AtSymbolIcon,
   KeyIcon,
   ExclamationCircleIcon,
@@ -104,7 +105,7 @@ export default function SignupForm() {
             </label>
             <div className="relative">
               <input
-                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-11 pr-3 text-sm outline-2 placeholder:text-gray-500"
                 id="name"
                 type="text"
                 name="name"
@@ -112,7 +113,7 @@ export default function SignupForm() {
                 required
                 onChange={updateData}
               />
-              <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              <UserIcon className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
 
@@ -125,7 +126,7 @@ export default function SignupForm() {
             </label>
             <div className="relative">
               <input
-                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-11 pr-3 text-sm outline-2 placeholder:text-gray-500"
                 id="email"
                 type="email"
                 name="email"
@@ -133,7 +134,7 @@ export default function SignupForm() {
                 required
                 onChange={updateData}
               />
-              <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              <AtSymbolIcon className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
 
@@ -146,7 +147,7 @@ export default function SignupForm() {
             </label>
             <div className="relative">
               <input
-                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-11 pr-3 text-sm outline-2 placeholder:text-gray-500"
                 id="password"
                 type="password"
                 name="password"
@@ -154,9 +155,8 @@ export default function SignupForm() {
                 required
                 minLength={6}
                 onChange={updateData}
-
               />
-              <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              <KeyIcon className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
 
@@ -169,7 +169,7 @@ export default function SignupForm() {
             </label>
             <div className="relative">
               <input
-                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-11 pr-3 text-sm outline-2 placeholder:text-gray-500"
                 id="confirmpassword"
                 type="password"
                 name="confirmpassword"
@@ -177,9 +177,8 @@ export default function SignupForm() {
                 required
                 minLength={6}
                 onChange={updateData}
-
               />
-              <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              <KeyIcon className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
         </div>

@@ -21,7 +21,7 @@ const arrayRange = (start: number, stop: number, step: number) =>
   );
 
 export async function authenticate(
-  prevState: string | undefined,
+  prevState: { message?: string } | string | undefined,
   formData: FormData,
 ) {
 
@@ -31,11 +31,14 @@ export async function authenticate(
     usercode: z.string(),
   })
   const data = schema.parse({
-    username: formData.get('username'),
-    userpass: formData.get('password'),
-    usercode: formData.get('usercode'),
+    username: (formData.get('username') as string) || '',
+    userpass: (formData.get('password') as string) || '',
+    usercode: (formData.get('usercode') as string) || '',
   })
 
+  if (!data.username || !data.userpass) {
+    return { message: 'Please enter both username and password.' };
+  }
 
   try {
 
@@ -48,7 +51,7 @@ export async function authenticate(
     })
 
     if(!checkUser) {
-      return 'Invalid credentials from check user'; 
+      return { message: 'Invalid username or password.' }; 
     }
     
     const userPass = checkUser.password.startsWith('$2y$') ? checkUser.password.replace('$2y$', '$2b$') : checkUser.password;
@@ -58,7 +61,7 @@ export async function authenticate(
     const passwordsMatch = await bcrypt.compare(existingPass, userPass)
 
     if(!passwordsMatch) {
-      return 'Invalid credentials from authenticate'; 
+      return { message: 'Invalid username or password.' }; 
     }
     
   if(checkUser?.enable2fa === 'yes' && checkUser?.code2fa !== data.usercode) {
@@ -72,7 +75,7 @@ export async function authenticate(
       where: {email: checkUser?.email, username: checkUser?.username}
     })
 
-    return 'require 2fa code'; 
+    return { message: 'require 2fa code' }; 
   }
   
   if(checkUser?.enable2fa === 'yes' && checkUser?.code2fa === data.usercode) {
@@ -92,9 +95,9 @@ export async function authenticate(
     if (error instanceof AuthError) {
       switch (error.type) {
         case 'CredentialsSignin':
-          return 'Invalid credentials.';
+          return { message: 'Invalid credentials.' };
         default:
-          return 'Something went wrong.';
+          return { message: 'Something went wrong.' };
       }
     }
     throw error;
@@ -2146,3 +2149,160 @@ export async function saveMeterReading(prevState: any, formData: FormData) {
         return { message: 'Failed to delete meter reading' }
       }
     }
+
+export async function sendPasswordResetOTP(
+  prevState: any,
+  formData: FormData
+) {
+  const emailOrUsername = (formData.get('emailOrUsername') as string || '').trim();
+
+  if (!emailOrUsername) {
+    return { success: false, message: 'Please enter your registered email address or username.' };
+  }
+
+  try {
+    const user = await prisma.users.findFirst({
+      where: {
+        OR: [
+          { email: emailOrUsername },
+          { username: emailOrUsername },
+        ],
+      },
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        name: true,
+        expiry2fa: true,
+      },
+    });
+
+    if (!user) {
+      return { success: false, message: 'No account found with that email address or username.' };
+    }
+
+    const now = Date.now();
+    if (user.expiry2fa && user.expiry2fa.includes(':')) {
+      const parts = user.expiry2fa.split(':');
+      const lastSent = parseInt(parts[1], 10);
+      if (!isNaN(lastSent) && (now - lastSent) < 60000) {
+        const remaining = Math.ceil((60000 - (now - lastSent)) / 1000);
+        return {
+          success: false,
+          message: `Please wait ${remaining} seconds before requesting another code.`,
+          email: user.email,
+          username: user.username,
+        };
+      }
+    }
+
+    const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiryTime = now + 15 * 60 * 1000;
+    const expiryField = `${expiryTime}:${now}`;
+
+    await prisma.users.update({
+      where: { id: user.id },
+      data: {
+        code2fa: otpCode,
+        expiry2fa: expiryField,
+      },
+    });
+
+    const mailFormData = new FormData();
+    mailFormData.append("username", user.username);
+    mailFormData.append("email", user.email);
+    mailFormData.append("name", user.name || user.username);
+    mailFormData.append("subject", "OrbanSprings Password Reset Verification Code");
+    mailFormData.append("fromname", "Orban Springs");
+    mailFormData.append("fromemail", "info@orbansprings.com");
+    mailFormData.append("yourchoice", '');
+    mailFormData.append("action", "send");
+
+    await fetch('https://support.orbansprings.com/api/login_2fa_code.php', {
+      method: "POST",
+      body: mailFormData,
+    });
+
+    return {
+      success: true,
+      message: 'Verification code sent! Please check your email.',
+      email: user.email,
+      username: user.username,
+    };
+  } catch (error) {
+    console.error('Error in sendPasswordResetOTP:', error);
+    return { success: false, message: 'An error occurred while sending OTP. Please try again.' };
+  }
+}
+
+export async function resetPasswordWithOTP(
+  prevState: any,
+  formData: FormData
+) {
+  const emailOrUsername = (formData.get('emailOrUsername') as string || '').trim();
+  const otpCode = (formData.get('otpCode') as string || '').trim();
+  const newPassword = (formData.get('newPassword') as string || '').trim();
+  const confirmPassword = (formData.get('confirmPassword') as string || '').trim();
+
+  if (!emailOrUsername || !otpCode || !newPassword) {
+    return { success: false, message: 'Please fill in all required fields.' };
+  }
+
+  if (newPassword.length < 6) {
+    return { success: false, message: 'Password must be at least 6 characters long.' };
+  }
+
+  if (newPassword !== confirmPassword) {
+    return { success: false, message: 'Passwords do not match.' };
+  }
+
+  try {
+    const user = await prisma.users.findFirst({
+      where: {
+        OR: [
+          { email: emailOrUsername },
+          { username: emailOrUsername },
+        ],
+      },
+      select: {
+        id: true,
+        code2fa: true,
+        expiry2fa: true,
+      },
+    });
+
+    if (!user) {
+      return { success: false, message: 'User not found.' };
+    }
+
+    if (!user.code2fa || user.code2fa !== otpCode) {
+      return { success: false, message: 'Invalid verification code. Please check your email and try again.' };
+    }
+
+    if (user.expiry2fa) {
+      const expiryTimestamp = parseInt(user.expiry2fa.split(':')[0], 10);
+      if (!isNaN(expiryTimestamp) && Date.now() > expiryTimestamp) {
+        return { success: false, message: 'Verification code has expired. Please request a new code.' };
+      }
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await prisma.users.update({
+      where: { id: user.id },
+      data: {
+        password: hashedPassword,
+        code2fa: '',
+        expiry2fa: '',
+      },
+    });
+
+    return {
+      success: true,
+      message: 'Your password has been reset successfully! You can now log in.',
+    };
+  } catch (error) {
+    console.error('Error in resetPasswordWithOTP:', error);
+    return { success: false, message: 'An error occurred while resetting password.' };
+  }
+}

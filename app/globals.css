@@ -105,26 +105,18 @@ tbody td {
 }
 
 /* High-end Forms & Inputs */
-input[type="text"],
-input[type="email"],
-input[type="password"],
-select,
-textarea {
-  border-radius: 8px !important;
-  border: 1px solid var(--neutral-300) !important;
-  padding: 10px 14px !important;
-  background-color: #ffffff !important;
-  color: var(--neutral-900) !important;
+:where(input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="tel"], select, textarea) {
+  border-radius: 8px;
+  border: 1px solid var(--neutral-300);
+  padding: 10px 14px;
+  background-color: #ffffff;
+  color: var(--neutral-900);
 }
 
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus,
-select:focus,
-textarea:focus {
-  outline: none !important;
-  border-color: var(--secondary) !important;
-  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15) !important;
+:where(input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="tel"], select, textarea):focus {
+  outline: none;
+  border-color: var(--secondary);
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
 }
 
 /* Custom premium buttons */
